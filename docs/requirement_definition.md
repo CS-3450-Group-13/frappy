@@ -1,8 +1,9 @@
-*Requirments Definition*
-*Group 13*
+#Requirements Definition
 
-# Frappy's
-**1. Introduction and Context**
+##Group 13 -- Dan's Frappy shoppe
+
+###Introduction and Context
+
 Due to the recent explosion in popularity, Dan's Frappicino shop, *Frappy's* has been experiencing a massive increase in customers and orders. In addition to this, they've also needed to hire a large number of new employees to manage these orders, which their payment system is having trouble managing, and are constantly running out of inventory for their favorite products. Overall, this has slowed down Frappy's growth, and led to a decreased overall customer experience, with customers experiencing unreasonable wait times or being unable to purchase their favorite drinks. The goal of this project is to create a web-based application to solve these systems by allowing customers to place orders online, while also allowing managers to oversee staff and inventory. 
 
 A customer will be able to create a custom order for their drink ahead of time, reducing the time needed for Frappy's to process their order as well as saving the Customer time by avoiding having them wait in line. Drinks will be choosable via a variety of customizable presets or be buildable from the ground up via a "create-your-own" option. The system will allow customers to pay via their registered account balance, reducing payment fees and encouraging customer spending via a prepurchased "gift card" system. Additionally, the account system will allow customer's and Frappy's to track order history. This should allow customers more convenient access to their favorite drinks, and give Frappy's a better ability to estimate inventory trends.
@@ -16,7 +17,8 @@ Managers will have admin-level access to the system, allowing them to track and 
 All employees should be able to log their hours worked. This will assist in the automated payment system, and reduce the overhead of using a ticket system. 
 
 
-**2. Users and their Goals**
+###Users and their Goals
+
 The users of this system can be divided into two main categories: customers and employees. Customers will use the system to place orders, and should only be able to interact with their own accounts. Employees, which can further be subdivided into cashiers, baristas, and managers, will use the system to process orders, track work time, manage payments, and manage inventory. Employee access to account information should be broader than customer's, following a principle of least privilege. Diagrams illustrating a selection of these tasks can be viewed in appendix A
 
 ## All Users
@@ -90,9 +92,90 @@ Functions available to Managers Include:
 	* Pays Employees Based on Hours Logged
 	* Fails if Insufficient Funds are Available
 
-**3. Functional Requirments**
+###Functional Requirements
 
-**4. Non-functional Requirements**
+1. User Authentication and Access
+   1. The system requires all users to authenticate themselves before giving them access to the system
+      1. User will be able to Login with username/email and password
+         1. If the account does not exist, the user will be redirected to the create an account option
+      2. If User does not have an account, there will be a create an account option for the user
+         1. Will only create customer accounts, Managers will be able to create other accounts and assign roles.
+      3. Passwords will be encrypted
+   2. User's can have different roles to have better access. Those roles include: Manager, Barista, Cashier, and Customers
+      1. Users with Customer roles must have access to all Customer features. See Functional Requirement #3
+      2. Users with Cashier roles must have access to all Customer and Cashier features. See Functional Requirement #4
+      3. Users with Barista roles must have access to all Barista features. See Functional Requirement #5
+      4. Users with Manager roles must have access to all features. See Functional Requirement #6
+   3. If user does not want to create an account, there will be an 'Order as Guest' option to process order.
+      1. Uses backup guest account login credentials
+   
+2. Menu/Inventory Features
+   1. The ordering menu has a list of pre-made drinks to order
+      1. Drinks are customizable and can add/remove ingredients
+         1. When things are added/removed the price changes and so does the inventory
+         2. Checks to see if there are sufficient ingredients in inventory to complete order
+   2. The menu will have multiple sizes (small, medium, large)
+      1. Amount of ingredients used will change depending on the size
+   3. The price of the menu items will be based on the price of the ingredients used, with a profit margin
+   4. The inventory will have all the different ingredients and other store items
+      1. If empty, store can order more through the manager
+      2. Each item will have a price used to calculate menu item prices
+   
+3. Customer Features
+   1. All Users will have access to customer features
+   2. Customer will have an account with money they can use to spend
+      1. Customer can add as much money as needed to their account
+   3. Has favorite drink option based on past orders
+   4. Customer will be updated on order status while order is pending
+   5. Customer can order online
+      1. Will put their order in the queue for the Baristas
+      2. Before order is processed, check customer account balance to make sure they have enough funds
+      3. Orders can be for pickup or in-person
+
+5. Cashier Features
+   1. Cashier will have an account to keep earnings for hours worked
+   2. Cashier has access to user accounts to make orders on behalf of customers
+      1. Can use Guest accounts for customers that do not want to set up and account
+      2. Accesses the account balance and transfers money from their account directly to manager
+      3. Cashier can issue a refund if needed to user account
+   3. Once order is placed cashier submits ticket to barista
+   4. Cashier can submit the number of hours worked to get paid by manager
+      1. Every time they submit hours, it adds to their current total of hours
+      2. Their hours are reset upon payment
+   5. Cashier can check the status of each ticket and places items for delivery once done
+
+6. Barista Features
+   1. Barista will have an account to keep earnings for hours worked
+   2. Barista can submit the number of hours worked to get paid by manager
+      1. Every time they submit hours, it adds to their current total of hours
+      2. Their hours are reset upon payment
+   3. Barista can accept a ticket that has been submitted to the queue.
+   4. Barista can update the status of the orders in the queue
+      1. Ticket can be in the waiting stage
+      2. Ticket can be in the Processing stage
+         1. Barista update the inventory for what is being used
+         2. While drink is being made, updates progress bar for online customers and cashier
+      3. Ticket can be in the Done phase
+         1. Order gets sent back to cashier for distribution
+         2. Order gets sent to pickup
+
+7. Manager Features
+   1. Manager will have the store account to give money to Baristas and Cashiers
+      1. Will have access to a pay all button that pays money to employees for hours worked
+         1. Once button is pushed, money is subtracted from manager account and all employee worked hours is reset
+      2. Manager can add unlimited money to their account if needed
+   2. Manager has the ability to hire/fire employees and remove user accounts
+   3. Manager can edit the menu
+      1. make new drinks
+      2. delete drinks
+      3. edit drinks in menu
+      4. edit the price of the drinks
+   4. Can add inventory items
+      1. money is subtracted from the Managers/stores account
+   5. Manager can do everything a cashier and Barista can
+
+###Non-Functional Requirements
+
 There exist several non-functional requirements for this project as well, namely:
 1. The system must use a database
 	1. The database should store account information for users, managers, cashiers, and baristas, including the following fields:
@@ -125,9 +208,33 @@ There exist several non-functional requirements for this project as well, namely
 6. Developers must track progress of implementation via burndown charts.
 	1. These will be updated at "daily" meetings.
 
+###Future Features
 
-**5. Future Features**
+This section contains a list of features that are beyond the scope of the project, but could be implemented
+in future versions.
+1. The site can be hosted on a hosting service to be used for an actual shop
+2. Add more than just drink items to the menu to support food or other items
+3. Add a delivery service with delivery ETA's
+4. Add a Drink of the Day menu with discounted items on certain days of the week
 
-**6. Glossary**
+###Glossary
+This section contains a list of important terms and their definitions.
 
-**Appendix A**
+**Customer** - a user that uses the system to place an order
+
+**Barista** - the user that oversees the process of completing the order to desire specs.
+
+**Cashier** - the user that manages customer requests and see the completion of those requests
+
+**Manager** - the user that manages the input and output flow of the shops money and daily operations.
+
+**Drinks** - Any item in the menu that can be ordered.
+
+**Account** - The information attached to a user that contains their monetary balance 
+
+**User** - refers to any of the four types of users of the system (Customers, Baristas, Cashiers,
+Managers)
+
+**System** - refers to the application that the project aims to build
+
+###Appendix A
