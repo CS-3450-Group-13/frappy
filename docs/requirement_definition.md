@@ -1,6 +1,6 @@
 #Requirements Definition
 
-##Group 13 -- Dan's Frappy shoppe
+##Group 13 -- Frappy
 
 ###Introduction and Context
 
@@ -238,3 +238,57 @@ Managers)
 **System** - refers to the application that the project aims to build
 
 ###Appendix A
+
+*7. User Login to System*
+
+<img src="C:\Users\dyl2e\USU\SoftwareEngineering\dans-frappy-shop\rec\useCase7.png" width="650" height="650"/>
+
+**Participating Actors:** Customer
+
+**Entry Conditions:** 
+- Customer opens up login page and inputs username and password
+
+**Exit Conditions:**
+- Customer Create a new account
+- Customer is redirected to error page
+- Customer successfully logs in
+
+**Event Flow:**
+1. Customer submits login information
+2. Customer is Authenticated by system
+   1. System checks for user's credentials
+   2. Login Authentication passes
+   3. Login Authentication fails (or account does not exist)
+      1. User is sent to error page to create an account
+      2. Database is updated with new account info and sent back to step 1
+3. User is granted access to site
+
+*8. Manager Edits Employee Status*
+
+<img src="C:\Users\dyl2e\USU\SoftwareEngineering\dans-frappy-shop\rec\useCase8.png" width="650" height="650"/>
+
+**Participating Actors:** Customer, Barista/Cashier (referred to as Employee)
+
+**Entry Conditions:** 
+- Manager has already talked to Employee about change
+- Employee has an account with Frappy already
+
+**Exit Conditions:**
+- Employee information is added
+- Employee information is removed
+- Employee pay is changed
+
+**Event Flow:**
+1. Manager logs into system (*See Diagram 7*)
+2. Manager access the Employee database
+3. Manager edits Employee Status
+   1. If the Employee is being removed
+      1. Pays Employee from account for hours currently worked
+      2. Changes access privileges and makes customer account
+   2. If the Employee is being added
+      1. Account privileges are upgraded to Barista or Cashier
+      2. Given a pay rate of $15 per hour
+   3. If the Employee's pay is getting changed
+      1. Pays Employee from account for hours currently worked
+      2. Changes pay rate to adjusted amount
+4. Database is updated with new data
