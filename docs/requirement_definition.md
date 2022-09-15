@@ -194,35 +194,35 @@ Functions available to Managers Include:
 There exist several non-functional requirements for this project as well, namely:
 
 1. The system must use a database
-2. The database should store account information for users, managers, cashiers, and baristas, including the following fields:
-   * Username
-   * Password (*Encrypted*)
-   * Account Balance
-   * Order History
+   1. The database should store account information for users, managers, cashiers, and baristas, including the following fields:
+      * Username
+      * Password (*Encrypted*)
+      * Account Balance
+      * Order History
 
-3. The database should store information on the store's current inventory, including the following fields:
-   * Type
-   * Quantity
+   2. The database should store information on the store's current inventory, including the following fields:
+      * Type
+      * Quantity
 
-4. The system should be deployable over the internet.
+2. The system should be deployable over the internet.
    1. Local hosting will also suffice.
 
-5. The system should use a version control system.
+3. The system should use a version control system.
    1. Git has been selected for this purpose.
 
-6. Development will follow a hybrid mixture of the Agile method and Spiral process.
+4. Development will follow a hybrid mixture of the Agile method and Spiral process.
    1. Each 2-week phase will be composed of several smaller tasks
       * Tasks will utilize a backlog and priority system
    2. Each phase will include risk analysis
    3. Any type of development can be done at any phase
    4. Each phase will end with a retrospective meeting
 
-7. Deveopmers must meet frequently to discuss progress
+5. Deveopmers must meet frequently to discuss progress
    1. The SCRUM format will be used
    2. Stand Up's will be used
    3. SCRUM poker will be used
 
-8. Developers must track progress of implementation via burndown charts.
+6. Developers must track progress of implementation via burndown charts.
    1. These will be updated at "daily" meetings.
 
 ### Future Features
