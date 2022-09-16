@@ -71,29 +71,26 @@ Functions available to customers include:
    * Drink Order Will Go Through if Drink Options are Valid and Account Contains Sufficient Balance
    ![Order Drink UML](images/user_orders_drink.png)
 
-   ![Customer orders from cashier](images/customer_orders_from_cashier.png)
-
    > **Participating actor: Customer**
    >
    > **Entry conditions:**
    >
-   > * Customer wants to order a drink
+   > * Customer Orders a Drink
    >
    > **Exit Conditions:**
    >
-   > * Customer leaves page without ordering
-   > * Customer orders drink
+   > * Order Fails (Insuficient Funds/Invalid Drink)
+   > * Order Enters Queue
    >
    > **Event Flow:**
    >
-   >    1. Customer logs into website
-   >    2. Customer selects from premade drink options or make your own
-   >    3. Customer customizes drink (optional)
-   >    4. Customer submits order
-   >    5. Order handed to cashier
-   >    6. Customer balance and ingredient amounts verified
-   >    7. Drink added to queue and order history
-   >    8. Money deducted from customer and added to manager account
+   >    1. Customer Logs In
+   >    2. Customer Selects Premade or Custom Drink
+   >    3. Customer Customizes Drink (Optional)
+   >    4. Customer Submits Order
+   >    5. Order is Validated
+   >    6. Order is Added to Queue and Order History
+   >    7. Money is Deducted From Customer Account
 
 2. View Their Account Balance
    * Account Balance Will be Viewable Via a User Profile Button
@@ -211,6 +208,25 @@ Functions available to Managers Include:
    * Fails if Insufficient Funds are Available
    ![Pay Employees UML](images/manager_pays_employees.png)
 
+   > **Participating actor: Manager**
+   >
+   > **Entry conditions:**
+   >
+   > * Manager Clicks Pay Employees Button
+   >
+   > **Exit Conditions:**
+   >
+   > * Payment Fails (Insufficient Funds)
+   > * Payment Goes Through
+   >
+   > **Event Flow:**
+   >
+   >    1. Manager Logs In
+   >    2. Manager Goes to Admin Console
+   >    3. Manager Hits "Friday" Button
+   >    4. System Validates Funds
+   >    5. Funds are Transfered
+   
 ## Functional Requirements
 
 1. User Authentication and Access
