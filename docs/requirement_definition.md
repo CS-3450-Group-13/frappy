@@ -71,30 +71,6 @@ Functions available to customers include:
    * Drink Order Will Go Through if Drink Options are Valid and Account Contains Sufficient Balance
    ![Order Drink UML](images/user_orders_drink.png)
 
-   ![Customer orders from cashier](images/customer_orders_from_cashier.png)
-
-   > **Participating actor: Customer**
-   >
-   > **Entry conditions:**
-   >
-   > * Customer wants to order a drink
-   >
-   > **Exit Conditions:**
-   >
-   > * Customer leaves page without ordering
-   > * Customer orders drink
-   >
-   > **Event Flow:**
-   >
-   >    1. Customer logs into website
-   >    2. Customer selects from premade drink options or make your own
-   >    3. Customer customizes drink (optional)
-   >    4. Customer submits order
-   >    5. Order handed to cashier
-   >    6. Customer balance and ingredient amounts verified
-   >    7. Drink added to queue and order history
-   >    8. Money deducted from customer and added to manager account
-
 2. View Their Account Balance
    * Account Balance Will be Viewable Via a User Profile Button
    * An Add to Balance Button Will Allow Users to Top Off Their Balance Via Gift Cards
@@ -119,6 +95,29 @@ Functions Available to Cashiers Include:
    * "Build-Your-Own" Option
    * Paid for Using Account Balance
    * Drink Order Will Go Through if Drink Options are Valid and Selected User Account Contains Sufficient Balance
+
+   ![Customer orders from cashier](images/customer_orders_from_cashier.png)
+
+   > **Participating actor: Cashier**
+   >
+   > **Entry conditions:**
+   >
+   > * Customer wants to order a drink from cashier
+   >
+   > **Exit Conditions:**
+   >
+   > * Cashier leaves page without ordering for customer
+   > * Cashier orders drink on behalf of customer
+   >
+   > **Event Flow:**
+   >
+   >    1. Cashier logs into website
+   >    2. Cashier selects from premade drink options or make your own
+   >    3. Cashier customizes drink (optional)
+   >    4. Cashier submits order
+   >    5. Customer balance and ingredient amounts verified
+   >    6. Drink added to queue and order history
+   >    7. Money deducted from customer and added to manager account
 
 ### Baristas
 
