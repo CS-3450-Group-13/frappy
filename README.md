@@ -3,6 +3,7 @@
 Frappy is a monolithic web app for managing a generic coffee shop catered towards millenials.  
 
 ## Build Instructions
+
 ### Installation Requirements
 
 ```version

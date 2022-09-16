@@ -46,6 +46,30 @@ Functions available to customers include:
    * Drink Order Will Go Through if Drink Options are Valid and Account Contains Sufficient Balance
    ![Order Drink UML](images/user_orders_drink.png)
 
+   ![Customer orders from cashier](images/customer_orders_from_cashier.png)
+
+   > **Participating actor: Customer**
+   >
+   > **Entry conditions:**
+   >
+   > * Customer wants to order a drink
+   >
+   > **Exit Conditions:**
+   >
+   > * Customer leaves page without ordering
+   > * Customer orders drink
+   >
+   > **Event Flow:**
+   >
+   >    1. Customer logs into website
+   >    2. Customer selects from premade drink options or make your own
+   >    3. Customer customizes drink (optional)
+   >    4. Customer submits order
+   >    5. Order handed to cashier
+   >    6. Customer balance and ingedrient amounts verified
+   >    7. Drink added to queue and order history
+   >    8. Money deducted from customer and added to manager account
+
 2. View Their Account Balance
    * Account Balance Will be Viewable Via a User Profile Button
    * An Add to Balance Button Will Allow Users to Top Off Their Balance Via Gift Cards
@@ -80,6 +104,29 @@ Functions available to Baristas Include:
 
 2. Mark Orders as Completed
    * Via a Button in the Order Queue Screen
+
+![Barista makes order](images/barista_makes_order.drawio.png)
+
+> **Participating actor: Barista**
+>
+> **Entry conditions:**
+>
+> * Barista attempts to make a drink
+>
+> **Exit Conditions:**
+>
+> * Barista finishes making drink
+> * No drinks in queue
+>
+> **Event Flow:**
+>
+>    1. Barista logs in
+>    2. Barista checks order queue
+>    3. Barista selects order from queue
+>    4. Barista makes order
+>    5. Ingredient amounts deducted from db
+>    6. Barista marks order complete
+>    7. Order removed from pending order queue
 
 ### Managers
 
