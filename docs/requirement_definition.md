@@ -18,7 +18,7 @@ All employees should be able to log their hours worked. This will assist in the 
 
 ## Users and their Goals
 
-The users of this system can be divided into two main categories: customers and employees. Customers will use the system to place orders, and should only be able to interact with their own accounts. Employees, which can further be subdivided into cashiers, baristas, and managers, will use the system to process orders, track work time, manage payments, and manage inventory. Employee access to account information should be broader than customer's, following a principle of least privilege. Diagrams illustrating a selection of these tasks can be viewed in appendix A
+The users of this system can be divided into two main categories: customers and employees. Customers will use the system to place orders, and should only be able to interact with their own accounts. Employees, which can further be subdivided into cashiers, baristas, and managers, will use the system to process orders, track work time, manage payments, and manage inventory. Employee access to account information should be broader than customer's, following a principle of least privilege.
 
 ### All Users
 
@@ -44,6 +44,7 @@ Functions available to customers include:
    * "Build-Your-Own" Option
    * Paid for Using Account Balance
    * Drink Order Will Go Through if Drink Options are Valid and Account Contains Sufficient Balance
+   ![Order Drink UML](images/user_orders_drink.png)
 
 2. View Their Account Balance
    * Account Balance Will be Viewable Via a User Profile Button
@@ -57,20 +58,18 @@ Functions available to customers include:
 
 1. Log Hours Worked
    * Available Via a User Profile Button
-
-![How to submit Hours](images/Diagram%205.1.png)
+   ![How to submit Hours](images/Diagram%205.1.png)
 
 ### Cashiers
 
 Functions Available to Cashiers Include:
 
 1. Customize and Order Drinks on Behalf of a User
-
-* Option to Select from All Registered Users
-* Several Modifiable Preset Options
-* "Build-Your-Own" Option
-* Paid for Using Account Balance
-* Drink Order Will Go Through if Drink Options are Valid and Selected User Account Contains Sufficient Balance
+   * Option to Select from All Registered Users
+   * Several Modifiable Preset Options
+   * "Build-Your-Own" Option
+   * Paid for Using Account Balance
+   * Drink Order Will Go Through if Drink Options are Valid and Selected User Account Contains Sufficient Balance
 
 ### Baristas
 
@@ -82,7 +81,7 @@ Functions available to Baristas Include:
 2. Mark Orders as Completed
    * Via a Button in the Order Queue Screen
 
-## Managers
+### Managers
 
 Functions available to Managers Include:
 
@@ -106,8 +105,9 @@ Functions available to Managers Include:
    * Automatically Transfers Balance from the Managers Account to Employees Accounts
    * Pays Employees Based on Hours Logged
    * Fails if Insufficient Funds are Available
+   ![Pay Employees UML](images/manager_pays_employees.png)
 
-### Functional Requirements
+## Functional Requirements
 
 1. User Authentication and Access
    1. The system requires all users to authenticate themselves before giving them access to the system
@@ -189,20 +189,20 @@ Functions available to Managers Include:
       1. money is subtracted from the Managers/stores account
    5. Manager can do everything a cashier and Barista can
 
-### Non-Functional Requirements
+## Non-Functional Requirements
 
 There exist several non-functional requirements for this project as well, namely:
 
 1. The system must use a database
    1. The database should store account information for users, managers, cashiers, and baristas, including the following fields:
-      * Username
-      * Password (*Encrypted*)
-      * Account Balance
-      * Order History
+      1. Username
+      2. Password (*Encrypted*)
+      3. Account Balance
+      4. Order History
 
    2. The database should store information on the store's current inventory, including the following fields:
-      * Type
-      * Quantity
+      1. Type
+      2. Quantity
 
 2. The system should be deployable over the internet.
    1. Local hosting will also suffice.
@@ -212,7 +212,7 @@ There exist several non-functional requirements for this project as well, namely
 
 4. Development will follow a hybrid mixture of the Agile method and Spiral process.
    1. Each 2-week phase will be composed of several smaller tasks
-      * Tasks will utilize a backlog and priority system
+      1. Tasks will utilize a backlog and priority system
    2. Each phase will include risk analysis
    3. Any type of development can be done at any phase
    4. Each phase will end with a retrospective meeting
@@ -225,7 +225,7 @@ There exist several non-functional requirements for this project as well, namely
 6. Developers must track progress of implementation via burndown charts.
    1. These will be updated at "daily" meetings.
 
-### Future Features
+## Future Features
 
 This section contains a list of features that are beyond the scope of the project, but could be implemented
 in future versions.
@@ -235,7 +235,7 @@ in future versions.
 3. Add a delivery service with delivery ETA's
 4. Add a Drink of the Day menu with discounted items on certain days of the week
 
-### Glossary
+## Glossary
 
 This section contains a list of important terms and their definitions.
 
@@ -255,5 +255,3 @@ This section contains a list of important terms and their definitions.
 Managers)
 
 **System** - refers to the application that the project aims to build
-
-### Appendix A
