@@ -4,9 +4,9 @@
 
 ## Introduction and Context
 
-Due to the recent explosion in popularity, Dan's Frappicino shop, *Frappy's* has been experiencing a massive increase in customers and orders. In addition to this, they've also needed to hire a large number of new employees to manage these orders, which their payment system is having trouble managing, and are constantly running out of inventory for their favorite products. Overall, this has slowed down Frappy's growth, and led to a decreased overall customer experience, with customers experiencing unreasonable wait times or being unable to purchase their favorite drinks. The goal of this project is to create a web-based application to solve these systems by allowing customers to place orders online, while also allowing managers to oversee staff and inventory.
+Due to the recent explosion in popularity, Dan's Frappiccino shop, *Frappy's* has been experiencing a massive increase in customers and orders. In addition to this, they've also needed to hire a large number of new employees to manage these orders, which their payment system is having trouble managing, and are constantly running out of inventory for their favorite products. Overall, this has slowed down Frappy's growth, and led to a decreased overall customer experience, with customers experiencing unreasonable wait times or being unable to purchase their favorite drinks. The goal of this project is to create a web-based application to solve these systems by allowing customers to place orders online, while also allowing managers to oversee staff and inventory.
 
-A customer will be able to create a custom order for their drink ahead of time, reducing the time needed for Frappy's to process their order as well as saving the Customer time by avoiding having them wait in line. Drinks will be choosable via a variety of customizable presets or be buildable from the ground up via a "create-your-own" option. The system will allow customers to pay via their registered account balance, reducing payment fees and encouraging customer spending via a prepurchased "gift card" system. Additionally, the account system will allow customer's and Frappy's to track order history. This should allow customers more convenient access to their favorite drinks, and give Frappy's a better ability to estimate inventory trends.
+A customer will be able to create a custom order for their drink ahead of time, reducing the time needed for Frappy's to process their order as well as saving the Customer time by avoiding having them wait in line. Drinks will be choosable via a variety of customizable presets or be buildable from the ground up via a "create-your-own" option. The system will allow customers to pay via their registered account balance, reducing payment fees and encouraging customer spending via a pre-purchased "gift card" system. Additionally, the account system will allow customer's and Frappy's to track order history. This should allow customers more convenient access to their favorite drinks, and give Frappy's a better ability to estimate inventory trends.
 
 Baristas will be able to use the system to view a queue of available drinks, reducing downtime, and increasing productivity by allowing them to optimize the order of drink creation. This will also allow them to mark orders as complete, letting the customer know their order is done immediately.
 
@@ -34,7 +34,32 @@ Functions available to all users of the web application include:
    * Default Option Presented to Users Who are Not Currently Signed In
    * Requires Username
    * Requires Matching Password
-
+   ![User Login UML](images/useCase7.png)
+   > **Participating Actors:** Customer
+   >
+   > **Entry Conditions:**
+   >
+   > * Customer opens up login page and inputs username and password
+   >
+   > **Exit Conditions:**
+   >
+   > * Customer Create a new account
+   >
+   > * Customer is redirected to error page to create an account
+   >
+   > * Customer successfully logs in
+   >
+   >  **Event Flow:**
+   >
+   > 1. Customer submits login information
+   > 2. Customer is Authenticated by system
+   > 3. System checks for user's credentials
+   > 4. Login Authentication passes
+   > 5. Login Authentication fails (or account does not exist)
+   > 6. User is sent to error page to create an account
+   > 7. Database is updated with new account info and sent back to step 1
+   > 8. User is granted access to site
+   >
 ### Customers
 
 Functions available to customers include:
@@ -66,7 +91,7 @@ Functions available to customers include:
    >    3. Customer customizes drink (optional)
    >    4. Customer submits order
    >    5. Order handed to cashier
-   >    6. Customer balance and ingedrient amounts verified
+   >    6. Customer balance and ingredient amounts verified
    >    7. Drink added to queue and order history
    >    8. Money deducted from customer and added to manager account
 
@@ -136,6 +161,38 @@ Functions available to Managers Include:
    * Available Via an Admin Panel
    * Can Mark Accounts as Different Roles (Except for Manager)
    * Can Change Account Balances
+   ![Manager Edits Account Info](images/useCase8.png)
+   > **Participating Actors:** Customer, Barista/Cashier (referred to as Employee)
+   >
+   > **Entry Conditions:**
+   >
+   > * Manager has already talked to Employee about change
+   >
+   > * Employee currently has an account with Frappy
+   >
+   > **Exit Conditions:**
+   >
+   > * Employee information is added
+   >
+   > * Employee information is changed
+   >
+   > * Employee pay is changed
+   >
+   >  **Event Flow:**
+   >
+   > 1. Manager logs into system
+   > 2. Manager access the Employee database
+   > 3. Manager edits Employee Status
+   > 4. If the Employee is being removed
+   > 5. Pays Employee from account for hours currently worked
+   > 6. Changes account privileges and makes customer account
+   > 7. If the Employee is being added
+   > 8. Account privileges are upgraded to Barista or Cashier
+   > 9. Given a pay rate of $15 per hour
+   > 10. If the Employee's pay is getting changed
+   > 11. Pays Employee from account for hours currently worked
+   > 12. Changes pay rate to adjusted amount and Database is updated
+   >
 
 2. View and Manage Inventory
    * Available Via an Admin Panel
@@ -264,7 +321,7 @@ There exist several non-functional requirements for this project as well, namely
    3. Any type of development can be done at any phase
    4. Each phase will end with a retrospective meeting
 
-5. Deveopmers must meet frequently to discuss progress
+5. Developers must meet frequently to discuss progress
    1. The SCRUM format will be used
    2. Stand Up's will be used
    3. SCRUM poker will be used
