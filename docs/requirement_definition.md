@@ -34,6 +34,7 @@ Functions available to all users of the web application include:
    * Default Option Presented to Users Who are Not Currently Signed In
    * Requires Username
    * Requires Matching Password
+  
    ![User Login UML](images/useCase7.png)
    > **Participating Actors:** Customer
    >
@@ -109,6 +110,24 @@ Functions available to customers include:
    * Available Via a User Profile Button
    ![How to submit Hours](images/Diagram%205.1.png)
 
+> **Participating actor: Employee**
+>
+> **Entry conditions:**
+>
+> * Employee logs in to add hours
+>
+> **Exit Conditions:**
+>
+> * Hours submitted successfully, employee paid
+> * Incorrectly formatted hours, denied
+> **Event Flow:**
+>
+>    1. employee logs in
+>    2. employee submits hours
+>    3. data is validated, either rejected or accepted
+>    4. hours are submitted to database
+>    5. employee is paid when manaker clicks the "button"
+
 ### Cashiers
 
 Functions Available to Cashiers Include:
@@ -161,6 +180,7 @@ Functions available to Managers Include:
    * Available Via an Admin Panel
    * Can Mark Accounts as Different Roles (Except for Manager)
    * Can Change Account Balances
+
    ![Manager Edits Account Info](images/useCase8.png)
    > **Participating Actors:** Customer, Barista/Cashier (referred to as Employee)
    >
@@ -202,13 +222,33 @@ Functions available to Managers Include:
 3. Create New Drink Presets
    * Available Via an Admin Panel
    * Can Upload a Custom Image
+
    ![Create New Drinks UML](images/Diagram%206.png)
+   > **Participating actor: Barista**
+   >
+   > **Entry conditions:**
+   >
+   > * manager attempts to add or edit a drink
+   >
+   > **Exit Conditions:**
+   >
+   > * drink is submitted successfully
+   > * drink is invalid and error is returned
+   >
+   > **Event Flow:**
+   >
+   >    1. Manager logs in
+   >    2. submits a drink
+   >    3. Drink is rejected if it already exists or is invalid.
+   >    4. Drink is submitted to database
+   >    5. success message is returned
 
 4. Pay Employees
    * Available Via an Admin Panel
    * Automatically Transfers Balance from the Managers Account to Employees Accounts
    * Pays Employees Based on Hours Logged
    * Fails if Insufficient Funds are Available
+
    ![Pay Employees UML](images/manager_pays_employees.png)
 
 ## Functional Requirements
