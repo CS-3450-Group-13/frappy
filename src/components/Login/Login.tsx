@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
 
-import './Login.css'
+import './Login.css';
 
-export default function Login() {
+type Props = {
+  setIsLoggedIn: (isLoggedIn: boolean) => void;
+}
+
+export default function Login({setIsLoggedIn}: Props) {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
   const tryLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     // Query database for valid login credentials
-  }
 
-  const handleSignup = (event: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
-    event.preventDefault();
-    console.log("clicked");
+    setIsLoggedIn(true);
   }
 
   return (
@@ -34,7 +35,7 @@ export default function Login() {
           </div>
         </form>
         <p className='signupText'>Don't have an account? 
-          <a onClick={handleSignup} href="">sign up here!</a>
+          <a href="/signup">sign up here!</a>
         </p>
       </div>
     </div>
