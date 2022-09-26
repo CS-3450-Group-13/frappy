@@ -31,10 +31,10 @@ export default function Login({setIsLoggedIn}: Props) {
             <input type='password' onChange={e => setPassword(e.target.value)} />
           </label>
           <div>
-            <button type='submit'>Submit</button>
+            <button className='submitBtn' type='submit'>Submit</button>
           </div>
         </form>
-        <p className='signupText'>Don't have an account? 
+        <p className='signupText'>Don't have an account?
           <a href="/signup">sign up here!</a>
         </p>
       </div>

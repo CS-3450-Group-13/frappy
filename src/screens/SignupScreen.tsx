@@ -6,6 +6,9 @@ type Props = {
 
 export default function SignupScreen({setIsLoggedIn}: Props) {
   return (
-    <Signup setIsLoggedIn={setIsLoggedIn}></Signup>
+    <div className='container'>
+      <h2>To create an account, please fill out the form below</h2>
+      <Signup setIsLoggedIn={setIsLoggedIn}></Signup>
+    </div>
   );
 }

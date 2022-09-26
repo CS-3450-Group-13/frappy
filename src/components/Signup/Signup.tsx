@@ -40,7 +40,9 @@ export default function Signup({setIsLoggedIn}: Props) {
           <p>Confirm password</p>
           <input type="password" onChange={e => setPassword2(e.target.value)} />
         </label>
-        <button type='submit' />
+        <div>
+          <button className='submitBtn' type='submit'>Submit</button>
+        </div>
       </form>
     </div>
   );
