@@ -19,7 +19,7 @@ export default function Login({setIsLoggedIn}: Props) {
 
   return (
     <div className='container'>
-      <h1>Please log in</h1>
+      <h2>Please log in</h2>
       <div className='loginBox'>
         <form onSubmit={tryLogin}>
           <label>
