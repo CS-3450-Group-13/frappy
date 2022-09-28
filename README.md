@@ -9,6 +9,7 @@ Frappy is a monolithic web app for managing a generic coffee shop catered toward
 | Milestone 1 | [Documentation](docs/ ) |
 
 ## Build Instructions
+When pulling the repo down from Github, remove the package-lock.json file and run `npm install`
 
 ### Installation Requirements
 

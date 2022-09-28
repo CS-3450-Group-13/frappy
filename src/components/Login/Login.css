@@ -1,0 +1,26 @@
+
+.container {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.loginBox {
+  width: 30%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.submitBtn {
+  margin-top: 15px;
+}
+
+.signupText {
+  font-size: small;
+}
