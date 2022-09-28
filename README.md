@@ -57,3 +57,7 @@ Testing is performed using JEST and pytest and can be run using
 ```powershell python runtests.py```
 
 ```npm run test```
+
+## Burndown Charts
+
+![Milestone 1 Burndown Chart](docs/images/burndown-charts/milestone1.png)
