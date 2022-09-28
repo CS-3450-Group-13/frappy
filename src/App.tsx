@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import './App.css';
-import EmployeesScreen from './screens/EmployeesScreen';
-import InventoryScreen from './screens/InventoryScreen';
-import LoginScreen from './screens/LoginScreen';
-import MenuScreen from './screens/MenuScreen';
-import SignupScreen from './screens/SignupScreen';
+import AccountPage from './pages/AccountPage';
+import EmployeesPage from './pages/EmployeesPage';
+import InventoryPage from './pages/InventoryPage';
+import LoginPage from './pages/LoginPage';
+import MenuPage from './pages/MenuPage';
+import SettingsPage from './pages/SettingsPage';
+import SignupPage from './pages/SignupPage';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -12,15 +14,19 @@ function App() {
   const showPage = () => {
     switch (window.location.pathname) {
       case "/":
-        return <LoginScreen setIsLoggedIn={setIsLoggedIn}></LoginScreen>;
+        return <LoginPage setIsLoggedIn={setIsLoggedIn}></LoginPage>;
       case "/signup":
-        return <SignupScreen setIsLoggedIn={setIsLoggedIn}></SignupScreen>;
+        return <SignupPage setIsLoggedIn={setIsLoggedIn}></SignupPage>;
       case "/menu":
-        return <MenuScreen />
+        return <MenuPage />
       case "/inventory":
-        return <InventoryScreen />
+        return <InventoryPage />
       case "/employees":
-        return <EmployeesScreen />
+        return <EmployeesPage />
+      case "/account":
+        return <AccountPage />
+      case "/settings":
+        return <SettingsPage />
     }
   }
 

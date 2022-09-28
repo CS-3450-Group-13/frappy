@@ -15,6 +15,7 @@ export default function Login({setIsLoggedIn}: Props) {
     // Query database for valid login credentials
 
     setIsLoggedIn(true);
+    window.location.href = "/menu";
   }
 
   return (

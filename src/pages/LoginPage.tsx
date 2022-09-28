@@ -4,7 +4,7 @@ type Props = {
   setIsLoggedIn: (isLoggedIn: boolean) => void;
 }
 
-export default function LoginScreen({setIsLoggedIn}: Props) {
+export default function LoginPage({setIsLoggedIn}: Props) {
   return (
     <div className="container">
       <h1>Welcome to Frappy!</h1>

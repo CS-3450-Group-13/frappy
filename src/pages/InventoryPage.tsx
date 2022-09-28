@@ -1,11 +1,11 @@
 import NavigationBar from "../components/NavigationBar/NavigationBar";
 
 
-export default function InventoryScreen() {
+export default function InventoryPage() {
   return (
     <div>
       <NavigationBar />
-      <p>This is the inventory screen</p>
+      <p>This is the inventory page</p>
       <p>Here the manager can restock items in the inventory</p>
     </div>
   );

@@ -14,7 +14,7 @@ export default function Signup({setIsLoggedIn}: Props) {
   const tryCreateUser = (event: React.FormEvent<HTMLFormElement>) => {
     // Attempt to create user in database
     // Verify username doesn't already exist
-    // event.preventDefault();
+    event.preventDefault();
 
     console.log(`username is ${username} and password1 is ${password} and password2 is ${password2}`);
 
@@ -23,6 +23,7 @@ export default function Signup({setIsLoggedIn}: Props) {
     }
 
     setIsLoggedIn(true);
+    window.location.href = "/menu";
   }
 
   return (
