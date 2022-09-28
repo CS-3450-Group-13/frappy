@@ -62,3 +62,7 @@ Testing is performed using JEST and pytest and can be run using
 ## Burndown Charts
 
 ![Milestone 1 Burndown Chart](docs/images/burndown-charts/milestone1.png)
+
+## Link to Wireframes
+
+https://www.figma.com/proto/fefIrPhFVDjBRaiS6Jyh3U/FRAPPY-MANAGER-PAGES?node-id=22%3A191&scaling=scale-down&page-id=0%3A1
