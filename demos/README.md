@@ -25,3 +25,20 @@ py manage.py runserver
 ```
 
 You may also need to create a test user for your demo by running `py manage.py createsuperuser` command.
+
+## Frontend @SeaCastle
+
+The following is required to run the demo frontent
+
+```txt
+npm >= 12
+```
+
+To run the demo, nagivate into the [frontent](./Frontend) directory and run the following commands
+
+```npm
+npm install
+npm start
+```
+
+You can then nagivate to [localhost:3000](localhost:3000) to view the demo page.
