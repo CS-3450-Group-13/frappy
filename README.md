@@ -7,8 +7,10 @@ Frappy is a monolithic web app for managing a generic coffee shop catered toward
 | Milestone | Location(s) |
 | :--- | ---: |
 | Milestone 1 | [Documentation](docs/ ) |
+| Milestone 2 | [Milestone 2](#milestone-2)
 
 ## Build Instructions
+
 When pulling the repo down from Github, remove the package-lock.json file and run `npm install`
 
 ### Installation Requirements
@@ -65,4 +67,10 @@ Testing is performed using JEST and pytest and can be run using
 
 ## Link to Wireframes
 
-https://www.figma.com/proto/fefIrPhFVDjBRaiS6Jyh3U/FRAPPY-MANAGER-PAGES?node-id=22%3A191&scaling=scale-down&page-id=0%3A1
+<https://www.figma.com/proto/fefIrPhFVDjBRaiS6Jyh3U/FRAPPY-MANAGER-PAGES?node-id=22%3A191&scaling=scale-down&page-id=0%3A1>
+
+## Milestone 2
+
+### Class Diagram
+
+![ER Database Diagram](./docs/images/ER_Diagram.png)
