@@ -28,6 +28,7 @@ Functions available to all users of the web application include:
    * Default Option Presented to Users Who are Not Currently Signed In
    * Requires Unique Username
    * Requires Password
+   * Requires an Email
    * Password Should Pass Some Level of Minimum Security
 
 2. Sign In
@@ -68,13 +69,13 @@ Functions available to customers include:
 1. Customize and Order Drinks
    * Several Modifiable Preset Options
    * "Build-Your-Own" Option
-   * Paid for Using Account Balance
-   * Drink Order Will Go Through if Drink Options are Valid and Account Contains Sufficient Balance
+   * Paid for Using Account Balance (Must Have Non-Negative Balance to Start Order)
+   * Drink Order Will Go Through if Drink Options are Valid
    ![Order Drink UML](images/user_orders_drink.png)
 
 2. View Their Account Balance
    * Account Balance Will be Viewable Via a User Profile Button
-   * An Add to Balance Button Will Allow Users to Top Off Their Balance Via Gift Cards
+   * An Add to Balance Button Will Allow Users to Top Off Their Balance
 
 3. View Their Order History
    * Order History Will be Viewable Via a User Profile Button
@@ -83,7 +84,7 @@ Functions available to customers include:
 ### All Employees
 
 1. Log Hours Worked
-   * Available Via a User Profile Button
+   * Available Via a Calander Tab
    ![How to submit Hours](images/Diagram%205.1.png)
 
 > **Participating actor: Employee**
@@ -112,7 +113,7 @@ Functions Available to Cashiers Include:
    * Option to Select from All Registered Users
    * Several Modifiable Preset Options
    * "Build-Your-Own" Option
-   * Paid for Using Account Balance
+   * Paid for Using Customer Account Balance
    * Drink Order Will Go Through if Drink Options are Valid and Selected User Account Contains Sufficient Balance
 
    ![Customer orders from cashier](images/customer_orders_from_cashier.png)
@@ -176,7 +177,7 @@ Functions available to Baristas Include:
 Functions available to Managers Include:
 
 1. View and Manage Other Accounts
-   * Available Via an Admin Panel
+   * Available Via an Mangment Tab
    * Can Mark Accounts as Different Roles (Except for Manager)
    * Can Change Account Balances
 
@@ -214,12 +215,12 @@ Functions available to Managers Include:
    >
 
 2. View and Manage Inventory
-   * Available Via an Admin Panel
+   * Available Via an Inventory Tab
    * Can Add to Current Inventory Stock
    * Can Add New Items to Inventory?
 
 3. Create New Drink Presets
-   * Available Via an Admin Panel
+   * Available Via a Drink Tab
    * Can Upload a Custom Image
 
    ![Create New Drinks UML](images/Diagram%206.png)
@@ -243,7 +244,7 @@ Functions available to Managers Include:
    >    5. success message is returned
 
 4. Pay Employees
-   * Available Via an Admin Panel
+   * Available Via a Payment Tab
    * Automatically Transfers Balance from the Managers Account to Employees Accounts
    * Pays Employees Based on Hours Logged
    * Fails if Insufficient Funds are Available
@@ -304,8 +305,8 @@ Functions available to Managers Include:
    4. Customer must be updated on order status while order is pending
    5. Customer could have the option to order online
       1. The system must put their order in the queue for the Baristas
-      2. Before order is processed, the system must check customer account balance to make sure they do not have a negative tab.
-         1. If they have a negative tab, the system must not process the order.
+      2. Before order page is acessable, the system must check customer account balance to make sure they do not have a negative tab.
+         1. If they have a negative tab, the system must not display the order page.
       3. Orders could be available for pickup or in-person orders.
 
 4. Cashier Features
@@ -359,12 +360,14 @@ There exist several non-functional requirements for this project as well, namely
    1. The database should store account information for users, managers, cashiers, and baristas, including the following fields:
       1. Username
       2. Password (*Encrypted*)
-      3. Account Balance
-      4. Order History
+      3. Email
+      4. Account Balance
+      5. Order History
 
    2. The database should store information on the store's current inventory, including the following fields:
       1. Type
       2. Quantity
+      3. Cost
 
 2. The system should be deployable over the internet.
    1. Local hosting will also suffice.
