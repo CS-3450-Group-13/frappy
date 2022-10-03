@@ -177,7 +177,7 @@ Functions available to Baristas Include:
 Functions available to Managers Include:
 
 1. View and Manage Other Accounts
-   * Available Via an Mangment Tab
+   * Available Via an Management Tab
    * Can Mark Accounts as Different Roles (Except for Manager)
    * Can Change Account Balances
 
