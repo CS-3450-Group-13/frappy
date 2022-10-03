@@ -305,7 +305,7 @@ Functions available to Managers Include:
    4. Customer must be updated on order status while order is pending
    5. Customer could have the option to order online
       1. The system must put their order in the queue for the Baristas
-      2. Before order page is acessable, the system must check customer account balance to make sure they do not have a negative tab.
+      2. Before order page is accessible, the system must check customer account balance to make sure they do not have a negative tab.
          1. If they have a negative tab, the system must not display the order page.
       3. Orders could be available for pickup or in-person orders.
 
