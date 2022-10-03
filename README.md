@@ -1,10 +1,17 @@
 # Frappy
 
-Frappy is a monolithic web app for managing a generic coffee shop catered towards millenials.  
+Frappy is a monolithic web app for managing a generic coffee shop catered towards millennials. For a more detailed overview, see [Project Plan](docs/Frappy_Project_Plan.docx) or [Requirements Definition](docs/requirement_definition.md)
+
+## Team Members
+
+- Dalyn Dalton
+- Jacob Fitzgerald
+- Spencer Peterson
+- Dylan Spencer
 
 ## Grader Map
 
-| Milestone | Location(s) |
+| Milestone | Location |
 | :--- | ---: |
 | Milestone 1 | [Documentation](docs/ ) |
 | Milestone 2 | [Milestone 2](#milestone-2)
@@ -35,7 +42,7 @@ In the future, this will be migrated over to a docker compose file to allow for 
 
 ## Table of Contents
 
-[Documentation](docs/ ) - Contains the project documentaiton and references.
+[Documentation](docs/ ) - Contains the project documentation and references.
 
 [Source](src/) - Project Code
 
@@ -59,20 +66,22 @@ Testing is performed using JEST and pytest and can be run using
 
 ```powershell python runtests.py```
 
-```npm run test```
+```npm test```
 
-## Burndown Charts
+## Burndown Chart
 
 ![Milestone 1 Burndown Chart](docs/images/burndown-charts/milestone1.png)
-
-![Milestone 2 Burndown Chart](docs/images/burndown-charts/milestone2.png)
-
-## Link to Wireframes
-
-<https://www.figma.com/proto/fefIrPhFVDjBRaiS6Jyh3U/FRAPPY-MANAGER-PAGES?node-id=22%3A191&scaling=scale-down&page-id=0%3A1>
 
 ## Milestone 2
 
 ### Class Diagram
 
 ![ER Database Diagram](./docs/images/ER_Diagram.png)
+
+## Link to Wireframes (low-level prototype)
+
+<https://www.figma.com/proto/fefIrPhFVDjBRaiS6Jyh3U/FRAPPY-MANAGER-PAGES?node-id=22%3A191&scaling=scale-down&page-id=0%3A1>
+
+## Burndown Chart
+
+![Milestone 2 Burndown Chart](docs/images/burndown-charts/milestone2.png)
