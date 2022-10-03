@@ -85,3 +85,9 @@ Testing is performed using JEST and pytest and can be run using
 ## Burndown Chart
 
 ![Milestone 2 Burndown Chart](docs/images/burndown-charts/milestone2.png)
+
+## Activity Diagrams
+
+[Customer Orders a Drink](docs/images/order_drink.png)
+
+[Manager Creates a New Drink](docs/images/manager_creates_new_drink.png)
