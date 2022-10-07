@@ -80,7 +80,7 @@ Testing is performed using JEST and pytest and can be run using
 
 ## Link to Wireframes (low-level prototype)
 
-<https://www.figma.com/proto/fefIrPhFVDjBRaiS6Jyh3U/FRAPPY-MANAGER-PAGES?node-id=22%3A191&scaling=scale-down&page-id=0%3A1>
+<https://www.figma.com/file/fefIrPhFVDjBRaiS6Jyh3U/FRAPPY-MANAGER-PAGES?node-id=0%3A1>
 
 ## Burndown Chart
 
