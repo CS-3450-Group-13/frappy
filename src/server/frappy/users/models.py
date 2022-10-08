@@ -36,7 +36,7 @@ class UserManger(BaseUserManager):
 # Create your models here.
 class User(AbstractUser):
     username = None
-    email = models.EmailField(("email_address"), unique=True, null=False)
+    email = models.EmailField(("email Address"), unique=True, null=False)
     USERNAME_FIELD = "email"
 
     REQUIRED_FIELDS: list[str] = []

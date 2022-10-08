@@ -38,13 +38,14 @@ class Frappe(models.Model):
     markup = models.DecimalField(max_digits=5, decimal_places=2)
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
     size = models.IntegerField(choices=Sizes.choices)
+    on_menu = models.BooleanField()
 
     @property
     def price(self):
         return sum() + self.markup
 
 
-class Recipe_Item(models.Model):
-    frappe = models.ForeignKey(Frappe, verbose_name=(""), on_delete=models.CASCADE)
-    ingredient = models.ForeignKey(Extras, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+# class Recipe_Item(models.Model):
+#     frappe = models.ForeignKey(Frappe, verbose_name=(""), on_delete=models.CASCADE)
+#     ingredient = models.ForeignKey(Extras, on_delete=models.CASCADE)
+#     quantity = models.IntegerField()
