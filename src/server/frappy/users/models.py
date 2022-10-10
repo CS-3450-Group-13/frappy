@@ -38,6 +38,9 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(("email Address"), unique=True, null=False)
     USERNAME_FIELD = "email"
-
+    balance = models.DecimalField(
+        max_digits=10, decimal_places=2, null=False, default=0
+    )
     REQUIRED_FIELDS: list[str] = []
     objects = UserManger()
+    
