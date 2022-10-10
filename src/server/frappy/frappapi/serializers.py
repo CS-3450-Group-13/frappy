@@ -4,4 +4,4 @@ class FrappeSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Frappe
-        fields = []
+        fields = "__all__"

@@ -14,8 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from rest_framework.schemas import get_schema_view
+from rest_framework.documentation import include_docs_urls
+
+API_TITLE = "Frappy order and customize"
+API_DESC = "Order, update, and view the menu for our simple frappe shop."
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path(r"", include("frappapi.urls")),
+    path("api-auth/", include("rest_framework.urls")),
 ]
