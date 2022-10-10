@@ -1,5 +1,3 @@
-from enum import unique
-from io import open_code
 from django.db import models
 
 # Create your models here.
@@ -32,6 +30,12 @@ class Extras(Ingredient):
     limit = models.IntegerField()
 
 
+class ExtraDetail(models.Model):
+    amount = models.IntegerField()
+    frappe = models.ForeignKey('Frappe', on_delete=models.CASCADE)
+    extras = models.ForeignKey(Extras, on_delete=models.CASCADE)
+        
+
 class Frappe(models.Model):
     class Sizes(models.IntegerChoices):
         SMALL = 1
@@ -43,7 +47,7 @@ class Frappe(models.Model):
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
     milk = models.ForeignKey(Milk, on_delete=models.CASCADE)
     size = models.IntegerField(choices=Sizes.choices)
-    extras = models.ManyToManyField(Extras, blank=True)
+    extras = models.ManyToManyField(Extras, blank=True, through=ExtraDetail)
 
     @property
     def price(self):
