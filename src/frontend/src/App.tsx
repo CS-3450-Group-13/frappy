@@ -1,8 +1,15 @@
 import React from 'react';
 import './css/App.css';
+import CustomizeDrink from './pages/CustomizeDrink';
 // import Login from './components/Login/Login';
 // import NavBar from './components/NavBar/NavBar';
 import Menu from './pages/Menu';
+
+const drink = {
+  name: "Pumpkin Spice",
+  id: 0,
+  inStock: true,
+};
 
 function App() {
   return (
@@ -12,7 +19,8 @@ function App() {
         <Login />
         <NavBar />
       </header> */}
-      <Menu />
+      {/* <Menu /> */}
+      <CustomizeDrink drink={drink}/>
     </div>
   );
 }

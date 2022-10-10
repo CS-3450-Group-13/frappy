@@ -1,5 +1,6 @@
 import React from 'react';
 import '../css/DrinkCard.css';
+import '../css/Global.css'
 
 interface Drink {
   name: string;
