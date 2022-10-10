@@ -1,10 +1,14 @@
+from enum import unique
+from io import open_code
 from django.db import models
 
 # Create your models here.
 class Ingredient(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     stock = models.IntegerField()
     price_per_unit = models.DecimalField(max_digits=20, decimal_places=2)
+    updated_on = models.DateTimeField(auto_now=True)
+    created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.name
@@ -14,17 +18,17 @@ class Ingredient(models.Model):
 
 
 class Base(Ingredient):
-    decaf = models.BinaryField()
+    decaf = models.BooleanField()
 
 
 class Milk(Ingredient):
-    non_dairy = models.BinaryField()
+    non_dairy = models.BooleanField(default=True)
 
 
 class Extras(Ingredient):
-    decaf = models.BinaryField()
-    non_dairy = models.BinaryField()
-    gluten_free = models.BinaryField()
+    decaf = models.BooleanField(default=True)
+    non_dairy = models.BooleanField(default=True)
+    gluten_free = models.BooleanField(default=True)
     limit = models.IntegerField()
 
 
@@ -37,14 +41,19 @@ class Frappe(models.Model):
     name = models.CharField(max_length=250)
     markup = models.DecimalField(max_digits=5, decimal_places=2)
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
+    milk = models.ForeignKey(Milk, on_delete=models.CASCADE)
     size = models.IntegerField(choices=Sizes.choices)
+    extras = models.ManyToManyField(Extras, blank=True)
 
     @property
     def price(self):
+        # TODO: Correct the price
         return sum() + self.markup
 
+    def __str__(self):
+        return self.name
 
-class Recipe_Item(models.Model):
-    frappe = models.ForeignKey(Frappe, verbose_name=(""), on_delete=models.CASCADE)
-    ingredient = models.ForeignKey(Extras, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+
+class Menu(models.Model):
+    frappe = models.ForeignKey(Frappe, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to="uploads")
