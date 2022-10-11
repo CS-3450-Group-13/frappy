@@ -23,7 +23,7 @@ In order to actually configure your database, you need to run the following comm
 
 ```python
 py manage.py makemigrations
-py manage.py loaddata milks
+py manage.py loaddata ingredients
 ```
 
 This will construct the required tables and load them with some pregenerated data from the milks file
