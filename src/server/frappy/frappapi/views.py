@@ -12,7 +12,7 @@ from .models import *
 
 class FrappeViewSet(ModelViewSet):
     serializer_class = FrappeSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Frappe.objects.all()
 
     @action(detail=True, methods=["post"])
@@ -22,13 +22,8 @@ class FrappeViewSet(ModelViewSet):
         frap.save()
         return Response({"status": str(frap.on_menu)})
 
-    @action(detail=False)
-    def menu(self, request):
-        menu_items = Frappe.objects.filter(on_menu=True)
-        page = self.paginate_queryset(menu_items)
-        if page is not None:
-            serializer = self.get_serializer(page, many=True)
-            return self.get_paginated_response(serializer.data)
 
-        serializer = self.get_serializer(menu_items, many=True)
-        return Response(serializer.data)
+class MenuViewSet(ModelViewSet):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    queryset = Menu.objects.all()
+    serializer_class = MenuSerializer
