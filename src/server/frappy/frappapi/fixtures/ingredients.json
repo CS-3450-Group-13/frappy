@@ -1,0 +1,202 @@
+[
+    {
+        "model": "frappapi.milk",
+        "pk": 1,
+        "fields": {
+            "name": "Whole Milk",
+            "stock": 1000,
+            "price_per_unit": "2.05",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": false
+        }
+    },
+    {
+        "model": "frappapi.milk",
+        "pk": 2,
+        "fields": {
+            "name": "Soy Milk",
+            "stock": 1000,
+            "price_per_unit": "5.05",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": true
+        }
+    },
+    {
+        "model": "frappapi.base",
+        "pk": 1,
+        "fields": {
+            "name": "Coffee",
+            "stock": 999999999,
+            "price_per_unit": "1.00",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": false
+        }
+    },
+    {
+        "model": "frappapi.base",
+        "pk": 2,
+        "fields": {
+            "name": "Cream",
+            "stock": 999999999,
+            "price_per_unit": "1.50",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true
+        }
+    },
+    {
+        "model": "frappapi.base",
+        "pk": 3,
+        "fields": {
+            "name": "Mocha",
+            "stock": 999999999,
+            "price_per_unit": "2.50",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 1,
+        "fields": {
+            "name": "Secret Sauce",
+            "stock": 10,
+            "price_per_unit": "20.00",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": false,
+            "gluten_free": false,
+            "limit": 1
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 2,
+        "fields": {
+            "name": "Vanilla",
+            "stock": 1000,
+            "price_per_unit": "0.30",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 4
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 3,
+        "fields": {
+            "name": "Caramel",
+            "stock": 1000,
+            "price_per_unit": "0.30",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 5
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 4,
+        "fields": {
+            "name": "Pumpkin Sauce",
+            "stock": 10,
+            "price_per_unit": "0.80",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 3
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 5,
+        "fields": {
+            "name": "Macha",
+            "stock": 1000,
+            "price_per_unit": "0.45",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 2
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 6,
+        "fields": {
+            "name": "Expresso Shot",
+            "stock": 10000,
+            "price_per_unit": "0.45",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 3
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 7,
+        "fields": {
+            "name": "Chocolate Drizzle",
+            "stock": 1550,
+            "price_per_unit": "0.70",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 1
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 8,
+        "fields": {
+            "name": "Oreos",
+            "stock": 10000,
+            "price_per_unit": "9.00",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": false,
+            "gluten_free": false,
+            "limit": 35
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 9,
+        "fields": {
+            "name": "Whip Cream",
+            "stock": 1000,
+            "price_per_unit": "0.45",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": false,
+            "gluten_free": true,
+            "limit": 2
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 10,
+        "fields": {
+            "name": "Sugar",
+            "stock": 1000,
+            "price_per_unit": "0.45",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 3
+        }
+    }
+]
