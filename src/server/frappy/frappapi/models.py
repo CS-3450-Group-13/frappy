@@ -30,6 +30,12 @@ class Extras(Ingredient):
     limit = models.IntegerField()
 
 
+class ExtraDetail(models.Model):
+    amount = models.IntegerField()
+    frappe = models.ForeignKey('Frappe', on_delete=models.CASCADE)
+    extras = models.ForeignKey(Extras, on_delete=models.CASCADE)
+        
+
 class Frappe(models.Model):
     class Sizes(models.IntegerChoices):
         SMALL = 1
