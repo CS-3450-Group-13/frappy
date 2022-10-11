@@ -47,7 +47,7 @@ class Frappe(models.Model):
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
     milk = models.ForeignKey(Milk, on_delete=models.CASCADE)
     size = models.IntegerField(choices=Sizes.choices)
-    extras = models.ManyToManyField(Extras, blank=True, through=ExtraDetail)
+    extras = models.ManyToManyField(Extras, blank=True, related_name="details", through='ExtraDetail')
 
     @property
     def price(self):
@@ -61,3 +61,12 @@ class Frappe(models.Model):
 class Menu(models.Model):
     frappe = models.ForeignKey(Frappe, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to="uploads")
+
+
+class ExtraDetail(models.Model):
+    amount = models.IntegerField()
+    frappe = models.ForeignKey(Frappe, on_delete=models.CASCADE)
+    extras = models.ForeignKey(Extras, on_delete=models.CASCADE)
+    
+    def __str__(self) -> str:
+        return f"{self.frappe} -> {self.extras} : {self.amount}"
