@@ -1,6 +1,6 @@
 # Running the Django development server
 
-So you wanna run the server backend huh? Well it talkes just about as much as a full deployment to set up.  This guide should help you account for all of the steps needed.
+So you wanna run the server backend huh? Well it takes just about as much as a full deployment to set up.  This guide should help you account for all of the steps needed.
 
 ## Step 1: Install required packages
 
