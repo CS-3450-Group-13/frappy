@@ -17,10 +17,13 @@ class ExtraSerializer(serializers.ModelSerializer):
 class ExtraDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExtraDetail
+        fields = "__all__"
 
+    def create(self, validated_data):
+        return super().create(validated_data)
 
 class FrappeSerializer(serializers.ModelSerializer):
-    extras = ExtraDetailSerializer(many=True)
+    extras = ExtraDetailSerializer(many=True, required=False)
 
     class Meta:
         model = Frappe

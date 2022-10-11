@@ -27,3 +27,8 @@ class MenuViewSet(ModelViewSet):
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+
+
+class ExtrasViewSet(ModelViewSet):
+    serializer_class = ExtraSerializer
+    queryset = Extras.objects.all()
