@@ -1,0 +1,8 @@
+@import url('Global.css');
+
+.balance-display {
+    font-size: 2em;
+    border-radius: 15px;
+    padding: 25px 25px 25px 25px;
+    background-color: var(--frappy-lgreen);
+}

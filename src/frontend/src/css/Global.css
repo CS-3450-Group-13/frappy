@@ -1,3 +1,34 @@
+body {
+  margin: 0px;
+}
+
+:root {
+  --frappy-background: #143224;
+  --frappy-dgreen: #10603B;
+  --frappy-lgreen: #08A45B;
+  --frappy-white: #F9F9F9;
+  --frappy-red: #F76868;
+  --frappy-orange: #FF891D;
+  --frappy-link: #DCFFD0;
+}
+
+.heading {
+  font-size: 3em;
+}
+
+.heading-2 {
+  font-size: 2em;
+  font-weight: 600;
+}
+
+.smallLink {
+  color: var(--frappy-link);
+  font-size: 0.5em;
+  font-weight: lighter;
+  text-decoration: underline;
+  
+}
 .circle {
   border-radius: 50%;
 }
+
