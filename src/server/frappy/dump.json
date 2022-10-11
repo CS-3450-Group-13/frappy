@@ -219,179 +219,215 @@
         "model": "auth.permission",
         "pk": 25,
         "fields": {
-            "name": "Can add extras",
+            "name": "Can add extra detail",
             "content_type": 7,
-            "codename": "add_extras"
+            "codename": "add_extradetail"
         }
     },
     {
         "model": "auth.permission",
         "pk": 26,
         "fields": {
-            "name": "Can change extras",
+            "name": "Can change extra detail",
             "content_type": 7,
-            "codename": "change_extras"
+            "codename": "change_extradetail"
         }
     },
     {
         "model": "auth.permission",
         "pk": 27,
         "fields": {
-            "name": "Can delete extras",
+            "name": "Can delete extra detail",
             "content_type": 7,
-            "codename": "delete_extras"
+            "codename": "delete_extradetail"
         }
     },
     {
         "model": "auth.permission",
         "pk": 28,
         "fields": {
-            "name": "Can view extras",
+            "name": "Can view extra detail",
             "content_type": 7,
-            "codename": "view_extras"
+            "codename": "view_extradetail"
         }
     },
     {
         "model": "auth.permission",
         "pk": 29,
         "fields": {
-            "name": "Can add frappe",
+            "name": "Can add extras",
             "content_type": 8,
-            "codename": "add_frappe"
+            "codename": "add_extras"
         }
     },
     {
         "model": "auth.permission",
         "pk": 30,
         "fields": {
-            "name": "Can change frappe",
+            "name": "Can change extras",
             "content_type": 8,
-            "codename": "change_frappe"
+            "codename": "change_extras"
         }
     },
     {
         "model": "auth.permission",
         "pk": 31,
         "fields": {
-            "name": "Can delete frappe",
+            "name": "Can delete extras",
             "content_type": 8,
-            "codename": "delete_frappe"
+            "codename": "delete_extras"
         }
     },
     {
         "model": "auth.permission",
         "pk": 32,
         "fields": {
-            "name": "Can view frappe",
+            "name": "Can view extras",
             "content_type": 8,
-            "codename": "view_frappe"
+            "codename": "view_extras"
         }
     },
     {
         "model": "auth.permission",
         "pk": 33,
         "fields": {
-            "name": "Can add milk",
+            "name": "Can add frappe",
             "content_type": 9,
-            "codename": "add_milk"
+            "codename": "add_frappe"
         }
     },
     {
         "model": "auth.permission",
         "pk": 34,
         "fields": {
-            "name": "Can change milk",
+            "name": "Can change frappe",
             "content_type": 9,
-            "codename": "change_milk"
+            "codename": "change_frappe"
         }
     },
     {
         "model": "auth.permission",
         "pk": 35,
         "fields": {
-            "name": "Can delete milk",
+            "name": "Can delete frappe",
             "content_type": 9,
-            "codename": "delete_milk"
+            "codename": "delete_frappe"
         }
     },
     {
         "model": "auth.permission",
         "pk": 36,
         "fields": {
-            "name": "Can view milk",
+            "name": "Can view frappe",
             "content_type": 9,
-            "codename": "view_milk"
+            "codename": "view_frappe"
         }
     },
     {
         "model": "auth.permission",
         "pk": 37,
         "fields": {
-            "name": "Can add menu",
+            "name": "Can add milk",
             "content_type": 10,
-            "codename": "add_menu"
+            "codename": "add_milk"
         }
     },
     {
         "model": "auth.permission",
         "pk": 38,
         "fields": {
-            "name": "Can change menu",
+            "name": "Can change milk",
             "content_type": 10,
-            "codename": "change_menu"
+            "codename": "change_milk"
         }
     },
     {
         "model": "auth.permission",
         "pk": 39,
         "fields": {
-            "name": "Can delete menu",
+            "name": "Can delete milk",
             "content_type": 10,
-            "codename": "delete_menu"
+            "codename": "delete_milk"
         }
     },
     {
         "model": "auth.permission",
         "pk": 40,
         "fields": {
-            "name": "Can view menu",
+            "name": "Can view milk",
             "content_type": 10,
-            "codename": "view_menu"
+            "codename": "view_milk"
         }
     },
     {
         "model": "auth.permission",
         "pk": 41,
         "fields": {
-            "name": "Can add user",
+            "name": "Can add menu",
             "content_type": 11,
-            "codename": "add_user"
+            "codename": "add_menu"
         }
     },
     {
         "model": "auth.permission",
         "pk": 42,
         "fields": {
-            "name": "Can change user",
+            "name": "Can change menu",
             "content_type": 11,
-            "codename": "change_user"
+            "codename": "change_menu"
         }
     },
     {
         "model": "auth.permission",
         "pk": 43,
         "fields": {
-            "name": "Can delete user",
+            "name": "Can delete menu",
             "content_type": 11,
-            "codename": "delete_user"
+            "codename": "delete_menu"
         }
     },
     {
         "model": "auth.permission",
         "pk": 44,
         "fields": {
-            "name": "Can view user",
+            "name": "Can view menu",
             "content_type": 11,
+            "codename": "view_menu"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 45,
+        "fields": {
+            "name": "Can add user",
+            "content_type": 12,
+            "codename": "add_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 46,
+        "fields": {
+            "name": "Can change user",
+            "content_type": 12,
+            "codename": "change_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 47,
+        "fields": {
+            "name": "Can delete user",
+            "content_type": 12,
+            "codename": "delete_user"
+        }
+    },
+    {
+        "model": "auth.permission",
+        "pk": 48,
+        "fields": {
+            "name": "Can view user",
+            "content_type": 12,
             "codename": "view_user"
         }
     },
@@ -448,7 +484,7 @@
         "pk": 7,
         "fields": {
             "app_label": "frappapi",
-            "model": "extras"
+            "model": "extradetail"
         }
     },
     {
@@ -456,7 +492,7 @@
         "pk": 8,
         "fields": {
             "app_label": "frappapi",
-            "model": "frappe"
+            "model": "extras"
         }
     },
     {
@@ -464,7 +500,7 @@
         "pk": 9,
         "fields": {
             "app_label": "frappapi",
-            "model": "milk"
+            "model": "frappe"
         }
     },
     {
@@ -472,15 +508,75 @@
         "pk": 10,
         "fields": {
             "app_label": "frappapi",
-            "model": "menu"
+            "model": "milk"
         }
     },
     {
         "model": "contenttypes.contenttype",
         "pk": 11,
         "fields": {
+            "app_label": "frappapi",
+            "model": "menu"
+        }
+    },
+    {
+        "model": "contenttypes.contenttype",
+        "pk": 12,
+        "fields": {
             "app_label": "users",
             "model": "user"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "dg15ldqkg3ieus3y5r5j8pwmrydkqe71",
+        "fields": {
+            "session_data": ".eJxVjEEOwiAQRe_C2hDKAFNcuu8ZyABTqRqalHZlvLtt0oVu_3vvv0WgbS1ha7yEKYur6MTld4uUnlwPkB9U77NMc12XKcpDkSdtcpgzv26n-3dQqJW9tkA8JvTakO8cZdUr1VvngBExx2hH8GgAUDMBGzAckzFKASuNuyg-X826NuY:1oi0n0:H19Qw4dEzYOOFsAfQuSxv8Rr1ruI1MXK5qFYGPAjjVs",
+            "expire_date": "2022-10-24T21:58:22.573Z"
+        }
+    },
+    {
+        "model": "sessions.session",
+        "pk": "yw6dx4x9b5g2ab67bdwrx2b1luzvt5ks",
+        "fields": {
+            "session_data": ".eJxVjEEOwiAQRe_C2hDKAFNcuu8ZyABTqRqalHZlvLtt0oVu_3vvv0WgbS1ha7yEKYur6MTld4uUnlwPkB9U77NMc12XKcpDkSdtcpgzv26n-3dQqJW9tkA8JvTakO8cZdUr1VvngBExx2hH8GgAUDMBGzAckzFKASuNuyg-X826NuY:1oi6Zm:z_2hnyTnUGL9ePtMZ7JOqpOXs9EMVGjUnm8WzCHbSfs",
+            "expire_date": "2022-10-25T04:09:06.358Z"
+        }
+    },
+    {
+        "model": "frappapi.base",
+        "pk": 1,
+        "fields": {
+            "name": "Coffee",
+            "stock": 999999999,
+            "price_per_unit": "1.00",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": false
+        }
+    },
+    {
+        "model": "frappapi.base",
+        "pk": 2,
+        "fields": {
+            "name": "Cream",
+            "stock": 999999999,
+            "price_per_unit": "1.50",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true
+        }
+    },
+    {
+        "model": "frappapi.base",
+        "pk": 3,
+        "fields": {
+            "name": "Mocha",
+            "stock": 999999999,
+            "price_per_unit": "2.50",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true
         }
     },
     {
@@ -493,6 +589,307 @@
             "updated_on": "2022-10-10T20:19:20.523Z",
             "created_on": "2022-10-10T20:19:20.523Z",
             "non_dairy": false
+        }
+    },
+    {
+        "model": "frappapi.milk",
+        "pk": 2,
+        "fields": {
+            "name": "Soy Milk",
+            "stock": 1000,
+            "price_per_unit": "5.05",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": true
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 1,
+        "fields": {
+            "name": "Secret Sauce",
+            "stock": 10,
+            "price_per_unit": "20.00",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": false,
+            "gluten_free": false,
+            "limit": 1
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 2,
+        "fields": {
+            "name": "Vanilla",
+            "stock": 1000,
+            "price_per_unit": "0.30",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 4
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 3,
+        "fields": {
+            "name": "Caramel",
+            "stock": 1000,
+            "price_per_unit": "0.30",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 5
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 4,
+        "fields": {
+            "name": "Pumpkin Sauce",
+            "stock": 10,
+            "price_per_unit": "0.80",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 3
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 5,
+        "fields": {
+            "name": "Macha",
+            "stock": 1000,
+            "price_per_unit": "0.45",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 2
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 6,
+        "fields": {
+            "name": "Expresso Shot",
+            "stock": 10000,
+            "price_per_unit": "0.45",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 3
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 7,
+        "fields": {
+            "name": "Chocolate Drizzle",
+            "stock": 1550,
+            "price_per_unit": "0.70",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 1
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 8,
+        "fields": {
+            "name": "Oreos",
+            "stock": 10000,
+            "price_per_unit": "9.00",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": false,
+            "gluten_free": false,
+            "limit": 35
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 9,
+        "fields": {
+            "name": "Whip Cream",
+            "stock": 1000,
+            "price_per_unit": "0.45",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": false,
+            "gluten_free": true,
+            "limit": 2
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 10,
+        "fields": {
+            "name": "Sugar",
+            "stock": 1000,
+            "price_per_unit": "0.45",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 3
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 1,
+        "fields": {
+            "name": "test",
+            "markup": "33.00",
+            "base": 1,
+            "milk": 1,
+            "size": 1
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 2,
+        "fields": {
+            "name": "test",
+            "markup": "33.00",
+            "base": 1,
+            "milk": 1,
+            "size": 1
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 3,
+        "fields": {
+            "name": "test",
+            "markup": "4.00",
+            "base": 1,
+            "milk": 1,
+            "size": 1
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 4,
+        "fields": {
+            "name": "spook",
+            "markup": "333.00",
+            "base": 1,
+            "milk": 1,
+            "size": 1
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 5,
+        "fields": {
+            "name": "toasty bun",
+            "markup": "3.00",
+            "base": 1,
+            "milk": 1,
+            "size": 1
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 6,
+        "fields": {
+            "name": "toasty bun",
+            "markup": "3.00",
+            "base": 1,
+            "milk": 1,
+            "size": 1
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 7,
+        "fields": {
+            "name": "toasty bun",
+            "markup": "3.00",
+            "base": 1,
+            "milk": 1,
+            "size": 1
+        }
+    },
+    {
+        "model": "frappapi.menu",
+        "pk": 1,
+        "fields": {
+            "frappe": 1,
+            "photo": "uploads/0f603bc5d77cef26793b0db1fc169a80.png"
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 1,
+        "fields": {
+            "amount": 2,
+            "frappe": 7,
+            "extras": 9
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 2,
+        "fields": {
+            "amount": 2,
+            "frappe": 1,
+            "extras": 4
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 3,
+        "fields": {
+            "amount": 3,
+            "frappe": 1,
+            "extras": 8
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 4,
+        "fields": {
+            "amount": 3,
+            "frappe": 1,
+            "extras": 8
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$390000$bdFizV6StL4PlTgVHLVnpc$c8ILIpF9AOW1YsCbHD5pM1PleVefd0jQcHO6lJOqCh0=",
+            "last_login": "2022-10-11T04:09:06.352Z",
+            "is_superuser": true,
+            "first_name": "",
+            "last_name": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2022-10-10T21:58:15.714Z",
+            "email": "test@test.com",
+            "balance": "0.00",
+            "groups": [],
+            "user_permissions": []
         }
     }
 ]

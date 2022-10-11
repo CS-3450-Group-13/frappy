@@ -15,17 +15,20 @@ class ExtraSerializer(serializers.ModelSerializer):
 
 
 class ExtraDetailSerializer(serializers.ModelSerializer):
+    extras = serializers.PrimaryKeyRelatedField(
+        required=True, queryset=Extras.objects.all()
+    )
+    frappe = serializers.PrimaryKeyRelatedField(
+        required=True, queryset=Frappe.objects.all()
+    )
+
     class Meta:
         model = ExtraDetail
+        fields = ["amount", "extras", "frappe"]
 
 
 class FrappeSerializer(serializers.ModelSerializer):
-    extras = ExtraDetailSerializer(many=True)
-
     class Meta:
         model = Frappe
         fields = "__all__"
-
-    def validate_extras(self, value):
-        print(value)
-        pass
+        depth = 3
