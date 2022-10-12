@@ -1,0 +1,40 @@
+[
+    {
+        "model": "frappapi.frappe",
+        "pk": 1,
+        "fields": {
+            "name": "Pumpkin Spice",
+            "markup": "33.50",
+            "base": 1,
+            "milk": 2,
+            "size": 1
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 1,
+        "fields": {
+            "amount": 2,
+            "frappe": 1,
+            "extras": 4
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 2,
+        "fields": {
+            "amount": 1,
+            "frappe": 1,
+            "extras": 10
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 3,
+        "fields": {
+            "amount": 1,
+            "frappe": 1,
+            "extras": 0
+        }
+    }
+]
