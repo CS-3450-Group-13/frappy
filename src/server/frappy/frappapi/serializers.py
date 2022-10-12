@@ -31,4 +31,3 @@ class FrappeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Frappe
         fields = "__all__"
-        depth = 3
