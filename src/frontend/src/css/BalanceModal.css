@@ -3,36 +3,56 @@
 .balance-container {
     background-color: var(--frappy-background);
     color: var(--frappy-white);
-    min-height: 100vh;
+    min-height: 100%;
+}
+
+.balance-container > * {
+    margin-left: 10%;
+    margin-right: 10%;
 }
 
 .title {
-    text-decoration: underline;
     margin-bottom: 0.3em;
-    text-align: left;
-    margin-left: 17%;
-    margin-right: 17%;
-    padding-left: 4px;
+    text-align: center;
+    font-size: 3em;
 }
 
-.balance-input {
-    margin-left: 17%;
-    margin-right: 17%;
-    background-color: var(--frappy-white);
-    color: black;
+.step-container {
+    display: flex;
+    justify-content: flex-start;
     font-weight: 600;
     font-size: 5em;
     border-radius: 0.3em;
     margin-bottom: 0.1em;
+    margin-bottom: 0.1em;
+}
+
+.dollar {
+    background-color: var(--frappy-white);
+    border-radius: 0.3em 0 0 0.3em;
+    color: black;
+    padding-left: 16px;
+    padding-right: 4px;
+    border-right: 1px solid grey;
+}
+
+.balance-input {
+    background-color: var(--frappy-white);
+    color: black;
+    border-radius:0 0.3em 0.3em 0;
+    width: 100%;
+    border: none;
+    text-align: right;
+    font-size: 1em;
+    padding-left: 8px;
 }
 
 .new-balance {
-    margin-left: 17%;
-    margin-right: 17%;
     text-align: left;
     font-size: 1.2em;
-    margin-bottom: 3em;
-    display: flex
+    margin-bottom: 32px;
+    display: flex;
+    padding-left: 4px;
 }
 
 .text-boi {
@@ -40,6 +60,8 @@
 }
 
 .balance-value {
+    display: grid;
+    grid-template-columns: auto auto;
     margin-left: auto;
     font-weight: 600;
     padding-right: 4px;
@@ -47,8 +69,6 @@
 
 .buttons {
     display: flex;
-    margin-right: 17%;
-    margin-left: 17%;
     padding-left: 4px;
     padding-right: 4px;
 }
@@ -62,13 +82,23 @@
 
 .confirm {
     background-color: var(--frappy-lgreen);
-
     margin-left: auto;
+    margin-right: 4px;
 }
 
 .cancel {
     background-color: var(--frappy-red);
-
     margin-right: auto;
+    margin-left: 4px;
 }
 
+
+
+.balance-input::-webkit-inner-spin-button,
+.balance-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+.balance-input::before {
+    position: absolute;
+    content: "$";
+}

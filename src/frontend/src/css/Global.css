@@ -12,20 +12,12 @@ body {
   --frappy-link: #DCFFD0;
 }
 
-.heading {
-  font-size: 3em;
-}
-
-.heading-2 {
-  font-size: 2em;
-  font-weight: 600;
-}
-
-.smallLink {
+.small-link {
   color: var(--frappy-link);
   font-size: 0.5em;
   font-weight: lighter;
   text-decoration: underline;
+  user-select: none;
   
 }
 .circle {

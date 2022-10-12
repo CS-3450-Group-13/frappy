@@ -19,6 +19,7 @@ const DEMO_USER: User = {
 };
 
 type Props = {
+  setModalIsOpen: (modalIsOpen: boolean) => void;
   fieldName: string;
   fieldValue: string;
   confirm: boolean;
@@ -31,9 +32,17 @@ type Props2 = {
 };
 
 export default function UpdateFieldModal(props: Props) {
+  function handleConfirm() {
+    props.setModalIsOpen(false);
+  }
+
+  function handleCancel() {
+    props.setModalIsOpen(false);
+  }
+
   return (
     <div className="update-container">
-      <div className="title heading">Enter New {props.fieldName}:</div>
+      <div className="title">Enter New {props.fieldName}</div>
       <TextField
         displayName={'New ' + props.fieldName}
         defaultValue={props.fieldValue}
@@ -42,16 +51,18 @@ export default function UpdateFieldModal(props: Props) {
       <TextField
         displayName={'Confirm ' + props.fieldName}
         defaultValue="Retype Email"
-        className={props.confirm ? 'input-container second' : 'hidden'}
+        className={props.confirm ? 'input-container' : 'hidden'}
       />
 
       <TextField
         displayName="Current Password"
         defaultValue="Enter Password"
-        className="input-container second"
+        className="input-container"
       />
       <div className="buttons">
-        <div className="button cancel">Cancel</div>
+        <div className="button cancel" onClick={handleCancel}>
+          Cancel
+        </div>
         <div className="button confirm">Confirm</div>
       </div>
     </div>
@@ -62,7 +73,7 @@ function TextField(props: Props2) {
   return (
     <div className={props.className}>
       <div className="input-name">{props.displayName}:</div>
-      <div className="input-field">{props.defaultValue}</div>
+      <input className="input-field" placeholder={props.defaultValue}></input>
     </div>
   );
 }
