@@ -1,7 +1,9 @@
-import React, { MouseEventHandler, ReactNode, useState } from 'react';
+import React, { ReactNode, useState } from 'react';
+import Modal from 'react-modal';
 import DrinkCard from '../cards/DrinkCard';
 import '../css/DrinkCard.css';
 import '../css/CustomizeDrink.css';
+import DrinkCustomizationModal from './DrinkCustomizationModal';
 
 interface Drink {
   name: string;
@@ -14,10 +16,15 @@ type Props = {
 }
 
 interface addins {
-  
+  [key: string]: number;
 }
 
-const tmp = {
+interface Customizations {
+  base: string;
+  addins: addins
+}
+
+const tmp: Customizations = {
   base: "Soy Milk",
   addins: {
     "Vanilla Syrup": 1,
@@ -29,6 +36,7 @@ const tmp = {
 export default function CustomizeDrink({drink}: Props) {
   const [size, setSize] = useState("small");
   const [drinkContents, setDrinkContents] = useState(tmp);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   function sizeChange(e: React.ChangeEvent<HTMLInputElement>) {
     console.log("size changed to " + e.target.value);
@@ -38,18 +46,22 @@ export default function CustomizeDrink({drink}: Props) {
 
   function createCustomizationButtons(): ReactNode {
     let buttons: ReactNode[] = [];
-    buttons.push(<div className='customization-button'>{drinkContents.base}</div>);
+    buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{drinkContents.base}</div>);
 
     for (const [key, value] of Object.entries(drinkContents.addins)) {
       buttons.push(
         <div className='row customization-button'>
           <div className='delete-btn' onClick={() => handleDeleteAddin(key)}>X</div>
-          <div className='customization-amounts'>{value} {key}</div>
+          <div className='customization-amounts' onClick={handleCustomizeDrink}>{value} {key}</div>
         </div>
       );
     }
 
     return buttons
+  }
+
+  function handleCustomizeDrink() {
+    setModalIsOpen(true);
   }
 
   function handleDeleteAddin(addin: string) {
@@ -110,6 +122,22 @@ export default function CustomizeDrink({drink}: Props) {
           <div className='add-to-cart-btn' onClick={handleAddToCart}>ADD TO CART</div>
         </div>
       </div>
+      <Modal 
+        isOpen={modalIsOpen}
+        style={
+          {
+            content: {
+              marginTop: '100px',
+              marginBottom: '100px',
+              marginLeft: '20%',
+              marginRight: '20%',
+              padding: '0',
+              border: '2px solid black',
+            },
+          }
+        }>
+        <DrinkCustomizationModal setModalIsOpen={setModalIsOpen} customizations={drinkContents} />
+      </Modal>
     </div>
   );
 }
