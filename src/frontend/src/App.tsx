@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './css/App.css';
 import Login from './components/Login/Login';
 import NavBar from './components/NavBar/NavBar';
+import OrderStatus from './pages/OrderStatus';
 
 function App() {
   const [pages, setPages] = useState([]);
