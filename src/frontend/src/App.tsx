@@ -7,6 +7,7 @@ import Menu from './pages/Menu';
 import Account from './pages/Account';
 import BalanceModal from './pages/BalaceModal';
 import UpdateFieldModal from './pages/UpdateFieldModal';
+import Home from './pages/Home';
 
 const drink = {
   name: 'Pumpkin Spice',
@@ -32,6 +33,7 @@ function App() {
         confirm={true}
       /> */}
       <p>Hello World!</p>
+      {/* <Home /> */}
     </div>
   );
 }
