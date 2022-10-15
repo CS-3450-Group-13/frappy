@@ -1,0 +1,23 @@
+.container {
+    align-items: left;
+    align-self: start;
+    display:flex;
+    float: left;
+    flex-direction: column;
+    width: 15%;
+    height: 100%;
+    background-color: rgb(54, 107, 67);
+    position: fixed;
+    overflow: auto;
+}
+
+.container a {
+    display:block;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: white;
+    background-color: rgb(93, 176, 114);
+    border: solid black;
+    border-radius: 15px;
+}

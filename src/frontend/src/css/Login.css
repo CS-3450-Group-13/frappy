@@ -1,0 +1,44 @@
+.login-div {
+    border-radius: 15px;
+    background-color: lightgray;
+    color:black;
+}
+
+.form-data {
+    display: flexbox;
+    margin: 50px;
+    padding: 20px;
+    border-radius: 15px;
+    flex-direction: column;
+    background-color: rgb(54, 107, 67);
+    text-align: left;
+}
+
+#input-email {
+    height: 40px;
+    border-radius: 30px;
+    border: 'none';
+}
+
+.form-input-item {
+    margin-bottom: 25px;
+}
+
+.form-input-item-last{
+    display: flex;
+    justify-content: center;
+}
+
+.bttn {
+    text-align: center;
+    align-items: center;
+    width: 150px;
+    height:50px;
+    background: rgb(15, 75, 11) ;
+    border: none;
+    border-radius: 15px;
+}
+
+.bttn:hover {
+    background: rgb(28, 86, 23) ;
+}
