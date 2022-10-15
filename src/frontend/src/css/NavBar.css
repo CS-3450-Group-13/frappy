@@ -11,13 +11,14 @@
     overflow: auto;
 }
 
-.container a {
+.container button {
     display:block;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin: 10px;
     text-decoration: none;
     color: white;
     background-color: rgb(93, 176, 114);
     border: solid black;
     border-radius: 15px;
+    width: 90%;
+    height: 50px;
 }

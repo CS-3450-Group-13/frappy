@@ -6,6 +6,7 @@ import Login from './components/Login';
 import NavBar from './components/NavBar';
 import NewUser from './components/NewUser';
 import Home from './pages/Home';
+import OrderStatus from './pages/OrderStatus';
 
 function App() {
   const [pages, setPages] = useState([
@@ -20,12 +21,13 @@ function App() {
   ]);
   return (
     <div className="App">
-    <NavBar pages={pages} />
       <Router>
+      <NavBar pages={pages} />
         <Routes>
           <Route index element={ <Login setPages={setPages} />} />
           <Route path='/new-user' element={ <NewUser />} />
           <Route path='/home' element={<Home />} />
+          <Route path='/order-status' element={<OrderStatus />} />
         </Routes>
       </Router>
     </div>

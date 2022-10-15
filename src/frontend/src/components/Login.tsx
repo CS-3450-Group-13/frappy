@@ -39,8 +39,8 @@ export default function Login({setPages}:{setPages: Function;}) {
             path: '/home'
           },
           {
-            title: 'Order',
-            path: '/order'
+            title: 'Order Status',
+            path: '/order-status'
           },
           {
             title: 'Account',

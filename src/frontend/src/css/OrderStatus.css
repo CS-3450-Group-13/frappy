@@ -1,0 +1,107 @@
+@import url('Global.css');
+
+.order-container {
+    background-color: var(--frappy-background);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.details-container {
+    height: 80%;
+    width: fit-content;
+    background-color: var(--frappy-white);
+    border-radius: 1em;
+    display: flex;
+    flex-direction: column;
+}
+
+.title {
+    font-size: 3em;
+    font-weight: 600;
+    margin-top: 1em;
+    padding-left: 4em;
+    padding-right: 4em;
+}
+
+.status-container {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.status-text {
+    margin-right: 8%;
+    text-decoration: underline;
+}
+
+.order-status {
+    border-radius: 0.25em;
+    padding: 0.25em;
+}
+
+.done {
+    background-color: var(--frappy-lgreen);
+    color: var(--frappy-white);
+}
+
+.waiting {
+    background-color: var(--frappy-gray);
+    color: var(--frappy-red);
+}
+
+.timer-container {
+    flex-grow: 0.6;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+
+}
+.wait-text {
+    font-size: 2em;
+    font-weight: 600;
+}
+
+.timer {
+    background-color: var(--frappy-lgreen);
+    color: var(--frappy-white);
+    font-size: 5em;
+    border-radius: 0.25em;
+    padding: 0.25em;
+    min-width: 2.5em;
+}
+
+
+
+
+.nav-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.button {
+    font-size: 3em;
+    color: var(--frappy-white);
+    background-color: var(--frappy-dgreen);
+    border-radius: 0.25em;
+    padding: 0.25em;
+    user-select: none;
+}
+
+.home {
+
+    margin-right: auto;
+    margin-left: 1em;
+}
+
+.new-order {
+    margin-left: auto;
+    margin-right: 1em;
+}
