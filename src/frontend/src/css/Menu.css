@@ -3,7 +3,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  margin-left: 15%;  width: 100%;  /* DON'T FORGET ABOUT THIS */
+  margin-left: 15%;
+  width: 100%;  /* DON'T FORGET ABOUT THIS */
   background-color: #143224;
   color: white;
 }
