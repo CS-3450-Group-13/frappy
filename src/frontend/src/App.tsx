@@ -1,18 +1,40 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './css/App.css';
+import CustomizeDrink from './pages/CustomizeDrink';
 import Login from './components/Login/Login';
 import NavBar from './components/NavBar/NavBar';
 import OrderStatus from './pages/OrderStatus';
+import Menu from './pages/Menu';
+import Account from './pages/Account';
+import BalanceModal from './pages/BalaceModal';
+import UpdateFieldModal from './pages/UpdateFieldModal';
+import Home from './pages/Home';
+
+const drink = {
+  name: 'Pumpkin Spice',
+  id: 0,
+  inStock: true,
+};
 
 function App() {
-  const [pages, setPages] = useState([]);
   return (
     <div className="App">
-      <header className="App-header">
+      {/* <header className="App-header">
         <p>Hello World!</p>
         <Login />
         <NavBar />
-      </header>
+      </header> */}
+      {/* <Menu /> */}
+      {/* <CustomizeDrink drink={drink}/> */}
+      {/* <Account /> */}
+      {/* <BalanceModal /> */}
+      {/* <UpdateFieldModal
+        fieldName="Email"
+        fieldValue="glorglugaming@gmail.com"
+        confirm={true}
+      /> */}
+      <p>Hello World!</p>
+      {/* <Home /> */}
     </div>
   );
 }
