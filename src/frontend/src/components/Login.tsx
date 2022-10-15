@@ -31,16 +31,20 @@ export default function Login({setPages}:{setPages: Function;}) {
     if(TestUsers.some(data => data.email === input.email 
       && data.password === input.password)){
         alert('Login success');
-        navigate('/home');
+        navigate('/home-page');
         setPages(
           [
             {
             title: 'Home',
-            path: '/home'
+            path: '/home-page'
           },
           {
             title: 'Order Status',
             path: '/order-status'
+          },
+          {
+            title: 'Menu',
+            path: '/menu'
           },
           {
             title: 'Account',

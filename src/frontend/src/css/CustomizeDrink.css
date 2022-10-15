@@ -1,0 +1,49 @@
+.customizeDrink-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  flex-direction: row;
+}
+
+/* Override of the DrinkCard.css .drinkCard-container class */
+.drinkCard-container {
+  background-color: #07A45B;
+  padding-bottom: 15%;
+}
+
+.drink-details {
+  flex: 3;
+  display: flex;
+  flex-direction: column;
+  background-color: #07A45B;
+  padding-top: 10%;
+}
+
+.customization-list {
+  width: 100%;
+  margin-right: 100px;
+  background-color: lightgrey;
+  margin-bottom: 20%;
+  /* margin-left: 10%; */
+}
+
+.customization-list ul {
+  list-style: none;
+  text-align: left;
+}
+
+.customization-selection {
+  flex: 7;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: red;
+}
+
+.size-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+
+}

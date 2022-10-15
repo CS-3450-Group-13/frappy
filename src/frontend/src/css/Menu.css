@@ -1,0 +1,32 @@
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-left: 15%;  width: 100%;  /* DON'T FORGET ABOUT THIS */
+  background-color: #143224;
+  color: white;
+}
+
+.heading {
+  display: flex;
+  height: 10%;
+  width: 100%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+}
+
+.drinkCard {
+  display: flex;
+  height: 100%;
+  width: 25%;
+}
+
+.drinkList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

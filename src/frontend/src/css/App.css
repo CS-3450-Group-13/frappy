@@ -1,13 +1,9 @@
 .App {
   text-align: center;
-  background-color: #232323;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 100%;
+  width: 100%;
 }
 
-
-
+.content-space{
+  width: 5px;
+}

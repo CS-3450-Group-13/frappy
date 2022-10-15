@@ -1,0 +1,177 @@
+@import url('Global.css');
+
+.home-container {
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+    color: var(--frappy-white);
+    background-color: var(--frappy-background);
+    height: 100%;
+    margin-left: 15%;
+}
+
+.header {
+    font-size: 3em;
+    flex-grow: 0;
+    display: flex;
+    justify-items: center;
+    align-items: center;
+    align-items: center;
+    margin-top: 0.5em;
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+
+.profile-picture {
+    display: flex;
+    border-radius: 50%;
+    background-color: white;
+    margin-left: 5%;
+  }
+
+.fast-nav-buttons {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-items: center;
+    width: 75%;
+    flex-grow: 0;
+    margin-top: 2em;
+}
+
+.button {
+    display: flex;
+    font-size: 1.8em;
+    width: 7em;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5em;
+    padding: 0.5em;
+    user-select: none;
+}
+
+.favorite-button {
+    background-color: var(--frappy-red);
+}
+
+.order-button {
+    background-color: var(--frappy-lgreen);
+}
+
+.account-button {
+    background-color: var(--frappy-orange);
+}
+
+.list-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-items: center;
+    width: 80%;
+    margin-top: 4em;
+    flex-grow: 1;
+}
+
+
+
+.filler {
+    background-color: black;
+    height: 100px;
+}
+
+
+
+.detail-card {
+    background-color: var(--frappy-lgreen);
+    border-radius: 0.5em;
+    height: 130px;
+    color: black;
+    font-size: 3em;
+    display: flex;
+    flex-direction: column;
+}
+
+.detail-title {
+    align-self: start;
+    margin-left: 0.5em;
+    text-decoration: underline;
+    font-size: 0.8em;
+    flex-grow: 0;
+    margin-top: 0.25em;
+}
+
+.detail-value {
+    align-self: center;
+    margin-right: 0;
+    color: var(--frappy-white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-grow: 1;
+    margin-bottom: 16px;
+}
+
+
+
+.order-card {
+    background-color: var(--frappy-dgray);
+    border-radius: 0.5em;
+    font-size: 1.5em;
+    height: fit-content;
+
+}
+
+.content {
+    display: flex;
+    align-items: center;
+    padding-top: 8px;
+}
+
+.order-date {
+    margin-left: 1em;
+}
+
+.order-summary {
+    flex-grow: 1;
+    display: grid;
+    grid-template-columns: 75% 25%;
+    font-size: 0.9em;
+    margin-right: 1em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-top: 8px;
+}
+
+
+.drink-photo-container {
+}
+.drink-photo {
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.small-container {
+    margin-left: 1em;
+}
+
+.drink-list {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.expand-arrow {
+    margin-top: -8px;
+    color: var(--frappy-gray);
+    font-size: 0.8em;
+    text-decoration: underline;
+    user-select: none;
+}
+

@@ -1,24 +1,32 @@
-.container {
+@import url('Global.css');
+
+
+.nav-bar-container {
     align-items: left;
-    align-self: start;
     display:flex;
     float: left;
     flex-direction: column;
     width: 15%;
     height: 100%;
-    background-color: rgb(54, 107, 67);
+    background-color: var(--frappy-dgreen);;
     position: fixed;
     overflow: auto;
 }
 
-.container button {
+.nav-bar-container button {
     display:block;
     margin: 10px;
     text-decoration: none;
     color: white;
-    background-color: rgb(93, 176, 114);
-    border: solid black;
+    background-color: var(--frappy-lgreen);;
+    border: none;
     border-radius: 15px;
     width: 90%;
     height: 50px;
+}
+
+.nav-bar-container button:hover {
+
+    background-color: var(--frappy-l-lgreen);;
+
 }

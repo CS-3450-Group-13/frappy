@@ -1,7 +1,12 @@
+@import url('Global.css');
+
+
 .login-div {
     border-radius: 15px;
-    background-color: lightgray;
-    color:black;
+    background-color: var(--frappy-gray);
+    color: black;
+    height: 100%;
+    margin-left: 15%;
 }
 
 .form-data {
@@ -10,7 +15,7 @@
     padding: 20px;
     border-radius: 15px;
     flex-direction: column;
-    background-color: rgb(54, 107, 67);
+    background-color: var(--frappy-lgreen);
     text-align: left;
 }
 
@@ -34,9 +39,10 @@
     align-items: center;
     width: 150px;
     height:50px;
-    background: rgb(15, 75, 11) ;
+    background: var(--frappy-dgreen);
     border: none;
     border-radius: 15px;
+    color: white;
 }
 
 .bttn:hover {
