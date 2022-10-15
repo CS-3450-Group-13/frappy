@@ -10,6 +10,8 @@ body {
   --frappy-red: #F76868;
   --frappy-orange: #FF891D;
   --frappy-link: #DCFFD0;
+  --frappy-gray: #D9D9D9;
+  --frappy-dgray: #363533;
 }
 
 .small-link {
@@ -23,4 +25,3 @@ body {
 .circle {
   border-radius: 50%;
 }
-
