@@ -7,7 +7,7 @@
 
 /* Override of the DrinkCard.css .drinkCard-container class */
 .drinkCard-container {
-  background-color: #07A45B;
+  background-color: var(--frappy-lgreen);
   padding-bottom: 15%;
 }
 
@@ -15,7 +15,7 @@
   flex: 3;
   display: flex;
   flex-direction: column;
-  background-color: #07A45B;
+  background-color: var(--frappy-lgreen);
   padding-top: 10%;
 }
 
@@ -38,12 +38,76 @@
   padding: 0;
   height: 100vh;
   width: 100%;
+  background-color: var(--frappy-background);
+}
+
+.delete-btn {
+  width: 5%;
   background-color: red;
+  margin-right: auto;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.decision-btns {
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  font-size: 1.5rem;
+}
+
+.back-btn {
+  background-color: var(--frappy-dgreen);
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.add-to-cart-btn {
+  background-color: var(--frappy-lgreen);
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .size-options {
   display: flex;
   align-items: center;
   justify-content: space-around;
+  padding-top: 10%;
+}
 
+.current-customizations {
+  display: flex;
+  flex-direction: column;
+  padding: 10%;
+  padding-bottom: 2%;
+}
+
+.customization-button {
+  font-size: 2rem;
+  margin: 5px;
+  border: 1px solid black;
+  color: black;
+  background-color: var(--frappy-gray);
+  /* margin-right: auto; */
+}
+
+.customization-amounts {
+  margin-right: auto;
+}
+
+.white {
+  color: #FFF;
+}
+
+.large {
+  font-size: 2.5rem;
 }

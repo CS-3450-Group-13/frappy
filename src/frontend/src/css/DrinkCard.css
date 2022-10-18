@@ -6,7 +6,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #143224;
+  background-color: var(--frappy-background);
   padding-top: 5%;
 }
 

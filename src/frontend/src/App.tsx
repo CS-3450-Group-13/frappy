@@ -25,6 +25,7 @@ function App() {
         <NavBar />
       </header> */}
       {/* <Menu /> */}
+      <CustomizeDrink drink={drink}/>
       {/* <CustomizeDrink drink={drink}/> */}
       {/* <Account /> */}
       {/* <BalanceModal /> */}
@@ -33,7 +34,7 @@ function App() {
         fieldValue="glorglugaming@gmail.com"
         confirm={true}
       /> */}
-      <p>Hello World!</p>
+      {/* <p>Hello World!</p> */}
       {/* <Home /> */}
     </div>
   );
