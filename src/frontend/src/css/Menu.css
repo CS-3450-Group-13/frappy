@@ -4,7 +4,7 @@
   flex-direction: column;
   height: 100%; /* DON'T FORGET ABOUT THIS */
   width: 100%;  /* DON'T FORGET ABOUT THIS */
-  background-color: #143224;
+  background-color: var(--frappy-background);
   color: white;
 }
 
