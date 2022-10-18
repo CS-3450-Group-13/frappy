@@ -1,10 +1,11 @@
 # Running the Django development server
 
-So you wanna run the server backend huh? Well it takes just about as much as a full deployment to set up.  This guide should help you account for all of the steps needed.
+So you wanna run the server backend huh? Well it takes just about as much as a full deployment to set up. This guide should help you account for all of the steps needed.
 
 ## Step 1: Install required packages
 
 You may want to configure a `.venv` for your python intepreter before running this step, but go ahead and run
+
 ```bash
 pip install -r src/server/requirements.txt
 ```
@@ -13,7 +14,7 @@ This should install django, django rest, pillow, and any other packages used for
 
 ## Step 2: Install or create a Postgres instance
 
-Using either docker or just your computer, go ahead and set up a postgres server that you have access to.  
+Using either docker or just your computer, go ahead and set up a postgres server that you have access to.
 
 Just go ahead and follow this guide at[Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-20-0)
 
@@ -32,3 +33,16 @@ This will construct the required tables and load them with some pregenerated dat
 
 If its not working at this point then your guess is as good as mine, hopefully stack overflow can help you with the steps I forgot / you didn't follow.
 
+## Troubleshooting
+
+when running `python py manage.py runserver` if you get the error
+
+```bash
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061) Is the server running on that host and accepting TCP/IP connections?
+```
+
+then it is likely that your postgres instance is not running. To fix this, run the following command in the terminal on the computer you set up postgres on and try starting the server again
+
+```bash
+sudo service postgresql start
+```

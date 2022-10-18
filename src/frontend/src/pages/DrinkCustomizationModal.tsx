@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import '../css/DrinkCustomizationModal.css'
 
 interface addins {
@@ -29,13 +29,12 @@ type Props = {
   customizations: Customizations;
 }
 
-// Pull list of bases and extras here
-
 export default function DrinkCustomizationModal({setModalIsOpen, customizations}: Props) {
   const [selectedBase, setSelectedBase] = useState("Soy Milk");
   const [extras, setExtras] = useState<any[]>([]);
 
-  const getExtras = () => {
+  // Grab extras from the server when the modal is loaded (same as componentDidMount with classed react modules)
+  useEffect(() => {
     fetch('http://127.0.0.1:8000/frappapi/extras/')
     .then((response) => response.json())
     .then((data) => {
@@ -49,7 +48,11 @@ export default function DrinkCustomizationModal({setModalIsOpen, customizations}
     .catch((err) => {
       console.log(err);
     });
-  };
+  }, []);
+
+  const handleConfirm = () => {
+    alert("User has confirmed")
+  }
   
   return (
     <div className='drink-customization-modal-container'>
@@ -77,11 +80,21 @@ export default function DrinkCustomizationModal({setModalIsOpen, customizations}
         })
         }
         {extras.length === 0 &&
-          <div>Please click the button to get extras from the server</div>
+          <div>Fetching addins from server...</div>
         }
       </div>
-      <button onClick={getExtras}>Get extras from server</button>
-      <button onClick={() => setModalIsOpen(false)}>Close</button>
+      <div className='horizontal'>
+        <div className='cancel-btn'
+          onClick={() => setModalIsOpen(false)}
+        >
+          Close
+        </div>
+        <div className='base-btn base-btn-selected'
+          onClick={handleConfirm}
+        >
+          Confirm
+        </div>
+      </div>
     </div>
   )
 }

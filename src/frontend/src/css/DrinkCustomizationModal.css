@@ -45,6 +45,21 @@
   color: black;
 }
 
+.horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.cancel-btn {
+  font-size: 2rem;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: red;
+  color: black;
+}
+
 .addins-list {
   display: flex;
   flex-direction: row;
