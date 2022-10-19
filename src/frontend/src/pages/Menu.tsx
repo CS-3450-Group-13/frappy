@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import DrinkCard from '../cards/DrinkCard';
 import '../css/Menu.css';
 
@@ -52,9 +53,16 @@ const drinks: Drink[] = [
 ];
 
 export default function Menu() {
+  const navigate = useNavigate();
+
   const drinkCards = drinks.map((drink) => 
-    <div className='drinkCard'>
+    <div className='drinkCard' >
       <DrinkCard key={drink.id} drink={drink}/>
+      <button onClick={() => {
+      navigate('/customize', {state:{
+        drink: drink,
+      }});
+    }}>Customize</button>
     </div>
   );
 

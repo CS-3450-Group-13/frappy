@@ -37,9 +37,8 @@ function App() {
           <Route path='/new-user' element={ <NewUser />} />
           <Route path='/home-page' element={<Home />} />
           <Route path='/order-status' element={<OrderStatus />} />
-          <Route path='/menu' element={<Menu />} >
-            <Route path='/menu/customize' element={<CustomizeDrink drink={drink}/>} />
-  </Route>
+          <Route path='/menu' element={<Menu />} ></Route>
+          <Route path='/customize' element={<CustomizeDrink drink={drink}/>} />
           <Route path='/account' element={<Account />} />
         </Routes>
       </Router>

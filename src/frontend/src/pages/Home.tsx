@@ -3,6 +3,7 @@ import test from '../images/test.png';
 import Frappe from '../images/Frappe.jpg';
 import '../css/Home.css';
 import ScrollableList from '../components/ScrollableList';
+import { useNavigate } from 'react-router-dom';
 
 
 interface User {
@@ -252,6 +253,9 @@ const DEMO_USER: User = {
 };
 
 export default function Home() {
+
+  const navigate = useNavigate();
+
   return (
     <div className="home-container">
       <div className="header">
@@ -264,8 +268,7 @@ export default function Home() {
         <div
           className="button favorite-button"
           onClick={() => {
-            // I Have No Idea How Navigations Works w/ React
-            // window.location.assign('./CustomizeDrink.tsx');
+            navigate('/menu')
           }}
         >
           Order Favorite Drink
@@ -273,17 +276,15 @@ export default function Home() {
         <div
           className="button order-button"
           onClick={() => {
-            // I Have No Idea How Navigations Works w/ React
-            // window.location.assign('./Menu.tsx');
+            navigate('/menu')
           }}
         >
           New Order
         </div>
         <div
           className="button account-button"
-          // I Have No Idea How Navigations Works w/ React
           onClick={() => {
-            // window.location.assign('./Account.tsx');
+            navigate('/account')
           }}
         >
           Edit Account
