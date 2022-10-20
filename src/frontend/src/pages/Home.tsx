@@ -3,8 +3,8 @@ import test from '../images/test.png';
 import Frappe from '../images/Frappe.jpg';
 import '../css/Home.css';
 import ScrollableList from '../components/ScrollableList';
-import { wrap } from 'module';
-import { prependOnceListener } from 'process';
+import { useNavigate } from 'react-router-dom';
+
 
 interface User {
   fullName: string;
@@ -253,20 +253,22 @@ const DEMO_USER: User = {
 };
 
 export default function Home() {
+
+  const navigate = useNavigate();
+
   return (
     <div className="home-container">
       <div className="header">
         <div className="title">Welcome Back {DEMO_USER.fullName}!</div>
         <div className="profile-picture">
-          <img src={test} width="110em" height="110em" />
+          <img src={test} alt='test' width="110em" height="110em" />
         </div>
       </div>
       <div className="fast-nav-buttons">
         <div
           className="button favorite-button"
           onClick={() => {
-            // I Have No Idea How Navigations Works w/ React
-            window.location.assign('./CustomizeDrink.tsx');
+            navigate('/menu')
           }}
         >
           Order Favorite Drink
@@ -274,17 +276,15 @@ export default function Home() {
         <div
           className="button order-button"
           onClick={() => {
-            // I Have No Idea How Navigations Works w/ React
-            window.location.assign('./Menu.tsx');
+            navigate('/menu')
           }}
         >
           New Order
         </div>
         <div
           className="button account-button"
-          // I Have No Idea How Navigations Works w/ React
           onClick={() => {
-            window.location.assign('./Account.tsx');
+            navigate('/account')
           }}
         >
           Edit Account
@@ -294,6 +294,7 @@ export default function Home() {
         <ScrollableList title="Account" width="450px">
           <DetailCard
             title="Balance"
+            // eslint-disable-next-line
             value={`\$${DEMO_USER.balance.toFixed(2)}`}
           />
           <DetailCard title="Favorite Drink" value={DEMO_USER.favoriteDrink} />
@@ -355,7 +356,7 @@ function OrderCard(props: PropsOrder) {
               </div>
             </div>
             <div className="drink-photo-container">
-              <img src={Frappe} className="drink-photo" />
+              <img src={Frappe} alt='frappe1' className="drink-photo" />
             </div>
           </div>
         )}
@@ -368,7 +369,7 @@ function OrderCard(props: PropsOrder) {
                   <div className="cost">${drink.cost.toFixed(2)}</div>
                 </div>
                 <div className="drink-photo-container">
-                  <img src={Frappe} className="drink-photo" />
+                  <img src={Frappe} alt='frappe' className="drink-photo" />
                 </div>
               </div>
             ))}{' '}

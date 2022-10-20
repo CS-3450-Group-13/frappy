@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import '../css/OrderStatus.css';
 
-interface Props {
-  order: Order;
-}
+// interface Props {
+//   order: string;
+// }
 
-interface Order {
-  name: string;
-}
-
-export default function OrderStatus(props: Props) {
+export default function OrderStatus() {
   const [orderDone, updateOrderDone] = useState(false);
   const [time, setTime] = useState(0);
 
@@ -46,7 +42,7 @@ export default function OrderStatus(props: Props) {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [orderDone]);
 
   return (
     <div className="order-container">

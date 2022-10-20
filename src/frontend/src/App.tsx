@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route }  from 'react-router-dom';
 import './css/App.css';
 import CustomizeDrink from './pages/CustomizeDrink';
-import Login from './components/Login/Login';
-import NavBar from './components/NavBar/NavBar';
+import Login from './components/Login';
+import NavBar from './components/NavBar';
+import NewUser from './components/NewUser';
 import OrderStatus from './pages/OrderStatus';
 import Menu from './pages/Menu';
 import Account from './pages/Account';
-import BalanceModal from './pages/BalaceModal';
-import UpdateFieldModal from './pages/UpdateFieldModal';
 import Home from './pages/Home';
 
 const drink = {
@@ -17,27 +17,32 @@ const drink = {
 };
 
 function App() {
+  const [pages, setPages] = useState([
+    {
+      title: 'Login',
+      path: '/'
+    },
+    {
+      title: 'New User',
+      path: '/new-user'
+    }
+  ]);
+
   return (
     <div className="App">
-      {/* <header className="App-header">
-        <p>Hello World!</p>
-        <Login />
-        <NavBar />
-      </header> */}
-      {/* <Menu /> */}
-      <CustomizeDrink drink={drink}/>
-      {/* <CustomizeDrink drink={drink}/> */}
-      {/* <Account /> */}
-      {/* <BalanceModal /> */}
-      {/* <UpdateFieldModal
-        fieldName="Email"
-        fieldValue="glorglugaming@gmail.com"
-        confirm={true}
-      /> */}
-      {/* <p>Hello World!</p> */}
-      {/* <Home /> */}
+      <Router>
+      <NavBar pages={pages} />
+        <Routes>
+          <Route path='/' element={<Login setPages={setPages} />} />
+          <Route path='/new-user' element={ <NewUser />} />
+          <Route path='/home-page' element={<Home />} />
+          <Route path='/order-status' element={<OrderStatus />} />
+          <Route path='/menu' element={<Menu />} ></Route>
+          <Route path='/customize' element={<CustomizeDrink drink={drink}/>} />
+          <Route path='/account' element={<Account />} />
+        </Routes>
+      </Router>
     </div>
-  );
-}
+  )}
 
 export default App;

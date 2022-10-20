@@ -13,8 +13,9 @@ type Props = {
 }
 
 export default function DrinkCard({drink}: Props) {
+  
   return (
-    <div className='drinkCard-container'>
+    <div className='drinkCard-container' >
       <div className='idk'> 
         <img className='circle image' src={ require('../images/Frappe.jpg') } />
       </div>

@@ -1,22 +1,4 @@
-import React from 'react';
-import { Type } from 'typescript';
 import '../css/UpdateFieldModal.css';
-
-interface User {
-  fullName: string;
-  userName: string;
-  eMail: string;
-  password: number; // Only Care About Password Length for Display Purposes, Should be Hashed Anyways
-  balance: number;
-}
-
-const DEMO_USER: User = {
-  fullName: 'Glorgo Glumbus',
-  userName: 'GlorGlu',
-  eMail: 'glorglugaming@gmail.com',
-  password: 4,
-  balance: 400.32,
-};
 
 type Props = {
   setModalIsOpen: (modalIsOpen: boolean) => void;
@@ -63,7 +45,7 @@ export default function UpdateFieldModal(props: Props) {
         <div className="button cancel" onClick={handleCancel}>
           Cancel
         </div>
-        <div className="button confirm">Confirm</div>
+        <div className="button confirm" onClick={handleConfirm}>Confirm</div>
       </div>
     </div>
   );

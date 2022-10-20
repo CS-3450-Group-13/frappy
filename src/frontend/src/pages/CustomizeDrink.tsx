@@ -4,6 +4,7 @@ import DrinkCard from '../cards/DrinkCard';
 import '../css/DrinkCard.css';
 import '../css/CustomizeDrink.css';
 import DrinkCustomizationModal from './DrinkCustomizationModal';
+import { useNavigate } from 'react-router-dom';
 
 interface Drink {
   name: string;
@@ -38,6 +39,8 @@ export default function CustomizeDrink({drink}: Props) {
   const [drinkContents, setDrinkContents] = useState(tmp);
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   function sizeChange(e: React.ChangeEvent<HTMLInputElement>) {
     console.log("size changed to " + e.target.value);
     console.log(e);
@@ -71,6 +74,7 @@ export default function CustomizeDrink({drink}: Props) {
 
   function handleBackBtn() {
     alert("Back button clicked, drink not added to cart");
+    navigate("/menu");
   }
 
   function handleAddToCart() {
@@ -82,6 +86,7 @@ export default function CustomizeDrink({drink}: Props) {
       customizations.push(str);
     }
     alert("drink added to cart with " + customizations);
+    navigate("/menu");
   }
 
   return (

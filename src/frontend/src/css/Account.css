@@ -1,7 +1,5 @@
 @import url("Global.css");
 
-
-
 .user-container {
     background-color: var(--frappy-background);
     color: var(--frappy-white);
@@ -10,6 +8,10 @@
     align-items: flex-start;
     font-weight: 600;
     min-height: 100vh;
+    height: 100%;
+    width: 100%;
+    margin-left: 15%;
+    padding-bottom: 50px;
   }
 
 .user-container > * {
@@ -83,10 +85,13 @@
 .edit-icon {
   height: 40px;
   width: 40px;
-  margin-top: 12px;
-  margin-right: 12px;
+  margin: 12px;
   margin-left: auto;
+  border-radius: 50%;
+}
 
+.edit-icon:hover {
+ background-color: lightgray;
 }
 
 .field-title {

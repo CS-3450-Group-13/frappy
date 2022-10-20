@@ -2,8 +2,9 @@
 .menu-container {
   display: flex;
   flex-direction: column;
-  height: 100%; /* DON'T FORGET ABOUT THIS */
-  width: 100%;  /* DON'T FORGET ABOUT THIS */
+  height: 100%;
+  margin-left: 15%;
+  width: 85%;  /* DON'T FORGET ABOUT THIS */
   background-color: var(--frappy-background);
   color: white;
 }
@@ -20,9 +21,12 @@
 }
 
 .drinkCard {
-  display: flex;
+  display: blocK;
   height: 100%;
   width: 25%;
+  padding: 15px;
+  margin: 15px;
+  background-color: var(--frappy-lgreen);
 }
 
 .drinkList {

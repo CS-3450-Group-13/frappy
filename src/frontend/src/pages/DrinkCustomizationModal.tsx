@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../css/DrinkCustomizationModal.css'
 
 interface addins {
@@ -48,7 +48,7 @@ export default function DrinkCustomizationModal({setModalIsOpen, customizations}
     .catch((err) => {
       console.log(err);
     });
-  }, []);
+  }, [extras]);
 
   const handleConfirm = () => {
     alert("User has confirmed")
