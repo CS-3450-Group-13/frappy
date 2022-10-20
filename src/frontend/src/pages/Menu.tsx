@@ -58,7 +58,7 @@ export default function Menu() {
   const drinkCards = drinks.map((drink) => 
     <div className='drinkCard' >
       <DrinkCard key={drink.id} drink={drink}/>
-      <button onClick={() => {
+      <button className='customize-btn' onClick={() => {
       navigate('/customize', {state:{
         drink: drink,
       }});

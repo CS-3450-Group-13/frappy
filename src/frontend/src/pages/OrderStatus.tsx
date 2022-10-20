@@ -42,7 +42,7 @@ export default function OrderStatus() {
     return () => {
       clearInterval(interval);
     };
-  }, []);
+  }, [orderDone]);
 
   return (
     <div className="order-container">

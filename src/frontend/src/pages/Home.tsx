@@ -261,7 +261,7 @@ export default function Home() {
       <div className="header">
         <div className="title">Welcome Back {DEMO_USER.fullName}!</div>
         <div className="profile-picture">
-          <img src={test} width="110em" height="110em" />
+          <img src={test} alt='test' width="110em" height="110em" />
         </div>
       </div>
       <div className="fast-nav-buttons">
@@ -294,6 +294,7 @@ export default function Home() {
         <ScrollableList title="Account" width="450px">
           <DetailCard
             title="Balance"
+            // eslint-disable-next-line
             value={`\$${DEMO_USER.balance.toFixed(2)}`}
           />
           <DetailCard title="Favorite Drink" value={DEMO_USER.favoriteDrink} />
@@ -355,7 +356,7 @@ function OrderCard(props: PropsOrder) {
               </div>
             </div>
             <div className="drink-photo-container">
-              <img src={Frappe} className="drink-photo" />
+              <img src={Frappe} alt='frappe1' className="drink-photo" />
             </div>
           </div>
         )}
@@ -368,7 +369,7 @@ function OrderCard(props: PropsOrder) {
                   <div className="cost">${drink.cost.toFixed(2)}</div>
                 </div>
                 <div className="drink-photo-container">
-                  <img src={Frappe} className="drink-photo" />
+                  <img src={Frappe} alt='frappe' className="drink-photo" />
                 </div>
               </div>
             ))}{' '}

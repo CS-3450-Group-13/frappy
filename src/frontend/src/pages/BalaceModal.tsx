@@ -1,22 +1,6 @@
 import React, { ChangeEvent, useState } from 'react';
 import '../css/BalanceModal.css';
 
-interface User {
-  fullName: string;
-  userName: string;
-  eMail: string;
-  password: number; // Only Care About Password Length for Display Purposes, Should be Hashed Anyways
-  balance: number;
-}
-
-const DEMO_USER: User = {
-  fullName: 'Glorgo Glumbus',
-  userName: 'GlorGlu',
-  eMail: 'glorglugaming@gmail.com',
-  password: 4,
-  balance: 400.32,
-};
-
 interface Props {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   currentBalance: number;

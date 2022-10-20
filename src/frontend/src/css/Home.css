@@ -8,12 +8,12 @@
     text-align: center;
     color: var(--frappy-white);
     background-color: var(--frappy-background);
-    height: 100%;
-    margin-left: 15%;
+    height: 1000px;
+    width: 100%;
+    margin-left: 10%;
 }
 
 .header {
-    font-size: 3em;
     flex-grow: 0;
     display: flex;
     justify-items: center;
@@ -33,7 +33,6 @@
     display: flex;
     border-radius: 50%;
     background-color: white;
-    margin-left: 5%;
   }
 
 .fast-nav-buttons {
@@ -60,12 +59,23 @@
     background-color: var(--frappy-red);
 }
 
+.favorite-button:hover {
+    background-color: lightcoral;
+}
+
 .order-button {
     background-color: var(--frappy-lgreen);
 }
 
+.order-button:hover {
+    background-color: var(--frappy-l-lgreen);
+}
+
 .account-button {
     background-color: var(--frappy-orange);
+}
+.account-button:hover {
+    background-color: lightsalmon;
 }
 
 .list-container {
@@ -77,14 +87,10 @@
     flex-grow: 1;
 }
 
-
-
 .filler {
     background-color: black;
     height: 100px;
 }
-
-
 
 .detail-card {
     background-color: var(--frappy-lgreen);

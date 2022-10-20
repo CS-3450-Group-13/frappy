@@ -47,6 +47,7 @@
 .buttons {
     margin-top: 32px;
     display: flex;
+    justify-content: space-between;
     padding-left: 4px;
     padding-right: 4px;
 }
@@ -64,9 +65,17 @@
     margin-left: auto;
 }
 
+.confirm:hover {
+    background-color: var(--frappy-l-lgreen);
+}
+
 .cancel {
     background-color: var(--frappy-red);
     margin-right: auto;
+}
+
+.cancel:hover {
+    background-color: lightcoral;
 }
 
 .input-field:placeholder-shown {
