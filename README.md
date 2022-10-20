@@ -91,3 +91,7 @@ Testing is performed using JEST and pytest and can be run using
 [Customer Orders a Drink](docs/images/order_drink.png)
 
 [Manager Creates a New Drink](docs/images/manager_creates_new_drink.png)
+
+## Milestone 3.1
+
+![Milestone 3.1 Burndown Chart](docs/images/burndown-charts//burndown_milestone_3.1.png)

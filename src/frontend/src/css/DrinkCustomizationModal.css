@@ -1,0 +1,67 @@
+.drink-customization-modal-container {
+  background-color: var(--frappy-dgreen);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+}
+
+.large-base {
+  font-size: 3.5rem;
+}
+
+.base-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+}
+
+.base-btn {
+  font-size: 2rem;
+  border-radius: 5px;
+  background-color: var(--frappy-gray);
+  padding: 10px;
+  color: black;
+}
+
+.base-btn-selected {
+  background-color: var(--frappy-lgreen);
+}
+
+.addin-item {
+  display: flex;
+  width: 48%;
+  justify-content: center;
+  font-size: 2em;
+  margin: 1%;
+  padding-top: 1%;
+  padding-bottom: 1%;
+  background-color: var(--frappy-gray);
+  color: black;
+}
+
+.horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 100%;
+}
+
+.cancel-btn {
+  font-size: 2rem;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: red;
+  color: black;
+}
+
+.addins-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}

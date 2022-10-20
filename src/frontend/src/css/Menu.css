@@ -1,0 +1,36 @@
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin-left: 15%;
+  width: 85%;  /* DON'T FORGET ABOUT THIS */
+  background-color: var(--frappy-background);
+  color: white;
+}
+
+.heading {
+  display: flex;
+  height: 10%;
+  width: 100%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+  justify-content: center;
+  align-items: center;
+  font-size: 2em;
+}
+
+.drinkCard {
+  display: blocK;
+  height: 100%;
+  width: 25%;
+  padding: 15px;
+  margin: 15px;
+  background-color: var(--frappy-lgreen);
+}
+
+.drinkList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
