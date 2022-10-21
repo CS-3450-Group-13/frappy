@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/OrderStatus.css';
 
 // interface Props {
@@ -8,6 +9,8 @@ import '../css/OrderStatus.css';
 export default function OrderStatus() {
   const [orderDone, updateOrderDone] = useState(false);
   const [time, setTime] = useState(0);
+
+  const navigate = useNavigate();
 
   function checkDone() {
     updateOrderDone(true); //API CALL HERE
@@ -65,8 +68,7 @@ export default function OrderStatus() {
           <div
             className="button home"
             onClick={() => {
-              // I Have No Idea How Navigations Works w/ React
-              window.location.assign('./Home.tsx');
+              navigate("/home-page");
             }}
           >
             Home
@@ -75,7 +77,7 @@ export default function OrderStatus() {
             className="button new-order"
             onClick={() => {
               // I Have No Idea How Navigations Works w/ React
-              window.location.assign('./Menu.tsx');
+              navigate("/menu");
             }}
           >
             New Order

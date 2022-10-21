@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../css/DrinkCustomizationModal.css'
 
 interface addins {
@@ -33,6 +34,8 @@ export default function DrinkCustomizationModal({setModalIsOpen, customizations}
   const [selectedBase, setSelectedBase] = useState("Soy Milk");
   const [extras, setExtras] = useState<any[]>([]);
 
+  const navigate = useNavigate();
+
   // Grab extras from the server when the modal is loaded (same as componentDidMount with classed react modules)
   useEffect(() => {
     fetch('http://127.0.0.1:8000/frappapi/extras/')
@@ -51,7 +54,7 @@ export default function DrinkCustomizationModal({setModalIsOpen, customizations}
   }, [extras]);
 
   const handleConfirm = () => {
-    alert("User has confirmed")
+    alert("User has confirmed");
   }
   
   return (
