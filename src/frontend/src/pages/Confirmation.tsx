@@ -10,41 +10,73 @@ interface PropsType {
 const mockOrder = [
   {
     title: 'pumpkin spice',
-    price: '$2.50'
+    size: 'small',
+    price: 2.50
+  },
+  {
+    title: 'Apple Crisp',
+    size: 'medium',
+    price: 3.22
+  },
+  {
+    title: 'Custom pumpkin spice',
+    size: 'large',
+    price: 4.75
+  },
+  {
+    title: 'Mocha Cookie Crumble',
+    size: 'medium',
+    price: 3.85
+  },
+  {
+    title: 'Vanilla Bean',
+    size: 'small',
+    price: 1.85
   },
   {
     title: 'pumpkin spice',
-    price: '$2.50'
+    size: 'small',
+    price: 2.50
   },
   {
-    title: 'pumpkin spice',
-    price: '$2.50'
+    title: 'Apple Crisp',
+    size: 'medium',
+    price: 3.22
   },
   {
-    title: 'pumpkin spice',
-    price: '$2.50'
+    title: 'Custom pumpkin spice',
+    size: 'large',
+    price: 4.75
   },
   {
-    title: 'pumpkin spice',
-    price: '$2.50'
+    title: 'Mocha Cookie Crumble',
+    size: 'medium',
+    price: 3.85
   },
   {
-    title: 'pumpkin spice',
-    price: '$2.50'
+    title: 'Vanilla Bean',
+    size: 'small',
+    price: 1.85
   },
   {
-    title: 'pumpkin spice',
-    price: '$2.50'
-  },
-  {
-    title: 'pumpkin spice',
-    price: '$2.50'
+    title: 'Vanilla Bean',
+    size: 'small',
+    price: 1.85
   },
 ];
 
-const mockSubTotal = 20.00
-
 export default function Confirmation({open, setOpen}:PropsType) {
+
+  const getSubTotal = () => {
+    let total = 0.0
+    for(let i = 0; i < mockOrder.length; i++){
+      total += mockOrder[i].price;
+    }
+    return total;
+  }
+
+  const mockSubTotal = getSubTotal();
+
   const navigate = useNavigate();
   return (
     <Modal isOpen={open}
@@ -63,16 +95,15 @@ export default function Confirmation({open, setOpen}:PropsType) {
           
         },}}>
           <div className='confirmation-title'>
-          <h2>Order Confirmation</h2>
+          <h1>Order Confirmation</h1>
           <p>Are you ready to order the following: </p>
           </div>
           <div className='order-content'>
             <ul className='order-list'>
-              {mockOrder.map(({title, price}) => (
+              {mockOrder.map(({title, size, price}) => (
                 <li className='order-list-item'>
-                <button>X</button>
-                <h3>{title}</h3>
-                <h3>{price}</h3>
+                <h4>{title} ({size})</h4>
+                <h4>${price.toFixed(2)}</h4>
               </li>
               ))}
             </ul>
