@@ -39,3 +39,11 @@ docker build -t frappy-db ./
 
 Then, open the docker desktop app and spin up a new instance of the frappy-db image.
 > Make sure you also specify the port to forward when creaing the container, you should use `5432`
+
+## 2.3
+
+To remove the <span style="color:red">unapplied migrations</span> error, go ahead and also run
+
+```bash
+py manage.py migrate --fake-initial
+```
