@@ -13,7 +13,7 @@ All login endpoints mirror those found at [dj-rest-auth](https://dj-rest-auth.re
 
 ## Running the Django development server
 
-So you wanna run the server backend huh? Well it takes just about as much as a full deployment to set up.  This guide should help you account for all of the steps needed.
+So you wanna run the server backend huh? Well it takes just about as much as a full deployment to set up. This guide should help you account for all of the steps needed.
 
 ### Step 1: Install required packages
 
@@ -27,7 +27,7 @@ This should install django, django rest, pillow, and any other packages used for
 
 ### Step 2: Install or create a Postgres instance
 
-Using either docker or just your computer, go ahead and set up a postgres server that you have access to.  
+Using either docker or just your computer, go ahead and set up a postgres server that you have access to.
 
 Just go ahead and follow this guide at[Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-20-0)
 
