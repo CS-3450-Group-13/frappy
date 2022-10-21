@@ -41,7 +41,6 @@ function App() {
           <Route path='/menu' element={<Menu />} ></Route>
           <Route path='/customize' element={<CustomizeDrink drink={drink}/>} />
           <Route path='/account' element={<Account />} />
-          {/* <Route path='/confirmation' element={<Confirmation />} /> */}
         </Routes>
       </Router>
     </div>

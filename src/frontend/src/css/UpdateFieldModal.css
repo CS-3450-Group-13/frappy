@@ -47,6 +47,7 @@
 .buttons {
     margin-top: 32px;
     display: flex;
+    justify-content: space-between;
     padding-left: 4px;
     padding-right: 4px;
 }

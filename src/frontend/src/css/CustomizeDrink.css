@@ -51,6 +51,10 @@
   background-color: salmon;
 }
 
+.delete-btn:hover {
+  background-color: salmon;
+}
+
 .column {
   display: flex;
   flex-direction: column;
