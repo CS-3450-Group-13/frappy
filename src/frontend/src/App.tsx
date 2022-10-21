@@ -9,6 +9,7 @@ import OrderStatus from './pages/OrderStatus';
 import Menu from './pages/Menu';
 import Account from './pages/Account';
 import Home from './pages/Home';
+import Confirmation from './pages/Confirmation';
 
 const drink = {
   name: 'Pumpkin Spice',
@@ -40,6 +41,7 @@ function App() {
           <Route path='/menu' element={<Menu />} ></Route>
           <Route path='/customize' element={<CustomizeDrink drink={drink}/>} />
           <Route path='/account' element={<Account />} />
+          {/* <Route path='/confirmation' element={<Confirmation />} /> */}
         </Routes>
       </Router>
     </div>

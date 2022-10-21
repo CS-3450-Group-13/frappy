@@ -1,0 +1,18 @@
+.confirmation-container {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    height: 50%;
+    background-color: red;
+}
+
+
+.close-btn {
+    
+    background-color: var(--frappy-red);
+    margin-right: auto;
+}
+
+.close-btn:hover {
+    background-color: lightcoral;
+}

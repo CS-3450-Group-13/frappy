@@ -37,12 +37,14 @@
   height: 100vh;
   width: 100%;
   background-color: var(--frappy-background);
+  
 }
 
 .delete-btn {
   width: 5%;
   background-color: red;
   margin-right: auto;
+  border-radius: 15px;
 }
 
 .delete-btn:hover {
@@ -107,9 +109,13 @@
   font-size: 2rem;
   margin: 5px;
   border: 1px solid black;
+  border-radius: 15px;
   color: black;
   background-color: var(--frappy-gray);
-  /* margin-right: auto; */
+}
+
+.customization-button:hover {
+  background-color: var(--frappy-lgreen);
 }
 
 .customization-amounts {

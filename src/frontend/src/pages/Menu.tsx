@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DrinkCard from '../cards/DrinkCard';
 import '../css/Menu.css';
+import Confirmation from './Confirmation';
 
 interface Drink {
   name: string;
@@ -54,6 +55,7 @@ const drinks: Drink[] = [
 
 export default function Menu() {
   const navigate = useNavigate();
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const drinkCards = drinks.map((drink) => 
     <div className='drinkCard' >
@@ -62,16 +64,18 @@ export default function Menu() {
       navigate('/customize', {state:{
         drink: drink,
       }});
-    }}>Customize</button>
+    }}>ORDER</button>
     </div>
   );
 
   return (
     <div className='menu-container'>
-      <div className='heading'>CHOOSE YOUR FRAPPY:</div>
+      <div className='heading'>CHOOSE YOUR FRAPPY: <button className='checkout-btn'
+      onClick={()=>{setCheckoutOpen(true);}}>Checkout</button></div>
       <div className='drinkList'>
         {drinkCards}
       </div>
+      <Confirmation open={checkoutOpen} setOpen={()=>setCheckoutOpen(false)} />
     </div>
   );
 }
