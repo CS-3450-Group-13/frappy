@@ -50,7 +50,7 @@ export default function OrderStatus() {
   return (
     <div className="order-container">
       <div className="details-container">
-        <div className="title">Thank You For Your Purchase!</div>
+        <div className="status-title">Thank You For Your Purchase!</div>
         <div className="status-container">
           <div className="status-text">Your Order is Currently:</div>
           <div className={`order-status ${orderDone ? 'done' : 'waiting'}`}>
@@ -68,7 +68,7 @@ export default function OrderStatus() {
           <div
             className="button home"
             onClick={() => {
-              navigate("/home-page");
+              navigate('/home-page');
             }}
           >
             Home
@@ -77,7 +77,7 @@ export default function OrderStatus() {
             className="button new-order"
             onClick={() => {
               // I Have No Idea How Navigations Works w/ React
-              navigate("/menu");
+              navigate('/menu');
             }}
           >
             New Order

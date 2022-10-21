@@ -4,9 +4,9 @@
   flex-direction: column;
   height: 100%;
   margin-left: 15%;
-  width: 85%;  /* DON'T FORGET ABOUT THIS */
   background-color: var(--frappy-background);
   color: white;
+  flex-grow: 1;
 }
 
 .heading {
@@ -22,8 +22,7 @@
 
 .drinkCard {
   display: blocK;
-  height: 100%;
-  width: 25%;
+  width: 256px;
   padding: 15px;
   margin: 15px;
   background-color: var(--frappy-lgreen);

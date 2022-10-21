@@ -25,6 +25,11 @@ body {
   user-select: none;
   
 }
+
+.small-link:hover {
+  color: var(--frappy-l-lgreen);
+  cursor: pointer;
+}
 .circle {
   border-radius: 50%;
 }

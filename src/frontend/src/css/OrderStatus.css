@@ -11,19 +11,19 @@
 
 .details-container {
     height: 80%;
-    width: fit-content;
+    width: 70%;
     background-color: var(--frappy-white);
     border-radius: 1em;
     display: flex;
     flex-direction: column;
 }
 
-.title {
+.status-title {
     font-size: 3em;
     font-weight: 600;
     margin-top: 1em;
-    padding-left: 4em;
-    padding-right: 4em;
+    padding-left: 3.5em;
+    padding-right: 3.5em;
 }
 
 .status-container {

@@ -29,7 +29,7 @@ export default function BalanceModal(props: Props) {
 
   return (
     <div className="balance-container">
-      <div className="title">Enter Balance</div>
+      <div className="home-title">Enter Balance</div>
       <div className="step-container">
         <div className="dollar">$</div>
         <input
