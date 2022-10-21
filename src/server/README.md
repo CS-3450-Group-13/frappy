@@ -25,23 +25,17 @@ pip install -r src/server/requirements.txt
 
 This should install django, django rest, pillow, and any other packages used for the framework.
 
-### Step 2: Install or create a Postgres instance
+## Step 2: Build and run the docker image provided
 
-Using either docker or just your computer, go ahead and set up a postgres server that you have access to.
+## 2.1
 
-Just go ahead and follow this guide at[Digital Ocean](https://www.digitalocean.com/community/tutorials/how-to-use-postgresql-with-your-django-application-on-ubuntu-20-0)
+To build a local copy of the database you can run, navigate to the `./server` folder and run
 
-### Step 3: Load the migrations and data
-
-In order to actually configure your database, you need to run the following commands
-
-```python
-py manage.py makemigrations
-py manage.py loaddata ingredients
+```shell
+docker build -t frappy-db ./
 ```
 
-This will construct the required tables and load them with some pregenerated data from the milks file
+## 2.2
 
-### Step 4: Struggle
-
-If its not working at this point then your guess is as good as mine, hopefully stack overflow can help you with the steps I forgot / you didn't follow.
+Then, open the docker desktop app and spin up a new instance of the frappy-db image.
+> Make sure you also specify the port to forward when creaing the container, you should use `5432`
