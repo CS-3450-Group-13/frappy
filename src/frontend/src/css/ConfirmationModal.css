@@ -1,0 +1,104 @@
+.confirmation-container {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    height: 50%;
+}
+
+.close-btn {
+    margin: 15px;
+    padding: 5px;
+    width: 120px;
+    height: 50px;
+    font-size: 14pt;
+    border-radius: 15px;
+    border: none;
+    background-color: red;
+    color: white;
+}
+
+.close-btn:hover {
+    background-color: lightcoral;
+}
+
+.order-btn {
+    margin: 15px;
+    padding: 5px;
+    width: 120px;
+    height: 50px;
+    font-size: 14pt;
+    border-radius: 15px;
+    border: none;
+    background-color: var(--frappy-lgreen);
+    color: white;
+}
+
+.order-btn:hover {
+    background-color: var(--frappy-l-lgreen);
+}
+
+.order-content{
+    height: 60%;
+}
+
+.order-list{
+    display: flex;
+    flex-direction: column;
+    list-style-type: none;
+    align-items: center;
+    padding: 30px;
+    border-radius: 15px;
+    margin: 5px;
+    height: 250px;
+    overflow: scroll;
+    background-color: lightgray;
+}
+
+.order-list-item {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px;
+    padding: 10px;
+    width: 90%;
+    max-width: 700px;
+    height: 40px;
+    font-size: 16pt;
+    text-align: left;
+    border-radius: 15px;
+    background-color: darkslategray;
+}
+
+.order-list-item button {
+    background-color: red;
+    color: white;
+    border-radius: 15px;
+    border: none;
+}
+
+.order-list-item button:hover {
+    background-color: lightcoral
+}
+
+.confirmation-title{
+    margin: 20px;
+
+}
+
+.subtotal{
+    margin: 5px;
+    margin-top: 20px;
+    font-size: 25pt;
+    text-align: right;
+}
+
+.total{
+    margin: 5px;
+    font-size: 30pt;
+    text-align: right;
+}
+
+.btn-container{
+    margin-top: 50px;
+    display: flex;
+    justify-content: space-between;
+}
