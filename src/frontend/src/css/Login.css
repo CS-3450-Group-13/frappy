@@ -46,5 +46,5 @@
 }
 
 .bttn:hover {
-    background: rgb(28, 86, 23) ;
+    background: var(--frappy-l-lgreen);
 }

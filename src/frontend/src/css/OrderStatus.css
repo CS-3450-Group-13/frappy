@@ -96,8 +96,11 @@
     user-select: none;
 }
 
-.home {
+.button:hover {
+    background-color: var(--frappy-l-lgreen);
+}
 
+.home {
     margin-right: auto;
     margin-left: 1em;
 }

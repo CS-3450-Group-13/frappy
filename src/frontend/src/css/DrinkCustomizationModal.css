@@ -29,8 +29,17 @@
   color: black;
 }
 
+.base-btn:hover {
+
+  background-color: var(--frappy-white);
+}
+
 .base-btn-selected {
   background-color: var(--frappy-lgreen);
+}
+
+.base-btn-selected:hover {
+  background-color: var(--frappy-l-lgreen);
 }
 
 .addin-item {
@@ -58,6 +67,10 @@
   padding: 10px;
   background-color: red;
   color: black;
+}
+
+.cancel-btn:hover {
+  background-color: var(--frappy-red);
 }
 
 .addins-list {

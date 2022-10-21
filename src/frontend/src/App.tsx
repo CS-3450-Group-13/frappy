@@ -9,6 +9,7 @@ import OrderStatus from './pages/OrderStatus';
 import Menu from './pages/Menu';
 import Account from './pages/Account';
 import Home from './pages/Home';
+import Confirmation from './pages/Confirmation';
 
 const drink = {
   name: 'Pumpkin Spice',
