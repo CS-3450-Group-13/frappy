@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import React, { Dispatch, MouseEventHandler, SetStateAction } from 'react';
 import ItemCartDisplay from '../components/ItemCartDisplay';
 
 import '../css/Cart.css'
@@ -19,14 +19,27 @@ type Props = {
 
 export default function Cart({cart, setCart}: Props) {
 
-  const removeItemFromCart = (drink: Drink) => {
+  const removeItemFromCart = (drink: Drink): MouseEventHandler<HTMLDivElement> | undefined => {
     // Do something with setCart here
-    alert('customer wants to remove item from cart')
+    alert('customer wants to remove item from cart');
+    return;
   }
 
   const calculateTotal = () => {
-    // calculate total here
-    return <div>TOTAL:</div>
+    let total = 0.0;
+    cart.forEach((drink) => {
+      total += drink.price;
+    });
+
+    return <div className='cart-total'>${total}</div>
+  }
+
+  const handleBackToMenu = () => {
+    alert('Customer wants to go back to the menu');
+  }
+
+  const handlePlaceOrder = () => {
+    alert('Customer wants to place their order');
   }
 
   return (
@@ -42,10 +55,18 @@ export default function Cart({cart, setCart}: Props) {
             )
           })}
         </div>
-        <div>{calculateTotal()}</div>
+        <div className='cart-total-container'>TOTAL: {calculateTotal()}</div>
         <div className='cart-decision-btns'>
-          <div>BACK TO MENU</div>
-          <div>PLACE ORDER</div>
+          <div className='cart-back-btn'
+            onClick={() => {handleBackToMenu()}}
+          >
+            BACK TO MENU
+          </div>
+          <div className='cart-place-order-btn'
+            onClick={() => {handlePlaceOrder()}}
+          >
+            PLACE ORDER
+          </div>
         </div>
       </div>
     </div>
