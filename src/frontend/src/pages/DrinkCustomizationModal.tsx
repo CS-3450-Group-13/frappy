@@ -1,38 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/DrinkCustomizationModal.css'
-
-interface addins {
-  [key: string]: number;
-}
-
-interface Customizations {
-  base: string;
-  addins: addins
-}
-
-interface Extras {
-  id: number;
-  name: string;
-  stock: number;
-  price_per_unit: string;
-  updated_on: string;
-  created_on: string;
-  decaf: boolean;
-  non_dairy: boolean;
-  gluten_free: boolean;
-  limit: number;
-}
+import { Extra, Base } from '../types/Types';
 
 type Props = {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   // setDrinkContents: (drinkContents: Customizations) => void;
-  customizations: Customizations;
+  base: Base;
+  frappeExtras: Array<Extra>;
 }
 
-export default function DrinkCustomizationModal({setModalIsOpen, customizations}: Props) {
+export default function DrinkCustomizationModal({setModalIsOpen, base, frappeExtras}: Props) {
   const [selectedBase, setSelectedBase] = useState("Soy Milk");
-  const [extras, setExtras] = useState<any[]>([]);
+  const [serverExtras, setServerExtras] = useState<any[]>([]);
 
   const navigate = useNavigate();
 
@@ -41,17 +21,17 @@ export default function DrinkCustomizationModal({setModalIsOpen, customizations}
     fetch('http://127.0.0.1:8000/frappapi/extras/')
     .then((response) => response.json())
     .then((data) => {
-      setExtras([]);
-      data.forEach((extra: Extras) => {
-        setExtras(extras => [...extras, extra]);
+      setServerExtras([]);
+      data.forEach((extra: Extra) => {
+        setServerExtras(extras => [...extras, extra]);
       });
       console.log("data is ", data);
-      console.log(extras)
+      console.log(serverExtras)
     })
     .catch((err) => {
       console.log(err);
     });
-  }, [extras]);
+  }, [serverExtras]);
 
   const handleConfirm = () => {
     alert("User has confirmed");
@@ -76,13 +56,13 @@ export default function DrinkCustomizationModal({setModalIsOpen, customizations}
       </div>
       <div className='large-base'>ADD INS</div>
       <div className='addins-list'>
-        {extras.length > 0 && extras.map((extra) => {
+        {serverExtras.length > 0 && serverExtras.map((extra) => {
           return (
             <div className='addin-item' key={extra.id}>{extra.name}</div>
           );
         })
         }
-        {extras.length === 0 &&
+        {serverExtras.length === 0 &&
           <div>Fetching addins from server...</div>
         }
       </div>

@@ -5,38 +5,15 @@ import '../css/DrinkCard.css';
 import '../css/CustomizeDrink.css';
 import DrinkCustomizationModal from './DrinkCustomizationModal';
 import { useNavigate } from 'react-router-dom';
-
-interface Drink {
-  name: string;
-  id: number;
-  inStock: boolean;
-}
+import { Base, Frappe } from '../types/Types';
 
 type Props = {
-  drink: Drink;
+  frappe: Frappe;
 }
 
-interface addins {
-  [key: string]: number;
-}
-
-interface Customizations {
-  base: string;
-  addins: addins
-}
-
-const tmp: Customizations = {
-  base: "Soy Milk",
-  addins: {
-    "Vanilla Syrup": 1,
-    "Secret Sauce": 2,
-    "Whip Cream": 1,
-  },
-};
-
-export default function CustomizeDrink({drink}: Props) {
+export default function CustomizeDrink({frappe}: Props) {
   const [size, setSize] = useState("small");
-  const [drinkContents, setDrinkContents] = useState(tmp);
+  const [frappeExtras, setFrappeExtras] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -49,16 +26,26 @@ export default function CustomizeDrink({drink}: Props) {
 
   function createCustomizationButtons(): ReactNode {
     let buttons: ReactNode[] = [];
-    buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{drinkContents.base}</div>);
-
-    for (const [key, value] of Object.entries(drinkContents.addins)) {
-      buttons.push(
-        <div className='row customization-button'>
-          <div className='delete-btn' onClick={() => handleDeleteAddin(key)}>X</div>
-          <div className='customization-amounts' onClick={handleCustomizeDrink}>{value} {key}</div>
-        </div>
-      );
+    let base = 'Coffee';
+    if (frappe.base === Base.Cream) {
+      base = 'Cream';
     }
+    else if (frappe.base === Base.Mocha) {
+      base = 'Mocha';
+    }
+
+    buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{base}</div>);
+
+    frappe.extras.forEach((extra) => {
+      for (const [key, value] of Object.entries(extra)) {
+        buttons.push(
+          <div className='row customization-button'>
+            <div className='delete-btn' onClick={() => handleDeleteAddin(key)}>X</div>
+            <div className='customization-amounts' onClick={handleCustomizeDrink}>{value} {key}</div>
+          </div>
+        );
+      };
+    })
 
     return buttons
   }
@@ -73,26 +60,26 @@ export default function CustomizeDrink({drink}: Props) {
   }
 
   function handleBackBtn() {
-    alert("Back button clicked, drink not added to cart");
+    alert("Back button clicked, frappe not added to cart");
     navigate("/menu");
   }
 
   function handleAddToCart() {
-    let customizations: string[] = [];
-    customizations.push(drinkContents.base);
+    // let customizations: string[] = [];
+    // customizations.push(frappeContents.base);
 
-    for (const [key, value] of Object.entries(drinkContents.addins)) {
-      let str = value.toString() + " " + key;
-      customizations.push(str);
-    }
-    alert("drink added to cart with " + customizations);
+    // for (const [key, value] of Object.entries(frappeContents.addins)) {
+    //   let str = value.toString() + " " + key;
+    //   customizations.push(str);
+    // }
+    // alert("frappe added to cart with " + customizations);
     navigate("/menu");
   }
 
   return (
     <div className='customizeDrink-container'>
       <div className='drink-details'>
-        <DrinkCard drink={drink}/>
+        <DrinkCard frappe={frappe}/>
         <div className='customization-list'>
           Customization list
           <ul>
@@ -141,7 +128,7 @@ export default function CustomizeDrink({drink}: Props) {
             },
           }
         }>
-        <DrinkCustomizationModal setModalIsOpen={setModalIsOpen} customizations={drinkContents} />
+        <DrinkCustomizationModal setModalIsOpen={setModalIsOpen} base={frappe.base} frappeExtras={frappe.extras} />
       </Modal>
     </div>
   );

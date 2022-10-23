@@ -1,34 +1,48 @@
 import React, { Dispatch, MouseEventHandler, SetStateAction } from 'react';
 import ItemCartDisplay from '../components/ItemCartDisplay';
-
+import { Frappe, Size } from '../types/Types';
 import '../css/Cart.css'
 
-// TODO: make the drink interface actually match what the server gives
-interface Drink {
-  name: string;
-  id: number;
-  inStock: boolean;
-  size: string;
-  price: number;
-}
-
 type Props = {
-  cart: Drink[];
-  setCart: Dispatch<SetStateAction<{ name: string; id: number; inStock: boolean; size: string; price: number; }[]>>;
+  cart: Frappe[];
+  setCart: Dispatch<SetStateAction<Frappe[]>>;
 }
 
 export default function Cart({cart, setCart}: Props) {
 
-  const removeItemFromCart = (drink: Drink): MouseEventHandler<HTMLDivElement> | undefined => {
+  const removeItemFromCart = (frappe: Frappe): MouseEventHandler<HTMLDivElement> | undefined => {
     // Do something with setCart here
     alert('customer wants to remove item from cart');
     return;
   }
 
+  const calculatePriceForFrappe = () => {
+    let price = 0.0;
+
+    cart.forEach((frappe) => {
+      if (frappe.size === Size.Small) {
+        price += 2.00;
+      }
+      else if (frappe.size === Size.Medium) {
+        price += 3.00;
+      }
+      else {
+        price += 4.00;
+      }
+
+      frappe.extras.forEach((extra) => {
+        let pricePerUnit = parseFloat(extra.pricePerUnit);
+        price += (pricePerUnit * extra.amount);
+      });
+
+      frappe.price = price;
+    });
+  }
+
   const calculateTotal = () => {
     let total = 0.0;
-    cart.forEach((drink) => {
-      total += drink.price;
+    cart.forEach((frappe) => {
+      total += frappe.price;
     });
 
     return <div className='cart-total'>${total}</div>
@@ -47,10 +61,10 @@ export default function Cart({cart, setCart}: Props) {
       CART:
       <div className='cart-items-container'>
         <div>
-          {cart.map((drink) => {
+          {cart.map((frappe) => {
             return (
               <div className='cart-items'>
-                <ItemCartDisplay drink={drink} removeItemFromCart={removeItemFromCart} />
+                <ItemCartDisplay frappe={frappe} removeItemFromCart={removeItemFromCart} />
               </div>
             )
           })}

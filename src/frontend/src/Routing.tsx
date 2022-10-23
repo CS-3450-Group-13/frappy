@@ -8,12 +8,47 @@ import Menu from './pages/Menu';
 import Account from './pages/Account';
 import Home from './pages/Home';
 import { useState } from 'react';
+import { Frappe, Milk, Base, Size, Extras } from './types/Types';
 
-const drink = {
-  name: 'Pumpkin Spice',
+const frappe: Frappe = {
   id: 0,
-  inStock: true,
+  creator: 'David@David.com',
+  milk: Milk.Whole_Milk,
+  base: Base.Cream,
+  size: Size.Medium,
+  createDate: '',
+  extras: [
+    {
+      id: Extras.Pumpkin_Sauce,
+      name: 'Pumpkin Sauce',
+      stock: 1000,
+      pricePerUnit: '0.80',
+      updatedOn: '',
+      createdOn: '',
+      decaf: true,
+      nonDairy: true,
+      glutenFree: true,
+      limit: 3,
+      amount: 2,
+    },
+    {
+      id: Extras.Whip_Cream,
+      name: 'Whip Cream',
+      stock: 1000,
+      pricePerUnit: '0.45',
+      updatedOn: '',
+      createdOn: '',
+      decaf: true,
+      nonDairy: false,
+      glutenFree: true,
+      limit: 2,
+      amount: 1,
+    }
+  ],
+  name: 'Pumpkin Spice',
+  price: 0.0,
 };
+
 export default function Routing() {
     const [pages, setPages] = useState([
         {
@@ -32,7 +67,7 @@ export default function Routing() {
     <Route path='/home' element={<Home />} />
     <Route path='/order-status' element={<OrderStatus />} />
     <Route path='/menu' element={<Menu />} >
-      <Route path='/menu/customize' element={<CustomizeDrink drink={drink}/>} />
+      <Route path='/menu/customize' element={<CustomizeDrink frappe={frappe}/>} />
     </Route>
     <Route path='/account' element={<Account />} />
   </Routes>

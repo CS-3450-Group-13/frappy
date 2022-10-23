@@ -1,25 +1,20 @@
 import React from 'react';
 import '../css/DrinkCard.css';
 import '../css/Global.css'
-
-interface Drink {
-  name: string;
-  id: number;
-  inStock: boolean;
-}
+import { Frappe } from '../types/Types';
 
 type Props = {
-  drink: Drink;
+  frappe: Frappe;
 }
 
-export default function DrinkCard({drink}: Props) {
+export default function DrinkCard({frappe}: Props) {
   
   return (
     <div className='drinkCard-container' >
       <div className='idk'> 
         <img className='circle image' src={ require('../images/Frappe.jpg') } />
       </div>
-      <p className='drink-name'>{drink.name}</p>
+      <p className='drink-name'>{frappe.name}</p>
     </div>
   );
 }
