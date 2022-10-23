@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/DrinkCustomizationModal.css'
-import { Extra, Base } from '../types/Types';
+import { Extra, BaseOptions } from '../types/Types';
 
 type Props = {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   // setDrinkContents: (drinkContents: Customizations) => void;
-  base: Base;
+  base: BaseOptions;
   frappeExtras: Array<Extra>;
 }
 

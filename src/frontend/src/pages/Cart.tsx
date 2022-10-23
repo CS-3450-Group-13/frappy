@@ -1,6 +1,6 @@
 import React, { Dispatch, MouseEventHandler, SetStateAction, useEffect, useState } from 'react';
 import ItemCartDisplay from '../components/ItemCartDisplay';
-import { Frappe, Size } from '../types/Types';
+import { Frappe, SizeOptions } from '../types/Types';
 import '../css/Cart.css'
 
 type Props = {
@@ -25,10 +25,10 @@ export default function Cart({cart, setCart}: Props) {
     cart.forEach((frappe) => {
       let price = 0.0;
 
-      if (frappe.size === Size.Small) {
+      if (frappe.size === SizeOptions.Small) {
         price += 2.00;
       }
-      else if (frappe.size === Size.Medium) {
+      else if (frappe.size === SizeOptions.Medium) {
         price += 3.00;
       }
       else {

@@ -11,18 +11,18 @@ import Account from './pages/Account';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
 import Confirmation from './pages/Confirmation';
-import { Frappe, Milk, Base, Size, Extras } from './types/Types';
+import { Frappe, MilkOptions, BaseOptions, SizeOptions, ExtraOptions } from './types/Types';
 
 const frappe: Frappe = {
   id: 0,
   creator: 'David@David.com',
-  milk: Milk.Whole_Milk,
-  base: Base.Cream,
-  size: Size.Medium,
+  milk: MilkOptions.Whole_Milk,
+  base: BaseOptions.Cream,
+  size: SizeOptions.Medium,
   createDate: '',
   extras: [
     {
-      id: Extras.Pumpkin_Sauce,
+      id: ExtraOptions.Pumpkin_Sauce,
       name: 'Pumpkin Sauce',
       stock: 1000,
       pricePerUnit: '0.80',
@@ -35,7 +35,7 @@ const frappe: Frappe = {
       amount: 2,
     },
     {
-      id: Extras.Whip_Cream,
+      id: ExtraOptions.Whip_Cream,
       name: 'Whip Cream',
       stock: 1000,
       pricePerUnit: '0.45',
@@ -69,13 +69,13 @@ function App() {
     {
       id: 1,
       creator: 'David@David.com',
-      milk: Milk.Whole_Milk,
-      base: Base.Cream,
-      size: Size.Small,
+      milk: MilkOptions.Whole_Milk,
+      base: BaseOptions.Cream,
+      size: SizeOptions.Small,
       createDate: '',
       extras: [
         {
-          id: Extras.Sugar,
+          id: ExtraOptions.Sugar,
           name: 'Sugar',
           stock: 1000,
           pricePerUnit: '0.45',
@@ -88,7 +88,7 @@ function App() {
           amount: 4,
         },
         {
-          id: Extras.Secret_Sauce,
+          id: ExtraOptions.Secret_Sauce,
           name: 'Secret Sauce',
           stock: 10,
           pricePerUnit: '20.00',
@@ -101,7 +101,7 @@ function App() {
           amount: 2,
         },
         {
-          id: Extras.Vanilla,
+          id: ExtraOptions.Vanilla,
           name: 'Vanilla',
           stock: 1000,
           pricePerUnit: '0.30',
@@ -120,9 +120,9 @@ function App() {
     {
       id: 2,
       creator: 'David@David.com',
-      milk: Milk.Whole_Milk,
-      base: Base.Cream,
-      size: Size.Small,
+      milk: MilkOptions.Whole_Milk,
+      base: BaseOptions.Cream,
+      size: SizeOptions.Small,
       createDate: '',
       extras: [],
       name: 'Vanilla Bean',

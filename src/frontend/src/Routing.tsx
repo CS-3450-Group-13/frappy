@@ -8,18 +8,18 @@ import Menu from './pages/Menu';
 import Account from './pages/Account';
 import Home from './pages/Home';
 import { useState } from 'react';
-import { Frappe, Milk, Base, Size, Extras } from './types/Types';
+import { Frappe, MilkOptions, BaseOptions, SizeOptions, ExtraOptions } from './types/Types';
 
 const frappe: Frappe = {
   id: 0,
   creator: 'David@David.com',
-  milk: Milk.Whole_Milk,
-  base: Base.Cream,
-  size: Size.Medium,
+  milk: MilkOptions.Whole_Milk,
+  base: BaseOptions.Cream,
+  size: SizeOptions.Medium,
   createDate: '',
   extras: [
     {
-      id: Extras.Pumpkin_Sauce,
+      id: ExtraOptions.Pumpkin_Sauce,
       name: 'Pumpkin Sauce',
       stock: 1000,
       pricePerUnit: '0.80',
@@ -32,7 +32,7 @@ const frappe: Frappe = {
       amount: 2,
     },
     {
-      id: Extras.Whip_Cream,
+      id: ExtraOptions.Whip_Cream,
       name: 'Whip Cream',
       stock: 1000,
       pricePerUnit: '0.45',

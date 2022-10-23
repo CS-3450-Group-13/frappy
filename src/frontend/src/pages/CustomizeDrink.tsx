@@ -5,7 +5,7 @@ import '../css/DrinkCard.css';
 import '../css/CustomizeDrink.css';
 import DrinkCustomizationModal from './DrinkCustomizationModal';
 import { useNavigate } from 'react-router-dom';
-import { Base, Frappe } from '../types/Types';
+import { BaseOptions, Frappe } from '../types/Types';
 
 type Props = {
   frappe: Frappe;
@@ -27,10 +27,10 @@ export default function CustomizeDrink({frappe}: Props) {
   function createCustomizationButtons(): ReactNode {
     let buttons: ReactNode[] = [];
     let base = 'Coffee';
-    if (frappe.base === Base.Cream) {
+    if (frappe.base === BaseOptions.Cream) {
       base = 'Cream';
     }
-    else if (frappe.base === Base.Mocha) {
+    else if (frappe.base === BaseOptions.Mocha) {
       base = 'Mocha';
     }
 

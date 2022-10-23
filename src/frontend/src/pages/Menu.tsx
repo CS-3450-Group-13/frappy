@@ -3,19 +3,19 @@ import { useNavigate } from 'react-router-dom';
 import DrinkCard from '../cards/DrinkCard';
 import '../css/Menu.css';
 import Confirmation from './Confirmation';
-import { Frappe, Milk, Base, Size, Extras } from '../types/Types';
+import { Frappe, MilkOptions, BaseOptions, SizeOptions, ExtraOptions } from '../types/Types';
 
 const drinks: Frappe[] = [
   {
     id: 0,
     creator: 'David@David.com',
-    milk: Milk.Whole_Milk,
-    base: Base.Cream,
-    size: Size.Medium,
+    milk: MilkOptions.Whole_Milk,
+    base: BaseOptions.Cream,
+    size: SizeOptions.Medium,
     createDate: '',
     extras: [
       {
-        id: Extras.Pumpkin_Sauce,
+        id: ExtraOptions.Pumpkin_Sauce,
         name: 'Pumpkin Sauce',
         stock: 1000,
         pricePerUnit: '0.80',
@@ -28,7 +28,7 @@ const drinks: Frappe[] = [
         amount: 2,
       },
       {
-        id: Extras.Whip_Cream,
+        id: ExtraOptions.Whip_Cream,
         name: 'Whip Cream',
         stock: 1000,
         pricePerUnit: '0.45',
@@ -47,13 +47,13 @@ const drinks: Frappe[] = [
   {
     id: 0,
     creator: 'David@David.com',
-    milk: Milk.Whole_Milk,
-    base: Base.Cream,
-    size: Size.Medium,
+    milk: MilkOptions.Whole_Milk,
+    base: BaseOptions.Cream,
+    size: SizeOptions.Medium,
     createDate: '',
     extras: [
       {
-        id: Extras.Secret_Sauce,
+        id: ExtraOptions.Secret_Sauce,
         name: 'Secret Sauce',
         stock: 1000,
         pricePerUnit: '0.80',
@@ -66,7 +66,7 @@ const drinks: Frappe[] = [
         amount: 2,
       },
       {
-        id: Extras.Whip_Cream,
+        id: ExtraOptions.Whip_Cream,
         name: 'Whip Cream',
         stock: 1000,
         pricePerUnit: '0.45',
@@ -85,13 +85,13 @@ const drinks: Frappe[] = [
   {
     id: 0,
     creator: 'David@David.com',
-    milk: Milk.Whole_Milk,
-    base: Base.Cream,
-    size: Size.Medium,
+    milk: MilkOptions.Whole_Milk,
+    base: BaseOptions.Cream,
+    size: SizeOptions.Medium,
     createDate: '',
     extras: [
       {
-        id: Extras.Pumpkin_Sauce,
+        id: ExtraOptions.Pumpkin_Sauce,
         name: 'Pumpkin Sauce',
         stock: 1000,
         pricePerUnit: '0.80',
@@ -104,7 +104,7 @@ const drinks: Frappe[] = [
         amount: 2,
       },
       {
-        id: Extras.Whip_Cream,
+        id: ExtraOptions.Whip_Cream,
         name: 'Whip Cream',
         stock: 1000,
         pricePerUnit: '0.45',
@@ -123,13 +123,13 @@ const drinks: Frappe[] = [
   {
     id: 0,
     creator: 'David@David.com',
-    milk: Milk.Whole_Milk,
-    base: Base.Cream,
-    size: Size.Medium,
+    milk: MilkOptions.Whole_Milk,
+    base: BaseOptions.Cream,
+    size: SizeOptions.Medium,
     createDate: '',
     extras: [
       {
-        id: Extras.Pumpkin_Sauce,
+        id: ExtraOptions.Pumpkin_Sauce,
         name: 'Pumpkin Sauce',
         stock: 1000,
         pricePerUnit: '0.80',
@@ -142,7 +142,7 @@ const drinks: Frappe[] = [
         amount: 2,
       },
       {
-        id: Extras.Whip_Cream,
+        id: ExtraOptions.Whip_Cream,
         name: 'Whip Cream',
         stock: 1000,
         pricePerUnit: '0.45',
@@ -161,13 +161,13 @@ const drinks: Frappe[] = [
   {
     id: 0,
     creator: 'David@David.com',
-    milk: Milk.Whole_Milk,
-    base: Base.Cream,
-    size: Size.Medium,
+    milk: MilkOptions.Whole_Milk,
+    base: BaseOptions.Cream,
+    size: SizeOptions.Medium,
     createDate: '',
     extras: [
       {
-        id: Extras.Pumpkin_Sauce,
+        id: ExtraOptions.Pumpkin_Sauce,
         name: 'Pumpkin Sauce',
         stock: 1000,
         pricePerUnit: '0.80',
@@ -180,7 +180,7 @@ const drinks: Frappe[] = [
         amount: 2,
       },
       {
-        id: Extras.Whip_Cream,
+        id: ExtraOptions.Whip_Cream,
         name: 'Whip Cream',
         stock: 1000,
         pricePerUnit: '0.45',
@@ -199,13 +199,13 @@ const drinks: Frappe[] = [
   {
     id: 0,
     creator: 'David@David.com',
-    milk: Milk.Whole_Milk,
-    base: Base.Cream,
-    size: Size.Medium,
+    milk: MilkOptions.Whole_Milk,
+    base: BaseOptions.Cream,
+    size: SizeOptions.Medium,
     createDate: '',
     extras: [
       {
-        id: Extras.Pumpkin_Sauce,
+        id: ExtraOptions.Pumpkin_Sauce,
         name: 'Pumpkin Sauce',
         stock: 1000,
         pricePerUnit: '0.80',
@@ -218,7 +218,7 @@ const drinks: Frappe[] = [
         amount: 2,
       },
       {
-        id: Extras.Whip_Cream,
+        id: ExtraOptions.Whip_Cream,
         name: 'Whip Cream',
         stock: 1000,
         pricePerUnit: '0.45',
@@ -237,13 +237,13 @@ const drinks: Frappe[] = [
   {
     id: 0,
     creator: 'David@David.com',
-    milk: Milk.Whole_Milk,
-    base: Base.Mocha,
-    size: Size.Small,
+    milk: MilkOptions.Whole_Milk,
+    base: BaseOptions.Mocha,
+    size: SizeOptions.Small,
     createDate: '',
     extras: [
       {
-        id: Extras.Whip_Cream,
+        id: ExtraOptions.Whip_Cream,
         name: 'Whip Cream',
         stock: 1000,
         pricePerUnit: '0.45',
@@ -262,9 +262,9 @@ const drinks: Frappe[] = [
   {
     id: 0,
     creator: 'David@David.com',
-    milk: Milk.Whole_Milk,
-    base: Base.Coffee,
-    size: Size.Large,
+    milk: MilkOptions.Whole_Milk,
+    base: BaseOptions.Coffee,
+    size: SizeOptions.Large,
     createDate: '',
     extras: [],
     name: 'Custom Drink',
