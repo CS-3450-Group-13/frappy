@@ -1,4 +1,4 @@
-import React, { Dispatch, MouseEventHandler, SetStateAction } from 'react';
+import React, { Dispatch, MouseEventHandler, SetStateAction, useEffect, useState } from 'react';
 import ItemCartDisplay from '../components/ItemCartDisplay';
 import { Frappe, Size } from '../types/Types';
 import '../css/Cart.css'
@@ -9,6 +9,11 @@ type Props = {
 }
 
 export default function Cart({cart, setCart}: Props) {
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    setTotal(calculateTotal);
+  }, []);
 
   const removeItemFromCart = (frappe: Frappe): MouseEventHandler<HTMLDivElement> | undefined => {
     // Do something with setCart here
@@ -16,10 +21,10 @@ export default function Cart({cart, setCart}: Props) {
     return;
   }
 
-  const calculatePriceForFrappe = () => {
-    let price = 0.0;
-
+  const calculatePriceForFrappes = () => {
     cart.forEach((frappe) => {
+      let price = 0.0;
+
       if (frappe.size === Size.Small) {
         price += 2.00;
       }
@@ -33,19 +38,23 @@ export default function Cart({cart, setCart}: Props) {
       frappe.extras.forEach((extra) => {
         let pricePerUnit = parseFloat(extra.pricePerUnit);
         price += (pricePerUnit * extra.amount);
+        console.log('adding extra %s for frappe %s', extra.name, frappe.name);
       });
 
+      console.log('setting price of %f for %s', price, frappe.name);
       frappe.price = price;
     });
   }
 
   const calculateTotal = () => {
+    calculatePriceForFrappes();
+
     let total = 0.0;
     cart.forEach((frappe) => {
       total += frappe.price;
     });
 
-    return <div className='cart-total'>${total}</div>
+    return total;
   }
 
   const handleBackToMenu = () => {
@@ -69,7 +78,9 @@ export default function Cart({cart, setCart}: Props) {
             )
           })}
         </div>
-        <div className='cart-total-container'>TOTAL: {calculateTotal()}</div>
+        <div className='cart-total-container'>TOTAL: 
+          <div className='cart-total'>${total.toFixed(2)}</div>
+        </div>
         <div className='cart-decision-btns'>
           <div className='cart-back-btn'
             onClick={() => {handleBackToMenu()}}

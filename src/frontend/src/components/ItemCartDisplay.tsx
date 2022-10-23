@@ -20,7 +20,7 @@ export default function ItemCartDisplay({frappe, removeItemFromCart}: Props) {
         <div>{frappe.size} {frappe.name}</div>
       </div>
       <div className='item-cart-rhs'>
-        <div>${frappe.price}</div>
+        <div>${frappe.price.toFixed(2)}</div>
         <div className='item-cart-edit-btn'
           onClick={handleEditDrink}
         >
