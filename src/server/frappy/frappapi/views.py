@@ -5,6 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from .serializers import *
 from .models import *
+from users.permissions import IsManager
 
 
 class FrappeViewSet(ModelViewSet):
@@ -28,17 +29,11 @@ class FrappeViewSet(ModelViewSet):
         return Response(serializers.data)
 
 
-class MenuViewSet(ReadOnlyModelViewSet):
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+class MenuViewSet(ModelViewSet):
+    permission_classes = [IsManager]
     queryset = Menu.objects.all()
-    serializer_class = AddMenuSerializer
-    
-    
-    def get_serializer_class(self, *args, **kwards):
-        if self.request.user.has_perm("manager"):
-            return AddMenuSerializer
-        return ReadMenuSerializer
-        
+    serializer_class = MenuSerializer
+
 
 class ExtrasViewSet(ModelViewSet):
     serializer_class = ExtraSerializer

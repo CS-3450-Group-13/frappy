@@ -54,3 +54,4 @@ class Employee(models.Model):
 
     is_cashier = models.BooleanField(default=False)
     is_barista = models.BooleanField(default=False)
+    is_manager = models.BooleanField(default=False)

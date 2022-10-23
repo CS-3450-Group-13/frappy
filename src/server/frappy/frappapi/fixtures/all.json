@@ -1,0 +1,623 @@
+[
+    {
+        "model": "frappapi.base",
+        "pk": 1,
+        "fields": {
+            "name": "Coffee",
+            "stock": 999999999,
+            "price_per_unit": "1.00",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": false
+        }
+    },
+    {
+        "model": "frappapi.base",
+        "pk": 2,
+        "fields": {
+            "name": "Cream",
+            "stock": 999999999,
+            "price_per_unit": "1.50",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true
+        }
+    },
+    {
+        "model": "frappapi.base",
+        "pk": 3,
+        "fields": {
+            "name": "Mocha",
+            "stock": 999999999,
+            "price_per_unit": "2.50",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true
+        }
+    },
+    {
+        "model": "frappapi.milk",
+        "pk": 1,
+        "fields": {
+            "name": "Whole Milk",
+            "stock": 1000,
+            "price_per_unit": "2.05",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": false
+        }
+    },
+    {
+        "model": "frappapi.milk",
+        "pk": 2,
+        "fields": {
+            "name": "Soy Milk",
+            "stock": 1000,
+            "price_per_unit": "5.05",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": true
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 1,
+        "fields": {
+            "name": "Secret Sauce",
+            "stock": 10,
+            "price_per_unit": "20.00",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": false,
+            "gluten_free": false,
+            "limit": 1
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 2,
+        "fields": {
+            "name": "Vanilla",
+            "stock": 1000,
+            "price_per_unit": "0.30",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 4
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 3,
+        "fields": {
+            "name": "Caramel",
+            "stock": 1000,
+            "price_per_unit": "0.30",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 5
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 4,
+        "fields": {
+            "name": "Pumpkin Sauce",
+            "stock": 10,
+            "price_per_unit": "0.80",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 3
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 5,
+        "fields": {
+            "name": "Macha",
+            "stock": 1000,
+            "price_per_unit": "0.45",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 2
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 6,
+        "fields": {
+            "name": "Expresso Shot",
+            "stock": 10000,
+            "price_per_unit": "0.45",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 3
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 7,
+        "fields": {
+            "name": "Chocolate Drizzle",
+            "stock": 1550,
+            "price_per_unit": "0.70",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 1
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 8,
+        "fields": {
+            "name": "Oreos",
+            "stock": 10000,
+            "price_per_unit": "9.00",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": false,
+            "gluten_free": false,
+            "limit": 35
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 9,
+        "fields": {
+            "name": "Whip Cream",
+            "stock": 1000,
+            "price_per_unit": "0.45",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": false,
+            "gluten_free": true,
+            "limit": 2
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 10,
+        "fields": {
+            "name": "Sugar",
+            "stock": 1000,
+            "price_per_unit": "0.45",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 3
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 11,
+        "fields": {
+            "name": "Frappuccino Roast Pump(s)",
+            "stock": 999,
+            "price_per_unit": "1.00",
+            "updated_on": "2022-10-23T04:36:58.910Z",
+            "created_on": "2022-10-23T04:36:58.910Z",
+            "decaf": false,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 10
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 12,
+        "fields": {
+            "name": "Chocolate Chips",
+            "stock": 99999,
+            "price_per_unit": "0.55",
+            "updated_on": "2022-10-23T18:22:47.759Z",
+            "created_on": "2022-10-23T18:22:47.759Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 4
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 2,
+        "fields": {
+            "base": 1,
+            "milk": 1,
+            "size": 1,
+            "creator": 1,
+            "create_date": "2022-10-23T04:36:09.503Z",
+            "comments": ""
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 3,
+        "fields": {
+            "base": 1,
+            "milk": 1,
+            "size": 1,
+            "creator": 1,
+            "create_date": "2022-10-23T04:49:41.420Z",
+            "comments": ""
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 4,
+        "fields": {
+            "base": 1,
+            "milk": 1,
+            "size": 1,
+            "creator": 1,
+            "create_date": "2022-10-23T04:49:43.457Z",
+            "comments": ""
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 5,
+        "fields": {
+            "base": 1,
+            "milk": 1,
+            "size": 1,
+            "creator": 1,
+            "create_date": "2022-10-23T04:49:44.209Z",
+            "comments": ""
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 6,
+        "fields": {
+            "base": 1,
+            "milk": 1,
+            "size": 1,
+            "creator": 1,
+            "create_date": "2022-10-23T04:49:44.588Z",
+            "comments": ""
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 7,
+        "fields": {
+            "base": 1,
+            "milk": 1,
+            "size": 1,
+            "creator": 1,
+            "create_date": "2022-10-23T04:49:44.933Z",
+            "comments": ""
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 8,
+        "fields": {
+            "base": 1,
+            "milk": 1,
+            "size": 1,
+            "creator": 1,
+            "create_date": "2022-10-23T04:49:45.216Z",
+            "comments": ""
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 9,
+        "fields": {
+            "base": 1,
+            "milk": 1,
+            "size": 1,
+            "creator": 1,
+            "create_date": "2022-10-23T04:49:45.534Z",
+            "comments": ""
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 10,
+        "fields": {
+            "base": 1,
+            "milk": 1,
+            "size": 1,
+            "creator": 1,
+            "create_date": "2022-10-23T04:49:46.036Z",
+            "comments": ""
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 11,
+        "fields": {
+            "base": 3,
+            "milk": 1,
+            "size": 1,
+            "creator": 1,
+            "create_date": "2022-10-23T15:20:38.910Z",
+            "comments": "For Menu"
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 3,
+        "fields": {
+            "amount": 2,
+            "frappe": 2,
+            "extras": 4
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 4,
+        "fields": {
+            "amount": 1,
+            "frappe": 2,
+            "extras": 11
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 5,
+        "fields": {
+            "amount": 1,
+            "frappe": 2,
+            "extras": 9
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 6,
+        "fields": {
+            "amount": 1,
+            "frappe": 3,
+            "extras": 7
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 7,
+        "fields": {
+            "amount": 1,
+            "frappe": 3,
+            "extras": 3
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 8,
+        "fields": {
+            "amount": 2,
+            "frappe": 11,
+            "extras": 8
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 9,
+        "fields": {
+            "amount": 1,
+            "frappe": 11,
+            "extras": 9
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 10,
+        "fields": {
+            "amount": 3,
+            "frappe": 10,
+            "extras": 2
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 11,
+        "fields": {
+            "amount": 1,
+            "frappe": 10,
+            "extras": 6
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 12,
+        "fields": {
+            "amount": 2,
+            "frappe": 4,
+            "extras": 12
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 13,
+        "fields": {
+            "amount": 2,
+            "frappe": 4,
+            "extras": 6
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 14,
+        "fields": {
+            "amount": 2,
+            "frappe": 5,
+            "extras": 1
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 15,
+        "fields": {
+            "amount": 10,
+            "frappe": 5,
+            "extras": 10
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 16,
+        "fields": {
+            "amount": 2,
+            "frappe": 5,
+            "extras": 9
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 17,
+        "fields": {
+            "amount": 1,
+            "frappe": 5,
+            "extras": 7
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 18,
+        "fields": {
+            "amount": 3,
+            "frappe": 5,
+            "extras": 8
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 19,
+        "fields": {
+            "amount": 1,
+            "frappe": 5,
+            "extras": 3
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 20,
+        "fields": {
+            "amount": 2,
+            "frappe": 5,
+            "extras": 12
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 21,
+        "fields": {
+            "amount": 2,
+            "frappe": 5,
+            "extras": 12
+        }
+    },
+    {
+        "model": "frappapi.menu",
+        "pk": 1,
+        "fields": {
+            "name": "Pumpin Spice Frappe",
+            "frappe": 2,
+            "photo": "uploads/product-placeholder.webp",
+            "markup": "0.00"
+        }
+    },
+    {
+        "model": "frappapi.menu",
+        "pk": 2,
+        "fields": {
+            "name": "Apple Crisp",
+            "frappe": 3,
+            "photo": "uploads/9955905055_f5321e37f9_b.jpg",
+            "markup": "0.00"
+        }
+    },
+    {
+        "model": "frappapi.menu",
+        "pk": 3,
+        "fields": {
+            "name": "Mocha Cookie Crumbl",
+            "frappe": 11,
+            "photo": "uploads/1fd99578d31f4072a52892398d8f1fa8.webp",
+            "markup": "0.00"
+        }
+    },
+    {
+        "model": "frappapi.menu",
+        "pk": 4,
+        "fields": {
+            "name": "Vanilla Caffe",
+            "frappe": 10,
+            "photo": "uploads/b7b496402286415c9c2be5bc1b4d7c3e.webp",
+            "markup": "0.00"
+        }
+    },
+    {
+        "model": "frappapi.menu",
+        "pk": 5,
+        "fields": {
+            "name": "Java Chip",
+            "frappe": 4,
+            "photo": "uploads/fe3131c518c34593938b32a67486fda0.webp",
+            "markup": "0.00"
+        }
+    },
+    {
+        "model": "frappapi.menu",
+        "pk": 6,
+        "fields": {
+            "name": "Diabetes Special",
+            "frappe": 5,
+            "photo": "uploads/index.jpg",
+            "markup": "0.00"
+        }
+    },
+    {
+        "model": "users.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$390000$qVGEx38DyJj5fEQjkM7GAB$BFpPttJlpCoYiDfhUNbpk/cc2+lJpYO4LNqniPlN9NA=",
+            "last_login": "2022-10-23T18:32:47.897Z",
+            "is_superuser": true,
+            "first_name": "",
+            "last_name": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2022-10-23T03:26:41.176Z",
+            "email": "admin@admin.com",
+            "balance": "0.00",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.employee",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "hours": "0.00",
+            "wage": "14.95",
+            "is_cashier": true,
+            "is_barista": true,
+            "is_manager": true
+        }
+    }
+]

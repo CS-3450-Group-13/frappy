@@ -47,3 +47,11 @@ To remove the <span style="color:red">unapplied migrations</span> error, go ahea
 ```bash
 py manage.py migrate --fake-initial
 ```
+
+## 2,4
+
+In the case that data wasn't loaded in correctly, you can load in a copy of some test drinks and ingredients by running
+
+```
+py manage.py loaddata all
+```

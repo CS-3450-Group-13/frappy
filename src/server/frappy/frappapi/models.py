@@ -45,20 +45,12 @@ class Frappe(models.Model):
     )
     creator = models.ForeignKey(User, related_name="frappes", on_delete=models.CASCADE)
     create_date = models.DateTimeField(auto_now_add=True)
+    comments = models.TextField(blank=True)
 
-
-class Menu(models.Model):
-    name = models.CharField(max_length=250)
-    frappe = models.ForeignKey(Frappe, on_delete=models.CASCADE)
-    photo = models.ImageField(upload_to="uploads")
-    markup = models.DecimalField(max_digits=5, decimal_places=2, default=0)
-
-    @property
-    def price(self):
-        return sum(self.frappe.extras) + self.markup
-
-    def __str__(self) -> str:
-        return self.name
+    def __str__(self):
+        if hasattr(self, "menu"):
+            return self.menu.name
+        return f"{self.creator.email}@ {self.create_date} : {self.base}/{self.milk}/{self.extras}"
 
 
 class ExtraDetail(models.Model):
@@ -68,3 +60,28 @@ class ExtraDetail(models.Model):
 
     def __str__(self) -> str:
         return f"{self.frappe} -> {self.extras} : {self.amount}"
+
+
+class Menu(models.Model):
+    name = models.CharField(max_length=250)
+    frappe = models.OneToOneField(Frappe, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to="uploads")
+    markup = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
+    @property
+    # TODO: Theres a bug here were we only return the price for a small at the menu
+    def price(self):
+        return (
+            sum(
+                [
+                    detail.extras.price_per_unit * detail.amount
+                    for detail in ExtraDetail.objects.filter(frappe=self.frappe)
+                ]
+            )
+            + self.markup
+            + self.frappe.base.price_per_unit
+            + self.frappe.milk.price_per_unit
+        )
+
+    def __str__(self) -> str:
+        return self.name
