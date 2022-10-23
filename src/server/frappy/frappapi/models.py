@@ -1,6 +1,7 @@
 from django.db import models
+from users.models import User
 
-# Create your models here.
+
 class Ingredient(models.Model):
     name = models.CharField(max_length=50, unique=True)
     stock = models.IntegerField()
@@ -29,37 +30,41 @@ class Extras(Ingredient):
     gluten_free = models.BooleanField(default=True)
     limit = models.IntegerField()
 
+
 class Frappe(models.Model):
     class Sizes(models.IntegerChoices):
         SMALL = 1
         MEDIUM = 2
         LARGE = 3
 
-    name = models.CharField(max_length=250)
-    markup = models.DecimalField(max_digits=5, decimal_places=2)
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
     milk = models.ForeignKey(Milk, on_delete=models.CASCADE)
     size = models.IntegerField(choices=Sizes.choices)
-    extras = models.ManyToManyField(Extras, blank=True, related_name="details", through='ExtraDetail')
-
-    @property
-    def price(self):
-        # TODO: Correct the price
-        return sum() + self.markup
-
-    def __str__(self):
-        return self.name
+    extras = models.ManyToManyField(
+        Extras, blank=True, related_name="details", through="ExtraDetail"
+    )
+    creator = models.ForeignKey(User, related_name="frappes", on_delete=models.CASCADE)
+    create_date = models.DateTimeField(auto_now_add=True)
 
 
 class Menu(models.Model):
+    name = models.CharField(max_length=250)
     frappe = models.ForeignKey(Frappe, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to="uploads")
+    markup = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+
+    @property
+    def price(self):
+        return sum(self.frappe.extras) + self.markup
+
+    def __str__(self) -> str:
+        return self.name
 
 
 class ExtraDetail(models.Model):
     amount = models.IntegerField()
     frappe = models.ForeignKey(Frappe, on_delete=models.CASCADE)
     extras = models.ForeignKey(Extras, on_delete=models.CASCADE)
-    
+
     def __str__(self) -> str:
         return f"{self.frappe} -> {self.extras} : {self.amount}"

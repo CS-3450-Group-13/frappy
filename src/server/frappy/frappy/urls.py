@@ -19,6 +19,7 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from rest_framework.schemas import get_schema_view
 from rest_framework.documentation import include_docs_urls
+from dj_rest_auth.views import PasswordResetConfirmView
 
 API_TITLE = "Frappy order and customize"
 API_DESC = "Order, update, and view the menu for our simple frappe shop."
@@ -26,7 +27,14 @@ API_DESC = "Order, update, and view the menu for our simple frappe shop."
 urlpatterns = [
     path("admin/", admin.site.urls),
     path(r"frappapi/", include("frappapi.urls")),
-    path("api-auth/", include("rest_framework.urls")),
+    path("users/", include("users.urls")),
+    path("auth-endpoint/", include("dj_rest_auth.urls")),
+    path("auth-endpoint/registration/", include("dj_rest_auth.registration.urls")),
+    path(
+        "auth-endpoint/password/reset/confirm/<str:uidb64>/<str:token>",
+        PasswordResetConfirmView.as_view(),
+        name="password_reset_confirm",
+    ),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
