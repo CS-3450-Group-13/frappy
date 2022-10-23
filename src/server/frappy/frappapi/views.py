@@ -3,9 +3,10 @@ from rest_framework import permissions
 from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
+
 from .serializers import *
 from .models import *
-from users.permissions import IsManager
+from users.permissions import IsManager, IsManagerOrReadOnly
 
 
 class FrappeViewSet(ModelViewSet):
@@ -30,7 +31,7 @@ class FrappeViewSet(ModelViewSet):
 
 
 class MenuViewSet(ModelViewSet):
-    permission_classes = [IsManager]
+    permission_classes = [IsManagerOrReadOnly]
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
 

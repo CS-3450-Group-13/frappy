@@ -39,7 +39,7 @@ class IsManager(permissions.BasePermission):
             return request.user.employee.is_manager
 
 
-class IsManagerOrReadOnly(permissions.BasePermission):
+class IsManagerOrReadOnly(IsManager):
     def has_permission(self, request, view):
-        is_manager = super(IsManager, self)
+        is_manager = super(IsManager, self).has_permission(request, view)
         return request.method in SAFE_METHODS or is_manager

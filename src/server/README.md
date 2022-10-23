@@ -55,3 +55,5 @@ In the case that data wasn't loaded in correctly, you can load in a copy of some
 ```
 py manage.py loaddata all
 ```
+
+Make sure you also create a new superuser too!
