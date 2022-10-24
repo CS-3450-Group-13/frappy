@@ -1,0 +1,98 @@
+@import url("Global.css");
+
+.hours-container {
+    background-color: var(--frappy-background);
+    color: var(--frappy-white);
+    min-height: 100%;
+}
+
+.hours-container > * {
+    margin-left: 10%;
+    margin-right: 10%;
+}
+
+.hours-home-title {
+    margin-bottom: 0.3em;
+    text-align: center;
+    font-size: 3em;
+}
+
+.hours-step-container {
+    display: flex;
+    justify-content: flex-start;
+    font-weight: 600;
+    font-size: 5em;
+    border-radius: 0.3em;
+    margin-bottom: 0.1em;
+    margin-bottom: 0.1em;
+}
+
+
+.hours-input {
+    background-color: var(--frappy-white);
+    color: black;
+    border-radius:0.3em;
+    width: 100%;
+    border: none;
+    text-align: right;
+    font-size: 1em;
+    padding-left: 8px;
+}
+
+.new-hours {
+    text-align: left;
+    font-size: 1.2em;
+    margin-bottom: 32px;
+    display: flex;
+    padding-left: 4px;
+}
+
+.hours-text-boi {
+    padding-left: 4px;
+}
+
+.hours-value {
+    display: grid;
+    grid-template-columns: auto auto;
+    margin-left: auto;
+    font-weight: 600;
+    padding-right: 4px;
+}
+
+.hours-buttons {
+    display: flex;
+    padding-left: 4px;
+    padding-right: 4px;
+}
+
+.hours-button {
+    border-radius: 0.4em;
+    font-size: 2.5em;
+    padding: 8px; 
+    user-select: none; 
+}
+
+
+
+.confirm {
+    background-color: var(--frappy-lgreen);
+    margin-left: auto;
+    margin-right: 4px;
+}
+
+.cancel {
+    background-color: var(--frappy-red);
+    margin-right: auto;
+    margin-left: 4px;
+}
+
+
+
+.hours-input::-webkit-inner-spin-button,
+.hours-input::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+}
+.balance-input::before {
+    position: absolute;
+    content: "$";
+}
