@@ -144,7 +144,7 @@ export default function Account() {
                 {DEMO_USER.hours.toFixed(1)} Hr
               </div>
               <div className="small-link" onClick={openHoursModal}>
-                Clock In
+                Clock Hours
               </div>
             </div>
           )}
@@ -206,7 +206,7 @@ export default function Account() {
         style={{
           content: {
             height: '100vh',
-            width: '550px',
+            width: '600px',
             marginLeft: 'auto',
             padding: '0px',
             inset: '0px',

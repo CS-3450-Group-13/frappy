@@ -103,6 +103,7 @@
 
 .detail-title {
     align-self: start;
+    font-weight: 500;
     margin-left: 0.5em;
     text-decoration: underline;
     font-size: 0.8em;

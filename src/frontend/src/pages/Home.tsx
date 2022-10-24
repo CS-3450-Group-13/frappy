@@ -13,6 +13,8 @@ interface User {
   balance: number;
   favoriteDrink: string;
   orderHistory: Order[];
+  hours: number;
+  accountType: string;
 }
 
 interface Order {
@@ -37,6 +39,8 @@ interface PropsOrder {
 }
 
 const DEMO_USER: User = {
+  hours: 543,
+  accountType: 'employee',
   fullName: 'Glorgo Glumbus',
   userName: 'GlorGlu',
   eMail: 'glorglugaming@gmail.com',
@@ -251,6 +255,27 @@ const DEMO_USER: User = {
   ],
 };
 
+var summary = [
+  {
+    name: 'Balance',
+    value: `\$${(DEMO_USER.balance < 0 ? 0 : DEMO_USER.balance).toFixed(2)}`,
+  },
+];
+
+if (DEMO_USER.accountType === 'user') {
+  summary.push({ name: 'Favorite Drink', value: DEMO_USER.favoriteDrink });
+} else if (DEMO_USER.accountType === 'employee') {
+  summary.push({
+    name: 'Hours Worked',
+    value: `${DEMO_USER.hours.toFixed(1)}`,
+  });
+}
+
+summary.push({
+  name: 'Tab',
+  value: `\$${(DEMO_USER.balance > 0 ? 0 : DEMO_USER.balance * -1).toFixed(2)}`,
+});
+
 export default function Home() {
   const navigate = useNavigate();
 
@@ -288,21 +313,29 @@ export default function Home() {
           Edit Account
         </div>
       </div>
+
       <div className="list-container">
         <ScrollableList title="Account" width="70%">
-          <DetailCard
-            title="Balance"
-            // eslint-disable-next-line
-            value={`\$${DEMO_USER.balance.toFixed(2)}`}
-          />
-          <DetailCard title="Favorite Drink" value={DEMO_USER.favoriteDrink} />
-          <DetailCard title="Total Spent" value="$100.00" />
-        </ScrollableList>
-        <ScrollableList title="Order History" width="65%">
-          {DEMO_USER.orderHistory.map((orderInstance) => (
-            <OrderCard order={orderInstance} />
+          {summary.map((item) => (
+            <DetailCard title={item.name} value={item.value} />
           ))}
         </ScrollableList>
+
+        {DEMO_USER.accountType === 'user' && (
+          <ScrollableList title="Order History" width="65%">
+            {DEMO_USER.orderHistory.map((orderInstance) => (
+              <OrderCard order={orderInstance} />
+            ))}
+          </ScrollableList>
+        )}
+
+        {DEMO_USER.accountType === 'employee' && (
+          <ScrollableList title="Order Queue" width="65%">
+            {DEMO_USER.orderHistory.map((orderInstance) => (
+              <OrderCard order={orderInstance} />
+            ))}
+          </ScrollableList>
+        )}
       </div>
     </div>
   );
