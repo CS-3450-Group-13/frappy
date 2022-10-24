@@ -125,11 +125,22 @@
 
 
 .order-card {
-    background-color: var(--frappy-dgray);
     border-radius: 0.5em;
     font-size: 1.5em;
     height: fit-content;
 
+}
+
+.oc-green {
+    background-color: var(--frappy-dgreen);
+}
+
+.oc-orange {
+    background-color: var(--frappy-orange);
+}
+
+.oc-gray {
+    background-color: var(--frappy-dgray);
 }
 
 .content {
@@ -140,6 +151,8 @@
 
 .order-date {
     margin-left: 1em;
+    font-style: italic;
+    font-weight: 400;
 }
 
 .order-summary {
@@ -166,6 +179,19 @@
 
 .small-container {
     margin-left: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.cost {
+    font-style: italic;
+    font-weight: 100;
+}
+
+.home-drink-name {
+    font-weight: 600;
 }
 
 .drink-list {

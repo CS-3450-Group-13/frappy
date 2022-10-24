@@ -20,6 +20,8 @@ interface User {
 interface Order {
   date: Date;
   drinks: Drink[];
+  done?: boolean;
+  id?: string;
 }
 
 interface Drink {
@@ -36,6 +38,7 @@ interface PropsDetail {
 
 interface PropsOrder {
   order: Order;
+  baristaMode: boolean;
 }
 
 const DEMO_USER: User = {
@@ -50,6 +53,8 @@ const DEMO_USER: User = {
   orderHistory: [
     {
       date: new Date(5000000000),
+      done: true,
+      id: '34234234234',
       drinks: [
         {
           name: 'Pumpkin Spice',
@@ -80,6 +85,8 @@ const DEMO_USER: User = {
 
     {
       date: new Date(544533534534),
+      done: true,
+      id: '34234234234',
       drinks: [
         {
           name: 'Pumpkin Spice',
@@ -109,6 +116,8 @@ const DEMO_USER: User = {
     },
     {
       date: new Date(544533534534),
+      done: false,
+      id: '34234234234',
       drinks: [
         {
           name: 'Pumpkin Spice',
@@ -138,6 +147,8 @@ const DEMO_USER: User = {
     },
     {
       date: new Date(544533534534),
+      done: true,
+      id: '34234234234',
       drinks: [
         {
           name: 'Pumpkin Spice',
@@ -167,6 +178,8 @@ const DEMO_USER: User = {
     },
     {
       date: new Date(544533534534),
+      done: true,
+      id: '34234234234',
       drinks: [
         {
           name: 'Pumpkin Spice',
@@ -196,6 +209,8 @@ const DEMO_USER: User = {
     },
     {
       date: new Date(544533534534),
+      done: false,
+      id: '55424234',
       drinks: [
         {
           name: 'Pumpkin Spice',
@@ -225,6 +240,8 @@ const DEMO_USER: User = {
     },
     {
       date: new Date(544533534534),
+      done: false,
+      id: '55424234',
       drinks: [
         {
           name: 'Pumpkin Spice',
@@ -288,22 +305,49 @@ export default function Home() {
         </div>
       </div>
       <div className="fast-nav-buttons">
-        <div
-          className="button favorite-button"
-          onClick={() => {
-            navigate('/menu');
-          }}
-        >
-          Order Favorite Drink
-        </div>
-        <div
-          className="button order-button"
-          onClick={() => {
-            navigate('/menu');
-          }}
-        >
-          New Order
-        </div>
+        {DEMO_USER.accountType === 'user' && (
+          <div
+            className="button favorite-button"
+            onClick={() => {
+              navigate('/menu');
+            }}
+          >
+            Order Favorite Drink
+          </div>
+        )}
+
+        {DEMO_USER.accountType === 'employee' && (
+          <div
+            className="button favorite-button"
+            onClick={() => {
+              navigate('/Queue');
+            }}
+          >
+            Queue
+          </div>
+        )}
+
+        {DEMO_USER.accountType === 'user' && (
+          <div
+            className="button order-button"
+            onClick={() => {
+              navigate('/menu');
+            }}
+          >
+            New Order
+          </div>
+        )}
+
+        {DEMO_USER.accountType === 'employee' && (
+          <div
+            className="button order-button"
+            onClick={() => {
+              navigate('/menu');
+            }}
+          >
+            Order for Customer
+          </div>
+        )}
         <div
           className="button account-button"
           onClick={() => {
@@ -324,7 +368,7 @@ export default function Home() {
         {DEMO_USER.accountType === 'user' && (
           <ScrollableList title="Order History" width="65%">
             {DEMO_USER.orderHistory.map((orderInstance) => (
-              <OrderCard order={orderInstance} />
+              <OrderCard order={orderInstance} baristaMode={false} />
             ))}
           </ScrollableList>
         )}
@@ -332,7 +376,7 @@ export default function Home() {
         {DEMO_USER.accountType === 'employee' && (
           <ScrollableList title="Order Queue" width="65%">
             {DEMO_USER.orderHistory.map((orderInstance) => (
-              <OrderCard order={orderInstance} />
+              <OrderCard order={orderInstance} baristaMode={true} />
             ))}
           </ScrollableList>
         )}
@@ -360,15 +404,28 @@ function DetailCard(props: PropsDetail) {
 function OrderCard(props: PropsOrder) {
   const [expanded, setExpanded] = useState(false);
   return (
-    <div className="order-card">
+    <div
+      className={`order-card${
+        props.baristaMode
+          ? props.order.done
+            ? ' oc-green'
+            : ' oc-orange'
+          : ' oc-gray'
+      }`}
+    >
       <div className="content">
-        <div className="order-date">
-          {props.order.date.toLocaleString('en-us', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-          })}
-        </div>
+        {!props.baristaMode && (
+          <div className="order-date">
+            {props.order.date.toLocaleString('en-us', {
+              year: 'numeric',
+              month: '2-digit',
+              day: '2-digit',
+            })}
+          </div>
+        )}
+        {props.baristaMode && (
+          <div className="order-date">#{props.order.id}</div>
+        )}
         {!expanded && (
           <div className="order-summary">
             <div className="small-container">
@@ -378,13 +435,15 @@ function OrderCard(props: PropsOrder) {
                   ? ` (${props.order.drinks.length})`
                   : ''}
               </div>
-              <div className="cost">
-                $
-                {props.order.drinks
-                  .map((drink) => drink.cost)
-                  .reduce((a, b) => a + b, 0)
-                  .toFixed(2)}
-              </div>
+              {!props.baristaMode && (
+                <div className="cost">
+                  $
+                  {props.order.drinks
+                    .map((drink) => drink.cost)
+                    .reduce((a, b) => a + b, 0)
+                    .toFixed(2)}
+                </div>
+              )}
             </div>
             <div className="drink-photo-container">
               <img src={Frappe} alt="frappe1" className="home-drink-photo" />
@@ -397,7 +456,9 @@ function OrderCard(props: PropsOrder) {
               <div className="order-summary">
                 <div className="small-container">
                   <div className="home-drink-name">{drink.name}</div>
-                  <div className="cost">${drink.cost.toFixed(2)}</div>
+                  {!props.baristaMode && (
+                    <div className="cost">${drink.cost.toFixed(2)}</div>
+                  )}
                 </div>
                 <div className="drink-photo-container">
                   <img src={Frappe} alt="frappe" className="home-drink-photo" />
