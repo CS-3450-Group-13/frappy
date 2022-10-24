@@ -1,11 +1,11 @@
 import React, { Dispatch, MouseEventHandler, SetStateAction, useEffect, useState } from 'react';
 import ItemCartDisplay from '../components/ItemCartDisplay';
-import { Frappe, SizeOptions } from '../types/Types';
+import { Frappe, SizeOptions, CompleteFrappe } from '../types/Types';
 import '../css/Cart.css'
 
 type Props = {
-  cart: Frappe[];
-  setCart: Dispatch<SetStateAction<Frappe[]>>;
+  cart: Array<CompleteFrappe>;
+  setCart: Dispatch<SetStateAction<CompleteFrappe[]>>;
 }
 
 export default function Cart({cart, setCart}: Props) {
@@ -15,52 +15,44 @@ export default function Cart({cart, setCart}: Props) {
     setTotal(calculateTotal);
   }, []);
 
-  const removeItemFromCart = (frappe: Frappe): MouseEventHandler<HTMLDivElement> | undefined => {
+  /**
+   * @brief Callback for handling when the user wants to remove an item from the cart
+   * @param item The cart item they want to remove 
+   * @returns Nothing
+   */
+  const removeItemFromCart = (item: CompleteFrappe): MouseEventHandler<HTMLDivElement> | undefined => {
     // Do something with setCart here
     alert('customer wants to remove item from cart');
     return;
   }
 
-  const calculatePriceForFrappes = () => {
-    cart.forEach((frappe) => {
-      let price = 0.0;
-
-      if (frappe.size === SizeOptions.Small) {
-        price += 2.00;
-      }
-      else if (frappe.size === SizeOptions.Medium) {
-        price += 3.00;
-      }
-      else {
-        price += 4.00;
-      }
-
-      frappe.extras.forEach((extra) => {
-        let pricePerUnit = parseFloat(extra.pricePerUnit);
-        price += (pricePerUnit * extra.amount);
-        console.log('adding extra %s for frappe %s', extra.name, frappe.name);
-      });
-
-      console.log('setting price of %f for %s', price, frappe.name);
-      frappe.price = price;
-    });
-  }
-
+  /**
+   * @brief Calculates the total across all frappes in the cart
+   * @note this is currently only relying on frontend data
+   * @note **This function assumes the MenuItem portion of the CompleteFrappe
+   *         has had it's price filled out when the user added the item to the cart**
+   * @returns The total value of all frappes in the cart
+   */
   const calculateTotal = () => {
-    calculatePriceForFrappes();
-
     let total = 0.0;
-    cart.forEach((frappe) => {
-      total += frappe.price;
+
+    cart.forEach(({menu_item}) => {
+      total += menu_item.price;
     });
 
     return total;
   }
 
+  /**
+   * @brief Callback for handling when the user wants to go back to the menu
+   */
   const handleBackToMenu = () => {
     alert('Customer wants to go back to the menu');
   }
 
+  /**
+   * Callback for handling when the user wants to place their order
+   */
   const handlePlaceOrder = () => {
     alert('Customer wants to place their order');
   }
@@ -70,10 +62,10 @@ export default function Cart({cart, setCart}: Props) {
       CART:
       <div className='cart-items-container'>
         <div>
-          {cart.map((frappe) => {
+          {cart.map((item) => {
             return (
               <div className='cart-items'>
-                <ItemCartDisplay frappe={frappe} removeItemFromCart={removeItemFromCart} />
+                <ItemCartDisplay item={item} removeItemFromCart={removeItemFromCart} />
               </div>
             )
           })}

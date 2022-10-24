@@ -1,15 +1,30 @@
-/* As defined by the server */
+/**
+ * Interface for what a Frappe looks like on the server when requested from
+ * http://127.0.0.1:8000/frappapi/frappe/
+ */
 export interface Frappe {
   id: number;
   creator: string;
   milk: MilkOptions;
   base: BaseOptions;
+  extras: Array<FrappeExtra>
   size: SizeOptions;
-  createDate: string;
-  extras: Array<Extra>
-  /* Should be added by server... */
+  create_date: string;
+  comments: string;
+}
+
+/**
+ * Interface for what a Menu Item looks like on the server when requested from
+ * http://127.0.0.1:8000/frappapi/menu/
+ *
+ * Some things to note:
+ * frappe - This is the primary key of a frappe stored in the http://127.0.0.1:8000/frappapi/frappe/ endpoint
+ * photo - This is a string that is a http link to an image
+ */
+export interface MenuItem {
   name: string;
-  /* Provided for client side... server should still validate */
+  frappe: number;
+  photo: string;
   price: number;
 }
 
@@ -31,10 +46,10 @@ export interface Milk {
   id: MilkOptions;
   name: string;
   stock: number;
-  pricePerUnit: string;
-  updatedOn: string;
-  createdOn: string;
-  nonDairy: boolean;
+  price_per_unit: string;
+  updated_on: string;
+  created_on: string;
+  non_dairy: boolean;
 }
 
 /**
@@ -56,9 +71,9 @@ export interface Base {
   id: BaseOptions;
   name: string;
   stock: number;
-  pricePerUnit: string;
-  updatedOn: string;
-  createdOn: string;
+  price_per_unit: string;
+  updated_on: string;
+  created_on: string;
   decaf: boolean;
 }
 
@@ -97,15 +112,27 @@ export interface Extra {
   id: ExtraOptions;
   name: string;
   stock: number;
-  pricePerUnit: string;
-  updatedOn: string;
-  createdOn: string;
+  price_per_unit: string;
+  updated_on: string;
+  created_on: string;
   decaf: boolean;
-  nonDairy: boolean;
-  glutenFree: boolean;
+  non_dairy: boolean;
+  gluten_free: boolean;
   limit: number;
-  /* Server should provide the number of items i.e. 2 secret sauce */
+}
+
+/**
+ * Interface for what a Frappe stores in the "extras" field. Some things to note:
+ * 
+ * extras - This is the key to which extra inside the http://127.0.0.1:8000/frappapi/extras/ endpoint. Think of
+ *          it like the ExtraOptions
+ * frappe - This is the key to frappe that has this extra i.e. when adding an extra to frappe with id 123, this number
+ *          will also be 123
+ */
+export interface FrappeExtra {
   amount: number;
+  extras: number;
+  frappe: number;
 }
 
 /**
@@ -118,8 +145,19 @@ export interface Extra {
  */
 export interface AddExtra {
   amount: number;
-  extras: Extra;
-  frappe: Frappe; // Is this meant to just be the key?
+  extras: number;
+  frappe: number;
+}
+
+/**
+ * Interface that makes it easier to keep track of what the user is ordering
+ * plus the name and price. If submitting to the server, just use the frappe
+ * field and forget the menu_item part. The menu item just carries superficial
+ * data that won't get posted
+ */
+export interface CompleteFrappe {
+  frappe: Frappe;
+  menu_item: MenuItem;
 }
 
 /**
@@ -131,8 +169,8 @@ export interface AddExtra {
 export interface UserDetails {
   pk: number;
   email: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
 }
 
 /**
@@ -179,14 +217,14 @@ export interface PasswordReset {
  * Interface for sending a POST request to the server for a reset
  * password confimration at /auth-endpoint/password/reset/confirm/
  * 
- * newPassword1 - required
- * newPassword2 - required
+ * new_password1 - required
+ * new_password2 - required
  * uid - required
  * token - required
  */
 export interface PasswordResetConfimation {
-  newPassword1: string;
-  newPassword2: string;
+  new_password1: string;
+  new_password2: string;
   uid: string;
   token: string;
 }

@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/DrinkCustomizationModal.css'
-import { Extra, BaseOptions } from '../types/Types';
+import { Extra, BaseOptions, FrappeExtra } from '../types/Types';
 
 type Props = {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   // setDrinkContents: (drinkContents: Customizations) => void;
   base: BaseOptions;
-  frappeExtras: Array<Extra>;
+  frappeExtras: Array<FrappeExtra>;
 }
 
 export default function DrinkCustomizationModal({setModalIsOpen, base, frappeExtras}: Props) {

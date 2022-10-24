@@ -1,33 +1,33 @@
 import React, { MouseEventHandler } from 'react';
-import { Frappe } from '../types/Types';
+import { Frappe, CompleteFrappe } from '../types/Types';
 
 import '../css/ItemCartDisplay.css';
 
 type Props = {
-  frappe: Frappe;
-  removeItemFromCart: (frappe: Frappe) => MouseEventHandler<HTMLDivElement> | undefined;
+  item: CompleteFrappe;
+  removeItemFromCart: (item: CompleteFrappe) => MouseEventHandler<HTMLDivElement> | undefined;
 }
 
-export default function ItemCartDisplay({frappe, removeItemFromCart}: Props) {
+export default function ItemCartDisplay({item, removeItemFromCart}: Props) {
 
   const handleEditDrink = () => {
-    alert('User wants to edit drink ' + frappe);
+    alert('User wants to edit drink ' + item);
   }
 
   return (
     <div className='item-cart-container'>
       <div className='item-cart-lhs'>
-        <div>{frappe.size} {frappe.name}</div>
+        <div>{item.frappe.size} {item.menu_item.name}</div>
       </div>
       <div className='item-cart-rhs'>
-        <div>${frappe.price.toFixed(2)}</div>
+        <div>${item.menu_item.price.toFixed(2)}</div>
         <div className='item-cart-edit-btn'
           onClick={handleEditDrink}
         >
           Edit
         </div>
         <div className='item-cart-remove-btn'
-          onClick={() => {removeItemFromCart(frappe)}}
+          onClick={() => {removeItemFromCart(item)}}
         >
           X
         </div>

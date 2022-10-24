@@ -5,10 +5,11 @@ import '../css/DrinkCard.css';
 import '../css/CustomizeDrink.css';
 import DrinkCustomizationModal from './DrinkCustomizationModal';
 import { useNavigate } from 'react-router-dom';
-import { BaseOptions, Frappe } from '../types/Types';
+import { CompleteFrappe, Base } from '../types/Types';
+import { TestBases, TestExtras } from '../tests/TestServerData'
 
 type Props = {
-  frappe: Frappe;
+  frappe: CompleteFrappe;
 }
 
 export default function CustomizeDrink({frappe}: Props) {
@@ -24,27 +25,23 @@ export default function CustomizeDrink({frappe}: Props) {
     setSize(e.target.value);
   }
 
-  function createCustomizationButtons(): ReactNode {
+  function createCustomizationButtons() {
     let buttons: ReactNode[] = [];
-    let base = 'Coffee';
-    if (frappe.base === BaseOptions.Cream) {
-      base = 'Cream';
-    }
-    else if (frappe.base === BaseOptions.Mocha) {
-      base = 'Mocha';
-    }
+    let base: Base | undefined = TestBases.find((item) => item.id === frappe.frappe.base); 
 
-    buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{base}</div>);
+    console.log("frappe has a base of ", frappe.frappe.base);
 
-    frappe.extras.forEach((extra) => {
-      for (const [key, value] of Object.entries(extra)) {
-        buttons.push(
-          <div className='row customization-button'>
-            <div className='delete-btn' onClick={() => handleDeleteAddin(key)}>X</div>
-            <div className='customization-amounts' onClick={handleCustomizeDrink}>{value} {key}</div>
-          </div>
-        );
-      };
+    buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{base ? base.name : "ERROR"}</div>);
+
+    frappe.frappe.extras.forEach((extra) => {
+      let extraObj = TestExtras.find((item) => item.id === extra.extras);
+
+      buttons.push(
+        <div className='row customization-button'>
+          <div className='delete-btn' onClick={() => handleDeleteAddin(extra.extras)}>X</div>
+          <div className='customization-amounts' onClick={handleCustomizeDrink}>{extra.amount}x {extraObj ? extraObj.name : "ERROR"}</div>
+        </div>
+      );
     })
 
     return buttons
@@ -54,7 +51,7 @@ export default function CustomizeDrink({frappe}: Props) {
     setModalIsOpen(true);
   }
 
-  function handleDeleteAddin(addin: string) {
+  function handleDeleteAddin(addin: number) {
     alert("User wants to delete " + addin);
     return;
   }
@@ -128,7 +125,7 @@ export default function CustomizeDrink({frappe}: Props) {
             },
           }
         }>
-        <DrinkCustomizationModal setModalIsOpen={setModalIsOpen} base={frappe.base} frappeExtras={frappe.extras} />
+        <DrinkCustomizationModal setModalIsOpen={setModalIsOpen} base={frappe.frappe.base} frappeExtras={frappe.frappe.extras} />
       </Modal>
     </div>
   );
