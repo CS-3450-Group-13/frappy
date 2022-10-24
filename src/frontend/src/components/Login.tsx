@@ -47,6 +47,14 @@ export default function Login({setPages}:{setPages: Function;}) {
             path: '/menu'
           },
           {
+            title: 'Queue',
+            path: '/queue'
+          },
+          {
+            title: 'Cart',
+            path: '/cart'
+          },
+          {
             title: 'Account',
             path: '/account'
           },
