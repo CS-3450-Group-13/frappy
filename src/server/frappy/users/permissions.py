@@ -1,5 +1,6 @@
 from rest_framework import permissions
 from rest_framework.request import Request
+from rest_framework.permissions import SAFE_METHODS
 
 
 class UserPermission(permissions.BasePermission):
@@ -30,3 +31,15 @@ class UserPermission(permissions.BasePermission):
             return obj == request.user or request.user.is_admin
 
         return False
+
+
+class IsManager(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if hasattr(request.user, "employee"):
+            return request.user.employee.is_manager
+
+
+class IsManagerOrReadOnly(IsManager):
+    def has_permission(self, request, view):
+        is_manager = super(IsManager, self).has_permission(request, view)
+        return request.method in SAFE_METHODS or is_manager

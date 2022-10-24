@@ -1,0 +1,68 @@
+.cart-container {
+  background-color: var(--frappy-background);
+  color: var(--frappy-white);
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-evenly; */
+  align-items: center;
+  font-size: 3rem;
+  height: 100%;
+  margin-left: 15%;
+  padding-top: 5%;
+}
+
+.cart-items-container {
+  background-color: var(--frappy-white);
+  border-radius: 5px;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  margin-bottom: 10%; /* Probably remove this... how to fit the whole page?? */
+}
+
+.cart-items {
+  padding: 10px;
+}
+
+.cart-total-container {
+  border-radius: 15px;
+  background-color: var(--frappy-dgray);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 25%;
+  color: white;
+  font-size: 2rem;
+  align-self: flex-end;
+  padding-left: 10px;
+  margin-right: 10px;
+}
+
+.cart-total {
+  align-self: center;
+}
+
+.cart-decision-btns {
+  display: flex;
+  flex-direction: row;
+  font-size: 2rem;
+  justify-content: space-between;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  color: white;
+}
+
+.cart-back-btn {
+  background-color: var(--frappy-dgreen);
+  padding: 5px;
+  border-radius: 15px;
+}
+
+.cart-place-order-btn {
+  background-color: var(--frappy-l-lgreen);
+  padding: 5px;
+  border-radius: 15px;
+}

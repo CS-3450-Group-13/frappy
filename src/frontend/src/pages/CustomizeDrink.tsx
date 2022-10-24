@@ -5,38 +5,16 @@ import '../css/DrinkCard.css';
 import '../css/CustomizeDrink.css';
 import DrinkCustomizationModal from './DrinkCustomizationModal';
 import { useNavigate } from 'react-router-dom';
-
-interface Drink {
-  name: string;
-  id: number;
-  inStock: boolean;
-}
+import { CompleteFrappe, Base } from '../types/Types';
+import { TestBases, TestExtras } from '../tests/TestServerData'
 
 type Props = {
-  drink: Drink;
+  frappe: CompleteFrappe;
 }
 
-interface addins {
-  [key: string]: number;
-}
-
-interface Customizations {
-  base: string;
-  addins: addins
-}
-
-const tmp: Customizations = {
-  base: "Soy Milk",
-  addins: {
-    "Vanilla Syrup": 1,
-    "Secret Sauce": 2,
-    "Whip Cream": 1,
-  },
-};
-
-export default function CustomizeDrink({drink}: Props) {
+export default function CustomizeDrink({frappe}: Props) {
   const [size, setSize] = useState("small");
-  const [drinkContents, setDrinkContents] = useState(tmp);
+  const [frappeExtras, setFrappeExtras] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -47,18 +25,24 @@ export default function CustomizeDrink({drink}: Props) {
     setSize(e.target.value);
   }
 
-  function createCustomizationButtons(): ReactNode {
+  function createCustomizationButtons() {
     let buttons: ReactNode[] = [];
-    buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{drinkContents.base}</div>);
+    let base: Base | undefined = TestBases.find((item) => item.id === frappe.frappe.base); 
 
-    for (const [key, value] of Object.entries(drinkContents.addins)) {
+    console.log("frappe has a base of ", frappe.frappe.base);
+
+    buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{base ? base.name : "ERROR"}</div>);
+
+    frappe.frappe.extras.forEach((extra) => {
+      let extraObj = TestExtras.find((item) => item.id === extra.extras);
+
       buttons.push(
         <div className='row customization-button'>
-          <div className='delete-btn' onClick={() => handleDeleteAddin(key)}>X</div>
-          <div className='customization-amounts' onClick={handleCustomizeDrink}>{value} {key}</div>
+          <div className='delete-btn' onClick={() => handleDeleteAddin(extra.extras)}>X</div>
+          <div className='customization-amounts' onClick={handleCustomizeDrink}>{extra.amount}x {extraObj ? extraObj.name : "ERROR"}</div>
         </div>
       );
-    }
+    })
 
     return buttons
   }
@@ -67,32 +51,32 @@ export default function CustomizeDrink({drink}: Props) {
     setModalIsOpen(true);
   }
 
-  function handleDeleteAddin(addin: string) {
+  function handleDeleteAddin(addin: number) {
     alert("User wants to delete " + addin);
     return;
   }
 
   function handleBackBtn() {
-    alert("Back button clicked, drink not added to cart");
+    alert("Back button clicked, frappe not added to cart");
     navigate("/menu");
   }
 
   function handleAddToCart() {
-    let customizations: string[] = [];
-    customizations.push(drinkContents.base);
+    // let customizations: string[] = [];
+    // customizations.push(frappeContents.base);
 
-    for (const [key, value] of Object.entries(drinkContents.addins)) {
-      let str = value.toString() + " " + key;
-      customizations.push(str);
-    }
-    alert("drink added to cart with " + customizations);
+    // for (const [key, value] of Object.entries(frappeContents.addins)) {
+    //   let str = value.toString() + " " + key;
+    //   customizations.push(str);
+    // }
+    // alert("frappe added to cart with " + customizations);
     navigate("/menu");
   }
 
   return (
     <div className='customizeDrink-container'>
       <div className='drink-details'>
-        <DrinkCard drink={drink}/>
+        <DrinkCard frappe={frappe}/>
         <div className='customization-list'>
           Customization list
           <ul>
@@ -141,7 +125,7 @@ export default function CustomizeDrink({drink}: Props) {
             },
           }
         }>
-        <DrinkCustomizationModal setModalIsOpen={setModalIsOpen} customizations={drinkContents} />
+        <DrinkCustomizationModal setModalIsOpen={setModalIsOpen} base={frappe.frappe.base} frappeExtras={frappe.frappe.extras} />
       </Modal>
     </div>
   );

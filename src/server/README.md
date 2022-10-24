@@ -15,6 +15,8 @@ All login endpoints mirror those found at [dj-rest-auth](https://dj-rest-auth.re
 
 So you wanna run the server backend huh? Well it takes just about as much as a full deployment to set up. This guide should help you account for all of the steps needed.
 
+> Note: The following commands are only needed for a manual install, most windows users should be able to get away with using the `init.ps1` script found in this section.
+>
 ### Step 1: Install required packages
 
 You may want to configure a `.venv` for your python intepreter before running this step, but go ahead and run
@@ -47,3 +49,13 @@ To remove the <span style="color:red">unapplied migrations</span> error, go ahea
 ```bash
 py manage.py migrate --fake-initial
 ```
+
+## 2,4
+
+In the case that data wasn't loaded in correctly, you can load in a copy of some test drinks and ingredients by running
+
+```
+py manage.py loaddata all
+```
+
+Make sure you also create a new superuser too!
