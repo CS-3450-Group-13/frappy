@@ -30,7 +30,6 @@ export default function Login({setPages}:{setPages: Function;}) {
     }
     if(TestUsers.some(data => data.email === input.email 
       && data.password === input.password)){
-        alert('Login success');
         navigate('/home-page');
         setPages(
           [
@@ -54,7 +53,6 @@ export default function Login({setPages}:{setPages: Function;}) {
         );
       }
       else{
-        alert('Login Failed');
         navigate('/new-user');
       }
   }
@@ -67,14 +65,14 @@ export default function Login({setPages}:{setPages: Function;}) {
       <form>
         <div className='form-input-item'>
       <label>Email:  </label>
-      <input type='email' id='input-email'></input>
+      <input type='email' id='input-email' aria-label='email'></input>
       </div>
       <div className='form-input-item'>
       <label>Password:  </label>
-      <input type='password' id='input-password'></input>
+      <input type='password' id='input-password' aria-label='password'></input>
       </div>
       <div className='form-input-item-last'>
-        <button type='button' className='bttn' onClick={submitForm}>Log In</button>
+        <button data-testid="loginBtn" type='button' className='bttn' onClick={submitForm}>Log In</button>
       </div>
       </form>
       <h6>No account? create an account <Link to='/new-user'>here</Link></h6>
