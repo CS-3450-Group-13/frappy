@@ -8,6 +8,5 @@ Write-Output "Waiting on server start..."
 Start-Sleep -Seconds 1.5
 # Step 2: have python load in the data
 Set-Location frappy
-..\.venv\Scripts\python.exe manage.py migrate --fake-initial
-..\.venv\Scripts\python.exe manage.py migrate --fake
+..\.venv\Scripts\python.exe manage.py migrate
 ..\.venv\Scripts\python.exe manage.py loaddata all
