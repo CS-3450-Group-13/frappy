@@ -3,7 +3,7 @@
 .update-container {
     background-color: var(--frappy-background);
     color: var(--frappy-white);
-    min-height: 100vh;
+    height:100%;
 }
 
 .update-container > * {
@@ -11,7 +11,7 @@
     margin-right: 10%;
 }
 
-.title {
+.update-title {
     margin-bottom: 0.3em;
     padding-left: 4px;
     font-size: 3em;
@@ -25,7 +25,7 @@
 
 .input-name {
     text-align: left;
-    text-decoration: underline;
+    font-style: italic;
     margin-bottom: 0.3em;
     padding-left: 4px;
 }
@@ -38,13 +38,13 @@
     text-align: left;
     padding: 8px;
     padding-left: 16px;
-    margin-bottom: 1em;
+    margin-bottom: 0.5em;
     width: 100%;
     font-size: 2em;
     border: hidden;
 }
 
-.buttons {
+.balance-buttons {
     margin-top: 32px;
     display: flex;
     justify-content: space-between;
@@ -52,7 +52,7 @@
     padding-right: 4px;
 }
 
-.button {
+.balance-button {
     border-radius: 0.4em;
     font-size: 2em;
     padding: 4px;

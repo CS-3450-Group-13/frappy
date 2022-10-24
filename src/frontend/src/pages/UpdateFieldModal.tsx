@@ -1,3 +1,4 @@
+import React from 'react';
 import '../css/UpdateFieldModal.css';
 
 type Props = {
@@ -24,7 +25,7 @@ export default function UpdateFieldModal(props: Props) {
 
   return (
     <div className="update-container">
-      <div className="title">Enter New {props.fieldName}</div>
+      <div className="update-title">Enter New {props.fieldName}</div>
       <TextField
         displayName={'New ' + props.fieldName}
         defaultValue={props.fieldValue}
@@ -41,11 +42,13 @@ export default function UpdateFieldModal(props: Props) {
         defaultValue="Enter Password"
         className="input-container"
       />
-      <div className="buttons">
-        <div className="button cancel" onClick={handleCancel}>
+      <div className="balance-buttons">
+        <div className="balance-button cancel" onClick={handleCancel}>
           Cancel
         </div>
-        <div className="button confirm" onClick={handleConfirm}>Confirm</div>
+        <div className="balance-button confirm" onClick={handleConfirm}>
+          Confirm
+        </div>
       </div>
     </div>
   );

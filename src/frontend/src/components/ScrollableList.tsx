@@ -16,7 +16,7 @@ export default function ScrollableList(props: Props) {
   console.log(React.Children.toArray(props.children));
   return (
     <div className="box" style={{ width: props.width }}>
-      {props.title && <div className="heading">{props.title}</div>}
+      {props.title && <div className="scrollable-heading">{props.title}</div>}
       <div className="container">{props.children}</div>
     </div>
   );

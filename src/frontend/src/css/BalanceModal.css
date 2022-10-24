@@ -11,10 +11,10 @@
     margin-right: 10%;
 }
 
-.title {
+.balance-title {
     margin-bottom: 0.3em;
     text-align: center;
-    font-size: 3em;
+    font-size: 3.5em;
 }
 
 .step-container {
@@ -67,13 +67,13 @@
     padding-right: 4px;
 }
 
-.buttons {
+.balance-buttons {
     display: flex;
     padding-left: 4px;
     padding-right: 4px;
 }
 
-.button {
+.balance-button {
     border-radius: 0.4em;
     font-size: 2em;
     padding: 4px;

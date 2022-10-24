@@ -56,7 +56,7 @@ export default function Account() {
 
   return (
     <div className="user-container">
-      <div className="heading">Account Information For:</div>
+      <div className="account-heading">Account Information For:</div>
       <div className="user-header heading-2">
         <img src={test} width="75em" className="profile-picture" />
         <div className="user-title header-2">{DEMO_USER.fullName}</div>
@@ -131,7 +131,7 @@ export default function Account() {
         style={{
           content: {
             height: '100%',
-            width: '500px',
+            width: '550px',
             marginLeft: 'auto',
             padding: '0px',
             inset: '0px',
@@ -157,7 +157,7 @@ export default function Account() {
         style={{
           content: {
             height: '100vh',
-            width: '500px',
+            width: '550px',
             marginLeft: 'auto',
             padding: '0px',
             inset: '0px',
