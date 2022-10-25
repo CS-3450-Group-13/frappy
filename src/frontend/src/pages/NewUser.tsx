@@ -1,12 +1,10 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { json } from 'stream/consumers';
 import '../css/Login.css';
 
 export default function NewUser() {
   const navigate = useNavigate();
+
   const addToData = () => {
-    let name = document.getElementById('input-name') as HTMLInputElement;
     let email = document.getElementById('input-email') as HTMLInputElement;
     let password = document.getElementById(
       'input-password'
@@ -16,7 +14,7 @@ export default function NewUser() {
     ) as HTMLInputElement;
     let input;
     if (password.value !== password2.value) {
-      console.error('passwords to not match');
+      alert('passwords to not match');
     } else {
       input = {
         email: email.value,
@@ -34,15 +32,19 @@ export default function NewUser() {
       body: JSON.stringify(input),
     })
       .then((response) => response.json())
-      //Then with the data from the response in JSON...
       .then((data) => {
-        console.log('Success:', data);
+        if (data.key) {
+          console.log('Success:', data);
+          navigate('/');
+        } else {
+          alert(
+            'Error can not create user, try again. Passwords must be at least 8 characters'
+          );
+        }
       })
-      //Then with the error genereted...
       .catch((error) => {
         console.error('Error:', error);
       });
-    navigate('/');
   };
 
   return (
@@ -50,10 +52,6 @@ export default function NewUser() {
       <h1>Create An Account</h1>
       <div className="form-data">
         <form>
-          <div className="form-input-item">
-            <label>Username: </label>
-            <input type="text" id="input-name"></input>
-          </div>
           <div className="form-input-item">
             <label>Email: </label>
             <input type="email" id="input-email"></input>

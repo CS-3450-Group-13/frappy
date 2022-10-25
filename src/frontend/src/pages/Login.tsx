@@ -2,19 +2,14 @@ import React from 'react';
 import '../css/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function Login({ setPages }: { setPages: Function }) {
-  const navigate = useNavigate();
+interface Props {
+  setPages: Function;
+  authKey: string;
+  setAuthKey: Function;
+}
 
-  const TestUsers = [
-    {
-      email: 'dyl2elite@gmail.com',
-      password: 'hello1234',
-    },
-    {
-      email: 'test@test.com',
-      password: 'hello1234',
-    },
-  ];
+export default function Login({ setPages, authKey, setAuthKey }: Props) {
+  const navigate = useNavigate();
 
   const submitForm = () => {
     let email = document.getElementById('input-email') as HTMLInputElement;
@@ -25,7 +20,6 @@ export default function Login({ setPages }: { setPages: Function }) {
       email: email.value,
       password: password.value,
     };
-
     fetch('http://127.0.0.1:8000/auth-endpoint/login/', {
       method: 'POST',
       headers: {
@@ -35,37 +29,36 @@ export default function Login({ setPages }: { setPages: Function }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        if (data.key) {
+          //Check if is manager or employee here
+          navigate('/home-page');
+          setAuthKey(data.key);
+          setPages([
+            {
+              title: 'Home',
+              path: '/home-page',
+            },
+            {
+              title: 'Order Status',
+              path: '/order-status',
+            },
+            {
+              title: 'Menu',
+              path: '/menu',
+            },
+            {
+              title: 'Account',
+              path: '/account',
+            },
+          ]);
+        } else {
+          navigate('/new-user');
+          alert(data.non_field_errors[0]);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
       });
-
-    console.log();
-    if (
-      TestUsers.some(
-        (data) => data.email === input.email && data.password === input.password
-      )
-    ) {
-      navigate('/home-page');
-      setPages([
-        {
-          title: 'Home',
-          path: '/home-page',
-        },
-        {
-          title: 'Order Status',
-          path: '/order-status',
-        },
-        {
-          title: 'Menu',
-          path: '/menu',
-        },
-        {
-          title: 'Account',
-          path: '/account',
-        },
-      ]);
-    } else {
-      navigate('/new-user');
-    }
   };
 
   return (
