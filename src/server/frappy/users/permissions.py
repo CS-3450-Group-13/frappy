@@ -37,9 +37,17 @@ class IsManager(permissions.BasePermission):
     def has_permission(self, request, view):
         if hasattr(request.user, "employee"):
             return request.user.employee.is_manager
+        return False
 
 
 class IsManagerOrReadOnly(IsManager):
     def has_permission(self, request, view):
         is_manager = super(IsManager, self).has_permission(request, view)
         return request.method in SAFE_METHODS or is_manager
+
+
+class IsCashier(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if hasattr(request.user, "employee"):
+            return request.user.employee.is_cashier or request.user.employee.is_manager
+        return False

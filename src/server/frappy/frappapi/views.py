@@ -6,7 +6,7 @@ from rest_framework.response import Response
 
 from .serializers import *
 from .models import *
-from users.permissions import IsManager, IsManagerOrReadOnly
+from users.permissions import IsManager, IsManagerOrReadOnly, IsCashier
 
 
 class FrappeViewSet(ModelViewSet):
@@ -15,7 +15,7 @@ class FrappeViewSet(ModelViewSet):
     queryset = Frappe.objects.all()
 
     def perform_create(self, serializer):
-        serializer.save(creator=self.request.user)
+        serializer.save(creator=self.request.user, user=self.request.user)
 
     @action(detail=False)
     def recent_frappes(self, request):
@@ -28,6 +28,17 @@ class FrappeViewSet(ModelViewSet):
 
         serializers = self.get_serializer(recent_frappes, many=True)
         return Response(serializers.data)
+
+
+class CashierFrappeViewSet(ModelViewSet):
+    permission_classes = [IsCashier]
+    serializer_class = CashierFrappeSerializer
+    queryset = Frappe.objects.all()
+
+    def perform_create(self, serializer):
+        serializer.save(creator=self.request.user, user=self.request.user)
+
+    pass
 
 
 class MenuViewSet(ModelViewSet):

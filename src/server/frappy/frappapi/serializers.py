@@ -1,4 +1,3 @@
-from tkinter.tix import Tree
 from rest_framework import serializers
 from .models import Frappe, Menu, Extras, ExtraDetail, Milk, Base
 
@@ -51,12 +50,31 @@ class FrappeSerializer(serializers.ModelSerializer):
         exclude = []
 
 
-class MenuSerializer(serializers.ModelSerializer):
-    price = serializers.ReadOnlyField()
-    frappe = serializers.PrimaryKeyRelatedField(
+class CashierFrappeSerializer(serializers.ModelSerializer):
+    creator = serializers.PrimaryKeyRelatedField(
         required=True, queryset=Frappe.objects.all()
     )
+    milk = serializers.PrimaryKeyRelatedField(
+        required=True, queryset=Milk.objects.all()
+    )
+    base = serializers.PrimaryKeyRelatedField(
+        required=True, queryset=Base.objects.all()
+    )
+    extras = ExtraDetailSerializer(source="extradetail_set", many=True, required=False)
+
+    class Meta:
+        model = Frappe
+        exclude = []
+
+
+class MenuSerializer(serializers.ModelSerializer):
+    prices = serializers.ReadOnlyField()
+    # frappe = serializers.PrimaryKeyRelatedField(
+    #     required=True, queryset=Frappe.objects.all()
+    # )
+    frappe = FrappeSerializer()
 
     class Meta:
         model = Menu
-        fields = ["name", "frappe", "photo", "price"]
+        fields = ["name", "frappe", "photo", "prices"]
+        detail = 1

@@ -246,6 +246,7 @@
             "base": 1,
             "milk": 1,
             "size": 1,
+            "user": 1,
             "creator": 1,
             "create_date": "2022-10-23T04:36:09.503Z",
             "comments": ""
@@ -258,6 +259,7 @@
             "base": 1,
             "milk": 1,
             "size": 1,
+            "user": 1,
             "creator": 1,
             "create_date": "2022-10-23T04:49:41.420Z",
             "comments": ""
@@ -270,6 +272,7 @@
             "base": 1,
             "milk": 1,
             "size": 1,
+            "user": 1,
             "creator": 1,
             "create_date": "2022-10-23T04:49:43.457Z",
             "comments": ""
@@ -282,6 +285,7 @@
             "base": 1,
             "milk": 1,
             "size": 1,
+            "user": 1,
             "creator": 1,
             "create_date": "2022-10-23T04:49:44.209Z",
             "comments": ""
@@ -295,6 +299,7 @@
             "milk": 1,
             "size": 1,
             "creator": 1,
+            "user": 1,
             "create_date": "2022-10-23T04:49:44.588Z",
             "comments": ""
         }
@@ -307,6 +312,7 @@
             "milk": 1,
             "size": 1,
             "creator": 1,
+            "user": 1,
             "create_date": "2022-10-23T04:49:44.933Z",
             "comments": ""
         }
@@ -319,6 +325,7 @@
             "milk": 1,
             "size": 1,
             "creator": 1,
+            "user": 1,
             "create_date": "2022-10-23T04:49:45.216Z",
             "comments": ""
         }
@@ -331,6 +338,7 @@
             "milk": 1,
             "size": 1,
             "creator": 1,
+            "user": 1,
             "create_date": "2022-10-23T04:49:45.534Z",
             "comments": ""
         }
@@ -343,6 +351,7 @@
             "milk": 1,
             "size": 1,
             "creator": 1,
+            "user": 1,
             "create_date": "2022-10-23T04:49:46.036Z",
             "comments": ""
         }
@@ -355,6 +364,7 @@
             "milk": 1,
             "size": 1,
             "creator": 1,
+            "user": 1,
             "create_date": "2022-10-23T15:20:38.910Z",
             "comments": "For Menu"
         }

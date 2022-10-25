@@ -34,28 +34,7 @@ This should install django, django rest, pillow, and any other packages used for
 To build a local copy of the database you can run, navigate to the `./server` folder and run
 
 ```shell
-docker build -t frappy-db ./
+init.ps1
 ```
 
-## 2.2
-
-Then, open the docker desktop app and spin up a new instance of the frappy-db image.
-> Make sure you also specify the port to forward when creaing the container, you should use `5432`
-
-## 2.3
-
-To remove the <span style="color:red">unapplied migrations</span> error, go ahead and also run
-
-```bash
-py manage.py migrate --fake-initial
-```
-
-## 2,4
-
-In the case that data wasn't loaded in correctly, you can load in a copy of some test drinks and ingredients by running
-
-```
-py manage.py loaddata all
-```
-
-Make sure you also create a new superuser too!
+This script will load all the required docker containers and testing data into our server.
