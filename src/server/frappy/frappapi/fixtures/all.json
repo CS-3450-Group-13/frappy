@@ -249,7 +249,8 @@
             "user": 1,
             "creator": 1,
             "create_date": "2022-10-23T04:36:09.503Z",
-            "comments": ""
+            "comments": "",
+            "final_price": "0.0"
         }
     },
     {
@@ -261,6 +262,7 @@
             "size": 1,
             "user": 1,
             "creator": 1,
+            "final_price": "0.0",
             "create_date": "2022-10-23T04:49:41.420Z",
             "comments": ""
         }
@@ -274,6 +276,7 @@
             "size": 1,
             "user": 1,
             "creator": 1,
+            "final_price": "0.0",
             "create_date": "2022-10-23T04:49:43.457Z",
             "comments": ""
         }
@@ -287,6 +290,7 @@
             "size": 1,
             "user": 1,
             "creator": 1,
+            "final_price": "0.0",
             "create_date": "2022-10-23T04:49:44.209Z",
             "comments": ""
         }
@@ -300,6 +304,7 @@
             "size": 1,
             "creator": 1,
             "user": 1,
+            "final_price": "0.0",
             "create_date": "2022-10-23T04:49:44.588Z",
             "comments": ""
         }
@@ -313,6 +318,7 @@
             "size": 1,
             "creator": 1,
             "user": 1,
+            "final_price": "0.0",
             "create_date": "2022-10-23T04:49:44.933Z",
             "comments": ""
         }
@@ -326,6 +332,7 @@
             "size": 1,
             "creator": 1,
             "user": 1,
+            "final_price": "0.0",
             "create_date": "2022-10-23T04:49:45.216Z",
             "comments": ""
         }
@@ -339,6 +346,7 @@
             "size": 1,
             "creator": 1,
             "user": 1,
+            "final_price": "0.0",
             "create_date": "2022-10-23T04:49:45.534Z",
             "comments": ""
         }
@@ -352,6 +360,7 @@
             "size": 1,
             "creator": 1,
             "user": 1,
+            "final_price": "0.0",
             "create_date": "2022-10-23T04:49:46.036Z",
             "comments": ""
         }
@@ -365,6 +374,7 @@
             "size": 1,
             "creator": 1,
             "user": 1,
+            "final_price": "0.0",
             "create_date": "2022-10-23T15:20:38.910Z",
             "comments": "For Menu"
         }

@@ -1,21 +1,59 @@
-from rest_framework.viewsets import ModelViewSet, GenericViewSet, ReadOnlyModelViewSet
+from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework import permissions
 from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
+from rest_framework import status
 from .serializers import *
 from .models import *
 from users.permissions import IsManager, IsManagerOrReadOnly, IsCashier
+from users.models import User
+from django.db import transaction
 
 
-class FrappeViewSet(ModelViewSet):
+class UserFrappeViewSet(ModelViewSet):
     serializer_class = FrappeSerializer
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Frappe.objects.all()
 
-    def perform_create(self, serializer):
-        serializer.save(creator=self.request.user, user=self.request.user)
+    # Check if sufficient balance is in place
+
+    def create(self, request, *args, **kwargs):
+        serial: FrappeSerializer = self.get_serializer(data=request.data)
+        serial.is_valid(raise_exception=True)
+
+        user: User = self.request.user
+        cost = serial.data["price"]
+
+        if cost < user.balance:
+
+            self.perform_create(serial)
+            user.balance -= cost
+            user.save()
+        else:
+            return Response(
+                {
+                    "error": "User does not have enough balance",
+                    "user_balance": request.user.balance,
+                    "cost": cost,
+                },
+                status=status.HTTP_406_NOT_ACCEPTABLE,
+            )
+
+        return Response(
+            serial.data + {"user_balance": request.user.balance, "cost": cost},
+            status=status.HTTP_201_CREATED,
+        )
+
+    def perform_create(self, serializer: FrappeSerializer):
+        serializer.save(
+            creator=self.request.user,
+            user=self.request.user,
+            final_price=serializer.price,
+        )
+
+    def get_queryset(self):
+        user = self.request.user
+        return Frappe.objects.filter(user=user)
 
     @action(detail=False)
     def recent_frappes(self, request):
@@ -36,7 +74,7 @@ class CashierFrappeViewSet(ModelViewSet):
     queryset = Frappe.objects.all()
 
     def perform_create(self, serializer):
-        serializer.save(creator=self.request.user, user=self.request.user)
+        serializer.save(creator=self.request.user)
 
     pass
 

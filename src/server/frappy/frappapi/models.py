@@ -39,11 +39,8 @@ class Frappe(models.Model):
         LARGE = 3
 
     class OrderStates(models.IntegerChoices):
-        MENU = 0
-        ORDERED = 1
-        PAID = 2
-        IN_PROGRESS = 3
-        COMPLETED = 4
+        IN_PROGRESS = 1
+        COMPLETED = 2
 
     base = models.ForeignKey(Base, on_delete=models.CASCADE)
     milk = models.ForeignKey(Milk, on_delete=models.CASCADE)
@@ -55,7 +52,7 @@ class Frappe(models.Model):
     creator = models.ForeignKey(User, related_name="frappes", on_delete=models.CASCADE)
     create_date = models.DateTimeField(auto_now_add=True)
     comments = models.TextField(blank=True)
-    final_price = models.DecimalField
+    final_price = models.DecimalField(max_digits=20, decimal_places=2)
 
     def __str__(self):
         if hasattr(self, "menu"):

@@ -2,10 +2,11 @@ from rest_framework.decorators import action
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework import status
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.request import Request
+from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
 from .serializers import EmployeeSerializer, LoginSerializer, UserSerializer
-from .permissions import IsManager
+from .permissions import IsCashier, IsManager
 from .models import User, Employee
 from django.contrib.auth import login
 
@@ -24,26 +25,30 @@ class LoginViewSet(viewsets.ViewSet):
         return Response(None, status=status.HTTP_202_ACCEPTED)
 
 
-class UserViewSet(viewsets.ModelViewSet):
+class UserViewSet(
+    viewsets.GenericViewSet, ListModelMixin, RetrieveModelMixin, UpdateModelMixin
+):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
     def get_permissions(self):
-        """
-        Instantiates and returns the list of permissions that this view requires.
-        """
-        if self.action == "pay_all":
-            permission_classes = [IsManager]
+        if self.action == "update":
+            permission_classes = [IsAuthenticated]
         else:
-            permission_classes = [IsAdminUser, IsManager]
+            permission_classes = [IsAdminUser, IsManager, IsCashier]
         return [permission() for permission in permission_classes]
 
-    pass
+    def get_queryset(self):
+        if self.action == "update":
+            return User.objects.get(user=self.request.user)
+        else:
+            return User.objects.all()
 
 
 class EmployeeUserViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializer
     queryset = Employee.objects.all()
+    permission_classes = [IsAdminUser, IsManager]
 
     @action(detail=False)
     def pay_all(self, request: Request):

@@ -1,5 +1,7 @@
+from collections import OrderedDict
 from rest_framework import serializers
 from .models import Frappe, Menu, Extras, ExtraDetail, Milk, Base
+from users.models import User
 
 
 class ExtraSerializer(serializers.ModelSerializer):
@@ -36,7 +38,7 @@ class ExtraDetailSerializer(serializers.ModelSerializer):
 
 
 class FrappeSerializer(serializers.ModelSerializer):
-    creator = serializers.ReadOnlyField(source="creator.email")
+    user = serializers.ReadOnlyField(source="user.email")
     milk = serializers.PrimaryKeyRelatedField(
         required=True, queryset=Milk.objects.all()
     )
@@ -44,15 +46,29 @@ class FrappeSerializer(serializers.ModelSerializer):
         required=True, queryset=Base.objects.all()
     )
     extras = ExtraDetailSerializer(source="extradetail_set", many=True, required=False)
+    price = serializers.SerializerMethodField()
+    final_price = serializers.ReadOnlyField()
+    # Add on the fly price calulcations
+    def get_price(self, obj):
+        if type(obj) == OrderedDict:
+            total = 0
+            if obj.get("extras"):
+                pass
+            total += obj["milk"].price_per_unit * obj["size"]
+            total += obj["base"].price_per_unit * obj["size"]
+            return total
+        else:
+            return Frappe.objects.get(id=obj.id).price()
 
     class Meta:
         model = Frappe
-        exclude = []
+        exclude = ["creator"]
 
 
 class CashierFrappeSerializer(serializers.ModelSerializer):
-    creator = serializers.PrimaryKeyRelatedField(
-        required=True, queryset=Frappe.objects.all()
+    creator = serializers.ReadOnlyField(source="creator.email")
+    user = serializers.PrimaryKeyRelatedField(
+        required=True, queryset=User.objects.all()
     )
     milk = serializers.PrimaryKeyRelatedField(
         required=True, queryset=Milk.objects.all()
@@ -69,9 +85,6 @@ class CashierFrappeSerializer(serializers.ModelSerializer):
 
 class MenuSerializer(serializers.ModelSerializer):
     prices = serializers.ReadOnlyField()
-    # frappe = serializers.PrimaryKeyRelatedField(
-    #     required=True, queryset=Frappe.objects.all()
-    # )
     frappe = FrappeSerializer()
 
     class Meta:
