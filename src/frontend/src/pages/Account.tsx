@@ -91,6 +91,7 @@ export default function Account() {
           <div className="field-title">Email </div>
           <div className="colon">:</div>
           <EditableText
+            data-testid="edit-email-btn"
             text={DEMO_USER.eMail}
             onClick={() =>
               openFieldModal({

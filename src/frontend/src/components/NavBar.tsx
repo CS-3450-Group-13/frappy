@@ -15,7 +15,7 @@ export default function NavBar ({pages}:{pages: Array<Props>;}) {
         <img alt='logo' src={Logo} />
         <div>
           {pages.map( ({title, path}) => (
-            <button onClick={() => navigate(path)} >{title}</button>
+            <button id={title} aria-label={title} onClick={() => navigate(path)} >{title}</button>
           ))}
         </div>
       </div>
