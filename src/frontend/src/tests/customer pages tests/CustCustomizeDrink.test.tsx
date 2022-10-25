@@ -5,16 +5,26 @@ import { BrowserRouter } from 'react-router-dom';
 import CustomizeDrink from '../../pages/CustomizeDrink';
 
 const mockDrink = {
-    name: 'Pumpkin Spice',
-    id: 0,
-    inStock: true,
-  };
+  name: 'Pumpkin Spice',
+  id: 0,
+  inStock: true,
+};
 
-describe('Customer CustomizeDrink Page Tests', () =>{
-    test('renders CustomizeDrink Component', () => {
-        render(
-        <BrowserRouter>
+describe('Customer CustomizeDrink Page Tests', () => {
+  test('renders CustomizeDrink Component', () => {
+    render(
+      <BrowserRouter>
         <CustomizeDrink drink={mockDrink} />
-        </BrowserRouter>);
-      });
-    })
+      </BrowserRouter>
+    );
+  });
+
+  // test('renders CustomizeDrink Component', () => {
+  //   render(
+  //     <BrowserRouter>
+  //       <CustomizeDrink drink={mockDrink} />
+  //     </BrowserRouter>
+  //   );
+  // });
+  // expect(screen.getByText(/Pumpkin Spice/i)).toBeInTheDocument();
+});

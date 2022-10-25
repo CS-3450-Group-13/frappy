@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { json } from 'stream/consumers';
 import '../css/Login.css';
 
 export default function NewUser() {
@@ -18,7 +19,6 @@ export default function NewUser() {
       console.error('passwords to not match');
     } else {
       input = {
-        username: name.value,
         email: email.value,
         password1: password.value,
         password2: password2.value,
@@ -31,6 +31,7 @@ export default function NewUser() {
       headers: {
         'Content-Type': 'application/json',
       },
+      body: JSON.stringify(input),
     })
       .then((response) => response.json())
       //Then with the data from the response in JSON...
