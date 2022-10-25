@@ -1,23 +1,23 @@
 @import url("Global.css");
 
-.balance-container {
+.hours-container {
     background-color: var(--frappy-background);
     color: var(--frappy-white);
     min-height: 100%;
 }
 
-.balance-container > * {
+.hours-container > * {
     margin-left: 10%;
     margin-right: 10%;
 }
 
-.balance-title {
+.hours-home-title {
     margin-bottom: 0.3em;
     text-align: center;
-    font-size: 3.5em;
+    font-size: 3em;
 }
 
-.step-container {
+.hours-step-container {
     display: flex;
     justify-content: flex-start;
     font-weight: 600;
@@ -27,19 +27,11 @@
     margin-bottom: 0.1em;
 }
 
-.dollar {
-    background-color: var(--frappy-white);
-    border-radius: 0.3em 0 0 0.3em;
-    color: black;
-    padding-left: 16px;
-    padding-right: 4px;
-    border-right: 1px solid grey;
-}
 
-.balance-input {
+.hours-input {
     background-color: var(--frappy-white);
     color: black;
-    border-radius:0 0.3em 0.3em 0;
+    border-radius:0.3em;
     width: 100%;
     border: none;
     text-align: right;
@@ -47,7 +39,7 @@
     padding-left: 8px;
 }
 
-.new-balance {
+.new-hours {
     text-align: left;
     font-size: 1.2em;
     margin-bottom: 32px;
@@ -55,11 +47,11 @@
     padding-left: 4px;
 }
 
-.text-boi {
+.hours-text-boi {
     padding-left: 4px;
 }
 
-.balance-value {
+.hours-value {
     display: grid;
     grid-template-columns: auto auto;
     margin-left: auto;
@@ -67,17 +59,19 @@
     padding-right: 4px;
 }
 
-.balance-buttons {
+.hours-buttons {
     display: flex;
     padding-left: 4px;
     padding-right: 4px;
 }
 
-.balance-button {
+.hours-button {
     border-radius: 0.4em;
-    font-size: 2em;
-    padding: 4px;
+    font-size: 2.5em;
+    padding: 8px; 
+    user-select: none; 
 }
+
 
 
 .confirm {
@@ -94,8 +88,8 @@
 
 
 
-.balance-input::-webkit-inner-spin-button,
-.balance-input::-webkit-outer-spin-button {
+.hours-input::-webkit-inner-spin-button,
+.hours-input::-webkit-outer-spin-button {
     -webkit-appearance: none;
 }
 .balance-input::before {

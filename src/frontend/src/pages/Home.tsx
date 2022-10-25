@@ -5,7 +5,6 @@ import '../css/Home.css';
 import ScrollableList from '../components/ScrollableList';
 import { useNavigate } from 'react-router-dom';
 
-
 interface User {
   fullName: string;
   userName: string;
@@ -253,7 +252,6 @@ const DEMO_USER: User = {
 };
 
 export default function Home() {
-
   const navigate = useNavigate();
 
   return (
@@ -261,14 +259,14 @@ export default function Home() {
       <div className="header">
         <div className="title">Welcome Back {DEMO_USER.fullName}!</div>
         <div className="profile-picture">
-          <img src={test} alt='test' width="110em" height="110em" />
+          <img src={test} alt="test" width="110em" height="110em" />
         </div>
       </div>
       <div className="fast-nav-buttons">
         <div
           className="button favorite-button"
           onClick={() => {
-            navigate('/menu')
+            navigate('/menu');
           }}
         >
           Order Favorite Drink
@@ -276,7 +274,7 @@ export default function Home() {
         <div
           className="button order-button"
           onClick={() => {
-            navigate('/menu')
+            navigate('/menu');
           }}
         >
           New Order
@@ -284,14 +282,14 @@ export default function Home() {
         <div
           className="button account-button"
           onClick={() => {
-            navigate('/account')
+            navigate('/account');
           }}
         >
           Edit Account
         </div>
       </div>
       <div className="list-container">
-        <ScrollableList title="Account" width="450px">
+        <ScrollableList title="Account" width="70%">
           <DetailCard
             title="Balance"
             // eslint-disable-next-line
@@ -300,7 +298,7 @@ export default function Home() {
           <DetailCard title="Favorite Drink" value={DEMO_USER.favoriteDrink} />
           <DetailCard title="Total Spent" value="$100.00" />
         </ScrollableList>
-        <ScrollableList title="Order History" width="450px">
+        <ScrollableList title="Order History" width="65%">
           {DEMO_USER.orderHistory.map((orderInstance) => (
             <OrderCard order={orderInstance} />
           ))}
@@ -341,7 +339,7 @@ function OrderCard(props: PropsOrder) {
         {!expanded && (
           <div className="order-summary">
             <div className="small-container">
-              <div className="drink-name">
+              <div className="home-drink-name">
                 {props.order.drinks[0].name}
                 {props.order.drinks.length > 0
                   ? ` (${props.order.drinks.length})`
@@ -356,7 +354,7 @@ function OrderCard(props: PropsOrder) {
               </div>
             </div>
             <div className="drink-photo-container">
-              <img src={Frappe} alt='frappe1' className="drink-photo" />
+              <img src={Frappe} alt="frappe1" className="home-drink-photo" />
             </div>
           </div>
         )}
@@ -365,11 +363,11 @@ function OrderCard(props: PropsOrder) {
             {props.order.drinks.map((drink) => (
               <div className="order-summary">
                 <div className="small-container">
-                  <div className="drink-name">{drink.name}</div>
+                  <div className="home-drink-name">{drink.name}</div>
                   <div className="cost">${drink.cost.toFixed(2)}</div>
                 </div>
                 <div className="drink-photo-container">
-                  <img src={Frappe} alt='frappe' className="drink-photo" />
+                  <img src={Frappe} alt="frappe" className="home-drink-photo" />
                 </div>
               </div>
             ))}{' '}

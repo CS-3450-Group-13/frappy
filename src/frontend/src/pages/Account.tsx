@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import internal from 'stream';
 import EditIcon from '../images/edit-icon.svg';
 import '../css/Account.css';
@@ -6,6 +6,7 @@ import test from '../images/test.png';
 import UpdateFieldModal from './UpdateFieldModal';
 import Modal from 'react-modal';
 import BalanceModal from './BalaceModal';
+import HoursModal from './HoursModal';
 
 interface User {
   fullName: string;
@@ -13,6 +14,8 @@ interface User {
   eMail: string;
   password: number; // Only Care About Password Length for Display Purposes, Should be Hashed Anyways
   balance: number;
+  accountType: string;
+  hours: number;
 }
 
 interface Field {
@@ -27,6 +30,8 @@ const DEMO_USER: User = {
   eMail: 'glorglugaming@gmail.com',
   password: 4,
   balance: 400.32,
+  accountType: 'manager',
+  hours: 15,
 };
 
 type Props = {
@@ -39,6 +44,7 @@ const maxSize = 16;
 export default function Account() {
   const [balanceModalOpen, setBalanceModal] = useState(false);
   const [fieldModalOpen, setFieldModal] = useState(false);
+  const [hoursModalOpen, setHoursModal] = useState(false);
   const [currentField, setCurrentField] = useState({
     name: '',
     value: '',
@@ -54,9 +60,13 @@ export default function Account() {
     setBalanceModal(true);
   }
 
+  function openHoursModal() {
+    setHoursModal(true);
+  }
+
   return (
     <div className="user-container">
-      <div className="heading">Account Information For:</div>
+      <div className="header">Account Information For:</div>
       <div className="user-header heading-2">
         <img src={test} width="75em" className="profile-picture" />
         <div className="user-title header-2">{DEMO_USER.fullName}</div>
@@ -117,12 +127,28 @@ export default function Account() {
 
         <div className="balance-information heading-2">
           <div>
-            <u>Balance:</u>
+            <u>
+              {DEMO_USER.accountType === 'manager' ? 'Store' : 'User'} Balance:
+            </u>
           </div>
           <div className="balance-display">${DEMO_USER.balance.toFixed(2)}</div>
           <div className="small-link" onClick={openBalanceModal}>
             Add to Balance
           </div>
+          {(DEMO_USER.accountType === 'manager' ||
+            DEMO_USER.accountType === 'employee') && (
+            <div className="time-worked-div">
+              <div>
+                <u>Hours Clocked:</u>
+              </div>
+              <div className="time-display">
+                {DEMO_USER.hours.toFixed(1)} Hr
+              </div>
+              <div className="small-link" onClick={openHoursModal}>
+                Clock In
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
@@ -132,7 +158,7 @@ export default function Account() {
         style={{
           content: {
             height: '100%',
-            width: '500px',
+            width: '550px',
             marginLeft: 'auto',
             padding: '0px',
             inset: '0px',
@@ -158,7 +184,7 @@ export default function Account() {
         style={{
           content: {
             height: '100vh',
-            width: '500px',
+            width: '550px',
             marginLeft: 'auto',
             padding: '0px',
             inset: '0px',
@@ -172,6 +198,29 @@ export default function Account() {
         <BalanceModal
           setModalIsOpen={setBalanceModal}
           currentBalance={DEMO_USER.balance}
+        />
+      </Modal>
+
+      <Modal
+        overlayClassName="dark"
+        isOpen={hoursModalOpen}
+        style={{
+          content: {
+            height: '100vh',
+            width: '550px',
+            marginLeft: 'auto',
+            padding: '0px',
+            inset: '0px',
+            border: 'none',
+            borderRadius: '0px',
+            background: 'white',
+            backgroundColor: 'rgba(0,0,0,0)',
+          },
+        }}
+      >
+        <HoursModal
+          setModalIsOpen={setHoursModal}
+          currentHours={DEMO_USER.hours}
         />
       </Modal>
     </div>
