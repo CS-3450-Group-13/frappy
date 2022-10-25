@@ -50,6 +50,7 @@ class FrappeSerializer(serializers.ModelSerializer):
     final_price = serializers.ReadOnlyField()
     # Add on the fly price calulcations
     def get_price(self, obj):
+        print(type(obj))
         if type(obj) == OrderedDict:
             total = 0
             if obj.get("extras"):

@@ -20,13 +20,14 @@ class UserFrappeViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         serial: FrappeSerializer = self.get_serializer(data=request.data)
         serial.is_valid(raise_exception=True)
+        print(serial.validated_data)
+        cost = serial.get_price(serial.validated_data)
 
         user: User = self.request.user
-        cost = serial.data["price"]
 
         if cost < user.balance:
-
-            self.perform_create(serial)
+            serial.is_valid()
+            self.perform_create(serial, cost)
             user.balance -= cost
             user.save()
         else:
@@ -40,15 +41,13 @@ class UserFrappeViewSet(ModelViewSet):
             )
 
         return Response(
-            serial.data + {"user_balance": request.user.balance, "cost": cost},
+            {"user_balance": request.user.balance, "cost": cost},
             status=status.HTTP_201_CREATED,
         )
 
-    def perform_create(self, serializer: FrappeSerializer):
+    def perform_create(self, serializer: FrappeSerializer, cost):
         serializer.save(
-            creator=self.request.user,
-            user=self.request.user,
-            final_price=serializer.price,
+            creator=self.request.user, user=self.request.user, final_price=cost
         )
 
     def get_queryset(self):

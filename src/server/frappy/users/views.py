@@ -5,7 +5,12 @@ from rest_framework import status
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
-from .serializers import EmployeeSerializer, LoginSerializer, UserSerializer
+from .serializers import (
+    BalanceSerializer,
+    EmployeeSerializer,
+    LoginSerializer,
+    UserSerializer,
+)
 from .permissions import IsCashier, IsManager
 from .models import User, Employee
 from django.contrib.auth import login
@@ -43,6 +48,26 @@ class UserViewSet(
             return User.objects.get(user=self.request.user)
         else:
             return User.objects.all()
+
+    @action(detail=True, methods=["GET"])
+    def add_balance(self, request: Request, pk=None):
+        user = User.objects.get(id=pk)
+        print(request.query_params)
+        if "balance" in request.query_params.dict():
+            try:
+                user.balance += int(request.query_params["balance"])
+                user.save()
+                return Response(
+                    {
+                        "success": "balaced added successfully",
+                        "new_balance": user.balance,
+                    }
+                )
+            except ValueError as e:
+                print(e, type(e))
+                return Response({"Value Error": "not a proper literal"})
+        else:
+            return Response({"Error": "Unable to process request"})
 
 
 class EmployeeUserViewSet(viewsets.ModelViewSet):
