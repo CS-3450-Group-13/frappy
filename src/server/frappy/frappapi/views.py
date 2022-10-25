@@ -20,7 +20,6 @@ class UserFrappeViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         serial: FrappeSerializer = self.get_serializer(data=request.data)
         serial.is_valid(raise_exception=True)
-        print(serial.validated_data)
         cost = serial.get_price(serial.validated_data)
 
         user: User = self.request.user
@@ -67,15 +66,17 @@ class UserFrappeViewSet(ModelViewSet):
         return Response(serializers.data)
 
 
-class CashierFrappeViewSet(ModelViewSet):
+class CashierFrappeViewSet(UserFrappeViewSet):
     permission_classes = [IsCashier]
     serializer_class = CashierFrappeSerializer
     queryset = Frappe.objects.all()
 
-    def perform_create(self, serializer):
-        serializer.save(creator=self.request.user)
-
-    pass
+    def perform_create(self, serializer, cost):
+        serializer.save(
+            creator=self.request.user,
+            user=serializer.validated_data["user"],
+            final_price=cost,
+        )
 
 
 class MenuViewSet(ModelViewSet):

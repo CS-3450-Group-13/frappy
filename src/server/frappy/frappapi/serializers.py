@@ -66,7 +66,7 @@ class FrappeSerializer(serializers.ModelSerializer):
         exclude = ["creator"]
 
 
-class CashierFrappeSerializer(serializers.ModelSerializer):
+class CashierFrappeSerializer(FrappeSerializer):
     creator = serializers.ReadOnlyField(source="creator.email")
     user = serializers.PrimaryKeyRelatedField(
         required=True, queryset=User.objects.all()
@@ -78,6 +78,7 @@ class CashierFrappeSerializer(serializers.ModelSerializer):
         required=True, queryset=Base.objects.all()
     )
     extras = ExtraDetailSerializer(source="extradetail_set", many=True, required=False)
+    final_price = serializers.ReadOnlyField()
 
     class Meta:
         model = Frappe
