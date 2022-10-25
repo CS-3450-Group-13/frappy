@@ -3,66 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import DrinkCard from '../cards/DrinkCard';
 import '../css/Menu.css';
 import Confirmation from './Confirmation';
+import { CompleteFrappe } from '../types/Types';
 
-interface Drink {
-  name: string;
-  id: number;
-  inStock: boolean;
+type Props = {
+  menuItems: Array<CompleteFrappe>;
 }
 
-const drinks: Drink[] = [
-  {
-    name: "Pumpkin Spice",
-    id: 0,
-    inStock: true,
-  },
-  {
-    name: "Apple Crisp",
-    id: 1,
-    inStock: true,
-  },
-  {
-    name: "Mocha Cookie Crumble",
-    id: 2,
-    inStock: true,
-  },
-  {
-    name: "Caramel Ribbon Crunch",
-    id: 3,
-    inStock: true,
-  },
-  {
-    name: "Vanilla Bean",
-    id: 4,
-    inStock: false,
-  },
-  {
-    name: "White Chocolate",
-    id: 5,
-    inStock: false,
-  },
-  {
-    name: "Java Chip",
-    id: 6,
-    inStock: true,
-  },
-  {
-    name: "Custom Drink",
-    id: 7,
-    inStock: true
-  },
-];
-
-export default function Menu() {
+export default function Menu({menuItems}: Props) {
   const navigate = useNavigate();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
 
-  const drinkCards = drinks.map((drink) => 
+  const drinkCards = menuItems.map((frappe) => 
     <div className='drinkCard' >
-      <DrinkCard key={drink.id} drink={drink}/>
+      <DrinkCard key={frappe.frappe.id} frappe={frappe}/>
       <button className='customize-btn' onClick={() => {
       navigate('/customize', {state:{
-        drink: drink,
+        drink: frappe,
       }});
     }}>ORDER</button>
     </div>

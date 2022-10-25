@@ -50,6 +50,10 @@ export default function Login({ setPages, authKey, setAuthKey }: Props) {
               title: 'Account',
               path: '/account',
             },
+            {
+              title: 'Cart',
+              path: '/cart',
+            },
           ]);
         } else {
           navigate('/new-user');
