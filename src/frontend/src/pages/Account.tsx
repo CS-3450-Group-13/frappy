@@ -66,7 +66,7 @@ export default function Account() {
 
   return (
     <div className="user-container">
-      <div className="header">Account Information For:</div>
+      <div className="account-heading">Account Information For:</div>
       <div className="user-header heading-2">
         <img src={test} width="75em" className="profile-picture" />
         <div className="user-title header-2">{DEMO_USER.fullName}</div>
