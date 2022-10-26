@@ -149,7 +149,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        exclude = ["password", "is_staff", "balance", "groups", "is_superuser"]
+        exclude = ["is_staff", "groups", "is_superuser"]
 
 
 class BalanceSerializer(serializers.Serializer):

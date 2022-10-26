@@ -37,7 +37,7 @@ class UserViewSet(
     serializer_class = UserSerializer
 
     def get_permissions(self):
-        if self.action == "update":
+        if self.action in ["current_user", "add_balance"]:
             permission_classes = [IsAuthenticated]
         else:
             permission_classes = [IsAdminUser, IsManager, IsCashier]
@@ -49,10 +49,9 @@ class UserViewSet(
         else:
             return User.objects.all()
 
-    @action(detail=True, methods=["GET"])
+    @action(detail=False, methods=["GET"])
     def add_balance(self, request: Request, pk=None):
         user = User.objects.get(id=pk)
-        print(request.query_params)
         if "balance" in request.query_params.dict():
             try:
                 user.balance += int(request.query_params["balance"])
@@ -68,6 +67,11 @@ class UserViewSet(
                 return Response({"Value Error": "not a proper literal"})
         else:
             return Response({"Error": "Unable to process request"})
+
+    @action(detail=False, methods=["GET"])
+    def current_user(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
 
 
 class EmployeeUserViewSet(viewsets.ModelViewSet):
