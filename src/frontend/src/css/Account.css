@@ -19,6 +19,7 @@
   font-size: 3em;
 }
 
+
 .user-header {
   display: grid;
   grid-template-columns: auto auto;
@@ -89,6 +90,7 @@
 
 .edit-icon:hover {
  background-color: lightgray;
+ cursor: pointer;
 }
 
 .field-title {
@@ -129,6 +131,21 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.75);
+}
+
+.time-worked-div {
+  margin-top: 1em;
+  display: grid;
+  align-content: flex-start;
+  white-space: nowrap;
+  row-gap: 0.2em;
+}
+
+.time-display {
+  font-size: 2em;
+  border-radius: 15px;
+  padding: 25px 25px 25px 25px;
+  background-color: var(--frappy-orange);
 }
 
 input:placeholder-shown {
