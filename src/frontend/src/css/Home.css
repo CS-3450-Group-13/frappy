@@ -8,8 +8,7 @@
     text-align: center;
     color: var(--frappy-white);
     background-color: var(--frappy-background);
-    height: 1000px;
-    width: 100%;
+    min-height: 100vh;
     margin-left: 10%;
 }
 
@@ -155,8 +154,9 @@
 
 
 .drink-photo-container {
+    margin-left: 1em;
 }
-.drink-photo {
+.home-drink-photo {
     height: 50px;
     width: 50px;
     object-fit: cover;

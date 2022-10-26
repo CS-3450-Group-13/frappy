@@ -29,7 +29,7 @@ export default function BalanceModal(props: Props) {
 
   return (
     <div className="balance-container">
-      <div className="title">Enter Balance</div>
+      <div className="balance-title">Enter Balance</div>
       <div className="step-container">
         <div className="dollar">$</div>
         <input
@@ -44,11 +44,11 @@ export default function BalanceModal(props: Props) {
         <u className="text-boi">New Balance:</u>
         <div className="balance-value">${newTotal}</div>
       </div>
-      <div className="buttons">
-        <div className="button cancel" onClick={handleCancel}>
+      <div className="balance-buttons">
+        <div className="balance-button cancel" onClick={handleCancel}>
           Cancel
         </div>
-        <div className="button confirm" onClick={handleConfirm}>
+        <div className="balance-button confirm" onClick={handleConfirm}>
           Confirm
         </div>
       </div>

@@ -6,7 +6,7 @@
     flex-grow: 1;
 }
 
-.heading {
+.scrollable-heading {
     font-size: 2em;
     font-weight: 600;
     margin-bottom: 0.75em;

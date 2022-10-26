@@ -2,7 +2,7 @@
 
 .order-container {
     background-color: var(--frappy-background);
-    height: 100%;
+    min-height: 100vh;
     margin-left: 15%;
     display: flex;
     align-items: center;
@@ -10,15 +10,15 @@
 }
 
 .details-container {
-    height: 80%;
-    width: fit-content;
+    height: 80vh;
+    width: 60vw;
     background-color: var(--frappy-white);
     border-radius: 1em;
     display: flex;
     flex-direction: column;
 }
 
-.title {
+.order-title {
     font-size: 3em;
     font-weight: 600;
     margin-top: 1em;
