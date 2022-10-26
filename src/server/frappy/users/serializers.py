@@ -3,7 +3,6 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.conf import settings
 from django.contrib.auth import authenticate, get_user_model
-from django.contrib.auth.forms import SetPasswordForm, PasswordResetForm
 from django.urls import exceptions as url_exceptions
 from django.utils.module_loading import import_string
 from django.utils.translation import gettext_lazy as _
@@ -69,8 +68,8 @@ class LoginSerializer(serializers.Serializer):
     def get_auth_user_using_orm(self, username, email, password):
         if email:
             try:
-                username = UserModel.objects.get(email__iexact=email).get_username()
-            except UserModel.DoesNotExist:
+                username = User.objects.get(email__iexact=email).get_username()
+            except User.DoesNotExist:
                 pass
 
         if username:
@@ -145,3 +144,13 @@ class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = "__all__"
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        exclude = ["password", "is_staff", "balance", "groups", "is_superuser"]
+
+
+class BalanceSerializer(serializers.Serializer):
+    balance = serializers.IntegerField()
