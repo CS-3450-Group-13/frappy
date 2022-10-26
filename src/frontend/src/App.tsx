@@ -13,6 +13,13 @@ import Cart from './pages/Cart';
 import Confirmation from './pages/Confirmation';
 import { CompleteFrappe } from './types/Types';
 import { TestFrappes, TestMenu } from './tests/TestServerData';
+import Queue from './pages/Queue';
+import MangerEditAccounts from './pages/MangerEditAccounts';
+import ManagerEditMenu from './pages/ManagerEditMenu';
+import { AuthProvider } from './components/auth';
+import CustomerRoutes from './components/CustomerRoutes';
+import EmployeeRoutes from './components/EmployeeRoutes';
+import ManagerRoutes from './components/ManagerRoutes';
 
 function App() {
   const [pages, setPages] = useState([
@@ -25,7 +32,16 @@ function App() {
       path: '/new-user',
     },
   ]);
-  const [authKey, setAuthKey] = useState('');
+  const [user, setUser] = useState({
+    fullName: '',
+    userName: '',
+    email: '',
+    password: '',
+    balance: 0,
+    accountType: '',
+    hours: 0.0,
+    authKey: '',
+  });
 
   const [cart, setCart] = useState<CompleteFrappe[]>([]);
   const [frappes, setFrappes] = useState(TestFrappes); // TODO query these from the server
@@ -54,37 +70,49 @@ function App() {
 
   return (
     <div className="App">
-      <Router>
-        <NavBar pages={pages} />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Login
-                setPages={setPages}
-                authKey={authKey}
-                setAuthKey={setAuthKey}
+      <AuthProvider>
+        <Router>
+          <NavBar pages={pages} setPages={setPages} />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Login setPages={setPages} user={user} setUser={setUser} />
+              }
+            />
+            <Route path="/new-user" element={<NewUser />} />
+
+            <Route element={<CustomerRoutes />}>
+              <Route path="/home-page" element={<Home />} />
+              <Route path="/order-status" element={<OrderStatus />} />
+              <Route
+                path="/menu"
+                element={<Menu menuItems={completeFrappes} />}
+              ></Route>
+              <Route
+                path="/customize"
+                element={<CustomizeDrink frappe={completeFrappes[5]} />}
               />
-            }
-          />
-          <Route path="/new-user" element={<NewUser />} />
-          <Route path="/home-page" element={<Home />} />
-          <Route path="/order-status" element={<OrderStatus />} />
-          <Route
-            path="/menu"
-            element={<Menu menuItems={completeFrappes} />}
-          ></Route>
-          <Route
-            path="/customize"
-            element={<CustomizeDrink frappe={completeFrappes[5]} />}
-          />
-          <Route
-            path="/cart"
-            element={<Cart cart={cart} setCart={setCart} />}
-          />
-          <Route path="/account" element={<Account />} />
-        </Routes>
-      </Router>
+              <Route
+                path="/cart"
+                element={<Cart cart={cart} setCart={setCart} />}
+              />
+              <Route path="/account" element={<Account />} />
+
+              <Route element={<EmployeeRoutes />}>
+                <Route path="/queue" element={<Queue />} />
+                <Route element={<ManagerRoutes />}>
+                  <Route
+                    path="/edit-accounts"
+                    element={<MangerEditAccounts />}
+                  />
+                  <Route path="/edit-menu" element={<ManagerEditMenu />} />
+                </Route>
+              </Route>
+            </Route>
+          </Routes>
+        </Router>
+      </AuthProvider>
     </div>
   );
 }

@@ -1,17 +1,55 @@
 import React from 'react';
 import '../css/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/auth';
+
+interface UserType {
+  fullName: string;
+  userName: string;
+  email: string;
+  password: string;
+  balance: number;
+  accountType: string;
+  hours: number;
+  authKey: string;
+}
 
 interface Props {
   setPages: Function;
-  authKey: string;
-  setAuthKey: Function;
+  user: UserType;
+  setUser: Function;
 }
 
-export default function Login({ setPages, authKey, setAuthKey }: Props) {
+export default function Login({ setPages, user, setUser }: Props) {
   const navigate = useNavigate();
 
+  const auth = useAuth();
+
   const submitForm = () => {
+    navigate('/home-page');
+    auth?.loginAs('customer');
+    setPages([
+      {
+        title: 'Home',
+        path: '/home-page',
+      },
+      {
+        title: 'Order Status',
+        path: '/order-status',
+      },
+      {
+        title: 'Menu',
+        path: '/menu',
+      },
+      {
+        title: 'Account',
+        path: '/account',
+      },
+      {
+        title: 'Cart',
+        path: '/cart',
+      },
+    ]);
     let email = document.getElementById('input-email') as HTMLInputElement;
     let password = document.getElementById(
       'input-password'
@@ -32,7 +70,19 @@ export default function Login({ setPages, authKey, setAuthKey }: Props) {
         if (data.key) {
           //Check if is manager or employee here
           navigate('/home-page');
-          setAuthKey(data.key);
+          auth?.loginAs('customer');
+          auth?.setAuthkey(data.key);
+          console.log(auth?.authkey);
+          setUser({
+            fullName: 'Test User',
+            userName: 'test',
+            eMail: input.email,
+            password: input.password,
+            balance: 0,
+            accountType: 'customer',
+            hours: 0.0,
+            authKey: data.key,
+          });
           setPages([
             {
               title: 'Home',
