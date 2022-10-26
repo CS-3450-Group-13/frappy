@@ -1,18 +1,35 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-interface AppContextInterface {
+interface StateType {
+  fullName: string;
+  userName: string;
+  email: string;
+  password: string;
+  balance: number;
   role: string;
-  authkey: string;
+  key: string;
+  hours: number;
+}
+
+interface AppContextInterface {
+  userInfo: StateType;
   loginAs: Function;
   logout: Function;
-  setAuthkey: Function;
 }
 
 const AuthContext = createContext<AppContextInterface | null>(null);
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
-  const [role, setRole] = useState('none');
-  const [authkey, setAuthkey] = useState('');
+  const [userInfo, setUserInfo] = useState({
+    fullName: '',
+    userName: '',
+    email: '',
+    password: '',
+    balance: 0.0,
+    role: 'none',
+    key: '',
+    hours: 0,
+  });
 
   // useEffect(() => {
   //   const data = window.localStorage.getItem('role');
@@ -23,19 +40,44 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   //   window.localStorage.setItem('role', JSON.stringify(role));
   // }, [role]);
 
-  const loginAs = (role: string) => {
-    setRole(role);
+  const loginAs = (
+    fullName: string,
+    userName: string,
+    email: string,
+    password: string,
+    balance: number,
+    role: string,
+    key: string,
+    hours: number
+  ) => {
+    setUserInfo({
+      fullName: fullName,
+      userName: userName,
+      email: email,
+      password: password,
+      balance: balance,
+      role: role,
+      key: key,
+      hours: hours,
+    });
   };
 
   const logout = () => {
-    setRole('none');
+    setUserInfo({
+      fullName: '',
+      userName: '',
+      email: '',
+      password: '',
+      balance: 0.0,
+      role: 'none',
+      key: '',
+      hours: 0,
+    });
   };
 
-  console.log(role);
+  console.log(userInfo.role);
   return (
-    <AuthContext.Provider
-      value={{ role, authkey, loginAs, logout, setAuthkey }}
-    >
+    <AuthContext.Provider value={{ userInfo, loginAs, logout }}>
       {children}
     </AuthContext.Provider>
   );

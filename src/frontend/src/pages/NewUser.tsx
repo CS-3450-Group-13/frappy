@@ -53,6 +53,14 @@ export default function NewUser() {
       <div className="form-data">
         <form>
           <div className="form-input-item">
+            <label>Full Name: </label>
+            <input type="text" id="input-fullName"></input>
+          </div>
+          <div className="form-input-item">
+            <label>UserName: </label>
+            <input type="text" id="input-username"></input>
+          </div>
+          <div className="form-input-item">
             <label>Email: </label>
             <input type="email" id="input-email"></input>
           </div>

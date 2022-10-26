@@ -5,5 +5,5 @@ import { useAuth } from './auth';
 export default function CustomerRoutes() {
   let auth = useAuth();
 
-  return auth?.role !== 'none' ? <Outlet /> : <Navigate to="/" />;
+  return auth?.userInfo.role !== 'none' ? <Outlet /> : <Navigate to="/" />;
 }

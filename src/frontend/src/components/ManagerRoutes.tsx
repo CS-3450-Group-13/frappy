@@ -5,5 +5,5 @@ import { useAuth } from './auth';
 export default function ManagerRoutes() {
   let auth = useAuth();
 
-  return auth?.role === 'manager' ? <Outlet /> : <Navigate to="/" />;
+  return auth?.userInfo.role === 'manager' ? <Outlet /> : <Navigate to="/" />;
 }

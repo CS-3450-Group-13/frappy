@@ -40,7 +40,7 @@ export default function NavBar({
             {title}
           </button>
         ))}
-        {auth?.role !== 'none' ? (
+        {auth?.userInfo.role !== 'none' ? (
           <button onClick={handleLogOut}>LogOut</button>
         ) : (
           <div></div>

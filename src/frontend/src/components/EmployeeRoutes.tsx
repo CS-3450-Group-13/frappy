@@ -5,7 +5,8 @@ import { useAuth } from './auth';
 export default function EmployeeRoutes() {
   let auth = useAuth();
 
-  return auth?.role === 'employee' || auth?.role === 'manager' ? (
+  return auth?.userInfo.role === 'employee' ||
+    auth?.userInfo.role === 'manager' ? (
     <Outlet />
   ) : (
     <Navigate to="/" />
