@@ -29,6 +29,12 @@ class UserFrappeViewSet(ModelViewSet):
             self.perform_create(serial, cost)
             user.balance -= cost
             user.save()
+
+            return Response(
+                {"user_balance": request.user.balance, "cost": cost},
+                status=status.HTTP_201_CREATED,
+            )
+
         else:
             return Response(
                 {
@@ -38,11 +44,6 @@ class UserFrappeViewSet(ModelViewSet):
                 },
                 status=status.HTTP_406_NOT_ACCEPTABLE,
             )
-
-        return Response(
-            {"user_balance": request.user.balance, "cost": cost},
-            status=status.HTTP_201_CREATED,
-        )
 
     def perform_create(self, serializer: FrappeSerializer, cost):
         serializer.save(
