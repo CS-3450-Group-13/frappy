@@ -13,6 +13,7 @@ import Cart from './pages/Cart';
 import Confirmation from './pages/Confirmation';
 import { CompleteFrappe } from './types/Types';
 import { TestFrappes, TestMenu } from './tests/TestServerData';
+import ManagerEditAccounts from './pages/ManagerEditAccounts';
 
 function App() {
   const [pages, setPages] = useState([
@@ -83,6 +84,7 @@ function App() {
             element={<Cart cart={cart} setCart={setCart} />}
           />
           <Route path="/account" element={<Account />} />
+          <Route path="/edit-accounts" element={<ManagerEditAccounts />} />
         </Routes>
       </Router>
     </div>
