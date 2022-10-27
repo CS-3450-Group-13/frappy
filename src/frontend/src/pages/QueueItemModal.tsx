@@ -41,7 +41,32 @@ export default function QueueItemModal({setModalIsOpen, frappe}: Props) {
 
     const base = TestBases.find((b) => { return b.id === frappe.frappe.base });
     const milk = TestMilks.find((m) => { return m.id === frappe.frappe.milk });
-    // ingredientViews.push(<div></div>)
+    
+    ingredientViews.push(
+      <div key={100000} className='queue-item-modal-ingredient'>
+        <div>{base?.name}</div>
+        <div className='queue-item-modal-rhs'>
+          <div className='queue-item-modal-qty'>QTY 1</div>
+          <input
+            type='checkbox'
+            >
+          </input>
+        </div>
+      </div>
+    );
+
+    ingredientViews.push(
+      <div key={100001} className='queue-item-modal-ingredient'>
+        <div>{milk?.name}</div>
+        <div className='queue-item-modal-rhs'>
+          <div className='queue-item-modal-qty'>QTY 1</div>
+          <input
+            type='checkbox'
+            >
+          </input>
+        </div>
+      </div>
+    );
 
     frappe.frappe.extras.forEach((ingredient, i) => {
       const extra = TestExtras.find((item) => {return item.id === ingredient.extras});

@@ -27,7 +27,7 @@ describe('Customer CustomizeDrink Page Tests', () => {
   test('renders CustomizeDrink Component', () => {
     render(
       <BrowserRouter>
-        <CustomizeDrink frappe={mockMenu[4]} />
+        <CustomizeDrink />
       </BrowserRouter>
     );
   });

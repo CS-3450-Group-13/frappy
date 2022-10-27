@@ -1,23 +1,71 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import DrinkCard from '../cards/DrinkCard';
 import '../css/DrinkCard.css';
 import '../css/CustomizeDrink.css';
 import DrinkCustomizationModal from './DrinkCustomizationModal';
-import { useNavigate } from 'react-router-dom';
-import { MenuItem, Base } from '../types/Types';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { MenuItem, Base, Milk, SizeNames, Extra } from '../types/Types';
 import { TestBases, TestExtras } from '../tests/TestServerData'
 
-type Props = {
-  frappe: MenuItem;
-}
-
-export default function CustomizeDrink({frappe}: Props) {
-  const [size, setSize] = useState("small");
-  const [frappeExtras, setFrappeExtras] = useState({});
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-
+export default function CustomizeDrink() {
   const navigate = useNavigate();
+  const { state } = useLocation();
+  const frappe: MenuItem = state.drink;
+
+  const [size, setSize] = useState(SizeNames[frappe.frappe.size]);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [bases, setBases] = useState<Base[]>([]);
+  const [milks, setMilks] = useState<Milk[]>([]);
+  const [extras, setExtras] = useState<Extra[]>([]);
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/frappapi/bases/')
+    .then((response) => response.json())
+    .then((data) => {
+      setBases([]);
+      data.forEach((item: Base) => {
+        setBases(oldState => [...oldState, item]);
+      });
+      console.log("Got bases: ", data);
+      console.log(bases)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/frappapi/milks/')
+    .then((response) => response.json())
+    .then((data) => {
+      setMilks([]);
+      data.forEach((item: Milk) => {
+        setMilks(oldState => [...oldState, item]);
+      });
+      console.log("Got milks: ", data);
+      console.log(milks)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/frappapi/extras/')
+    .then((response) => response.json())
+    .then((data) => {
+      setExtras([]);
+      data.forEach((item: Extra) => {
+        setExtras(oldState => [...oldState, item]);
+      });
+      console.log("data is ", data);
+      console.log(extras)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
 
   function sizeChange(e: React.ChangeEvent<HTMLInputElement>) {
     console.log("size changed to " + e.target.value);

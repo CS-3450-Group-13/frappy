@@ -73,11 +73,11 @@ function App() {
           <Route path="/order-status" element={<OrderStatus />} />
           <Route
             path="/menu"
-            element={<Menu menuItems={menuItems} />}
+            element={<Menu />}
           ></Route>
           <Route
             path="/customize"
-            element={<CustomizeDrink frappe={menuItems[5]} />}
+            element={<CustomizeDrink />}
           />
           <Route
             path="/cart"

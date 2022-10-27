@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DrinkCard from '../cards/DrinkCard';
 import '../css/Menu.css';
 import Confirmation from './Confirmation';
 import { MenuItem } from '../types/Types';
 
-type Props = {
-  menuItems: Array<MenuItem>;
-}
-
-export default function Menu({menuItems}: Props) {
+export default function Menu() {
   const navigate = useNavigate();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/frappapi/menu/')
+    .then((response) => response.json())
+    .then((data) => {
+      setMenuItems([]);
+      data.forEach((item: MenuItem) => {
+        setMenuItems(oldState => [...oldState, item]);
+      });
+      console.log("data is ", data);
+      console.log(menuItems)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
 
   const drinkCards = menuItems.map((frappe) => 
     <div className='drinkCard' >

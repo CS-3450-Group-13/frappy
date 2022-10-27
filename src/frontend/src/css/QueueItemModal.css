@@ -55,3 +55,12 @@
   align-self: stretch;
   color: white;
 }
+
+.queue-item-modal-complete-order-btn {
+  background-color: var(--frappy-lgreen);
+  border-radius: 15px;
+  margin-top: 2%;
+  padding: 10px;
+  margin-right: 2%;
+  align-self: flex-end;
+}

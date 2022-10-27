@@ -17,21 +17,21 @@ export default function DrinkCustomizationModal({setModalIsOpen, base, frappeExt
   const navigate = useNavigate();
 
   // Grab extras from the server when the modal is loaded (same as componentDidMount with classed react modules)
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/frappapi/extras/')
-    .then((response) => response.json())
-    .then((data) => {
-      setServerExtras([]);
-      data.forEach((extra: Extra) => {
-        setServerExtras(extras => [...extras, extra]);
-      });
-      console.log("data is ", data);
-      console.log(serverExtras)
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-  }, [serverExtras]);
+  // useEffect(() => {
+  //   fetch('http://127.0.0.1:8000/frappapi/extras/')
+  //   .then((response) => response.json())
+  //   .then((data) => {
+  //     setServerExtras([]);
+  //     data.forEach((extra: Extra) => {
+  //       setServerExtras(extras => [...extras, extra]);
+  //     });
+  //     console.log("data is ", data);
+  //     console.log(serverExtras)
+  //   })
+  //   .catch((err) => {
+  //     console.log(err);
+  //   });
+  // }, [serverExtras]);
 
   const handleConfirm = () => {
     alert("User has confirmed");
