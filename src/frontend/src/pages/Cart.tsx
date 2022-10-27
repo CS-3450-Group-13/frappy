@@ -1,11 +1,12 @@
 import React, { Dispatch, MouseEventHandler, SetStateAction, useEffect, useState } from 'react';
 import ItemCartDisplay from '../components/ItemCartDisplay';
-import { Frappe, SizeOptions, CompleteFrappe } from '../types/Types';
+import { Frappe, SizeOptions, MenuItem } from '../types/Types';
+import { TestBases, TestExtras, TestMilks } from '../tests/TestServerData';
 import '../css/Cart.css'
 
 type Props = {
-  cart: Array<CompleteFrappe>;
-  setCart: Dispatch<SetStateAction<CompleteFrappe[]>>;
+  cart: Array<MenuItem>;
+  setCart: Dispatch<SetStateAction<MenuItem[]>>;
 }
 
 export default function Cart({cart, setCart}: Props) {
@@ -13,14 +14,14 @@ export default function Cart({cart, setCart}: Props) {
 
   useEffect(() => {
     setTotal(calculateTotal);
-  }, []);
+  }, [cart]);
 
   /**
    * @brief Callback for handling when the user wants to remove an item from the cart
    * @param item The cart item they want to remove 
    * @returns Nothing
    */
-  const removeItemFromCart = (item: CompleteFrappe): MouseEventHandler<HTMLDivElement> | undefined => {
+  const removeItemFromCart = (item: MenuItem): MouseEventHandler<HTMLDivElement> | undefined => {
     // Do something with setCart here
     alert('customer wants to remove item from cart');
     return;
@@ -29,15 +30,37 @@ export default function Cart({cart, setCart}: Props) {
   /**
    * @brief Calculates the total across all frappes in the cart
    * @note this is currently only relying on frontend data
-   * @note **This function assumes the MenuItem portion of the CompleteFrappe
-   *         has had it's price filled out when the user added the item to the cart**
    * @returns The total value of all frappes in the cart
    */
   const calculateTotal = () => {
     let total = 0.0;
 
-    cart.forEach(({menu_item}) => {
-      total += menu_item.price;
+    // Find the price of each frappe based on the ingredients
+    cart.forEach(({frappe}) => {
+      let frappePrice = 0.0;
+  
+      // Calculate the cost of all the extras in the cart
+      frappe.extras.forEach((extra) => {
+        let frappeExtra = TestExtras.find((item) => item.id === extra.extras);
+
+        if (frappeExtra) {
+          frappePrice += extra.amount * parseFloat(frappeExtra.price_per_unit);
+        }
+      });
+
+      const milk = TestMilks.find((item) => item.id === frappe.milk);
+      const base = TestBases.find((item) => item.id === frappe.base);
+
+      // TODO find out what the price of each size is. Somehow need to factor in markup
+      if (milk) {
+        frappePrice += (frappe.size * parseFloat(milk.price_per_unit))
+      }
+      if (base) {
+        frappePrice += (frappe.size * parseFloat(base.price_per_unit));
+      }
+
+      frappe.final_price = frappePrice;
+      total += frappePrice;
     });
 
     return total;
@@ -62,10 +85,10 @@ export default function Cart({cart, setCart}: Props) {
       CART:
       <div className='cart-items-container'>
         <div>
-          {cart.map((item) => {
+          {cart.map((frappe) => {
             return (
               <div className='cart-items'>
-                <ItemCartDisplay item={item} removeItemFromCart={removeItemFromCart} />
+                <ItemCartDisplay item={frappe} removeItemFromCart={removeItemFromCart} />
               </div>
             )
           })}

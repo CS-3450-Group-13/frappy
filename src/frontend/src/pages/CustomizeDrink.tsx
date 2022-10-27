@@ -5,11 +5,11 @@ import '../css/DrinkCard.css';
 import '../css/CustomizeDrink.css';
 import DrinkCustomizationModal from './DrinkCustomizationModal';
 import { useNavigate } from 'react-router-dom';
-import { CompleteFrappe, Base } from '../types/Types';
+import { MenuItem, Base } from '../types/Types';
 import { TestBases, TestExtras } from '../tests/TestServerData'
 
 type Props = {
-  frappe: CompleteFrappe;
+  frappe: MenuItem;
 }
 
 export default function CustomizeDrink({frappe}: Props) {

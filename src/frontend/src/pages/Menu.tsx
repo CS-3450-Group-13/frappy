@@ -3,10 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import DrinkCard from '../cards/DrinkCard';
 import '../css/Menu.css';
 import Confirmation from './Confirmation';
-import { CompleteFrappe } from '../types/Types';
+import { MenuItem } from '../types/Types';
 
 type Props = {
-  menuItems: Array<CompleteFrappe>;
+  menuItems: Array<MenuItem>;
 }
 
 export default function Menu({menuItems}: Props) {
