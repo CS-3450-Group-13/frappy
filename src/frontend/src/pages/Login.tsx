@@ -30,6 +30,7 @@ export default function Login({ setPages, authKey, setAuthKey }: Props) {
       .then((response) => response.json())
       .then((data) => {
         if (data.key) {
+          console.log(data.key);
           //Check if is manager or employee here
           navigate('/home-page');
           setAuthKey(data.key);

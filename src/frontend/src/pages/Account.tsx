@@ -8,6 +8,10 @@ import Modal from 'react-modal';
 import BalanceModal from './BalaceModal';
 import HoursModal from './HoursModal';
 
+interface PropsAuth {
+  authKey: string;
+}
+
 interface User {
   firstName: string;
   lastName: string;
@@ -41,7 +45,7 @@ const FAKE_USER: User = {
 
 const maxSize = 16;
 
-export default function Account() {
+export default function Account(props: PropsAuth) {
   const [currentUser, setCurrentUser] = useState<User>(FAKE_USER);
   const [balanceModalOpen, setBalanceModal] = useState(false);
   const [fieldModalOpen, setFieldModal] = useState(false);
@@ -52,9 +56,30 @@ export default function Account() {
     confirm: false,
   });
 
-  useEffect(() => {
+  function getCookie(name: string) {
+    console.log(document.cookie);
+    let cookieValue = '';
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        console.log(cookies);
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    console.log(cookieValue);
+    return cookieValue;
+}
+
+const csrftoken = getCookie('csrftoken');
+useEffect(() => {
     fetch('http://127.0.0.1:8000/users/users/current_user/', {
-      credentials: 'include',
+      headers: {'Authorization':  `Token ${props.authKey}`},
+      credentials: 'same-origin',
     })
       .then((response) => response.json())
       .then((json) => {
