@@ -35,6 +35,29 @@ export default function NewUser() {
       .then((data) => {
         if (data.key) {
           console.log('Success:', data);
+          // let first = document.getElementById(
+          //   'input-first'
+          // ) as HTMLInputElement;
+          // let last = document.getElementById('input-last') as HTMLInputElement;
+          // let userInfo = {
+          //   email: email.value,
+          //   first_name: first.value,
+          //   last_name: last.value,
+          // };
+          // document.cookie = 'key=' + data.key + ';SameSite=Lax';
+
+          // fetch('http://127.0.0.1:8000/auth-endpoint/user/', {
+          //   method: 'PUT',
+          //   credentials: 'same-origin',
+          //   headers: {
+          //     'Content-Type': 'application/json',
+          //   },
+          //   body: JSON.stringify(userInfo),
+          // })
+          //   .then((response) => response.json())
+          //   .then((data) => {
+          //     console.log(data);
+          //   });
           navigate('/');
         } else {
           alert(
@@ -52,6 +75,14 @@ export default function NewUser() {
       <h1>Create An Account</h1>
       <div className="form-data">
         <form>
+          <div className="form-input-item">
+            <label>First Name: </label>
+            <input type="text" id="input-first"></input>
+          </div>
+          <div className="form-input-item">
+            <label>Last Name: </label>
+            <input type="text" id="input-last"></input>
+          </div>
           <div className="form-input-item">
             <label>Email: </label>
             <input type="email" id="input-email"></input>
