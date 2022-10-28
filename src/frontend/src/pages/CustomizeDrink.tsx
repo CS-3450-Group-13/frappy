@@ -5,7 +5,7 @@ import '../css/DrinkCard.css';
 import '../css/CustomizeDrink.css';
 import DrinkCustomizationModal from './DrinkCustomizationModal';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MenuItem, Base, Milk, SizeNames, Extra } from '../types/Types';
+import { MenuItem, Base, Milk, SizeNames, Extra, SizeOptions } from '../types/Types';
 import { TestBases, TestExtras } from '../tests/TestServerData'
 
 export default function CustomizeDrink() {
@@ -70,16 +70,31 @@ export default function CustomizeDrink() {
   function sizeChange(e: React.ChangeEvent<HTMLInputElement>) {
     console.log("size changed to " + e.target.value);
     console.log(e);
+
+    let size = SizeOptions.Small;
+    if (parseInt(e.target.value) === 2) {
+      size = SizeOptions.Medium;
+    }
+    else if (parseInt(e.target.value) === 3) {
+      size = SizeOptions.Large;
+    }
+
+    frappe.frappe.size = size;
     setSize(e.target.value);
   }
 
   function createCustomizationButtons() {
     let buttons: ReactNode[] = [];
-    let base: Base | undefined = TestBases.find((item) => item.id === frappe.frappe.base); 
 
-    console.log("frappe has a base of ", frappe.frappe.base);
+    const frappeMilk = milks.find((item) => { return item.id === frappe.frappe.milk; });
+    if (frappeMilk) {
+      buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{frappeMilk.name}</div>);
+    }
 
-    buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{base ? base.name : "ERROR"}</div>);
+    const frappeBase = bases.find((item) => { return item.id === frappe.frappe.base; });
+    if (frappeBase) {
+      buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{frappeBase.name}</div>);
+    }
 
     frappe.frappe.extras.forEach((extra) => {
       let extraObj = TestExtras.find((item) => item.id === extra.extras);
@@ -93,6 +108,31 @@ export default function CustomizeDrink() {
     })
 
     return buttons
+  }
+
+  const generateCustomizationList = () => {
+    let listItems: ReactNode[] = [];
+
+    const frappeMilk = milks.find((item) => { return item.id === frappe.frappe.milk; });
+    if (frappeMilk) {
+      listItems.push(<li>{frappeMilk.name}</li>);
+    }
+
+    const frappeBase = bases.find((item) => { return item.id === frappe.frappe.base; });
+    if (frappeBase) {
+      listItems.push(<li>{frappeBase.name}</li>)
+    }
+
+    frappe.frappe.extras.map((extra) => {
+      const frappeExtra = extras.find((item) => { return item.id === extra.extras; });
+
+      if (frappeExtra) {
+        const extraStr = extra.amount + " " + frappeExtra.name;
+        listItems.push(<li>{extraStr}</li>);
+      }
+    })
+
+    return listItems;
   }
 
   function handleCustomizeDrink() {
@@ -126,12 +166,9 @@ export default function CustomizeDrink() {
       <div className='drink-details'>
         <DrinkCard frappe={frappe}/>
         <div className='customization-list'>
-          Customization list
+          CUSTUMIZATIONS
           <ul>
-            <li>Soy Milk</li>
-            <li>1 Pump Vanilla Syrup</li>
-            <li>2 Pumps Secret Sauce</li>
-            <li>Whip Cream</li>
+            {generateCustomizationList()}
           </ul>
         </div>
       </div>
@@ -139,15 +176,15 @@ export default function CustomizeDrink() {
         <div className='size-options'>
           <div className='column white'>
             <div>SMALL</div>
-            <input type='radio' name='small' value='small' checked={size === "small"} onChange={(e) => sizeChange(e)} />
+            <input type='radio' name='small' value='1' checked={frappe.frappe.size === 1} onChange={(e) => sizeChange(e)} />
           </div>
           <div className='column white'>
             <div>MEDIUM</div>
-            <input type='radio' name='medium' value='medium' checked={size === "medium"} onChange={(e) => sizeChange(e)} />
+            <input type='radio' name='medium' value='2' checked={frappe.frappe.size === 2} onChange={(e) => sizeChange(e)} />
           </div>
           <div className='column white'>
             <div>LARGE</div>
-            <input type='radio' name='large' value='large' checked={size === "large"} onChange={(e) => sizeChange(e)} />
+            <input type='radio' name='large' value='3' checked={frappe.frappe.size === 3} onChange={(e) => sizeChange(e)} />
           </div>
         </div>
         <div className='current-customizations white'>
@@ -173,7 +210,7 @@ export default function CustomizeDrink() {
             },
           }
         }>
-        <DrinkCustomizationModal setModalIsOpen={setModalIsOpen} base={frappe.frappe.base} frappeExtras={frappe.frappe.extras} />
+        <DrinkCustomizationModal setModalIsOpen={setModalIsOpen} bases={bases} milks={milks} extras={extras} frappe={frappe} />
       </Modal>
     </div>
   );

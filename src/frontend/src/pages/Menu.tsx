@@ -9,6 +9,7 @@ export default function Menu() {
   const navigate = useNavigate();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [currentFrappe, setCurrentFrappe] = useState<MenuItem>();
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/frappapi/menu/')
@@ -30,8 +31,11 @@ export default function Menu() {
     <div className='drinkCard' >
       <DrinkCard key={frappe.frappe.id} frappe={frappe}/>
       <button className='customize-btn' onClick={() => {
+        setCurrentFrappe(frappe);
+
       navigate('/customize', {state:{
-        drink: frappe,
+        drink: currentFrappe,
+        setCurrentFrappe: setCurrentFrappe,
       }});
     }}>ORDER</button>
     </div>

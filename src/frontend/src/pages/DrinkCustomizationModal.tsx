@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/DrinkCustomizationModal.css'
-import { Extra, BaseOptions, FrappeExtra } from '../types/Types';
+import { Extra, BaseOptions, FrappeExtra, Base, Milk, MenuItem } from '../types/Types';
 
 type Props = {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   // setDrinkContents: (drinkContents: Customizations) => void;
-  base: BaseOptions;
-  frappeExtras: Array<FrappeExtra>;
+  bases: Base[];
+  milks: Milk[];
+  extras: Extra[];
+  frappe: MenuItem;
 }
 
-export default function DrinkCustomizationModal({setModalIsOpen, base, frappeExtras}: Props) {
-  const [selectedBase, setSelectedBase] = useState("Soy Milk");
-  const [serverExtras, setServerExtras] = useState<any[]>([]);
+export default function DrinkCustomizationModal({setModalIsOpen, bases, milks, extras, frappe}: Props) {
+  const [selectedBase, setSelectedBase] = useState();
 
   const navigate = useNavigate();
 
@@ -33,8 +34,25 @@ export default function DrinkCustomizationModal({setModalIsOpen, base, frappeExt
   //   });
   // }, [serverExtras]);
 
+  const setBase = (baseOption: BaseOptions) => {
+    console.log("Setting base to ", baseOption);
+    console.log(frappe);
+    frappe.frappe.base = baseOption;
+    console.log(frappe);
+  }
+
+  const createExtrasList = () => {
+    let extrasList: ReactNode[] = [];
+    
+    extras.forEach((extra) => {
+      extrasList.push(<div className='addin-item' key={extra.id}>{extra.name}</div>);
+    });
+
+    return extrasList;
+  }
+
   const handleConfirm = () => {
-    alert("User has confirmed");
+    setModalIsOpen(false);
   }
   
   return (
@@ -42,29 +60,27 @@ export default function DrinkCustomizationModal({setModalIsOpen, base, frappeExt
       <div className='large-base'>BASES</div>
       <div className='base-options'>
         <div
-          className={selectedBase === "Soy Milk" ? 'base-btn base-btn-selected' : 'base-btn'}
-          onClick={() => setSelectedBase("Soy Milk")}
+          className={frappe.frappe.base === BaseOptions.Coffee ? 'base-btn base-btn-selected' : 'base-btn'}
+          onClick={() => setBase(BaseOptions.Coffee)}
         >
-          SOY MILK
+          {bases[0].name}
         </div>
         <div 
-          className={selectedBase === "Milk" ? 'base-btn base-btn-selected' : 'base-btn'}
-          onClick={() => setSelectedBase("Milk")}
+          className={frappe.frappe.base === BaseOptions.Cream ? 'base-btn base-btn-selected' : 'base-btn'}
+          onClick={() => setBase(BaseOptions.Cream)}
         >
-          MILK
+          {bases[1].name}
+        </div>
+        <div 
+          className={frappe.frappe.base === BaseOptions.Mocha ? 'base-btn base-btn-selected' : 'base-btn'}
+          onClick={() => setBase(BaseOptions.Mocha)}
+        >
+          {bases[2].name}
         </div>
       </div>
       <div className='large-base'>ADD INS</div>
       <div className='addins-list'>
-        {serverExtras.length > 0 && serverExtras.map((extra) => {
-          return (
-            <div className='addin-item' key={extra.id}>{extra.name}</div>
-          );
-        })
-        }
-        {serverExtras.length === 0 &&
-          <div>Fetching addins from server...</div>
-        }
+        {createExtrasList()}
       </div>
       <div className='horizontal'>
         <div className='cancel-btn'
