@@ -8,7 +8,7 @@ describe('Customer Home Page Tests', () => {
   test('renders Home Component', () => {
     render(
       <BrowserRouter>
-        <Home />
+        <Home authKey=''/>
       </BrowserRouter>
     );
   });

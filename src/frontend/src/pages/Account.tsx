@@ -7,6 +7,7 @@ import UpdateFieldModal from './UpdateFieldModal';
 import Modal from 'react-modal';
 import BalanceModal from './BalaceModal';
 import HoursModal from './HoursModal';
+import { json } from 'stream/consumers';
 
 interface PropsAuth {
   authKey: string;
@@ -27,6 +28,7 @@ interface Field {
   name: string;
   value: string;
   confirm: boolean;
+  updateFunction: any;
 }
 
 type Props = {
@@ -45,17 +47,17 @@ const FAKE_USER: User = {
   hours: 0,
 };
 
-const maxSize = 16;
-
 export default function Account(props: PropsAuth) {
   const [currentUser, setCurrentUser] = useState<User>(FAKE_USER);
   const [balanceModalOpen, setBalanceModal] = useState(false);
   const [fieldModalOpen, setFieldModal] = useState(false);
   const [hoursModalOpen, setHoursModal] = useState(false);
-  const [currentField, setCurrentField] = useState({
+  const [fieldError, setFieldError] = useState('');
+  const [currentField, setCurrentField] = useState<Field>({
     name: '',
     value: '',
     confirm: false,
+    updateFunction: '',
   });
 
   useEffect(() => {
@@ -71,6 +73,7 @@ export default function Account(props: PropsAuth) {
   }, []);
 
   function openFieldModal(field: Field) {
+    setFieldError('');
     setCurrentField(field);
     setFieldModal(true);
   }
@@ -95,9 +98,96 @@ export default function Account(props: PropsAuth) {
       hours: 4,
     };
 
-    console.log(json.user_permissions[0]);
-
     return user;
+  }
+
+  function postName(field1: string, field2: string, password: string) {
+    console.log(fieldError);
+    if (field1.split(' ').length !== 2) {
+      setFieldError('Name Must Consist of Two Parts, Seperated by a Space');
+      return;
+    }
+    const first = field1.split(' ')[0];
+    const last = field1.split(' ')[1];
+
+    fetch('http://127.0.0.1:8000/users/users/', {
+      headers: { Authorization: `Token ${props.authKey}` },
+      credentials: 'same-origin',
+      body: JSON.stringify({ firstName: first, lastName: last }),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          setFieldError('');
+          setFieldModal(false);
+        } else {
+          setFieldError('Server Error: Please Try Again Later');
+        }
+        console.log(response);
+      })
+      .catch(() => setFieldError('Server Error: Please Try Again Later'));
+  }
+
+  function postEmail(field1: string, field2: string, password: string) {
+    console.log(fieldError);
+    if (field1.split('@').length !== 2) {
+      setFieldError('Must Contain User and Domain');
+      return;
+    }
+
+    if (field1 !== field2) {
+      setFieldError('Emails Must Match');
+      return;
+    }
+
+    fetch('http://127.0.0.1:8000/users/users/', {
+      headers: { Authorization: `Token ${props.authKey}` },
+      credentials: 'same-origin',
+      body: JSON.stringify({ email: field1 }),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          setFieldError('');
+          setFieldModal(false);
+        } else {
+          setFieldError('Server Error: Please Try Again Later');
+        }
+        console.log(response);
+      })
+      .catch(() => setFieldError('Server Error: Please Try Again Later'));
+  }
+
+  function postPassword(field1: string, field2: string, password: string) {
+    console.log(fieldError);
+    if (field1.length < 8) {
+      setFieldError('Password Must be At Least 8 Characters');
+      return;
+    }
+
+    if (field1 !== field2) {
+      setFieldError('Passwords Must Match');
+      return;
+    }
+
+    var data = new FormData();
+    data.append('new_password1', field1);
+    data.append('new_password2', field2);
+
+    fetch('http://127.0.0.1:8000/auth-endpoint/password/change/', {
+      headers: { Authorization: `Token ${props.authKey}` },
+      credentials: 'same-origin',
+      method: 'POST',
+      body: data,
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          setFieldError('');
+          setFieldModal(false);
+        } else {
+          setFieldError('Server Error: Please Try Again Later');
+        }
+        console.log(response);
+      })
+      .catch(() => setFieldError('Server Error: Please Try Again Later'));
   }
 
   return (
@@ -121,6 +211,7 @@ export default function Account(props: PropsAuth) {
                 name: 'Name',
                 value: 'Full Name',
                 confirm: false,
+                updateFunction: postName,
               })
             }
           ></EditableText>
@@ -133,6 +224,7 @@ export default function Account(props: PropsAuth) {
                 name: 'User Name',
                 value: 'New User Name',
                 confirm: false,
+                updateFunction: postEmail,
               })
             }
           ></EditableText>
@@ -146,6 +238,7 @@ export default function Account(props: PropsAuth) {
                 name: 'Email',
                 value: 'New Email',
                 confirm: true,
+                updateFunction: postEmail,
               })
             }
           ></EditableText>
@@ -158,6 +251,7 @@ export default function Account(props: PropsAuth) {
                 name: 'Password',
                 value: 'New Password',
                 confirm: true,
+                updateFunction: postPassword,
               })
             }
           ></EditableText>
@@ -216,6 +310,8 @@ export default function Account(props: PropsAuth) {
           fieldName={currentField.name}
           fieldValue={currentField.value}
           confirm={currentField.confirm}
+          updateFunction={currentField.updateFunction}
+          error={fieldError}
         />
       </Modal>
 
@@ -250,7 +346,7 @@ export default function Account(props: PropsAuth) {
         style={{
           content: {
             height: '100vh',
-            width: '550px',
+            width: '600px',
             marginLeft: 'auto',
             padding: '0px',
             inset: '0px',
@@ -264,6 +360,7 @@ export default function Account(props: PropsAuth) {
         <HoursModal
           setModalIsOpen={setHoursModal}
           currentHours={currentUser.hours}
+          authKey={props.authKey}
         />
       </Modal>
     </div>

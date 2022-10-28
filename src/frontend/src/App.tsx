@@ -30,9 +30,7 @@ function App() {
 
   const [cart, setCart] = useState<MenuItem[]>([]);
   const [frappes, setFrappes] = useState(TestFrappes); // TODO query these from the server
-  const [menuItems, setMenuItems] = useState<Array<MenuItem>>(
-    []
-  );
+  const [menuItems, setMenuItems] = useState<Array<MenuItem>>([]);
 
   return (
     <div className="App">
@@ -50,21 +48,21 @@ function App() {
             }
           />
           <Route path="/new-user" element={<NewUser />} />
-          <Route path="/home-page" element={<Home />} />
+          <Route path="/home-page" element={<Home authKey={authKey} />} />
           <Route path="/order-status" element={<OrderStatus />} />
           <Route
             path="/menu"
-            element={<Menu cart={cart} setCart={setCart}/>}
+            element={<Menu cart={cart} setCart={setCart} />}
           ></Route>
           <Route
             path="/customize"
-            element={<CustomizeDrink setCart={setCart}/>}
+            element={<CustomizeDrink setCart={setCart} />}
           />
           <Route
             path="/cart"
             element={<Cart cart={cart} setCart={setCart} />}
           />
-          <Route path="/account"  element={<Account  authKey={authKey}/>} />
+          <Route path="/account" element={<Account authKey={authKey} />} />
           <Route path="/queue" element={<Queue />} />
         </Routes>
       </Router>

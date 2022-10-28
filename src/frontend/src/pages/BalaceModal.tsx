@@ -11,6 +11,7 @@ interface Props {
 export default function BalanceModal(props: Props) {
   const [newBalance, setNewBalance] = useState(props.currentBalance);
   const [balanceValid, setBalanceValid] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   function handleBalanceChange(event: ChangeEvent<HTMLInputElement>) {
     let value = event.target.value;
@@ -18,14 +19,32 @@ export default function BalanceModal(props: Props) {
       setNewBalance(Number(value));
       setBalanceValid(true);
     } else {
-        setBalanceValid(false);
+      setBalanceValid(false);
     }
   }
   function handleConfirm() {
     if (balanceValid) {
-    fetch(`127.0.0.1/8000/users/users/${props.userNumber}/add_balance/?balance=${newBalance}`, {headers: {'Authorization':  `Token ${props.authKey}`},
-    credentials: 'same-origin',}).then((response) => (response.json()))}
-    props.setModalIsOpen(false);
+      console.log('lmaoo');
+      fetch(
+        `http://127.0.0.1/8000/users/users/add_balance/?balance=${newBalance}`,
+        {
+          headers: { Authorization: `Token ${props.authKey}` },
+          credentials: 'same-origin',
+        }
+      )
+        .then((response) => {
+          console.log(response);
+          console.log(response.status);
+          if (response.status === 200) {
+            props.setModalIsOpen(false);
+          } else {
+            setErrorMessage('Server Error: Please Try Again Later');
+          }
+        })
+        .catch(() => setErrorMessage('Server Error: Please Try Again Later'));
+    } else {
+      setErrorMessage('Invalid Input');
+    }
   }
 
   function handleCancel() {
@@ -47,7 +66,13 @@ export default function BalanceModal(props: Props) {
       </div>
       <div className="new-balance">
         <u className="text-boi">New Balance:</u>
-        <div className="balance-value">{balanceValid? `$${(newBalance + props.currentBalance).toFixed(2)}` : "N/A"}</div>
+        <div className="balance-value">
+          {balanceValid && errorMessage === ''
+            ? `$${(newBalance + props.currentBalance).toFixed(2)}`
+            : errorMessage === ''
+            ? 'N/A'
+            : errorMessage}
+        </div>
       </div>
       <div className="balance-buttons">
         <div className="balance-button cancel" onClick={handleCancel}>

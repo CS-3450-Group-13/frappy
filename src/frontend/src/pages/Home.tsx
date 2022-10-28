@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import test from '../images/test.png';
 import Frappe from '../images/Frappe.jpg';
 import '../css/Home.css';
 import ScrollableList from '../components/ScrollableList';
 import { useNavigate } from 'react-router-dom';
 
-interface User {
+interface Props {
+  authKey: string;
+}
+
+interface User2 {
   fullName: string;
   userName: string;
   eMail: string;
@@ -13,6 +17,17 @@ interface User {
   balance: number;
   favoriteDrink: string;
   orderHistory: Order[];
+}
+
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  eMail: string;
+  balance: number;
+  accountType: string;
+  hours: number;
 }
 
 interface Order {
@@ -36,7 +51,7 @@ interface PropsOrder {
   order: Order;
 }
 
-const DEMO_USER: User = {
+const DEMO_USER: User2 = {
   fullName: 'Glorgo Glumbus',
   userName: 'GlorGlu',
   eMail: 'glorglugaming@gmail.com',
@@ -251,13 +266,54 @@ const DEMO_USER: User = {
   ],
 };
 
-export default function Home() {
+const FAKE_USER: User = {
+  id: -1,
+  firstName: '',
+  lastName: '',
+  userName: '',
+  eMail: '',
+  balance: 0,
+  accountType: '',
+  hours: 0,
+};
+
+export default function Home(props: Props) {
   const navigate = useNavigate();
+  const [currentUser, setCurrentUser] = useState(FAKE_USER);
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/users/users/current_user/', {
+      headers: { Authorization: `Token ${props.authKey}` },
+      credentials: 'same-origin',
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        const user: User = parseUser(json);
+        setCurrentUser(user);
+      });
+  }, []);
+
+  function parseUser(json: any) {
+    let user: User = {
+      id: json.id,
+      firstName: json.firstName ? json.firstName : 'FirstName',
+      lastName: json.lastName ? json.lastName : 'LastName',
+      userName: json.email,
+      eMail: json.email,
+      balance: Number.parseFloat(json.balance),
+      accountType: json.user_permissions.length === 0 ? 'employee' : 'employee',
+      hours: 4,
+    };
+
+    return user;
+  }
 
   return (
     <div className="home-container">
       <div className="header">
-        <div className="home-title">Welcome Back {DEMO_USER.fullName}!</div>
+        <div className="home-title">
+          Welcome Back {currentUser.firstName} {currentUser.lastName}!
+        </div>
         <div className="profile-picture">
           <img src={test} alt="test" width="110em" height="110em" />
         </div>
@@ -293,10 +349,21 @@ export default function Home() {
           <DetailCard
             title="Balance"
             // eslint-disable-next-line
-            value={`\$${DEMO_USER.balance.toFixed(2)}`}
+            value={
+              currentUser.balance > 0
+                ? `\$${currentUser.balance.toFixed(2)}`
+                : '$0.00'
+            }
           />
           <DetailCard title="Favorite Drink" value={DEMO_USER.favoriteDrink} />
-          <DetailCard title="Total Spent" value="$100.00" />
+          <DetailCard
+            title="Tab"
+            value={
+              currentUser.balance < 0
+                ? `\$${(-1 * currentUser.balance).toFixed(2)}`
+                : '$0.00'
+            }
+          />
         </ScrollableList>
         <ScrollableList title="Order History" width="65%">
           {DEMO_USER.orderHistory.map((orderInstance) => (
