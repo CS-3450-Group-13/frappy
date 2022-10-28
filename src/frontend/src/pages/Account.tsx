@@ -56,26 +56,7 @@ export default function Account(props: PropsAuth) {
     confirm: false,
   });
 
-  function getCookie(name: string) {
-    console.log(document.cookie);
-    let cookieValue = '';
-    if (document.cookie && document.cookie !== '') {
-        const cookies = document.cookie.split(';');
-        console.log(cookies);
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            // Does this cookie string begin with the name we want?
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                break;
-            }
-        }
-    }
-    console.log(cookieValue);
-    return cookieValue;
-}
 
-const csrftoken = getCookie('csrftoken');
 useEffect(() => {
     fetch('http://127.0.0.1:8000/users/users/current_user/', {
       headers: {'Authorization':  `Token ${props.authKey}`},
@@ -83,8 +64,8 @@ useEffect(() => {
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
-        const user: User = JSON.parse(json);
+        console.log(typeof(json));
+        const user: User = parseUser(json);
         console.log(currentUser);
         setCurrentUser(user);
         console.log(currentUser);
@@ -102,6 +83,20 @@ useEffect(() => {
 
   function openHoursModal() {
     setHoursModal(true);
+  }
+
+  function parseUser(json: any) {
+    let user: User = {
+      firstName: json.firstName? json.firstName : "FirstName",
+      lastName: json.lastName? json.lastName: "LastName",
+      userName: json.email,
+      eMail: json.email,
+      balance: Number.parseFloat(json.balance),
+      accountType: json.user_permissions.length === 0? 'user' : 'employee',
+      hours: json.hours,
+    }
+
+    return user
   }
 
   return (

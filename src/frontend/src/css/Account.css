@@ -67,6 +67,7 @@
   background-color: var(--frappy-white);
   border-radius: 5em;
   margin-left: 0.4em;
+  white-space: nowrap;
   display: flex;
 }
 
