@@ -55,6 +55,10 @@ export default function Login({ setPages, authKey, setAuthKey }: Props) {
               title: 'Cart',
               path: '/cart',
             },
+            {
+              title: 'Queue',
+              path: '/queue',
+            },
           ]);
         } else {
           navigate('/new-user');

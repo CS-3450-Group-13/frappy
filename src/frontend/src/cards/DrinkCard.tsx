@@ -1,10 +1,10 @@
 import React from 'react';
 import '../css/DrinkCard.css';
 import '../css/Global.css'
-import { CompleteFrappe } from '../types/Types';
+import { MenuItem } from '../types/Types';
 
 type Props = {
-  frappe: CompleteFrappe;
+  frappe: MenuItem;
 }
 
 export default function DrinkCard({frappe}: Props) {
@@ -14,7 +14,7 @@ export default function DrinkCard({frappe}: Props) {
       <div className='idk'> 
         <img className='circle image' src={ require('../images/Frappe.jpg') } />
       </div>
-      <p className='drink-name'>{frappe.menu_item.name}</p>
+      <p className='drink-name'>{frappe.name}</p>
     </div>
   );
 }
