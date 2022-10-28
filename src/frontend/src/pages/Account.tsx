@@ -13,6 +13,7 @@ interface PropsAuth {
 }
 
 interface User {
+  id: number;
   firstName: string;
   lastName: string;
   userName: string;
@@ -34,6 +35,7 @@ type Props = {
 };
 
 const FAKE_USER: User = {
+  id: -1,
   firstName: '',
   lastName: '',
   userName: '',
@@ -87,6 +89,7 @@ useEffect(() => {
 
   function parseUser(json: any) {
     let user: User = {
+      id: json.id,
       firstName: json.firstName? json.firstName : "FirstName",
       lastName: json.lastName? json.lastName: "LastName",
       userName: json.email,
@@ -238,6 +241,8 @@ useEffect(() => {
         <BalanceModal
           setModalIsOpen={setBalanceModal}
           currentBalance={currentUser.balance}
+          userNumber={currentUser.id}
+          authKey={props.authKey}
         />
       </Modal>
 
