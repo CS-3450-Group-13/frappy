@@ -7,7 +7,8 @@ interface Props {
 }
 
 export default function HoursModal(props: Props) {
-  const [hours, setHours] = useState('');
+  const [startTime, setStartTime] = useState(0);
+  const [stopTime, setStopTime] = useState(0);
 
   function handleConfirm() {
     props.setModalIsOpen(false);
@@ -23,15 +24,40 @@ export default function HoursModal(props: Props) {
       <div className="hours-step-container">
         <input
           className="hours-input"
-          type="number"
-          step="1"
-          onChange={(e) => setHours(e.target.value)}
+          type="time"
+          step="600"
+          onChange={(e) =>
+            setStartTime(
+              Number(e.target.value.split(':')[0]) * 60 +
+                Number(e.target.value.split(':')[1])
+            )
+          }
+        ></input>
+      </div>
+
+      <div className="hours-step-container-2">
+        <input
+          className="hours-input"
+          type="time"
+          step="600"
+          onChange={(e) =>
+            setStopTime(
+              Number(e.target.value.split(':')[0]) * 60 +
+                Number(e.target.value.split(':')[1])
+            )
+          }
         ></input>
       </div>
       <div className="new-hours">
-        <u className="hours-text-boi">Updated Hours:</u>
+        <u className="hours-text-boi">Total Hours:</u>
         <div className="hours-value">
-          {props.currentHours + Number(hours)} Hrs
+          {stopTime - startTime > 0 ? (
+            `${Math.floor((stopTime - startTime) / 60)} Hrs ${Math.floor(
+              (stopTime - startTime) % 60
+            )} Min`
+          ) : (
+            <div className="red">Clock Out Time Must be Later</div>
+          )}
         </div>
       </div>
       <div className="hours-buttons">
