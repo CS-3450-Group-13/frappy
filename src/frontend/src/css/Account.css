@@ -8,8 +8,6 @@
     align-items: flex-start;
     font-weight: 600;
     min-height: 100vh;
-    height: 0px;
-    flex-grow: 1;
     margin-left: 15%;
   }
 
@@ -17,7 +15,7 @@
     margin-left: 2%;
 }
 
-.header {
+.account-heading {
   font-size: 3em;
 }
 
@@ -49,7 +47,7 @@
 }
 
 .user-details {
-  margin-left: 8%;
+  margin-left: 5%;
   margin-top: 5em;
   display: flex;
   flex-direction: row;
