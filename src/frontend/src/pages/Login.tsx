@@ -8,9 +8,9 @@ interface UserType {
   userName: string;
   email: string;
   password: string;
-  balance: number;
+  balance: string;
   accountType: string;
-  hours: number;
+  hours: string;
   authKey: string;
 }
 
@@ -22,10 +22,13 @@ interface Props {
 
 export default function Login({ setPages, user, setUser }: Props) {
   const navigate = useNavigate();
+  const authToken = '660a1fc0266a0ad4ce5f7ba3a2bbbd772e1d1a8f';
 
   const auth = useAuth();
 
   const submitForm = () => {
+    let HOURS = 0;
+    let role = 'none';
     let email = document.getElementById('input-email') as HTMLInputElement;
     let password = document.getElementById(
       'input-password'
@@ -42,271 +45,180 @@ export default function Login({ setPages, user, setUser }: Props) {
       body: JSON.stringify(input),
     })
       .then((response) => response.json())
-      .then((data) => {
-        if (data.key) {
-          console.log(data);
-          fetch('http://127.0.0.1:8000/users/users/', {
+      .then((LoginData) => {
+        role = 'customer';
+        console.log(role);
+        if (LoginData.key) {
+          fetch('http://127.0.0.1:8000/users/users/current_user/', {
             headers: {
-              Authorization: `Token ${data.key}`,
+              Authorization: `Token ${LoginData.key}`,
               'Content-Type': 'application/json',
             },
             credentials: 'same-origin',
           })
             .then((response) => response.json())
-            .then((data) => {
-              console.log('usersData: ', data);
+            .then((CurrentUserdata) => {
+              console.log(CurrentUserdata);
+              const USERID = CurrentUserdata.id;
+              const FIRSTNAME = CurrentUserdata.first_name;
+              const LASTNAME = ' ' + CurrentUserdata.last_name;
+              const BALANCE = Number(CurrentUserdata.balance);
+              fetch('http://127.0.0.1:8000/users/employees/', {
+                headers: {
+                  Authorization: `Token ${authToken}`,
+                  'Content-Type': 'application/json',
+                },
+                credentials: 'same-origin',
+              })
+                .then((response) => response.json())
+                .then((data) => {
+                  for (let i = 0; i < data.length; i++) {
+                    if (data[i].user == USERID) {
+                      console.log(data[i]);
+                      HOURS = Number(data[i].hours);
+                      if (data[i].is_manager) {
+                        role = 'manager';
+                      } else {
+                        role = 'employee';
+                      }
+                    }
+                  }
+                  switch (role) {
+                    case 'customer':
+                      navigate('/home-page');
+                      auth?.loginAs(
+                        FIRSTNAME + LASTNAME,
+                        'username',
+                        input.email,
+                        input.password,
+                        BALANCE,
+                        role,
+                        LoginData.key,
+                        HOURS
+                      );
+                      setPages([
+                        {
+                          title: 'Home',
+                          path: '/home-page',
+                        },
+                        {
+                          title: 'Order Status',
+                          path: '/order-status',
+                        },
+                        {
+                          title: 'Menu',
+                          path: '/menu',
+                        },
+                        {
+                          title: 'Account',
+                          path: '/account',
+                        },
+                        {
+                          title: 'Cart',
+                          path: '/cart',
+                        },
+                      ]);
+                      break;
+                    case 'employee':
+                      navigate('/home-page');
+                      auth?.loginAs(
+                        FIRSTNAME + LASTNAME,
+                        'username',
+                        input.email,
+                        input.password,
+                        BALANCE,
+                        role,
+                        LoginData.key,
+                        HOURS
+                      );
+                      setPages([
+                        {
+                          title: 'Home',
+                          path: '/home-page',
+                        },
+                        {
+                          title: 'Order Status',
+                          path: '/order-status',
+                        },
+                        {
+                          title: 'Menu',
+                          path: '/menu',
+                        },
+                        {
+                          title: 'Account',
+                          path: '/account',
+                        },
+                        {
+                          title: 'Cart',
+                          path: '/cart',
+                        },
+                        {
+                          title: 'Queue',
+                          path: '/queue',
+                        },
+                      ]);
+                      break;
+                    case 'manager':
+                      navigate('/home-page');
+                      auth?.loginAs(
+                        FIRSTNAME + LASTNAME,
+                        'username',
+                        input.email,
+                        input.password,
+                        BALANCE,
+                        role,
+                        LoginData.key,
+                        HOURS
+                      );
+                      setPages([
+                        {
+                          title: 'Home',
+                          path: '/home-page',
+                        },
+                        {
+                          title: 'Order Status',
+                          path: '/order-status',
+                        },
+                        {
+                          title: 'Menu',
+                          path: '/menu',
+                        },
+                        {
+                          title: 'Account',
+                          path: '/account',
+                        },
+                        {
+                          title: 'Cart',
+                          path: '/cart',
+                        },
+                        {
+                          title: 'Queue',
+                          path: '/queue',
+                        },
+                        {
+                          title: 'Edit Accounts',
+                          path: '/edit-accounts',
+                        },
+                        {
+                          title: 'Edit Menu',
+                          path: '/edit-menu',
+                        },
+                      ]);
+                      break;
+                    case 'none':
+                      console.error("can't login");
+                      break;
+                  }
+                });
             });
-          // if (input.email == 'admin@admin') {
-          //   navigate('/home-page');
-          //   navigate('/home-page');
-          //   auth?.loginAs(
-          //     'Test Manager',
-          //     'manager123',
-          //     input.email,
-          //     input.password,
-          //     405.3,
-          //     'manager',
-          //     'key-here',
-          //     15
-          //   );
-          //   setPages([
-          //     {
-          //       title: 'Home',
-          //       path: '/home-page',
-          //     },
-          //     {
-          //       title: 'Order Status',
-          //       path: '/order-status',
-          //     },
-          //     {
-          //       title: 'Menu',
-          //       path: '/menu',
-          //     },
-          //     {
-          //       title: 'Account',
-          //       path: '/account',
-          //     },
-          //     {
-          //       title: 'Cart',
-          //       path: '/cart',
-          //     },
-          //     {
-          //       title: 'Queue',
-          //       path: '/queue',
-          //     },
-          //     {
-          //       title: 'Edit Accounts',
-          //       path: '/edit-accounts',
-          //     },
-          //     {
-          //       title: 'Edit Menu',
-          //       path: '/edit-menu',
-          //     },
-          //   ]);
-          // } else if (auth.isEmployee(input.email)) {
-          //   navigate('/home-page');
-          //   auth?.loginAs(
-          //     'Test Employee',
-          //     'employee123',
-          //     input.email,
-          //     input.password,
-          //     405.3,
-          //     'employee',
-          //     'key-here',
-          //     15
-          //   );
-          //   setPages([
-          //     {
-          //       title: 'Home',
-          //       path: '/home-page',
-          //     },
-          //     {
-          //       title: 'Order Status',
-          //       path: '/order-status',
-          //     },
-          //     {
-          //       title: 'Menu',
-          //       path: '/menu',
-          //     },
-          //     {
-          //       title: 'Account',
-          //       path: '/account',
-          //     },
-          //     {
-          //       title: 'Cart',
-          //       path: '/cart',
-          //     },
-          //     {
-          //       title: 'Queue',
-          //       path: '/queue',
-          //     },
-          //   ]);
-          // } else {
-          //   navigate('/home-page');
-          //   auth?.loginAs(
-          //     'Test Customer',
-          //     'customer123',
-          //     input.email,
-          //     input.password,
-          //     405.3,
-          //     'customer',
-          //     'key-here',
-          //     0
-          //   );
-          //   setPages([
-          //     {
-          //       title: 'Home',
-          //       path: '/home-page',
-          //     },
-          //     {
-          //       title: 'Order Status',
-          //       path: '/order-status',
-          //     },
-          //     {
-          //       title: 'Menu',
-          //       path: '/menu',
-          //     },
-          //     {
-          //       title: 'Account',
-          //       path: '/account',
-          //     },
-          //     {
-          //       title: 'Cart',
-          //       path: '/cart',
-          //     },
-          //   ]);
-          // }
         } else {
           navigate('/new-user');
-          alert(data.non_field_errors[0]);
+          alert(LoginData.non_field_errors[0]);
         }
       })
       .catch((error) => {
         console.error('Error:', error);
       });
-    // switch (input.email) {
-    //   case 'customer':
-    //     navigate('/home-page');
-    //     auth?.loginAs(
-    //       'Test Customer',
-    //       'customer123',
-    //       input.email,
-    //       input.password,
-    //       405.3,
-    //       'customer',
-    //       'key-here',
-    //       0
-    //     );
-    //     setPages([
-    //       {
-    //         title: 'Home',
-    //         path: '/home-page',
-    //       },
-    //       {
-    //         title: 'Order Status',
-    //         path: '/order-status',
-    //       },
-    //       {
-    //         title: 'Menu',
-    //         path: '/menu',
-    //       },
-    //       {
-    //         title: 'Account',
-    //         path: '/account',
-    //       },
-    //       {
-    //         title: 'Cart',
-    //         path: '/cart',
-    //       },
-    //     ]);
-    //     break;
-    //   case 'employee':
-    //     navigate('/home-page');
-    //     auth?.loginAs(
-    //       'Test Employee',
-    //       'employee123',
-    //       input.email,
-    //       input.password,
-    //       405.3,
-    //       'employee',
-    //       'key-here',
-    //       15
-    //     );
-    //     setPages([
-    //       {
-    //         title: 'Home',
-    //         path: '/home-page',
-    //       },
-    //       {
-    //         title: 'Order Status',
-    //         path: '/order-status',
-    //       },
-    //       {
-    //         title: 'Menu',
-    //         path: '/menu',
-    //       },
-    //       {
-    //         title: 'Account',
-    //         path: '/account',
-    //       },
-    //       {
-    //         title: 'Cart',
-    //         path: '/cart',
-    //       },
-    //       {
-    //         title: 'Queue',
-    //         path: '/queue',
-    //       },
-    //     ]);
-    //     break;
-    //   case 'manager':
-    //     navigate('/home-page');
-    //     auth?.loginAs(
-    //       'Test Manager',
-    //       'manager123',
-    //       input.email,
-    //       input.password,
-    //       405.3,
-    //       'manager',
-    //       'key-here',
-    //       15
-    //     );
-    //     setPages([
-    //       {
-    //         title: 'Home',
-    //         path: '/home-page',
-    //       },
-    //       {
-    //         title: 'Order Status',
-    //         path: '/order-status',
-    //       },
-    //       {
-    //         title: 'Menu',
-    //         path: '/menu',
-    //       },
-    //       {
-    //         title: 'Account',
-    //         path: '/account',
-    //       },
-    //       {
-    //         title: 'Cart',
-    //         path: '/cart',
-    //       },
-    //       {
-    //         title: 'Queue',
-    //         path: '/queue',
-    //       },
-    //       {
-    //         title: 'Edit Accounts',
-    //         path: '/edit-accounts',
-    //       },
-    //       {
-    //         title: 'Edit Menu',
-    //         path: '/edit-menu',
-    //       },
-    //     ]);
-    //     break;
-    // }
   };
 
   return (

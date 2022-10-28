@@ -37,9 +37,9 @@ function App() {
     userName: '',
     email: '',
     password: '',
-    balance: 0,
+    balance: '',
     accountType: '',
-    hours: 0.0,
+    hours: '',
     authKey: '',
   });
 
