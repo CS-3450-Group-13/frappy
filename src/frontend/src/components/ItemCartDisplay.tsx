@@ -2,16 +2,25 @@ import React, { MouseEventHandler } from 'react';
 import { Frappe, MenuItem } from '../types/Types';
 
 import '../css/ItemCartDisplay.css';
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   item: MenuItem;
-  removeItemFromCart: (item: MenuItem) => MouseEventHandler<HTMLDivElement> | undefined;
+  cart: MenuItem[];
+  removeItemFromCart: (item: number) => MouseEventHandler<HTMLDivElement> | undefined;
+  idx: number
 }
 
-export default function ItemCartDisplay({item, removeItemFromCart}: Props) {
+export default function ItemCartDisplay({item, cart, removeItemFromCart, idx}: Props) {
+  const navigate = useNavigate();
 
   const handleEditDrink = () => {
-    alert('User wants to edit drink ' + item);
+    navigate('/customize', {state:{
+      drink: item,
+      cart: cart,
+      // setCart: setCart,
+      // setCurrentFrappe: setCurrentFrappe,
+    }});
   }
 
   return (
@@ -27,7 +36,7 @@ export default function ItemCartDisplay({item, removeItemFromCart}: Props) {
           Edit
         </div>
         <div className='item-cart-remove-btn'
-          onClick={() => {removeItemFromCart(item)}}
+          onClick={() => {removeItemFromCart(idx)}}
         >
           X
         </div>

@@ -3,6 +3,7 @@ import ItemCartDisplay from '../components/ItemCartDisplay';
 import { Frappe, SizeOptions, MenuItem } from '../types/Types';
 import { TestBases, TestExtras, TestMilks } from '../tests/TestServerData';
 import '../css/Cart.css'
+import { useNavigate } from 'react-router-dom';
 
 type Props = {
   cart: Array<MenuItem>;
@@ -11,6 +12,8 @@ type Props = {
 
 export default function Cart({cart, setCart}: Props) {
   const [total, setTotal] = useState(0);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setTotal(calculateTotal);
@@ -21,9 +24,11 @@ export default function Cart({cart, setCart}: Props) {
    * @param item The cart item they want to remove 
    * @returns Nothing
    */
-  const removeItemFromCart = (item: MenuItem): MouseEventHandler<HTMLDivElement> | undefined => {
+  const removeItemFromCart = (idx: number): MouseEventHandler<HTMLDivElement> | undefined => {
     // Do something with setCart here
-    alert('customer wants to remove item from cart');
+    let tmp = cart;
+    tmp.splice(idx, 1);
+    setCart(tmp);
     return;
   }
 
@@ -70,7 +75,7 @@ export default function Cart({cart, setCart}: Props) {
    * @brief Callback for handling when the user wants to go back to the menu
    */
   const handleBackToMenu = () => {
-    alert('Customer wants to go back to the menu');
+    navigate("/menu");
   }
 
   /**
@@ -85,10 +90,10 @@ export default function Cart({cart, setCart}: Props) {
       CART:
       <div className='cart-items-container'>
         <div>
-          {cart.map((frappe) => {
+          {cart.map((frappe, idx) => {
             return (
               <div className='cart-items'>
-                <ItemCartDisplay item={frappe} removeItemFromCart={removeItemFromCart} />
+                <ItemCartDisplay item={frappe} cart={cart} removeItemFromCart={removeItemFromCart} idx={idx} />
               </div>
             )
           })}

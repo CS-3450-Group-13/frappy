@@ -26,7 +26,7 @@ describe('Customer Menu Page Tests', () => {
   test('renders Menu Component', () => {
     render(
       <BrowserRouter>
-        <Menu />
+        {/* <Menu /> */}
       </BrowserRouter>
     );
   });
@@ -34,7 +34,7 @@ describe('Customer Menu Page Tests', () => {
   test('Tests Menu Item Options', () => {
     render(
       <BrowserRouter>
-        <Menu />
+        {/* <Menu /> */}
       </BrowserRouter>
     );
     expect(screen.getByText(/Pumpkin Spice/i)).toBeInTheDocument();

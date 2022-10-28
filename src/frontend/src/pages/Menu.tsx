@@ -5,7 +5,12 @@ import '../css/Menu.css';
 import Confirmation from './Confirmation';
 import { MenuItem } from '../types/Types';
 
-export default function Menu() {
+type Props = {
+  cart: MenuItem[];
+  setCart: React.Dispatch<React.SetStateAction<MenuItem[]>>;
+}
+
+export default function Menu({cart, setCart}: Props) {
   const navigate = useNavigate();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
@@ -38,6 +43,8 @@ export default function Menu() {
 
       navigate('/customize', {state:{
         drink: frappe,
+        cart: cart,
+        // setCart: setCart,
         // setCurrentFrappe: setCurrentFrappe,
       }});
     }}>ORDER</button>

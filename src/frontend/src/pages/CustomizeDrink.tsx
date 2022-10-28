@@ -8,12 +8,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { MenuItem, Base, Milk, SizeNames, Extra, SizeOptions } from '../types/Types';
 import { TestBases, TestExtras } from '../tests/TestServerData'
 
-export default function CustomizeDrink() {
+type Props = {
+  setCart: React.Dispatch<React.SetStateAction<MenuItem[]>>;
+}
+
+export default function CustomizeDrink({setCart}: Props) {
   const navigate = useNavigate();
   const { state } = useLocation();
-  console.log("State received from location:");
-  console.log(state);
   const frappe: MenuItem = state.drink;
+  const cart: MenuItem[] = state.cart;
 
   const [size, setSize] = useState(SizeNames[frappe.frappe.size]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -160,6 +163,9 @@ export default function CustomizeDrink() {
     //   customizations.push(str);
     // }
     // alert("frappe added to cart with " + customizations);
+    setCart((oldState) => [...oldState, frappe]);
+    console.log("the cart is now");
+    console.log(cart);
     navigate("/menu");
   }
 

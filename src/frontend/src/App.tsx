@@ -34,25 +34,6 @@ function App() {
     []
   );
 
-  // Map up all the known menu items with existing frappes
-  // useEffect(() => {
-  //   setCompleteFrappes([]);
-
-  //   TestMenu.forEach((menuItem) => {
-  //     let frappe = frappes.find((item) => item.id === menuItem.frappe);
-
-  //     if (frappe !== undefined) {
-  //       let completeFrappe = {
-  //         frappe: frappe,
-  //         menu_item: menuItem,
-  //       };
-
-  //       console.log('Found frappe that matches menu item:', menuItem, frappe);
-  //       setCompleteFrappes((oldState) => [...oldState, completeFrappe]);
-  //     }
-  //   });
-  // }, []);
-
   return (
     <div className="App">
       <Router>
@@ -73,11 +54,11 @@ function App() {
           <Route path="/order-status" element={<OrderStatus />} />
           <Route
             path="/menu"
-            element={<Menu />}
+            element={<Menu cart={cart} setCart={setCart}/>}
           ></Route>
           <Route
             path="/customize"
-            element={<CustomizeDrink />}
+            element={<CustomizeDrink setCart={setCart}/>}
           />
           <Route
             path="/cart"
