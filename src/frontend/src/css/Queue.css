@@ -1,0 +1,62 @@
+.queue-container {
+  background-color: var(--frappy-background);
+  color: var(--frappy-white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 3rem;
+  height: 100%;
+  margin-left: 15%;
+  padding-top: 5%;
+}
+
+.queue-item {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: space-between;
+  background-color: var(--frappy-gray);
+  margin-top: 2%;
+  margin-left: 2%;
+  margin-right: 2%;
+}
+
+.queue-items-container {
+  background-color: var(--frappy-white);
+  border-radius: 5px;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+  margin-bottom: 10%;
+  margin-top: 2%;
+  font-size: 2rem;
+}
+
+.queue-item-details {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  text-align: left;
+  margin-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.queue-item-ingredients {
+  margin-left: 5%;
+}
+
+.queue-item:last-child {
+  margin-bottom: 2%;
+}
+
+.queue-details-btn {
+  background-color: #0AF205;
+  color: white;
+  border-radius: 15px;
+  padding: 4%;
+  margin: 2%;
+  justify-content: center;
+}
