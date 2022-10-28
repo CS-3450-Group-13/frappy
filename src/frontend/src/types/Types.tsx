@@ -9,6 +9,7 @@ export interface Frappe {
   base: BaseOptions;
   extras: Array<FrappeExtra>
   price: number;
+  final_price: number;
   size: SizeOptions;
   create_date: string;
   comments: string;
@@ -130,7 +131,7 @@ export interface Extra {
 
 /**
  * Interface for what a Frappe stores in the "extras" field. Some things to note:
- *
+ * 
  * extras - This is the key to which extra inside the http://127.0.0.1:8000/frappapi/extras/ endpoint. Think of
  *          it like the ExtraOptions
  * frappe - This is the key to frappe that has this extra i.e. when adding an extra to frappe with id 123, this number
@@ -181,28 +182,9 @@ export interface UserDetails {
 }
 
 /**
- * Interface for accessing a user's account details
- * GET /users/users/current_user/
- *
- * All Fields will be populated
- */
-export interface UserAccount {
-  id: 2;
-  password: 'pbkdf2_sha256$390000$CeM3nweKSgklieWQmSsbn9$m8Qj3gn75u7zcuWfuS4MlDJvaQiCeFK1Acc2OQwVmII=';
-  last_login: '2022-10-28T01:14:25.702941Z';
-  first_name: '';
-  last_name: '';
-  is_active: true;
-  date_joined: '2022-10-28T01:13:32.019926Z';
-  email: 'test@test.com';
-  balance: '0.00';
-  user_permissions: [];
-}
-
-/**
  * Interface for sending a POST request to the server for registering a
  * new user at /auth-endpoint/registration/
- *
+ * 
  * username - not required
  * email - required
  * password1 - required
@@ -242,7 +224,7 @@ export interface PasswordReset {
 /**
  * Interface for sending a POST request to the server for a reset
  * password confimration at /auth-endpoint/password/reset/confirm/
- *
+ * 
  * new_password1 - required
  * new_password2 - required
  * uid - required
