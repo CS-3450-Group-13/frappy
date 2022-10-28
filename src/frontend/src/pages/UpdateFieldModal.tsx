@@ -23,6 +23,8 @@ export default function UpdateFieldModal(props: Props) {
     props.setModalIsOpen(false);
   }
 
+  console.log(props.confirm);
+  
   return (
     <div className="update-container">
       <div className="update-title">Enter New {props.fieldName}</div>
@@ -33,7 +35,7 @@ export default function UpdateFieldModal(props: Props) {
       />
       <TextField
         displayName={'Confirm ' + props.fieldName}
-        defaultValue="Retype Email"
+        defaultValue={'Retype ' + props.fieldValue}
         className={props.confirm ? 'input-container' : 'hidden'}
       />
 

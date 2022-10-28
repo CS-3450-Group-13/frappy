@@ -118,7 +118,7 @@ useEffect(() => {
             onClick={() =>
               openFieldModal({
                 name: 'Name',
-                value: currentUser.firstName,
+                value: 'Full Name',
                 confirm: false,
               })
             }
@@ -130,7 +130,7 @@ useEffect(() => {
             onClick={() =>
               openFieldModal({
                 name: 'User Name',
-                value: currentUser.userName,
+                value: 'New User Name',
                 confirm: false,
               })
             }
@@ -143,7 +143,7 @@ useEffect(() => {
             onClick={() =>
               openFieldModal({
                 name: 'Email',
-                value: currentUser.eMail,
+                value: 'New Email',
                 confirm: true,
               })
             }
@@ -155,7 +155,7 @@ useEffect(() => {
             onClick={() =>
               openFieldModal({
                 name: 'Password',
-                value: '*'.repeat(10),
+                value: 'New Password',
                 confirm: true,
               })
             }
@@ -214,7 +214,7 @@ useEffect(() => {
           setModalIsOpen={setFieldModal}
           fieldName={currentField.name}
           fieldValue={currentField.value}
-          confirm={true}
+          confirm={currentField.confirm}
         />
       </Modal>
 
