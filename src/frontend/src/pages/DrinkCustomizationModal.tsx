@@ -1,70 +1,143 @@
-import React, { useEffect, useState } from 'react';
+import { tmpdir } from 'os';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/DrinkCustomizationModal.css'
-import { Extra, BaseOptions, FrappeExtra } from '../types/Types';
+import { Extra, BaseOptions, FrappeExtra, Base, Milk, MenuItem, MilkOptions } from '../types/Types';
 
 type Props = {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   // setDrinkContents: (drinkContents: Customizations) => void;
-  base: BaseOptions;
-  frappeExtras: Array<FrappeExtra>;
+  bases: Base[];
+  milks: Milk[];
+  extras: Extra[];
+  frappe: MenuItem;
 }
 
-export default function DrinkCustomizationModal({setModalIsOpen, base, frappeExtras}: Props) {
-  const [selectedBase, setSelectedBase] = useState("Soy Milk");
-  const [serverExtras, setServerExtras] = useState<any[]>([]);
+export default function DrinkCustomizationModal({setModalIsOpen, bases, milks, extras, frappe}: Props) {
+  // const [selectedBase, setSelectedBase] = useState(frappe.frappe.base);
 
   const navigate = useNavigate();
 
-  // Grab extras from the server when the modal is loaded (same as componentDidMount with classed react modules)
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/frappapi/extras/')
-    .then((response) => response.json())
-    .then((data) => {
-      setServerExtras([]);
-      data.forEach((extra: Extra) => {
-        setServerExtras(extras => [...extras, extra]);
-      });
-      console.log("data is ", data);
-      console.log(serverExtras)
-    })
-    .catch((err) => {
-      console.log(err);
+  const setBase = (baseOption: BaseOptions) => {
+    frappe.frappe.base = baseOption;
+  }
+
+  const createBaseList = () => {
+    let baseList: ReactNode[] = [];
+
+    bases.forEach((base) => {
+      baseList.push(
+        <div
+          className={frappe.frappe.base === base.id ? 'base-btn base-btn-selected' : 'base-btn'}
+          onClick={() => setBase(base.id)}
+        >
+          {base.name}
+        </div>
+      );
     });
-  }, [serverExtras]);
+
+    return baseList;
+  }
+
+  const createMilkList = () => {
+    let milkList: ReactNode[] = [];
+
+    milks.forEach((milk) => {
+      milkList.push(
+        <div
+          className={frappe.frappe.milk === milk.id ? 'base-btn base-btn-selected' : 'base-btn'}
+          onClick={() => setMilk(milk.id)}
+        >
+          {milk.name}
+        </div>
+      );
+    });
+
+    return milkList;
+  }
+
+  const setMilk = (milk: MilkOptions) => {
+    frappe.frappe.milk = milk;
+  }
+
+  const createExtrasList = () => {
+    let extrasList: ReactNode[] = [];
+    
+    extras.forEach((extra) => {
+      let addinString = extra.name;
+      let frappeExtra = frappe.frappe.extras.find((e) => e.extras === extra.id);
+
+      if (frappeExtra) {
+        addinString += " " + frappeExtra.amount + "X";
+      }
+      extrasList.push(
+        <div className='addin-item' key={extra.id}>
+          <div>{addinString}</div>
+          <div className='drink-customization-modal-addin-item-btns-container'>
+            <div 
+              className='drink-customization-modal-increase-btn'
+              onClick={() => handleExtraIncrease(extra.id)}
+            >
+              +
+            </div>
+            <div 
+              className='drink-customization-modal-decrease-btn'
+              onClick={() => handleExtraDecrease(extra.id)}
+            >
+              -
+            </div>
+          </div>
+        </div>
+      );
+    });
+
+    return extrasList;
+  }
+
+  const handleExtraIncrease = (extraId: number) => {
+    let idx = frappe.frappe.extras.findIndex((e) => e.extras === extraId);
+
+    if (idx > -1) {
+      frappe.frappe.extras[idx].amount += 1;
+    }
+    else {
+      frappe.frappe.extras.push({
+        amount: 1,
+        extras: extraId,
+        frappe: frappe.frappe.id,
+      });
+    }
+  }
+
+  const handleExtraDecrease = (extraId: number) => {
+    let idx = frappe.frappe.extras.findIndex((e) => e.extras === extraId);
+
+    if (idx > -1) {
+      frappe.frappe.extras[idx].amount -= 1;
+
+      if (frappe.frappe.extras[idx].amount < 1) {
+        frappe.frappe.extras.splice(idx, 1);
+      }
+    }
+  }
 
   const handleConfirm = () => {
-    alert("User has confirmed");
+    setModalIsOpen(false);
   }
   
   return (
     <div className='drink-customization-modal-container'>
       <div className='large-base'>BASES</div>
       <div className='base-options'>
-        <div
-          className={selectedBase === "Soy Milk" ? 'base-btn base-btn-selected' : 'base-btn'}
-          onClick={() => setSelectedBase("Soy Milk")}
-        >
-          SOY MILK
-        </div>
-        <div 
-          className={selectedBase === "Milk" ? 'base-btn base-btn-selected' : 'base-btn'}
-          onClick={() => setSelectedBase("Milk")}
-        >
-          MILK
-        </div>
+        {createBaseList()}
+      </div>
+      <div className='large-base'>MILKS</div>
+      <div className='base-options'>
+        {createMilkList()}
       </div>
       <div className='large-base'>ADD INS</div>
       <div className='addins-list'>
-        {serverExtras.length > 0 && serverExtras.map((extra) => {
-          return (
-            <div className='addin-item' key={extra.id}>{extra.name}</div>
-          );
-        })
-        }
-        {serverExtras.length === 0 &&
-          <div>Fetching addins from server...</div>
-        }
+        {createExtrasList()}
       </div>
       <div className='horizontal'>
         <div className='cancel-btn'
