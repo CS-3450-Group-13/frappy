@@ -10,7 +10,7 @@ interface Props {
 }
 export default function ScrollableList(props: Props) {
   return (
-    <div className="box" style={{ width: props.width }}>
+    <div className="box" style={{ minWidth: props.width }}>
       {props.title && <div className="scrollable-heading">{props.title}</div>}
       <div className="container">{props.children}</div>
     </div>
