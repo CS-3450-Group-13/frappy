@@ -11,6 +11,8 @@ import { TestBases, TestExtras } from '../tests/TestServerData'
 export default function CustomizeDrink() {
   const navigate = useNavigate();
   const { state } = useLocation();
+  console.log("State received from location:");
+  console.log(state);
   const frappe: MenuItem = state.drink;
 
   const [size, setSize] = useState(SizeNames[frappe.frappe.size]);
@@ -115,12 +117,12 @@ export default function CustomizeDrink() {
 
     const frappeMilk = milks.find((item) => { return item.id === frappe.frappe.milk; });
     if (frappeMilk) {
-      listItems.push(<li>{frappeMilk.name}</li>);
+      listItems.push(<li key={10000}>{frappeMilk.name}</li>);
     }
 
     const frappeBase = bases.find((item) => { return item.id === frappe.frappe.base; });
     if (frappeBase) {
-      listItems.push(<li>{frappeBase.name}</li>)
+      listItems.push(<li key={10001}>{frappeBase.name}</li>)
     }
 
     frappe.frappe.extras.map((extra) => {
@@ -128,7 +130,7 @@ export default function CustomizeDrink() {
 
       if (frappeExtra) {
         const extraStr = extra.amount + " " + frappeExtra.name;
-        listItems.push(<li>{extraStr}</li>);
+        listItems.push(<li key={extra.extras}>{extraStr}</li>);
       }
     })
 
@@ -207,6 +209,7 @@ export default function CustomizeDrink() {
               marginRight: '20%',
               padding: '0',
               border: '2px solid black',
+              backgroundColor: '#10603B',
             },
           }
         }>

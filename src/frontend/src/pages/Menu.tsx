@@ -21,6 +21,9 @@ export default function Menu() {
       });
       console.log("data is ", data);
       console.log(menuItems)
+      setCurrentFrappe(menuItems[0]);
+      console.log("current frappe is ")
+      console.log(currentFrappe);
     })
     .catch((err) => {
       console.log(err);
@@ -34,8 +37,8 @@ export default function Menu() {
         setCurrentFrappe(frappe);
 
       navigate('/customize', {state:{
-        drink: currentFrappe,
-        setCurrentFrappe: setCurrentFrappe,
+        drink: frappe,
+        // setCurrentFrappe: setCurrentFrappe,
       }});
     }}>ORDER</button>
     </div>
