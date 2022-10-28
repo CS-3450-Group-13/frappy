@@ -34,274 +34,279 @@ export default function Login({ setPages, user, setUser }: Props) {
       email: email.value,
       password: password.value,
     };
-    // fetch('http://127.0.0.1:8000/auth-endpoint/login/', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(input),
-    // })
-    //   .then((response) => response.json())
-    //   .then((data) => {
-    //     if (data.key) {
-    //       document.cookie = 'key=' + data.key + ';SameSite=Lax';
-    //       console.log(data);
-    //       fetch('http://127.0.0.1:8000/users/users/')
-    //         .then((response) => response.json())
-    //         .then((data) => {
-    //           console.log('usersData: ', data);
-    //         });
-    // if (input.email == 'admin@admin') {
-    //   navigate('/home-page');
-    //   navigate('/home-page');
-    //   auth?.loginAs(
-    //     'Test Manager',
-    //     'manager123',
-    //     input.email,
-    //     input.password,
-    //     405.3,
-    //     'manager',
-    //     'key-here',
-    //     15
-    //   );
-    //   setPages([
-    //     {
-    //       title: 'Home',
-    //       path: '/home-page',
-    //     },
-    //     {
-    //       title: 'Order Status',
-    //       path: '/order-status',
-    //     },
-    //     {
-    //       title: 'Menu',
-    //       path: '/menu',
-    //     },
-    //     {
-    //       title: 'Account',
-    //       path: '/account',
-    //     },
-    //     {
-    //       title: 'Cart',
-    //       path: '/cart',
-    //     },
-    //     {
-    //       title: 'Queue',
-    //       path: '/queue',
-    //     },
-    //     {
-    //       title: 'Edit Accounts',
-    //       path: '/edit-accounts',
-    //     },
-    //     {
-    //       title: 'Edit Menu',
-    //       path: '/edit-menu',
-    //     },
-    //   ]);
-    // } else if (auth.isEmployee(input.email)) {
-    //   navigate('/home-page');
-    //   auth?.loginAs(
-    //     'Test Employee',
-    //     'employee123',
-    //     input.email,
-    //     input.password,
-    //     405.3,
-    //     'employee',
-    //     'key-here',
-    //     15
-    //   );
-    //   setPages([
-    //     {
-    //       title: 'Home',
-    //       path: '/home-page',
-    //     },
-    //     {
-    //       title: 'Order Status',
-    //       path: '/order-status',
-    //     },
-    //     {
-    //       title: 'Menu',
-    //       path: '/menu',
-    //     },
-    //     {
-    //       title: 'Account',
-    //       path: '/account',
-    //     },
-    //     {
-    //       title: 'Cart',
-    //       path: '/cart',
-    //     },
-    //     {
-    //       title: 'Queue',
-    //       path: '/queue',
-    //     },
-    //   ]);
-    // } else {
-    //   navigate('/home-page');
-    //   auth?.loginAs(
-    //     'Test Customer',
-    //     'customer123',
-    //     input.email,
-    //     input.password,
-    //     405.3,
-    //     'customer',
-    //     'key-here',
-    //     0
-    //   );
-    //   setPages([
-    //     {
-    //       title: 'Home',
-    //       path: '/home-page',
-    //     },
-    //     {
-    //       title: 'Order Status',
-    //       path: '/order-status',
-    //     },
-    //     {
-    //       title: 'Menu',
-    //       path: '/menu',
-    //     },
-    //     {
-    //       title: 'Account',
-    //       path: '/account',
-    //     },
-    //     {
-    //       title: 'Cart',
-    //       path: '/cart',
-    //     },
-    //   ]);
+    fetch('http://127.0.0.1:8000/auth-endpoint/login/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(input),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.key) {
+          console.log(data);
+          fetch('http://127.0.0.1:8000/users/users/', {
+            headers: {
+              Authorization: `Token ${data.key}`,
+              'Content-Type': 'application/json',
+            },
+            credentials: 'same-origin',
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log('usersData: ', data);
+            });
+          // if (input.email == 'admin@admin') {
+          //   navigate('/home-page');
+          //   navigate('/home-page');
+          //   auth?.loginAs(
+          //     'Test Manager',
+          //     'manager123',
+          //     input.email,
+          //     input.password,
+          //     405.3,
+          //     'manager',
+          //     'key-here',
+          //     15
+          //   );
+          //   setPages([
+          //     {
+          //       title: 'Home',
+          //       path: '/home-page',
+          //     },
+          //     {
+          //       title: 'Order Status',
+          //       path: '/order-status',
+          //     },
+          //     {
+          //       title: 'Menu',
+          //       path: '/menu',
+          //     },
+          //     {
+          //       title: 'Account',
+          //       path: '/account',
+          //     },
+          //     {
+          //       title: 'Cart',
+          //       path: '/cart',
+          //     },
+          //     {
+          //       title: 'Queue',
+          //       path: '/queue',
+          //     },
+          //     {
+          //       title: 'Edit Accounts',
+          //       path: '/edit-accounts',
+          //     },
+          //     {
+          //       title: 'Edit Menu',
+          //       path: '/edit-menu',
+          //     },
+          //   ]);
+          // } else if (auth.isEmployee(input.email)) {
+          //   navigate('/home-page');
+          //   auth?.loginAs(
+          //     'Test Employee',
+          //     'employee123',
+          //     input.email,
+          //     input.password,
+          //     405.3,
+          //     'employee',
+          //     'key-here',
+          //     15
+          //   );
+          //   setPages([
+          //     {
+          //       title: 'Home',
+          //       path: '/home-page',
+          //     },
+          //     {
+          //       title: 'Order Status',
+          //       path: '/order-status',
+          //     },
+          //     {
+          //       title: 'Menu',
+          //       path: '/menu',
+          //     },
+          //     {
+          //       title: 'Account',
+          //       path: '/account',
+          //     },
+          //     {
+          //       title: 'Cart',
+          //       path: '/cart',
+          //     },
+          //     {
+          //       title: 'Queue',
+          //       path: '/queue',
+          //     },
+          //   ]);
+          // } else {
+          //   navigate('/home-page');
+          //   auth?.loginAs(
+          //     'Test Customer',
+          //     'customer123',
+          //     input.email,
+          //     input.password,
+          //     405.3,
+          //     'customer',
+          //     'key-here',
+          //     0
+          //   );
+          //   setPages([
+          //     {
+          //       title: 'Home',
+          //       path: '/home-page',
+          //     },
+          //     {
+          //       title: 'Order Status',
+          //       path: '/order-status',
+          //     },
+          //     {
+          //       title: 'Menu',
+          //       path: '/menu',
+          //     },
+          //     {
+          //       title: 'Account',
+          //       path: '/account',
+          //     },
+          //     {
+          //       title: 'Cart',
+          //       path: '/cart',
+          //     },
+          //   ]);
+          // }
+        } else {
+          navigate('/new-user');
+          alert(data.non_field_errors[0]);
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+    // switch (input.email) {
+    //   case 'customer':
+    //     navigate('/home-page');
+    //     auth?.loginAs(
+    //       'Test Customer',
+    //       'customer123',
+    //       input.email,
+    //       input.password,
+    //       405.3,
+    //       'customer',
+    //       'key-here',
+    //       0
+    //     );
+    //     setPages([
+    //       {
+    //         title: 'Home',
+    //         path: '/home-page',
+    //       },
+    //       {
+    //         title: 'Order Status',
+    //         path: '/order-status',
+    //       },
+    //       {
+    //         title: 'Menu',
+    //         path: '/menu',
+    //       },
+    //       {
+    //         title: 'Account',
+    //         path: '/account',
+    //       },
+    //       {
+    //         title: 'Cart',
+    //         path: '/cart',
+    //       },
+    //     ]);
+    //     break;
+    //   case 'employee':
+    //     navigate('/home-page');
+    //     auth?.loginAs(
+    //       'Test Employee',
+    //       'employee123',
+    //       input.email,
+    //       input.password,
+    //       405.3,
+    //       'employee',
+    //       'key-here',
+    //       15
+    //     );
+    //     setPages([
+    //       {
+    //         title: 'Home',
+    //         path: '/home-page',
+    //       },
+    //       {
+    //         title: 'Order Status',
+    //         path: '/order-status',
+    //       },
+    //       {
+    //         title: 'Menu',
+    //         path: '/menu',
+    //       },
+    //       {
+    //         title: 'Account',
+    //         path: '/account',
+    //       },
+    //       {
+    //         title: 'Cart',
+    //         path: '/cart',
+    //       },
+    //       {
+    //         title: 'Queue',
+    //         path: '/queue',
+    //       },
+    //     ]);
+    //     break;
+    //   case 'manager':
+    //     navigate('/home-page');
+    //     auth?.loginAs(
+    //       'Test Manager',
+    //       'manager123',
+    //       input.email,
+    //       input.password,
+    //       405.3,
+    //       'manager',
+    //       'key-here',
+    //       15
+    //     );
+    //     setPages([
+    //       {
+    //         title: 'Home',
+    //         path: '/home-page',
+    //       },
+    //       {
+    //         title: 'Order Status',
+    //         path: '/order-status',
+    //       },
+    //       {
+    //         title: 'Menu',
+    //         path: '/menu',
+    //       },
+    //       {
+    //         title: 'Account',
+    //         path: '/account',
+    //       },
+    //       {
+    //         title: 'Cart',
+    //         path: '/cart',
+    //       },
+    //       {
+    //         title: 'Queue',
+    //         path: '/queue',
+    //       },
+    //       {
+    //         title: 'Edit Accounts',
+    //         path: '/edit-accounts',
+    //       },
+    //       {
+    //         title: 'Edit Menu',
+    //         path: '/edit-menu',
+    //       },
+    //     ]);
+    //     break;
     // }
-    //   } else {
-    //     navigate('/new-user');
-    //     alert(data.non_field_errors[0]);
-    //   }
-    // })
-    // .catch((error) => {
-    //   console.error('Error:', error);
-    // });
-    switch (input.email) {
-      case 'customer':
-        navigate('/home-page');
-        auth?.loginAs(
-          'Test Customer',
-          'customer123',
-          input.email,
-          input.password,
-          405.3,
-          'customer',
-          'key-here',
-          0
-        );
-        setPages([
-          {
-            title: 'Home',
-            path: '/home-page',
-          },
-          {
-            title: 'Order Status',
-            path: '/order-status',
-          },
-          {
-            title: 'Menu',
-            path: '/menu',
-          },
-          {
-            title: 'Account',
-            path: '/account',
-          },
-          {
-            title: 'Cart',
-            path: '/cart',
-          },
-        ]);
-        break;
-      case 'employee':
-        navigate('/home-page');
-        auth?.loginAs(
-          'Test Employee',
-          'employee123',
-          input.email,
-          input.password,
-          405.3,
-          'employee',
-          'key-here',
-          15
-        );
-        setPages([
-          {
-            title: 'Home',
-            path: '/home-page',
-          },
-          {
-            title: 'Order Status',
-            path: '/order-status',
-          },
-          {
-            title: 'Menu',
-            path: '/menu',
-          },
-          {
-            title: 'Account',
-            path: '/account',
-          },
-          {
-            title: 'Cart',
-            path: '/cart',
-          },
-          {
-            title: 'Queue',
-            path: '/queue',
-          },
-        ]);
-        break;
-      case 'manager':
-        navigate('/home-page');
-        auth?.loginAs(
-          'Test Manager',
-          'manager123',
-          input.email,
-          input.password,
-          405.3,
-          'manager',
-          'key-here',
-          15
-        );
-        setPages([
-          {
-            title: 'Home',
-            path: '/home-page',
-          },
-          {
-            title: 'Order Status',
-            path: '/order-status',
-          },
-          {
-            title: 'Menu',
-            path: '/menu',
-          },
-          {
-            title: 'Account',
-            path: '/account',
-          },
-          {
-            title: 'Cart',
-            path: '/cart',
-          },
-          {
-            title: 'Queue',
-            path: '/queue',
-          },
-          {
-            title: 'Edit Accounts',
-            path: '/edit-accounts',
-          },
-          {
-            title: 'Edit Menu',
-            path: '/edit-menu',
-          },
-        ]);
-        break;
-    }
   };
 
   return (

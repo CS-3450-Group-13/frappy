@@ -47,9 +47,10 @@ export default function NewUser() {
           fetch('http://127.0.0.1:8000/auth-endpoint/user/', {
             method: 'PUT',
             headers: {
-              Authorization: `Token${data.key}`,
+              Authorization: `Token ${data.key}`,
               'Content-Type': 'application/json',
             },
+            credentials: 'same-origin',
             body: JSON.stringify(userInfo),
           })
             .then((response) => response.json())
