@@ -27,6 +27,17 @@
     margin-bottom: 0.1em;
 }
 
+.hours-step-container-2 {
+    display: flex;
+    justify-content: flex-start;
+    font-weight: 600;
+    font-size: 5em;
+    border-radius: 0.3em;
+    margin-bottom: 0.1em;
+    margin-bottom: 0.1em;
+    margin-top: 0.3em;
+}
+
 
 .hours-input {
     background-color: var(--frappy-white);
@@ -95,4 +106,9 @@
 .balance-input::before {
     position: absolute;
     content: "$";
+}
+
+.red {
+    color: var(--frappy-red);
+    font-style: italic;
 }

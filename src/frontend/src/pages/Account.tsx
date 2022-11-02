@@ -58,19 +58,15 @@ export default function Account(props: PropsAuth) {
     confirm: false,
   });
 
-
-useEffect(() => {
+  useEffect(() => {
     fetch('http://127.0.0.1:8000/users/users/current_user/', {
-      headers: {'Authorization':  `Token ${props.authKey}`},
+      headers: { Authorization: `Token ${props.authKey}` },
       credentials: 'same-origin',
     })
       .then((response) => response.json())
       .then((json) => {
-        console.log(typeof(json));
         const user: User = parseUser(json);
-        console.log(currentUser);
         setCurrentUser(user);
-        console.log(currentUser);
       });
   }, []);
 
@@ -96,7 +92,7 @@ useEffect(() => {
       eMail: json.email,
       balance: Number.parseFloat(json.balance),
       accountType: json.user_permissions.length === 0? 'user' : 'employee',
-      hours: json.hours,
+      hours: 4,
     }
 
     return user
