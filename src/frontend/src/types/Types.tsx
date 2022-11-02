@@ -4,10 +4,12 @@
  */
 export interface Frappe {
   id: number;
-  creator: string;
+  user: string;
   milk: MilkOptions;
   base: BaseOptions;
   extras: Array<FrappeExtra>
+  price: number;
+  final_price: number;
   size: SizeOptions;
   create_date: string;
   comments: string;
@@ -23,9 +25,9 @@ export interface Frappe {
  */
 export interface MenuItem {
   name: string;
-  frappe: number;
+  frappe: Frappe;
   photo: string;
-  price: number;
+  prices: Array<number>;
 }
 
 /**
@@ -86,6 +88,12 @@ export enum SizeOptions {
   Large = 3,
 }
 
+export const SizeNames = [
+  'Small',
+  'Medium',
+  'Large'
+];
+
 /**
  * Options for the different extras. Object for what an extra looks like when requested
  * from the server is to follow below as 'interface Extra'
@@ -131,7 +139,7 @@ export interface Extra {
  */
 export interface FrappeExtra {
   amount: number;
-  extras: number;
+  extras: ExtraOptions;
   frappe: number;
 }
 
@@ -155,14 +163,14 @@ export interface AddExtra {
  * field and forget the menu_item part. The menu item just carries superficial
  * data that won't get posted
  */
-export interface CompleteFrappe {
-  frappe: Frappe;
-  menu_item: MenuItem;
-}
+// export interface CompleteFrappe {
+//   frappe: Frappe;
+//   menu_item: MenuItem;
+// }
 
 /**
  * Interface for what a user looks like on the server when sending a
- * GET request to /auth-endpoints/user/
+ * GET request to /auth-endpoint/user/
  *
  * Since this is a GET request, all fields will be populated
  */

@@ -11,7 +11,7 @@ import Account from './pages/Account';
 import Home from './pages/Home';
 import Cart from './pages/Cart';
 import Confirmation from './pages/Confirmation';
-import { CompleteFrappe } from './types/Types';
+import { MenuItem } from './types/Types';
 import { TestFrappes, TestMenu } from './tests/TestServerData';
 import Queue from './pages/Queue';
 import ManagerEditAccounts from './pages/ManagerEditAccounts';
@@ -43,30 +43,11 @@ function App() {
     authKey: '',
   });
 
-  const [cart, setCart] = useState<CompleteFrappe[]>([]);
+  const [cart, setCart] = useState<MenuItem[]>([]);
   const [frappes, setFrappes] = useState(TestFrappes); // TODO query these from the server
-  const [completeFrappes, setCompleteFrappes] = useState<Array<CompleteFrappe>>(
+  const [menuItems, setMenuItems] = useState<Array<MenuItem>>(
     []
   );
-
-  // Map up all the known menu items with existing frappes
-  useEffect(() => {
-    setCompleteFrappes([]);
-
-    TestMenu.forEach((menuItem) => {
-      let frappe = frappes.find((item) => item.id === menuItem.frappe);
-
-      if (frappe !== undefined) {
-        let completeFrappe = {
-          frappe: frappe,
-          menu_item: menuItem,
-        };
-
-        console.log('Found frappe that matches menu item:', menuItem, frappe);
-        setCompleteFrappes((oldState) => [...oldState, completeFrappe]);
-      }
-    });
-  }, []);
 
   return (
     <div className="App">
@@ -85,10 +66,10 @@ function App() {
             <Route element={<CustomerRoutes />}>
               <Route path="/home-page" element={<Home />} />
               <Route path="/order-status" element={<OrderStatus />} />
-              <Route
-                path="/menu"
-                element={<Menu menuItems={completeFrappes} />}
-              ></Route>
+          <Route
+            path="/menu"
+            element={<Menu cart={cart} setCart={setCart}/>}
+          ></Route>
               <Route
                 path="/customize"
                 element={<CustomizeDrink frappe={completeFrappes[5]} />}
@@ -97,8 +78,15 @@ function App() {
                 path="/cart"
                 element={<Cart cart={cart} setCart={setCart} />}
               />
-              <Route path="/account" element={<Account />} />
-
+            <Route
+            path="/customize"
+            element={<CustomizeDrink setCart={setCart}/>}
+          />
+           <Route
+            path="/cart"
+            element={<Cart cart={cart} setCart={setCart} />}
+          />
+          <Route path="/account"  element={<Account  authKey={authKey}/>} />
               <Route element={<EmployeeRoutes />}>
                 <Route path="/queue" element={<Queue />} />
                 <Route element={<ManagerRoutes />}>
@@ -113,11 +101,9 @@ function App() {
           </Routes>
         </Router>
       </AuthProvider>
+
     </div>
   );
 }
 
 export default App;
-// function useEffect(arg0: () => void, arg1: never[]) {
-//   throw new Error('Function not implemented.');
-// }

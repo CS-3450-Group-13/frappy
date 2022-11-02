@@ -1,0 +1,70 @@
+.queue-item-modal-container {
+  background-color: var(--frappy-background);
+  color: var(--frappy-white);
+  display: flex;
+  flex-direction: column;
+  font-size: 3rem;
+  padding-top: 20px;
+  text-align: center;
+}
+
+.queue-item-modal-ingredient-container {
+  background-color: var(--frappy-white);
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 2%;
+  border-radius: 15px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  font-size: 2rem;
+}
+
+.queue-item-modal-ingredient {
+  background-color: var(--frappy-gray);
+  color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-top: 2%;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.queue-item-modal-ingredient:last-child {
+  margin-bottom: 2%;
+}
+
+.queue-item-modal-rhs {
+  display: flex;
+  flex-direction: row;
+  justify-content: stretch;
+}
+
+.queue-item-modal-qty {
+  padding-right: 25px;
+}
+
+.queue-item-modal-btn {
+  background-color: #3152FF;
+  padding-left: 10px;
+  padding-right: 10px;
+  border-radius: 15px;
+  align-self: stretch;
+  color: white;
+}
+
+.queue-item-modal-complete-order-btn {
+  background-color: var(--frappy-lgreen);
+  border-radius: 15px;
+  margin-top: 2%;
+  padding: 10px;
+  margin-right: 2%;
+  align-self: flex-end;
+}
+
+.green {
+  background-color: green;
+}

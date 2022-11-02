@@ -211,6 +211,7 @@ export default function Login({ setPages, user, setUser }: Props) {
                   }
                 });
             });
+
         } else {
           navigate('/new-user');
           alert(LoginData.non_field_errors[0]);
