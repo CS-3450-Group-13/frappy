@@ -53,10 +53,13 @@ class Frappe(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     comments = models.TextField(blank=True)
     final_price = models.DecimalField(max_digits=20, decimal_places=2)
+    menu_key = models.ForeignKey(
+        "Menu", related_name="menu_key", on_delete=models.CASCADE, blank=True
+    )
 
     def __str__(self):
         if hasattr(self, "menu"):
-            return self.menu.name
+            return self.menu_key.name
         return f"{self.creator.email}@ {self.create_date} : {self.base}/{self.milk}/{self.extras}"
 
     def price(self, size=None):
@@ -72,6 +75,7 @@ class Frappe(models.Model):
             )
             + (self.base.price_per_unit * size)
             + (self.milk.price_per_unit * size)
+            + (self.menu_key.markup if self.menu_key.markup else 0)
         )
 
 
@@ -86,7 +90,7 @@ class ExtraDetail(models.Model):
 
 class Menu(models.Model):
     name = models.CharField(max_length=250)
-    frappe = models.OneToOneField(Frappe, on_delete=models.CASCADE)
+    frappe = models.ForeignKey(Frappe, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to="uploads")
     markup = models.DecimalField(max_digits=5, decimal_places=2, default=0)
 

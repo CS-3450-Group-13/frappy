@@ -48,6 +48,9 @@ class FrappeSerializer(serializers.ModelSerializer):
     extras = ExtraDetailSerializer(source="extradetail_set", many=True, required=False)
     price = serializers.SerializerMethodField()
     final_price = serializers.ReadOnlyField()
+    menu_key = serializers.PrimaryKeyRelatedField(
+        required=True, queryset=Menu.objects.all()
+    )
     # Add on the fly price calulcations
     def get_price(self, obj):
         print(type(obj))
@@ -57,6 +60,7 @@ class FrappeSerializer(serializers.ModelSerializer):
                 pass
             total += obj["milk"].price_per_unit * obj["size"]
             total += obj["base"].price_per_unit * obj["size"]
+            total += obj["menu_key"].markup
             return total
         else:
             return Frappe.objects.get(id=obj.id).price()
@@ -71,14 +75,6 @@ class CashierFrappeSerializer(FrappeSerializer):
     user = serializers.PrimaryKeyRelatedField(
         required=True, queryset=User.objects.all()
     )
-    milk = serializers.PrimaryKeyRelatedField(
-        required=True, queryset=Milk.objects.all()
-    )
-    base = serializers.PrimaryKeyRelatedField(
-        required=True, queryset=Base.objects.all()
-    )
-    extras = ExtraDetailSerializer(source="extradetail_set", many=True, required=False)
-    final_price = serializers.ReadOnlyField()
 
     class Meta:
         model = Frappe
