@@ -62,7 +62,7 @@ function App() {
             <Route path="/new-user" element={<NewUser />} />
 
             <Route element={<CustomerRoutes />}>
-              <Route path="/home-page" element={<Home />} />
+              <Route path="/home-page" element={<Home authKey={authKey} />} />
               <Route path="/order-status" element={<OrderStatus />} />
               <Route
                 path="/menu"
@@ -80,7 +80,7 @@ function App() {
                 path="/cart"
                 element={<Cart cart={cart} setCart={setCart} />}
               />
-              <Route path="/account" element={<Account authKey={authKey} />} />
+              <Route path="/account" element={<Account />} />
               <Route element={<EmployeeRoutes />}>
                 <Route path="/queue" element={<Queue />} />
                 <Route element={<ManagerRoutes />}>

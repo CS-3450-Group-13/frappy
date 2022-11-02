@@ -76,6 +76,8 @@ export default function Login({ setPages, user, setUser }: Props) {
                     if (data[i].user == USERID) {
                       console.log(data[i]);
                       HOURS = Number(data[i].hours);
+                      console.log(data[i].is_manager);
+                      console.log('kdsjaopfhsdogsdg');
                       if (data[i].is_manager) {
                         role = 'manager';
                       } else {
@@ -87,7 +89,8 @@ export default function Login({ setPages, user, setUser }: Props) {
                     case 'customer':
                       navigate('/home-page');
                       auth?.loginAs(
-                        FIRSTNAME + LASTNAME,
+                        USERID,
+                        FIRSTNAME + ' ' + LASTNAME,
                         'username',
                         input.email,
                         input.password,
@@ -122,6 +125,7 @@ export default function Login({ setPages, user, setUser }: Props) {
                     case 'employee':
                       navigate('/home-page');
                       auth?.loginAs(
+                        USERID,
                         FIRSTNAME + LASTNAME,
                         'username',
                         input.email,
@@ -161,6 +165,7 @@ export default function Login({ setPages, user, setUser }: Props) {
                     case 'manager':
                       navigate('/home-page');
                       auth?.loginAs(
+                        USERID,
                         FIRSTNAME + LASTNAME,
                         'username',
                         input.email,
@@ -211,7 +216,6 @@ export default function Login({ setPages, user, setUser }: Props) {
                   }
                 });
             });
-
         } else {
           navigate('/new-user');
           alert(LoginData.non_field_errors[0]);

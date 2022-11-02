@@ -9,10 +9,7 @@ import BalanceModal from './BalaceModal';
 import HoursModal from './HoursModal';
 import { json } from 'stream/consumers';
 import { useAuth } from '../components/auth';
-
-interface PropsAuth {
-  authKey: string;
-}
+import userEvent from '@testing-library/user-event';
 
 interface User {
   id: number;
@@ -33,7 +30,7 @@ interface Field {
 }
 
 type Props = {
-  text: string;
+  text: string | undefined;
   onClick: () => void;
 };
 
@@ -48,8 +45,8 @@ const FAKE_USER: User = {
   hours: 0,
 };
 
-export default function Account(props: PropsAuth) {
-  const [currentUser, setCurrentUser] = useState<User>(FAKE_USER);
+export default function Account() {
+  const [outOfDate, setOutOfDate] = useState(false);
   const [balanceModalOpen, setBalanceModal] = useState(false);
   const [fieldModalOpen, setFieldModal] = useState(false);
   const [hoursModalOpen, setHoursModal] = useState(false);
@@ -60,17 +57,34 @@ export default function Account(props: PropsAuth) {
     confirm: false,
     updateFunction: '',
   });
+
+  const auth = useAuth();
+  let user = auth?.userInfo;
+
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/users/users/current_user/', {
-      headers: { Authorization: `Token ${props.authKey}` },
-      credentials: 'same-origin',
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        const user: User = parseUser(json);
-        setCurrentUser(user);
-      });
-  }, []);
+    if (outOfDate) {
+      fetch('http://127.0.0.1:8000/users/users/current_user/', {
+        headers: { Authorization: `Token ${user?.key}` },
+        credentials: 'same-origin',
+      })
+        .then((response) => response.json())
+        .then((json) => {
+          const newUser: User = parseUser(json);
+          auth?.loginAs(
+            user?.id,
+            newUser.firstName + ' ' + newUser.lastName,
+            newUser.userName,
+            newUser.eMail,
+            user?.password,
+            newUser.balance,
+            user?.role,
+            user?.key,
+            newUser.hours
+          );
+        });
+      setOutOfDate(false);
+    }
+  }, [outOfDate]);
 
   function openFieldModal(field: Field) {
     setFieldError('');
@@ -102,7 +116,6 @@ export default function Account(props: PropsAuth) {
   }
 
   function postName(field1: string, field2: string, password: string) {
-    console.log(fieldError);
     if (field1.split(' ').length !== 2) {
       setFieldError('Name Must Consist of Two Parts, Seperated by a Space');
       return;
@@ -110,8 +123,12 @@ export default function Account(props: PropsAuth) {
     const first = field1.split(' ')[0];
     const last = field1.split(' ')[1];
 
-    fetch('http://127.0.0.1:8000/users/users/', {
-      headers: { Authorization: `Token ${props.authKey}` },
+    console.log(user?.key);
+    console.log(user);
+
+    fetch(`http://127.0.0.1:8000/users/users/${user?.id}/`, {
+      method: 'PUT',
+      headers: { Authorization: `Token ${user?.key}` },
       credentials: 'same-origin',
       body: JSON.stringify({ firstName: first, lastName: last }),
     })
@@ -119,12 +136,15 @@ export default function Account(props: PropsAuth) {
         if (response.status === 200) {
           setFieldError('');
           setFieldModal(false);
+          setOutOfDate(true);
         } else {
           setFieldError('Server Error: Please Try Again Later');
         }
         console.log(response);
       })
-      .catch(() => setFieldError('Server Error: Please Try Again Later'));
+      .catch(() => {
+        setFieldError('Server Error: Please Try Again Later');
+      });
   }
 
   function postEmail(field1: string, field2: string, password: string) {
@@ -139,8 +159,9 @@ export default function Account(props: PropsAuth) {
       return;
     }
 
-    fetch('http://127.0.0.1:8000/users/users/', {
-      headers: { Authorization: `Token ${props.authKey}` },
+    fetch(`http://127.0.0.1:8000/users/users/${user?.id}/`, {
+      headers: { Authorization: `Token ${user?.key}` },
+      method: 'PUT',
       credentials: 'same-origin',
       body: JSON.stringify({ email: field1 }),
     })
@@ -148,6 +169,7 @@ export default function Account(props: PropsAuth) {
         if (response.status === 200) {
           setFieldError('');
           setFieldModal(false);
+          setOutOfDate(true);
         } else {
           setFieldError('Server Error: Please Try Again Later');
         }
@@ -173,7 +195,7 @@ export default function Account(props: PropsAuth) {
     data.append('new_password2', field2);
 
     fetch('http://127.0.0.1:8000/auth-endpoint/password/change/', {
-      headers: { Authorization: `Token ${props.authKey}` },
+      headers: { Authorization: `Token ${user?.key}` },
       credentials: 'same-origin',
       method: 'POST',
       body: data,
@@ -182,6 +204,7 @@ export default function Account(props: PropsAuth) {
         if (response.status === 200) {
           setFieldError('');
           setFieldModal(false);
+          setOutOfDate(true);
         } else {
           setFieldError('Server Error: Please Try Again Later');
         }
@@ -195,9 +218,7 @@ export default function Account(props: PropsAuth) {
       <div className="account-heading">Account Information For:</div>
       <div className="user-header heading-2">
         <img src={test} width="75em" className="profile-picture" />
-        <div className="user-title header-2">
-          {currentUser.firstName} {currentUser.lastName}
-        </div>
+        <div className="user-title header-2">{user?.fullName}</div>
       </div>
       <hr className="ruler" />
       <div className="user-details">
@@ -205,7 +226,7 @@ export default function Account(props: PropsAuth) {
           <div className="field-title">Name </div>
           <div className="colon">:</div>
           <EditableText
-            text={`${currentUser.firstName} ${currentUser.lastName}`}
+            text={`${user?.fullName}`}
             onClick={() =>
               openFieldModal({
                 name: 'Name',
@@ -218,7 +239,7 @@ export default function Account(props: PropsAuth) {
           <div className="field-title">User Name </div>
           <div className="colon">:</div>
           <EditableText
-            text={currentUser.userName}
+            text={user?.email}
             onClick={() =>
               openFieldModal({
                 name: 'User Name',
@@ -232,7 +253,7 @@ export default function Account(props: PropsAuth) {
           <div className="colon">:</div>
           <EditableText
             data-testid="edit-email-btn"
-            text={currentUser.eMail}
+            text={user?.email}
             onClick={() =>
               openFieldModal({
                 name: 'Email',
@@ -259,27 +280,19 @@ export default function Account(props: PropsAuth) {
 
         <div className="balance-information heading-2">
           <div>
-            <u>
-              {currentUser.accountType === 'manager' ? 'Store' : 'User'}{' '}
-              Balance:
-            </u>
+            <u>{user?.role === 'manager' ? 'Store' : 'User'} Balance:</u>
           </div>
-          <div className="balance-display">
-            ${currentUser.balance.toFixed(2)}
-          </div>
+          <div className="balance-display">${user?.balance.toFixed(2)}</div>
           <div className="small-link" onClick={openBalanceModal}>
             Add to Balance
           </div>
-          {(currentUser.accountType === 'manager' ||
-            currentUser.accountType === 'employee') && (
+          {(user?.role === 'manager' || user?.role === 'employee') && (
             <div className="time-worked-div">
               <div>
                 <u>Hours Clocked:</u>
               </div>
 
-              <div className="time-display">
-                {currentUser.hours.toFixed(1)} Hr
-              </div>
+              <div className="time-display">{user?.hours.toFixed(1)} Hr</div>
               <div className="small-link" onClick={openHoursModal}>
                 Clock In
               </div>
@@ -335,9 +348,7 @@ export default function Account(props: PropsAuth) {
       >
         <BalanceModal
           setModalIsOpen={setBalanceModal}
-          currentBalance={currentUser.balance}
-          userNumber={currentUser.id}
-          authKey={props.authKey}
+          currentBalance={user?.balance ? user?.balance : 0.0}
         />
       </Modal>
 
@@ -358,11 +369,7 @@ export default function Account(props: PropsAuth) {
           },
         }}
       >
-        <HoursModal
-          setModalIsOpen={setHoursModal}
-          currentHours={currentUser.hours}
-          authKey={props.authKey}
-        />
+        <HoursModal setModalIsOpen={setHoursModal} currentHours={user?.hours} />
       </Modal>
     </div>
   );

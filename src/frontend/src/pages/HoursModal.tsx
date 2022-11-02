@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useState } from 'react';
 import '../css/HoursModal.css';
+import { useAuth } from '../components/auth';
 
 interface Props {
   setModalIsOpen: (modalIsOpen: boolean) => void;
-  currentHours: number;
-  authKey: string;
+  currentHours: number | undefined;
 }
 
 export default function HoursModal(props: Props) {
@@ -12,10 +12,13 @@ export default function HoursModal(props: Props) {
   const [stopTime, setStopTime] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
 
+  const auth = useAuth();
+  let user = auth?.userInfo;
+
   function handleConfirm() {
     if (stopTime > startTime) {
       fetch(`http://127.0.0.1/8000/users/users/add_balance/?balance=$100`, {
-        headers: { Authorization: `Token ${props.authKey}` },
+        headers: { Authorization: `Token ${user?.key}` },
         credentials: 'same-origin',
       })
         .then((response) => {

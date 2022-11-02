@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
 interface StateType {
+  id: number;
   fullName: string;
   userName: string;
   email: string;
@@ -21,6 +22,7 @@ const AuthContext = createContext<AppContextInterface | null>(null);
 
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [userInfo, setUserInfo] = useState({
+    id: -1,
     fullName: '',
     userName: '',
     email: '',
@@ -41,6 +43,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   // }, [role]);
 
   const loginAs = (
+    id: number,
     fullName: string,
     userName: string,
     email: string,
@@ -51,6 +54,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     hours: number
   ) => {
     setUserInfo({
+      id: id,
       fullName: fullName,
       userName: userName,
       email: email,
@@ -64,6 +68,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
   const logout = () => {
     setUserInfo({
+      id: -1,
       fullName: '',
       userName: '',
       email: '',

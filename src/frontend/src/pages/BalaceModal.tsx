@@ -1,17 +1,19 @@
 import React, { ChangeEvent, useState } from 'react';
 import '../css/BalanceModal.css';
+import { useAuth } from '../components/auth';
 
 interface Props {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   currentBalance: number;
-  userNumber: number;
-  authKey: string;
 }
 
 export default function BalanceModal(props: Props) {
   const [newBalance, setNewBalance] = useState(props.currentBalance);
   const [balanceValid, setBalanceValid] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const auth = useAuth();
+  let user = auth?.userInfo;
 
   function handleBalanceChange(event: ChangeEvent<HTMLInputElement>) {
     let value = event.target.value;
@@ -28,7 +30,7 @@ export default function BalanceModal(props: Props) {
       fetch(
         `http://127.0.0.1/8000/users/users/add_balance/?balance=${newBalance}`,
         {
-          headers: { Authorization: `Token ${props.authKey}` },
+          headers: { Authorization: `Token ${user?.key}` },
           credentials: 'same-origin',
         }
       )

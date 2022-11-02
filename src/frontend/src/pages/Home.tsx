@@ -267,47 +267,8 @@ const DEMO_USER: User2 = {
   ],
 };
 
-const FAKE_USER: User = {
-  id: -1,
-  firstName: '',
-  lastName: '',
-  userName: '',
-  eMail: '',
-  balance: 0,
-  accountType: '',
-  hours: 0,
-};
-
 export default function Home(props: Props) {
   const navigate = useNavigate();
-  const [currentUser, setCurrentUser] = useState(FAKE_USER);
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/users/users/current_user/', {
-      headers: { Authorization: `Token ${props.authKey}` },
-      credentials: 'same-origin',
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        const user: User = parseUser(json);
-        setCurrentUser(user);
-      });
-  }, []);
-
-  function parseUser(json: any) {
-    let user: User = {
-      id: json.id,
-      firstName: json.firstName ? json.firstName : 'FirstName',
-      lastName: json.lastName ? json.lastName : 'LastName',
-      userName: json.email,
-      eMail: json.email,
-      balance: Number.parseFloat(json.balance),
-      accountType: json.user_permissions.length === 0 ? 'employee' : 'employee',
-      hours: 4,
-    };
-
-    return user;
-  }
 
   const auth = useAuth();
 
@@ -315,6 +276,7 @@ export default function Home(props: Props) {
     var USER = auth.userInfo;
   } else {
     var USER = {
+      id: -1,
       fullName: '',
       userName: '',
       email: '',
@@ -329,9 +291,7 @@ export default function Home(props: Props) {
   return (
     <div className="home-container">
       <div className="header">
-        <div className="home-title">
-          Welcome Back {currentUser.firstName} {currentUser.lastName}!
-        </div>
+        <div className="home-title">Welcome Back {USER.fullName}!</div>
         <div className="profile-picture">
           <img src={test} alt="test" width="110em" height="110em" />
         </div>
@@ -367,19 +327,13 @@ export default function Home(props: Props) {
           <DetailCard
             title="Balance"
             // eslint-disable-next-line
-            value={
-              currentUser.balance > 0
-                ? `\$${currentUser.balance.toFixed(2)}`
-                : '$0.00'
-            }
+            value={USER.balance > 0 ? `\$${USER.balance.toFixed(2)}` : '$0.00'}
           />
           <DetailCard title="Favorite Drink" value={DEMO_USER.favoriteDrink} />
           <DetailCard
             title="Tab"
             value={
-              currentUser.balance < 0
-                ? `\$${(-1 * currentUser.balance).toFixed(2)}`
-                : '$0.00'
+              USER.balance < 0 ? `\$${(-1 * USER.balance).toFixed(2)}` : '$0.00'
             }
           />
         </ScrollableList>
