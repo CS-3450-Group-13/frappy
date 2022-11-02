@@ -86,18 +86,16 @@ export default function Account(props: PropsAuth) {
   function parseUser(json: any) {
     let user: User = {
       id: json.id,
-      firstName: json.firstName ? json.firstName : 'FirstName',
-      lastName: json.lastName ? json.lastName : 'LastName',
+      firstName: json.firstName? json.firstName : "FirstName",
+      lastName: json.lastName? json.lastName: "LastName",
       userName: json.email,
       eMail: json.email,
       balance: Number.parseFloat(json.balance),
-      accountType: json.user_permissions.length === 0 ? 'employee' : 'employee',
+      accountType: json.user_permissions.length === 0? 'user' : 'employee',
       hours: 4,
-    };
+    }
 
-    console.log(json.user_permissions[0]);
-
-    return user;
+    return user
   }
 
   return (
