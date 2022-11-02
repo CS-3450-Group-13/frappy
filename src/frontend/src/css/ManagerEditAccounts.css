@@ -119,3 +119,13 @@ background-color: lightcoral;
     width: 75px;
     height: 75px;
 }
+
+.edit-accounts-container h2 {
+    width: fit-content;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10%;
+}

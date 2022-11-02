@@ -5,206 +5,226 @@ import { Base, Extra, Frappe, MenuItem, Milk } from "../types/Types";
  */
 export const TestFrappes: Array<Frappe> = [
   {
-      "id": 2,
-      "creator": "admin@admin.com",
-      "milk": 1,
-      "base": 1,
-      "extras": [
-          {
-              "amount": 2,
-              "extras": 4,
-              "frappe": 2
-          },
-          {
-              "amount": 1,
-              "extras": 11,
-              "frappe": 2
-          },
-          {
-              "amount": 1,
-              "extras": 9,
-              "frappe": 2
-          }
-      ],
-      "size": 1,
-      "create_date": "2022-10-23T04:36:09.503000Z",
-      "comments": ""
-  },
-  {
-      "id": 3,
-      "creator": "admin@admin.com",
-      "milk": 1,
-      "base": 1,
-      "extras": [
-          {
-              "amount": 1,
-              "extras": 7,
-              "frappe": 3
-          },
-          {
-              "amount": 1,
-              "extras": 3,
-              "frappe": 3
-          }
-      ],
-      "size": 1,
-      "create_date": "2022-10-23T04:49:41.420000Z",
-      "comments": ""
-  },
-  {
-      "id": 4,
-      "creator": "admin@admin.com",
-      "milk": 1,
-      "base": 1,
-      "extras": [
-          {
-              "amount": 2,
-              "extras": 12,
-              "frappe": 4
-          },
-          {
-              "amount": 2,
-              "extras": 6,
-              "frappe": 4
-          }
-      ],
-      "size": 1,
-      "create_date": "2022-10-23T04:49:43.457000Z",
-      "comments": ""
-  },
-  {
-      "id": 5,
-      "creator": "admin@admin.com",
-      "milk": 1,
-      "base": 1,
-      "extras": [
-          {
-              "amount": 2,
-              "extras": 1,
-              "frappe": 5
-          },
-          {
-              "amount": 10,
-              "extras": 10,
-              "frappe": 5
-          },
-          {
-              "amount": 2,
-              "extras": 9,
-              "frappe": 5
-          },
-          {
-              "amount": 1,
-              "extras": 7,
-              "frappe": 5
-          },
-          {
-              "amount": 3,
-              "extras": 8,
-              "frappe": 5
-          },
-          {
-              "amount": 1,
-              "extras": 3,
-              "frappe": 5
-          },
-          {
-              "amount": 2,
-              "extras": 12,
-              "frappe": 5
-          },
-          {
-              "amount": 2,
-              "extras": 12,
-              "frappe": 5
-          }
-      ],
-      "size": 1,
-      "create_date": "2022-10-23T04:49:44.209000Z",
-      "comments": ""
-  },
-  {
-      "id": 6,
-      "creator": "admin@admin.com",
-      "milk": 1,
-      "base": 1,
-      "extras": [],
-      "size": 1,
-      "create_date": "2022-10-23T04:49:44.588000Z",
-      "comments": ""
-  },
-  {
-      "id": 7,
-      "creator": "admin@admin.com",
-      "milk": 1,
-      "base": 1,
-      "extras": [],
-      "size": 1,
-      "create_date": "2022-10-23T04:49:44.933000Z",
-      "comments": ""
-  },
-  {
-      "id": 8,
-      "creator": "admin@admin.com",
-      "milk": 1,
-      "base": 1,
-      "extras": [],
-      "size": 1,
-      "create_date": "2022-10-23T04:49:45.216000Z",
-      "comments": ""
-  },
-  {
-      "id": 9,
-      "creator": "admin@admin.com",
-      "milk": 1,
-      "base": 1,
-      "extras": [],
-      "size": 1,
-      "create_date": "2022-10-23T04:49:45.534000Z",
-      "comments": ""
-  },
-  {
-      "id": 10,
-      "creator": "admin@admin.com",
-      "milk": 1,
-      "base": 1,
-      "extras": [
-          {
-              "amount": 3,
-              "extras": 2,
-              "frappe": 10
-          },
-          {
-              "amount": 1,
-              "extras": 6,
-              "frappe": 10
-          }
-      ],
-      "size": 1,
-      "create_date": "2022-10-23T04:49:46.036000Z",
-      "comments": ""
-  },
-  {
-      "id": 11,
-      "creator": "admin@admin.com",
-      "milk": 1,
-      "base": 3,
-      "extras": [
-          {
-              "amount": 2,
-              "extras": 8,
-              "frappe": 11
-          },
-          {
-              "amount": 1,
-              "extras": 9,
-              "frappe": 11
-          }
-      ],
-      "size": 1,
-      "create_date": "2022-10-23T15:20:38.910000Z",
-      "comments": "For Menu"
-  }
+    "id": 2,
+    "user": "admin@admin.com",
+    "milk": 1,
+    "base": 1,
+    "extras": [
+        {
+            "amount": 2,
+            "extras": 4,
+            "frappe": 2
+        },
+        {
+            "amount": 1,
+            "extras": 11,
+            "frappe": 2
+        },
+        {
+            "amount": 1,
+            "extras": 9,
+            "frappe": 2
+        }
+    ],
+    "price": 6.1,
+    "final_price": 0.0,
+    "size": 1,
+    "create_date": "2022-10-23T04:36:09.503000Z",
+    "comments": ""
+},
+{
+    "id": 3,
+    "user": "admin@admin.com",
+    "milk": 1,
+    "base": 1,
+    "extras": [
+        {
+            "amount": 1,
+            "extras": 7,
+            "frappe": 3
+        },
+        {
+            "amount": 1,
+            "extras": 3,
+            "frappe": 3
+        }
+    ],
+    "price": 4.05,
+    "final_price": 0.0,
+    "size": 1,
+    "create_date": "2022-10-23T04:49:41.420000Z",
+    "comments": ""
+},
+{
+    "id": 4,
+    "user": "admin@admin.com",
+    "milk": 1,
+    "base": 1,
+    "extras": [
+        {
+            "amount": 2,
+            "extras": 12,
+            "frappe": 4
+        },
+        {
+            "amount": 2,
+            "extras": 6,
+            "frappe": 4
+        }
+    ],
+    "price": 5.05,
+    "final_price": 0.0,
+    "size": 1,
+    "create_date": "2022-10-23T04:49:43.457000Z",
+    "comments": ""
+},
+{
+    "id": 5,
+    "user": "admin@admin.com",
+    "milk": 1,
+    "base": 1,
+    "extras": [
+        {
+            "amount": 2,
+            "extras": 1,
+            "frappe": 5
+        },
+        {
+            "amount": 10,
+            "extras": 10,
+            "frappe": 5
+        },
+        {
+            "amount": 2,
+            "extras": 9,
+            "frappe": 5
+        },
+        {
+            "amount": 1,
+            "extras": 7,
+            "frappe": 5
+        },
+        {
+            "amount": 3,
+            "extras": 8,
+            "frappe": 5
+        },
+        {
+            "amount": 1,
+            "extras": 3,
+            "frappe": 5
+        },
+        {
+            "amount": 2,
+            "extras": 12,
+            "frappe": 5
+        },
+        {
+            "amount": 2,
+            "extras": 12,
+            "frappe": 5
+        }
+    ],
+    "price": 78.65,
+    "final_price": 0.0,
+    "size": 1,
+    "create_date": "2022-10-23T04:49:44.209000Z",
+    "comments": ""
+},
+{
+    "id": 6,
+    "user": "admin@admin.com",
+    "milk": 1,
+    "base": 1,
+    "extras": [],
+    "price": 3.05,
+    "final_price": 0.0,
+    "size": 1,
+    "create_date": "2022-10-23T04:49:44.588000Z",
+    "comments": ""
+},
+{
+    "id": 7,
+    "user": "admin@admin.com",
+    "milk": 1,
+    "base": 1,
+    "extras": [],
+    "price": 3.05,
+    "final_price": 0.0,
+    "size": 1,
+    "create_date": "2022-10-23T04:49:44.933000Z",
+    "comments": ""
+},
+{
+    "id": 8,
+    "user": "admin@admin.com",
+    "milk": 1,
+    "base": 1,
+    "extras": [],
+    "price": 3.05,
+    "final_price": 0.0,
+    "size": 1,
+    "create_date": "2022-10-23T04:49:45.216000Z",
+    "comments": ""
+},
+{
+    "id": 9,
+    "user": "admin@admin.com",
+    "milk": 1,
+    "base": 1,
+    "extras": [],
+    "price": 3.05,
+    "final_price": 0.0,
+    "size": 1,
+    "create_date": "2022-10-23T04:49:45.534000Z",
+    "comments": ""
+},
+{
+    "id": 10,
+    "user": "admin@admin.com",
+    "milk": 1,
+    "base": 1,
+    "extras": [
+        {
+            "amount": 3,
+            "extras": 2,
+            "frappe": 10
+        },
+        {
+            "amount": 1,
+            "extras": 6,
+            "frappe": 10
+        }
+    ],
+    "price": 4.4,
+    "final_price": 0.0,
+    "size": 1,
+    "create_date": "2022-10-23T04:49:46.036000Z",
+    "comments": ""
+},
+{
+    "id": 11,
+    "user": "admin@admin.com",
+    "milk": 1,
+    "base": 3,
+    "extras": [
+        {
+            "amount": 2,
+            "extras": 8,
+            "frappe": 11
+        },
+        {
+            "amount": 1,
+            "extras": 9,
+            "frappe": 11
+        }
+    ],
+    "price": 23.0,
+    "final_price": 0.0,
+    "size": 1,
+    "create_date": "2022-10-23T15:20:38.910000Z",
+    "comments": "For Menu"
+}
 ]
 
 /**
@@ -363,39 +383,39 @@ export const TestExtras: Array<Extra> = [
 export const TestMenu: Array<MenuItem> = [
   {
       "name": "Pumpin Spice Frappe",
-      "frappe": 2,
+      "frappe": TestFrappes[0],
       "photo": "http://127.0.0.1:8000/uploads/product-placeholder.webp",
-      "price": 6.1
+      "prices": [ 6.1, 9.15, 12.2 ]
   },
   {
       "name": "Apple Crisp",
-      "frappe": 3,
+      "frappe": TestFrappes[1],
       "photo": "http://127.0.0.1:8000/uploads/9955905055_f5321e37f9_b.jpg",
-      "price": 4.05
+      "prices": [ 4.05, 7.1, 10.15 ]
   },
   {
       "name": "Mocha Cookie Crumbl",
-      "frappe": 11,
+      "frappe": TestFrappes[10],
       "photo": "http://127.0.0.1:8000/uploads/1fd99578d31f4072a52892398d8f1fa8.webp",
-      "price": 23.0
+      "prices": [23.0, 27.55, 32.1 ]
   },
   {
       "name": "Vanilla Caffe",
-      "frappe": 10,
+      "frappe": TestFrappes[8],
       "photo": "http://127.0.0.1:8000/uploads/b7b496402286415c9c2be5bc1b4d7c3e.webp",
-      "price": 4.4
+      "prices": [ 4.4, 7.45, 10.5 ]
   },
   {
       "name": "Java Chip",
-      "frappe": 4,
+      "frappe": TestFrappes[2],
       "photo": "http://127.0.0.1:8000/uploads/fe3131c518c34593938b32a67486fda0.webp",
-      "price": 5.05
+      "prices": [ 5.05, 8.1, 11.15 ]
   },
   {
       "name": "Diabetes Special",
-      "frappe": 5,
+      "frappe": TestFrappes[3],
       "photo": "http://127.0.0.1:8000/uploads/index.jpg",
-      "price": 78.65
+      "prices": [ 78.65, 81.7, 84.75 ]
   }
 ];
 

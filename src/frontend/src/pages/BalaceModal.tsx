@@ -4,22 +4,27 @@ import '../css/BalanceModal.css';
 interface Props {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   currentBalance: number;
+  userNumber: number;
+  authKey: string;
 }
 
 export default function BalanceModal(props: Props) {
-  const [newTotal, setNewTotal] = useState(String(props.currentBalance));
+  const [newBalance, setNewBalance] = useState(props.currentBalance);
+  const [balanceValid, setBalanceValid] = useState(false);
 
   function handleBalanceChange(event: ChangeEvent<HTMLInputElement>) {
     let value = event.target.value;
     if (/^[0-9]*(\.[0-9][0-9])?$/.test(value)) {
-      setNewTotal(
-        String((Number(props.currentBalance) + Number(value)).toFixed(2))
-      );
+      setNewBalance(Number(value));
+      setBalanceValid(true);
     } else {
-      setNewTotal('N/A');
+        setBalanceValid(false);
     }
   }
   function handleConfirm() {
+    if (balanceValid) {
+    fetch(`127.0.0.1/8000/users/users/${props.userNumber}/add_balance/?balance=${newBalance}`, {headers: {'Authorization':  `Token ${props.authKey}`},
+    credentials: 'same-origin',}).then((response) => (response.json()))}
     props.setModalIsOpen(false);
   }
 
@@ -42,7 +47,7 @@ export default function BalanceModal(props: Props) {
       </div>
       <div className="new-balance">
         <u className="text-boi">New Balance:</u>
-        <div className="balance-value">${newTotal}</div>
+        <div className="balance-value">{balanceValid? `$${(newBalance + props.currentBalance).toFixed(2)}` : "N/A"}</div>
       </div>
       <div className="balance-buttons">
         <div className="balance-button cancel" onClick={handleCancel}>
