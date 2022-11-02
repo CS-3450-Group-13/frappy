@@ -45,10 +45,8 @@ function App() {
 
   const [cart, setCart] = useState<MenuItem[]>([]);
   const [frappes, setFrappes] = useState(TestFrappes); // TODO query these from the server
-  const [menuItems, setMenuItems] = useState<Array<MenuItem>>(
-    []
-  );
-
+  const [menuItems, setMenuItems] = useState<Array<MenuItem>>([]);
+  const [authKey, setAuthKey] = useState('');
   return (
     <div className="App">
       <AuthProvider>
@@ -66,27 +64,23 @@ function App() {
             <Route element={<CustomerRoutes />}>
               <Route path="/home-page" element={<Home />} />
               <Route path="/order-status" element={<OrderStatus />} />
-          <Route
-            path="/menu"
-            element={<Menu cart={cart} setCart={setCart}/>}
-          ></Route>
               <Route
-                path="/customize"
-                element={<CustomizeDrink frappe={completeFrappes[5]} />}
+                path="/menu"
+                element={<Menu cart={cart} setCart={setCart} />}
               />
               <Route
                 path="/cart"
                 element={<Cart cart={cart} setCart={setCart} />}
               />
-            <Route
-            path="/customize"
-            element={<CustomizeDrink setCart={setCart}/>}
-          />
-           <Route
-            path="/cart"
-            element={<Cart cart={cart} setCart={setCart} />}
-          />
-          <Route path="/account"  element={<Account  authKey={authKey}/>} />
+              <Route
+                path="/customize"
+                element={<CustomizeDrink setCart={setCart} />}
+              />
+              <Route
+                path="/cart"
+                element={<Cart cart={cart} setCart={setCart} />}
+              />
+              <Route path="/account" element={<Account authKey={authKey} />} />
               <Route element={<EmployeeRoutes />}>
                 <Route path="/queue" element={<Queue />} />
                 <Route element={<ManagerRoutes />}>
@@ -101,7 +95,6 @@ function App() {
           </Routes>
         </Router>
       </AuthProvider>
-
     </div>
   );
 }
