@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import internal from 'stream';
 import EditIcon from '../images/edit-icon.svg';
 import '../css/Account.css';
@@ -8,11 +8,16 @@ import Modal from 'react-modal';
 import BalanceModal from './BalaceModal';
 import HoursModal from './HoursModal';
 
+interface PropsAuth {
+  authKey: string;
+}
+
 interface User {
-  fullName: string;
+  id: number;
+  firstName: string;
+  lastName: string;
   userName: string;
   eMail: string;
-  password: number; // Only Care About Password Length for Display Purposes, Should be Hashed Anyways
   balance: number;
   accountType: string;
   hours: number;
@@ -24,24 +29,26 @@ interface Field {
   confirm: boolean;
 }
 
-const DEMO_USER: User = {
-  fullName: 'Glorgo Glumbus',
-  userName: 'GlorGlu',
-  eMail: 'glorglugaming@gmail.com',
-  password: 4,
-  balance: 400.32,
-  accountType: 'manager',
-  hours: 15,
-};
-
 type Props = {
   text: string;
   onClick: () => void;
 };
 
+const FAKE_USER: User = {
+  id: -1,
+  firstName: '',
+  lastName: '',
+  userName: '',
+  eMail: '',
+  balance: 0,
+  accountType: '',
+  hours: 0,
+};
+
 const maxSize = 16;
 
-export default function Account() {
+export default function Account(props: PropsAuth) {
+  const [currentUser, setCurrentUser] = useState<User>(FAKE_USER);
   const [balanceModalOpen, setBalanceModal] = useState(false);
   const [fieldModalOpen, setFieldModal] = useState(false);
   const [hoursModalOpen, setHoursModal] = useState(false);
@@ -50,6 +57,18 @@ export default function Account() {
     value: '',
     confirm: false,
   });
+
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/users/users/current_user/', {
+      headers: { Authorization: `Token ${props.authKey}` },
+      credentials: 'same-origin',
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        const user: User = parseUser(json);
+        setCurrentUser(user);
+      });
+  }, []);
 
   function openFieldModal(field: Field) {
     setCurrentField(field);
@@ -64,12 +83,31 @@ export default function Account() {
     setHoursModal(true);
   }
 
+  function parseUser(json: any) {
+    let user: User = {
+      id: json.id,
+      firstName: json.firstName ? json.firstName : 'FirstName',
+      lastName: json.lastName ? json.lastName : 'LastName',
+      userName: json.email,
+      eMail: json.email,
+      balance: Number.parseFloat(json.balance),
+      accountType: json.user_permissions.length === 0 ? 'employee' : 'employee',
+      hours: 4,
+    };
+
+    console.log(json.user_permissions[0]);
+
+    return user;
+  }
+
   return (
     <div className="user-container">
       <div className="account-heading">Account Information For:</div>
       <div className="user-header heading-2">
         <img src={test} width="75em" className="profile-picture" />
-        <div className="user-title header-2">{DEMO_USER.fullName}</div>
+        <div className="user-title header-2">
+          {currentUser.firstName} {currentUser.lastName}
+        </div>
       </div>
       <hr className="ruler" />
       <div className="user-details">
@@ -77,11 +115,11 @@ export default function Account() {
           <div className="field-title">Name </div>
           <div className="colon">:</div>
           <EditableText
-            text={DEMO_USER.fullName}
+            text={`${currentUser.firstName} ${currentUser.lastName}`}
             onClick={() =>
               openFieldModal({
                 name: 'Name',
-                value: DEMO_USER.fullName,
+                value: 'Full Name',
                 confirm: false,
               })
             }
@@ -89,11 +127,11 @@ export default function Account() {
           <div className="field-title">User Name </div>
           <div className="colon">:</div>
           <EditableText
-            text={DEMO_USER.userName}
+            text={currentUser.userName}
             onClick={() =>
               openFieldModal({
                 name: 'User Name',
-                value: DEMO_USER.userName,
+                value: 'New User Name',
                 confirm: false,
               })
             }
@@ -102,11 +140,11 @@ export default function Account() {
           <div className="colon">:</div>
           <EditableText
             data-testid="edit-email-btn"
-            text={DEMO_USER.eMail}
+            text={currentUser.eMail}
             onClick={() =>
               openFieldModal({
                 name: 'Email',
-                value: DEMO_USER.eMail,
+                value: 'New Email',
                 confirm: true,
               })
             }
@@ -114,11 +152,11 @@ export default function Account() {
           <div className="field-title">Password </div>
           <div className="colon">:</div>
           <EditableText
-            text={'*'.repeat(DEMO_USER.password)}
+            text={'*'.repeat(10)}
             onClick={() =>
               openFieldModal({
                 name: 'Password',
-                value: '*'.repeat(DEMO_USER.password),
+                value: 'New Password',
                 confirm: true,
               })
             }
@@ -128,21 +166,24 @@ export default function Account() {
         <div className="balance-information heading-2">
           <div>
             <u>
-              {DEMO_USER.accountType === 'manager' ? 'Store' : 'User'} Balance:
+              {currentUser.accountType === 'manager' ? 'Store' : 'User'}{' '}
+              Balance:
             </u>
           </div>
-          <div className="balance-display">${DEMO_USER.balance.toFixed(2)}</div>
+          <div className="balance-display">
+            ${currentUser.balance.toFixed(2)}
+          </div>
           <div className="small-link" onClick={openBalanceModal}>
             Add to Balance
           </div>
-          {(DEMO_USER.accountType === 'manager' ||
-            DEMO_USER.accountType === 'employee') && (
+          {(currentUser.accountType === 'manager' ||
+            currentUser.accountType === 'employee') && (
             <div className="time-worked-div">
               <div>
                 <u>Hours Clocked:</u>
               </div>
               <div className="time-display">
-                {DEMO_USER.hours.toFixed(1)} Hr
+                {currentUser.hours.toFixed(1)} Hr
               </div>
               <div className="small-link" onClick={openHoursModal}>
                 Clock In
@@ -174,7 +215,7 @@ export default function Account() {
           setModalIsOpen={setFieldModal}
           fieldName={currentField.name}
           fieldValue={currentField.value}
-          confirm={true}
+          confirm={currentField.confirm}
         />
       </Modal>
 
@@ -197,7 +238,9 @@ export default function Account() {
       >
         <BalanceModal
           setModalIsOpen={setBalanceModal}
-          currentBalance={DEMO_USER.balance}
+          currentBalance={currentUser.balance}
+          userNumber={currentUser.id}
+          authKey={props.authKey}
         />
       </Modal>
 
@@ -220,7 +263,7 @@ export default function Account() {
       >
         <HoursModal
           setModalIsOpen={setHoursModal}
-          currentHours={DEMO_USER.hours}
+          currentHours={currentUser.hours}
         />
       </Modal>
     </div>

@@ -257,7 +257,7 @@ export default function Home() {
   return (
     <div className="home-container">
       <div className="header">
-        <div className="title">Welcome Back {DEMO_USER.fullName}!</div>
+        <div className="home-title">Welcome Back {DEMO_USER.fullName}!</div>
         <div className="profile-picture">
           <img src={test} alt="test" width="110em" height="110em" />
         </div>

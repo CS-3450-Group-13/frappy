@@ -64,7 +64,7 @@ function App() {
             path="/cart"
             element={<Cart cart={cart} setCart={setCart} />}
           />
-          <Route path="/account" element={<Account />} />
+          <Route path="/account"  element={<Account  authKey={authKey}/>} />
           <Route path="/queue" element={<Queue />} />
         </Routes>
       </Router>

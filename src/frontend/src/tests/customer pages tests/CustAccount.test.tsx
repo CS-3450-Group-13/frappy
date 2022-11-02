@@ -8,7 +8,7 @@ describe('Customer Account Page Tests', () => {
   test('renders Account Component', () => {
     render(
       <BrowserRouter>
-        <Account />
+        <Account authKey='' />
       </BrowserRouter>
     );
   });
@@ -16,7 +16,7 @@ describe('Customer Account Page Tests', () => {
   test('Testing Fields for edit in Account Page', () => {
     render(
       <BrowserRouter>
-        <Account />
+        <Account authKey='' />
       </BrowserRouter>
     );
     expect(screen.getByText(/User Name/i)).toBeInTheDocument();
