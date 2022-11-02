@@ -13,6 +13,10 @@ interface PropsAuth {
   authKey: string;
 }
 
+interface PropsAuth {
+  authKey: string;
+}
+
 interface User {
   id: number;
   firstName: string;

@@ -30,6 +30,8 @@ export default function UpdateFieldModal(props: Props) {
     props.setModalIsOpen(false);
   }
 
+  console.log(props.confirm);
+  
   return (
     <div className="update-container">
       <div className="update-title">Enter New {props.fieldName}</div>
