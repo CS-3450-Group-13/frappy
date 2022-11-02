@@ -14,6 +14,12 @@ import Confirmation from './pages/Confirmation';
 import { MenuItem } from './types/Types';
 import { TestFrappes, TestMenu } from './tests/TestServerData';
 import Queue from './pages/Queue';
+import ManagerEditAccounts from './pages/ManagerEditAccounts';
+import ManagerEditMenu from './pages/ManagerEditMenu';
+import { AuthProvider } from './components/auth';
+import CustomerRoutes from './components/CustomerRoutes';
+import EmployeeRoutes from './components/EmployeeRoutes';
+import ManagerRoutes from './components/ManagerRoutes';
 
 function App() {
   const [pages, setPages] = useState([
@@ -26,48 +32,69 @@ function App() {
       path: '/new-user',
     },
   ]);
-  const [authKey, setAuthKey] = useState('');
+  const [user, setUser] = useState({
+    fullName: '',
+    userName: '',
+    email: '',
+    password: '',
+    balance: '',
+    accountType: '',
+    hours: '',
+    authKey: '',
+  });
 
   const [cart, setCart] = useState<MenuItem[]>([]);
   const [frappes, setFrappes] = useState(TestFrappes); // TODO query these from the server
-  const [menuItems, setMenuItems] = useState<Array<MenuItem>>(
-    []
-  );
-
+  const [menuItems, setMenuItems] = useState<Array<MenuItem>>([]);
+  const [authKey, setAuthKey] = useState('');
   return (
     <div className="App">
-      <Router>
-        <NavBar pages={pages} />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <Login
-                setPages={setPages}
-                authKey={authKey}
-                setAuthKey={setAuthKey}
+      <AuthProvider>
+        <Router>
+          <NavBar pages={pages} setPages={setPages} />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Login setPages={setPages} user={user} setUser={setUser} />
+              }
+            />
+            <Route path="/new-user" element={<NewUser />} />
+
+            <Route element={<CustomerRoutes />}>
+              <Route path="/home-page" element={<Home />} />
+              <Route path="/order-status" element={<OrderStatus />} />
+              <Route
+                path="/menu"
+                element={<Menu cart={cart} setCart={setCart} />}
               />
-            }
-          />
-          <Route path="/new-user" element={<NewUser />} />
-          <Route path="/home-page" element={<Home />} />
-          <Route path="/order-status" element={<OrderStatus />} />
-          <Route
-            path="/menu"
-            element={<Menu cart={cart} setCart={setCart}/>}
-          ></Route>
-          <Route
-            path="/customize"
-            element={<CustomizeDrink setCart={setCart}/>}
-          />
-          <Route
-            path="/cart"
-            element={<Cart cart={cart} setCart={setCart} />}
-          />
-          <Route path="/account"  element={<Account  authKey={authKey}/>} />
-          <Route path="/queue" element={<Queue />} />
-        </Routes>
-      </Router>
+              <Route
+                path="/cart"
+                element={<Cart cart={cart} setCart={setCart} />}
+              />
+              <Route
+                path="/customize"
+                element={<CustomizeDrink setCart={setCart} />}
+              />
+              <Route
+                path="/cart"
+                element={<Cart cart={cart} setCart={setCart} />}
+              />
+              <Route path="/account" element={<Account authKey={authKey} />} />
+              <Route element={<EmployeeRoutes />}>
+                <Route path="/queue" element={<Queue />} />
+                <Route element={<ManagerRoutes />}>
+                  <Route
+                    path="/edit-accounts"
+                    element={<ManagerEditAccounts />}
+                  />
+                  <Route path="/edit-menu" element={<ManagerEditMenu />} />
+                </Route>
+              </Route>
+            </Route>
+          </Routes>
+        </Router>
+      </AuthProvider>
     </div>
   );
 }
