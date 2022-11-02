@@ -5,7 +5,6 @@ import '../css/ManagerEditAccounts.css';
 interface Person {
   name: string;
   role: string;
-  history: string;
 }
 
 interface PropsType {

@@ -106,7 +106,10 @@ function App() {
                     path="/edit-accounts"
                     element={<ManagerEditAccounts />}
                   />
-                  <Route path="/edit-menu" element={<ManagerEditMenu />} />
+                  <Route
+                    path="/edit-menu"
+                    element={<ManagerEditMenu menuItems={completeFrappes} />}
+                  />
                 </Route>
               </Route>
             </Route>
