@@ -8,6 +8,7 @@ import Modal from 'react-modal';
 import BalanceModal from './BalaceModal';
 import HoursModal from './HoursModal';
 import { json } from 'stream/consumers';
+import { useAuth } from '../components/auth';
 
 interface PropsAuth {
   authKey: string;
@@ -20,7 +21,7 @@ interface User {
   userName: string;
   eMail: string;
   balance: number;
-  accountType: string;
+  accountType: string | undefined;
   hours: number;
 }
 
@@ -59,7 +60,6 @@ export default function Account(props: PropsAuth) {
     confirm: false,
     updateFunction: '',
   });
-
   useEffect(() => {
     fetch('http://127.0.0.1:8000/users/users/current_user/', {
       headers: { Authorization: `Token ${props.authKey}` },
@@ -276,6 +276,7 @@ export default function Account(props: PropsAuth) {
               <div>
                 <u>Hours Clocked:</u>
               </div>
+
               <div className="time-display">
                 {currentUser.hours.toFixed(1)} Hr
               </div>

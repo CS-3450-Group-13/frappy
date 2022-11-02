@@ -4,6 +4,7 @@ import Frappe from '../images/Frappe.jpg';
 import '../css/Home.css';
 import ScrollableList from '../components/ScrollableList';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../components/auth';
 
 interface Props {
   authKey: string;
@@ -306,6 +307,23 @@ export default function Home(props: Props) {
     };
 
     return user;
+  }
+
+  const auth = useAuth();
+
+  if (auth !== null) {
+    var USER = auth.userInfo;
+  } else {
+    var USER = {
+      fullName: '',
+      userName: '',
+      email: '',
+      password: '',
+      balance: 0.0,
+      role: 'none',
+      key: '',
+      hours: 0,
+    };
   }
 
   return (
