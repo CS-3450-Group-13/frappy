@@ -129,3 +129,41 @@ background-color: lightcoral;
     justify-content: space-between;
     margin-right: 10%;
 }
+
+.edit-menu-container form{
+    display: flex;
+    width: fit-content;
+    flex-direction: column;
+    background-color: var(--frappy-lgreen);
+
+}
+
+.edit-menu-container input {
+    margin: 3px;
+}
+
+.edit-increase-btn {
+    margin-top: 5px;
+    margin-right: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.edit-increase-btn:hover {
+    background-color: var(--frappy-l-lgreen);
+}
+
+.edit-decrease-btn {
+    margin-top: 5px;
+    margin-right: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.edit-decrease-btn:hover {
+    background-color: var(--frappy-l-lgreen);
+}
