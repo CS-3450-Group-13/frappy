@@ -15,15 +15,15 @@ type Props = {
 export default function CustomizeDrink({setCart}: Props) {
   const navigate = useNavigate();
   const { state } = useLocation();
-  const frappe: MenuItem = state.drink;
+  // const frappe: MenuItem = state.drink;
   const cart: MenuItem[] = state.cart;
 
-  const [size, setSize] = useState(SizeNames[frappe.frappe.size]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [bases, setBases] = useState<Base[]>([]);
   const [milks, setMilks] = useState<Milk[]>([]);
   const [extras, setExtras] = useState<Extra[]>([]);
+  const [currentFrappe, setCurrentFrappe] = useState<MenuItem>(state.drink)
 
+  // Get the current list of bases from the server
   useEffect(() => {
     fetch('http://127.0.0.1:8000/frappapi/bases/')
     .then((response) => response.json())
@@ -40,6 +40,7 @@ export default function CustomizeDrink({setCart}: Props) {
     });
   }, []);
 
+  // Get the current list of milks from the server
   useEffect(() => {
     fetch('http://127.0.0.1:8000/frappapi/milks/')
     .then((response) => response.json())
@@ -56,6 +57,7 @@ export default function CustomizeDrink({setCart}: Props) {
     });
   }, []);
 
+  // Get the current list of extras from the server
   useEffect(() => {
     fetch('http://127.0.0.1:8000/frappapi/extras/')
     .then((response) => response.json())
@@ -72,36 +74,37 @@ export default function CustomizeDrink({setCart}: Props) {
     });
   }, []);
 
-  function sizeChange(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log("size changed to " + e.target.value);
-    console.log(e);
+  function handleSizeChange(e: React.ChangeEvent<HTMLInputElement>) {
 
-    let size = SizeOptions.Small;
-    if (parseInt(e.target.value) === 2) {
-      size = SizeOptions.Medium;
+    let newSize = SizeOptions.Small;
+    if (e.target.value === 'medium') {
+      newSize = SizeOptions.Medium;
     }
-    else if (parseInt(e.target.value) === 3) {
-      size = SizeOptions.Large;
+    else if (e.target.value === 'large') {
+      newSize = SizeOptions.Large;
     }
 
-    frappe.frappe.size = size;
-    setSize(e.target.value);
+    setCurrentFrappe((prevState) => {
+      prevState.frappe.size = newSize;
+
+      return({...prevState});
+    });
   }
 
   function createCustomizationButtons() {
     let buttons: ReactNode[] = [];
 
-    const frappeMilk = milks.find((item) => { return item.id === frappe.frappe.milk; });
+    const frappeMilk = milks.find((item) => { return item.id === currentFrappe.frappe.milk; });
     if (frappeMilk) {
       buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{frappeMilk.name}</div>);
     }
 
-    const frappeBase = bases.find((item) => { return item.id === frappe.frappe.base; });
+    const frappeBase = bases.find((item) => { return item.id === currentFrappe.frappe.base; });
     if (frappeBase) {
       buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{frappeBase.name}</div>);
     }
 
-    frappe.frappe.extras.forEach((extra) => {
+    currentFrappe.frappe.extras.forEach((extra) => {
       let extraObj = TestExtras.find((item) => item.id === extra.extras);
 
       buttons.push(
@@ -118,17 +121,17 @@ export default function CustomizeDrink({setCart}: Props) {
   const generateCustomizationList = () => {
     let listItems: ReactNode[] = [];
 
-    const frappeMilk = milks.find((item) => { return item.id === frappe.frappe.milk; });
+    const frappeMilk = milks.find((item) => { return item.id === currentFrappe.frappe.milk; });
     if (frappeMilk) {
       listItems.push(<li key={10000}>{frappeMilk.name}</li>);
     }
 
-    const frappeBase = bases.find((item) => { return item.id === frappe.frappe.base; });
+    const frappeBase = bases.find((item) => { return item.id === currentFrappe.frappe.base; });
     if (frappeBase) {
       listItems.push(<li key={10001}>{frappeBase.name}</li>)
     }
 
-    frappe.frappe.extras.map((extra) => {
+    currentFrappe.frappe.extras.map((extra) => {
       const frappeExtra = extras.find((item) => { return item.id === extra.extras; });
 
       if (frappeExtra) {
@@ -141,7 +144,7 @@ export default function CustomizeDrink({setCart}: Props) {
   }
 
   function handleCustomizeDrink() {
-    setModalIsOpen(true);
+    
   }
 
   function handleDeleteAddin(addin: number) {
@@ -163,25 +166,57 @@ export default function CustomizeDrink({setCart}: Props) {
     //   customizations.push(str);
     // }
     // alert("frappe added to cart with " + customizations);
-    setCart((oldState) => [...oldState, frappe]);
+    setCart((oldState) => [...oldState, currentFrappe]);
     console.log("the cart is now");
     console.log(cart);
     navigate("/menu");
   }
 
   return (
-    <div className='customizeDrink-container'>
-      <div className='drink-details'>
+    <div className='customize-drink-container'>
+      <div className='customize-drink-details'>
+        <DrinkCard frappe={currentFrappe} />
+        <div className='customize-drink-current-customizations'>
+          CUSTOMIZATIONS
+          <ul className='customize-drink-current-customizations-list'>
+            {generateCustomizationList()}
+          </ul>
+        </div>
+      </div>
+      <div className='customize-drink-customizations-container'>
+        CUSTOMIZE YOUR DRINK
+        <div className='customize-drink-size-options'>
+          <label>
+            <input className='hide-radio' type='radio' name='small' value='small' checked={ currentFrappe.frappe.size === SizeOptions.Small } onChange={(e) => handleSizeChange(e)} />
+            <img className='customize-drink-img-sm circle' src={ require('../images/small-frappe.png') } alt='size small' />
+          </label>
+          <label>
+            <input className='hide-radio' type='radio' name='medium' value='medium' checked={ currentFrappe.frappe.size === SizeOptions.Medium } onChange={(e) => handleSizeChange(e)} />
+            <img className='customize-drink-img-sm circle' src={ require('../images/medium-frappe.png') } alt='size medium' />
+          </label>
+          <label>
+            <input className='hide-radio' type='radio' name='large' value='large' checked={ currentFrappe.frappe.size === SizeOptions.Large } onChange={(e) => handleSizeChange(e)} />
+            <img className='customize-drink-img-sm circle' src={ require('../images/large-frappe.png') } alt='size large' />
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+{/* <div className='drink-details'>
         <DrinkCard frappe={frappe}/>
         <div className='customization-list'>
-          CUSTUMIZATIONS
+          CUSTOMIZATIONS
           <ul>
             {generateCustomizationList()}
           </ul>
         </div>
       </div>
-      <div className='customization-selection'>
+      <div className='customization-section'>
         <div className='size-options'>
+        <div className='large'>CUSTOMIZATIONS</div>
           <div className='column white'>
             <div>SMALL</div>
             <input type='radio' name='small' value='1' checked={frappe.frappe.size === 1} onChange={(e) => sizeChange(e)} />
@@ -196,31 +231,10 @@ export default function CustomizeDrink({setCart}: Props) {
           </div>
         </div>
         <div className='current-customizations white'>
-          <div className='large'>CUSTOMIZATIONS</div>
           <div>{createCustomizationButtons()}</div>
         </div>
         <div className='decision-btns'>
           <div className='back-btn' onClick={handleBackBtn}>BACK</div>
           <div className='add-to-cart-btn' onClick={handleAddToCart}>ADD TO CART</div>
         </div>
-      </div>
-      <Modal 
-        isOpen={modalIsOpen}
-        style={
-          {
-            content: {
-              marginTop: '100px',
-              marginBottom: '100px',
-              marginLeft: '20%',
-              marginRight: '20%',
-              padding: '0',
-              border: '2px solid black',
-              backgroundColor: '#10603B',
-            },
-          }
-        }>
-        <DrinkCustomizationModal setModalIsOpen={setModalIsOpen} bases={bases} milks={milks} extras={extras} frappe={frappe} />
-      </Modal>
-    </div>
-  );
-}
+      </div> */}

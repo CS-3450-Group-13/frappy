@@ -1,12 +1,94 @@
-.customizeDrink-container {
+.customize-drink-container {
+  margin-left: 15%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  color: var(--frappy-white);
+}
+
+.customize-drink-details {
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+  background-color: var(--frappy-lgreen);
+  height: 100%;
+  width: 100%;
+  padding-top: 12%;
+}
+
+.customize-drink-current-customizations {
+  padding-top: 10%;
+}
+
+.customize-drink-current-customizations-list {
+  background-color: var(--frappy-gray);
+  color: black;
+  list-style: none;
+  text-align: left;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 5%;
+  border-radius: 15px;
+  padding-left: 5%;
+}
+
+.customize-drink-current-customizations-list > li {
+  padding-top: 7px;
+}
+
+.customize-drink-current-customizations-list > li:last-child {
+  padding-bottom: 7px;
+}
+
+.customize-drink-customizations-container {
+  display: flex;
+  flex-direction: column;
+  flex: 7;
+  justify-content: center;
+  font-size: 3rem;
+  height: 100%;
+  width: 100%;
+}
+
+.customize-drink-size-options {
+  display: flex;
+  flex-direction: row;
+  font-size: 1.5rem;
+  justify-content: space-around;
+  padding-top: 10%;
+}
+
+.hide-radio {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.hide-radio + img {
+  cursor: pointer;
+}
+
+.hide-radio:checked + img {
+  background-color: var(--frappy-l-lgreen);
+}
+
+.customize-drink-img-sm {
+  height: 80%;
+  width: 30%;
+  background-color: var(--frappy-white);
+}
+
+
+
+
+/* .customizeDrink-container {
   display: flex;
   width: 85%;
   flex-direction: row;
   height: 100%;
   margin-left: 15%;
 }
-
-/* Override of the DrinkCard.css .drinkCard-container class */
 
 
 .drink-details {
@@ -22,7 +104,6 @@
   margin-right: 100px;
   background-color: lightgrey;
   margin-bottom: 20%;
-  /* margin-left: 10%; */
 }
 
 .customization-list ul {
@@ -30,14 +111,13 @@
   text-align: left;
 }
 
-.customization-selection {
+.customization-section {
   flex: 7;
   margin: 0;
   padding: 0;
   height: 100vh;
   width: 100%;
   background-color: var(--frappy-background);
-  
 }
 
 .delete-btn {
@@ -132,4 +212,4 @@
 
 .large {
   font-size: 2.5rem;
-}
+} */

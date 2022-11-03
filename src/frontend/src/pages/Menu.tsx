@@ -14,7 +14,6 @@ export default function Menu({cart, setCart}: Props) {
   const navigate = useNavigate();
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
-  const [currentFrappe, setCurrentFrappe] = useState<MenuItem>();
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/frappapi/menu/')
@@ -26,9 +25,6 @@ export default function Menu({cart, setCart}: Props) {
       });
       console.log("data is ", data);
       console.log(menuItems)
-      setCurrentFrappe(menuItems[0]);
-      console.log("current frappe is ")
-      console.log(currentFrappe);
     })
     .catch((err) => {
       console.log(err);
@@ -39,7 +35,6 @@ export default function Menu({cart, setCart}: Props) {
     <div className='drinkCard' >
       <DrinkCard key={frappe.frappe.id} frappe={frappe}/>
       <button className='customize-btn' onClick={() => {
-        setCurrentFrappe(frappe);
 
       navigate('/customize', {state:{
         drink: frappe,
