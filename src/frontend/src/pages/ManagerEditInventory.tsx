@@ -1,16 +1,17 @@
 import { setegid } from 'process';
+import { stringify } from 'querystring';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { updatePartiallyEmittedExpression } from 'typescript';
 import { useAuth } from '../components/auth';
 import ItemCartDisplay from '../components/ItemCartDisplay';
 import '../css/ManagerEditInventory.css';
+import Modal from 'react-modal';
+import { stat } from 'fs';
 
-const FRONT_TO_BACK_DICT = {
-  id: 'id',
-  name: 'name',
-  price: 'price_per_unit',
-  stock: 'stock',
-};
+const BASE_ENDPOINT = 'http://127.0.0.1:8000/frappapi/bases/';
+const MILK_ENDPOINT = 'http://127.0.0.1:8000/frappapi/milks/';
+const EXTRA_ENDPOINT = 'http://127.0.0.1:8000/frappapi/extras/';
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 type item = {
   id: number;
@@ -20,13 +21,38 @@ type item = {
   lastModified: string;
 };
 
-type itemKey = keyof item;
+enum RowState {
+  default,
+  edit,
+  updating,
+  success,
+  failed,
+  deleted,
+}
 
-interface editableTextProps {
-  text: string;
-  id: number;
-  field: itemKey;
-  updateFunction: any;
+enum ModalState {
+  default,
+  updating,
+  success,
+  failed,
+}
+
+interface EditableRowPrpos {
+  item: item;
+  endpoint: string;
+  stringify: (item: item) => string;
+  updateItem: (item: item, oldItem: item) => void;
+}
+
+interface ItemModalProps {
+  setModal: (state: boolean) => void;
+  createParams: CreateParams;
+}
+
+interface CreateParams {
+  endpoint: string;
+  stringify: (item: item) => string;
+  addItem: (item: item) => void;
 }
 
 const EMPTY_ITEM: item = {
@@ -37,7 +63,13 @@ const EMPTY_ITEM: item = {
   lastModified: '',
 };
 
+const EMPTY_PARAMS: CreateParams = {
+  endpoint: '',
+  stringify: (item: item) => '',
+  addItem: (item: item) => '',
+};
 export default function ManagerEditInventory() {
+  console.log('enter');
   const [editOpen, setEditOpen] = useState(false);
   const [currentPerson, setCurrentPerson] = useState({
     name: '',
@@ -49,23 +81,39 @@ export default function ManagerEditInventory() {
   const [basesCurrent, setBasesCurrent] = useState(false);
   const [milksCurrent, setMilksCurrent] = useState(false);
   const [extrasCurrent, setExtrasCurrent] = useState(false);
+  const [itemModalOpen, setItemModalOpen] = useState(false);
+  const [createParams, setCreateParams] = useState(EMPTY_PARAMS);
 
   const auth = useAuth();
 
+  console.log('postinit');
   useEffect(() => {
     if (!basesCurrent) {
-      getItems('http://127.0.0.1:8000/frappapi/bases/', setBases);
+      getItems(BASE_ENDPOINT, setBases);
       setBasesCurrent(true);
     }
     if (!milksCurrent) {
-      getItems('http://127.0.0.1:8000/frappapi/milks/', setMilks);
+      getItems(MILK_ENDPOINT, setMilks);
       setMilksCurrent(true);
     }
     if (!extrasCurrent) {
-      getItems('http://127.0.0.1:8000/frappapi/extras/', setExtras);
+      getItems(EXTRA_ENDPOINT, setExtras);
       setExtrasCurrent(true);
     }
   }, []);
+
+  function openModal(
+    endpoint: string,
+    stringify: (item: item) => string,
+    addFunction: (item: item) => void
+  ) {
+    setItemModalOpen(true);
+    setCreateParams({
+      endpoint: endpoint,
+      stringify: stringify,
+      addItem: addFunction,
+    });
+  }
 
   function getItems(endpoint: string, setFunction: (items: item[]) => void) {
     fetch(endpoint, {
@@ -79,116 +127,95 @@ export default function ManagerEditInventory() {
       .then((data) => {
         console.log(data);
         let dataList: item[] = [];
+
         for (let i = 0; i < data.length; i++) {
           let newItem = {
             id: data[i].id,
             name: data[i].name,
             stock: data[i].stock,
             price: data[i].price_per_unit,
-            lastModified: data[i].updated_on,
+            lastModified: String(data[i].updated_on).split('T')[0],
           };
           dataList.push(newItem);
         }
-        console.log(endpoint);
-        console.log(dataList);
         setFunction(dataList);
       });
   }
 
-  function godWhy<O extends Object, K extends keyof O, V extends O[K]>(
-    object: O,
-    key: K,
-    value: V
-  ) {
-    object[key] = value;
+  function stringifyBase(base: item) {
+    const formBase = {
+      name: base.name,
+      stock: base.stock,
+      price_per_unit: base.price,
+      decaf: false,
+    };
+
+    return JSON.stringify(formBase);
+  }
+
+  function stringifyMilk(milk: item) {
+    console.log(milk);
+    const formMilk = {
+      name: milk.name,
+      stock: milk.stock,
+      price_per_unit: milk.price,
+      non_dairy: false,
+    };
+
+    return JSON.stringify(formMilk);
+  }
+
+  function stringifyExtra(extra: item) {
+    const formExtra = {
+      name: extra.name,
+      stock: extra.stock,
+      price_per_unit: extra.price,
+      limit: 9999999,
+    };
+
+    return JSON.stringify(formExtra);
   }
 
   function updateItem(
-    value: any,
-    id: number,
-    field: itemKey,
-    items: item[],
-    setter: (items: item[]) => void
+    newItem: item,
+    collection: item[],
+    setter: (items: item[]) => void,
+    oldItem: item
   ) {
-    let updateItem = EMPTY_ITEM;
-    const newItems: item[] = items.map((item) => {
-      if (item.id == id) {
-        let newItem: item = {
-          id: item.id,
-          name: item.name,
-          stock: item.stock,
-          price: item.price,
-          lastModified: item.lastModified,
-        };
-        godWhy(newItem, field, value);
-        updateItem = newItem;
+    const newItems: item[] = collection.map((member: item) => {
+      if (member.id === oldItem.id) {
         return newItem;
       }
-      return item;
+      return member;
     });
-    fetch('http://127.0.0.1:8000/frappapi/bases/1/').then((response) => {
-      if (response.status === 200) {
-        response.json().then((itemData) => {
-          console.log(itemData);
-          const realField = FRONT_TO_BACK_DICT[field as keyof Object];
-          godWhy(itemData, field, value);
-          fetch('http://127.0.0.1:8000/frappapi/bases/1/', {
-            method: 'PUT',
-            headers: {
-              Authorization: `Token ${auth?.userInfo.key}`,
-              'Content-Type': 'application/json',
-            },
-            credentials: 'same-origin',
-            body: JSON.stringify(updateBase),
-          }).then((response) => {
-            if (response.status === 200) {
-              setter(newItems);
-            } else {
-              alert('Server Error: Please Try Again Later');
-            }
-          });
-        });
-      } else {
-        alert('Server Error: Please Try Again Later');
-      }
-    });
+    setter(newItems);
   }
 
-  function updateBase(value: string | number, id: number, field: itemKey) {
-    updateItem(value, id, field, bases, setBases);
+  function addItem(
+    newItem: item,
+    collection: item[],
+    setter: (items: item[]) => void
+  ) {
+    let copyCollection = [...collection];
+    copyCollection.push(newItem);
+    setter(copyCollection);
   }
 
-  function updateMilk(value: string | number, id: number, field: itemKey) {
-    updateItem(value, id, field, milks, setMilks);
-  }
-
-  function updateExtra(value: string | number, id: number, field: itemKey) {
-    updateItem(value, id, field, extras, setExtras);
-  }
-
-  function createTable(list: any) {
+  function createTable(
+    list: item[],
+    setter: (items: item[]) => void,
+    endpoint: string,
+    stringify: (item: item) => string
+  ) {
     const tableRows = list.map((data: any) => (
-      <tr>
-        <EditableTextCell
-          text={data.name}
-          id={data.id}
-          field="name"
-          updateFunction={updateBase}
-        />
-        <EditableTextCell
-          text={data.stock}
-          id={data.id}
-          field="name"
-          updateFunction={updateBase}
-        />
-        <EditableTextCell
-          text={data.price}
-          id={data.id}
-          field="name"
-          updateFunction={updateBase}
-        />
-        <td>{data.lastModified.split('T')[0]}</td>
-      </tr>
+      <EditableRow
+        item={data}
+        endpoint={endpoint}
+        stringify={stringify}
+        updateItem={(item: item, oldItem: item) =>
+          updateItem(item, list, setter, oldItem)
+        }
+      />
     ));
 
     return (
@@ -201,65 +228,437 @@ export default function ManagerEditInventory() {
             <th>Last Ordered</th>
           </tr>
           {tableRows}
+          <tr className="inventory-last-row">
+            <td colSpan={5}>
+              <div
+                className="inventory-btn inventory-create-btn"
+                onClick={() => {
+                  openModal(endpoint, stringify, (item: item) =>
+                    addItem(item, list, setter)
+                  );
+                }}
+              >
+                +Add Item
+              </div>
+            </td>
+          </tr>
         </table>
       </div>
     );
   }
 
-  console.log(extras);
-
   return (
     <div className="edit-inventory-container">
       <h1>Edit Inventory:</h1>
       <h2>Bases:</h2>
-      {createTable(bases)}
+      {createTable(bases, setBases, BASE_ENDPOINT, stringifyBase)}
       <h2>Milk:</h2>
-      {createTable(milks)}
+      {createTable(milks, setMilks, MILK_ENDPOINT, stringifyMilk)}
       <h2>Extras:</h2>
-      {createTable(extras)}
+      {createTable(extras, setExtras, EXTRA_ENDPOINT, stringifyExtra)}
+      <Modal
+        overlayClassName="dark"
+        isOpen={itemModalOpen}
+        style={{
+          content: {
+            height: '100vh',
+            width: '500px',
+            marginLeft: 'auto',
+            padding: '0px',
+            inset: '0px',
+            border: 'none',
+            borderRadius: '0px',
+            background: 'white',
+            backgroundColor: 'rgba(0,0,0,0)',
+          },
+        }}
+      >
+        <ItemModal setModal={setItemModalOpen} createParams={createParams} />
+      </Modal>
     </div>
   );
 }
 
-function EditableTextCell(props: editableTextProps) {
-  const [editOn, setEditOn] = useState(false);
-  const [newVal, setNewVal] = useState('');
+function EditableRow(props: EditableRowPrpos) {
+  const [state, setState] = useState<RowState>(RowState.default);
+  const [name, setName] = useState(props.item.name);
+  const [stock, setStock] = useState(props.item.stock);
+  const [price, setPrice] = useState(props.item.price);
 
-  return (
-    <td>
-      {!editOn && (
-        <div className="cell-container">
-          <div className="invetory-edit-text">{props.text}</div>
-          <div className="inventory-edit-btn" onClick={() => setEditOn(true)}>
-            Edit
+  const auth = useAuth();
+
+  function handelEdit() {
+    setState(RowState.edit);
+    setName(props.item.name);
+    setStock(props.item.stock);
+    setPrice(props.item.price);
+  }
+
+  function verifyInput(name: string, stock: number, price: number) {
+    if (!/^[0-9]*(\.([0-9])?([0-9])?)?$/.test(String(price))) {
+      return false;
+    }
+    if (!/^[0-9]*$/.test(String(stock))) {
+      return false;
+    }
+    if (!/^[a-zA-Z\s]*$/.test(name)) {
+      return false;
+    }
+    return true;
+  }
+
+  function updateRow() {
+    if (!verifyInput(name, stock, price)) {
+      setState(RowState.failed);
+      return;
+    }
+
+    const newItem: item = {
+      id: props.item.id,
+      name: name,
+      stock: stock,
+      price: price,
+      lastModified: props.item.lastModified,
+    };
+    console.log(newItem);
+    setState(RowState.updating);
+    fetch(`${props.endpoint}${props.item.id}/`, {
+      headers: {
+        Authorization: `Token ${auth?.userInfo.key}`,
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+      method: 'PUT',
+      body: props.stringify(newItem),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            const newItem = {
+              id: data.id,
+              name: data.name,
+              stock: data.stock,
+              price: data.price_per_unit,
+              lastModified: String(data.updated_on).split('T')[0],
+            };
+
+            props.updateItem(newItem, props.item);
+            setState(RowState.success);
+          });
+        } else {
+          setState(RowState.failed);
+        }
+      })
+      .catch(() => setState(RowState.failed));
+  }
+
+  function deleteRow() {
+    setState(RowState.updating);
+
+    fetch(`${props.endpoint}${props.item.id}/`, {
+      headers: {
+        Authorization: `Token ${auth?.userInfo.key}`,
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+      method: 'DELETE',
+    })
+      .then((response) => {
+        if (response.status === 204) {
+          setState(RowState.deleted);
+        } else {
+          setState(RowState.failed);
+        }
+      })
+      .catch(() => setState(RowState.failed));
+  }
+
+  function restoreRow() {
+    setState(RowState.updating);
+    const postItem: item = props.item;
+    fetch(`${props.endpoint}`, {
+      headers: {
+        Authorization: `Token ${auth?.userInfo.key}`,
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+      method: 'POST',
+      body: props.stringify(postItem),
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          response.json().then((data) => {
+            const newItem: item = {
+              id: data.id,
+              name: data.name,
+              price: data.price_per_unit,
+              stock: data.stock,
+              lastModified: String(data.updated_on).split('T')[0],
+            };
+
+            console.log(newItem);
+            console.log(props.item);
+            props.updateItem(newItem, props.item);
+            setState(RowState.success);
+          });
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            console.log(data);
+            if (data.name === 'base with this name already exists.') {
+              setState(RowState.success);
+            } else {
+              setState(RowState.deleted);
+            }
+          });
+        } else {
+          setState(RowState.deleted);
+        }
+      })
+      .catch(() => setState(RowState.deleted));
+  }
+
+  if (state === RowState.deleted) {
+    return (
+      <tr className="inventory-red">
+        <td>DELETED</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>N/A</td>
+        <td>
+          <div className="action-btn-container">
+            <div className="inventory-x">✕</div>
+            <div
+              className="inventory-btn inventory-restore-btn"
+              onClick={() => restoreRow()}
+            >
+              Restore
+            </div>
           </div>
-        </div>
-      )}
-      {editOn && (
-        <div className="cell-container">
-          <input
-            defaultValue={props.text}
-            onChange={(e) => setNewVal(e.target.value)}
-          ></input>
+        </td>
+      </tr>
+    );
+  }
+  if (state !== RowState.edit) {
+    return (
+      <tr>
+        <td>{props.item.name}</td>
+        <td>{props.item.stock}</td>
+        <td>${props.item.price}</td>
+        <td>{props.item.lastModified}</td>
+        {state !== RowState.updating && (
+          <td>
+            <div className="action-btn-container">
+              {(state === RowState.failed || state === RowState.success) && (
+                <div
+                  className={`status-display ${
+                    state == RowState.failed
+                      ? 'inventory-red'
+                      : 'inventory-green'
+                  }`}
+                >
+                  {state === RowState.success ? '✓' : '✕'}
+                </div>
+              )}
+              <div
+                className="inventory-btn inventory-edit-btn"
+                onClick={() => handelEdit()}
+              >
+                Edit
+              </div>
+              <div
+                className="inventory-btn inventory-delete-btn"
+                onClick={() => deleteRow()}
+              >
+                X
+              </div>
+            </div>
+          </td>
+        )}
+        {state === RowState.updating && (
+          <td>
+            <div className="inventory-loader-container">
+              <div className="loader"></div>
+            </div>
+          </td>
+        )}
+      </tr>
+    );
+  } else {
+    return (
+      <tr>
+        <td>
+          <div>
+            <input
+              defaultValue={props.item.name}
+              onChange={(e) => setName(e.target.value)}
+            ></input>
+          </div>
+        </td>
+        <td>
+          <div>
+            <input
+              defaultValue={props.item.stock}
+              type="number"
+              pattern="\d.*$"
+              step="1"
+              onChange={(e) => setStock(Number.parseInt(e.target.value))}
+            ></input>
+          </div>
+        </td>
+        <td>
+          <div className="inventory-price-container">
+            <div className="inventory-dollar">$</div>
+            <input
+              className="inventory-price-input"
+              defaultValue={props.item.price}
+              type="number"
+              pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+              step="0.01"
+              onChange={(e) => setPrice(Number.parseFloat(e.target.value))}
+            ></input>
+          </div>
+        </td>
+        <td>{props.item.lastModified}</td>
+        <td>
           <div className="action-btn-container">
             <div
-              className="inventory-edit-btn inventory-cancel-btn"
-              onClick={() => setEditOn(false)}
+              className="inventory-btn inventory-cancel-btn"
+              onClick={() => setState(RowState.default)}
             >
               Cancel
             </div>
             <div
-              className="inventory-edit-btn inventory-accept-btn"
-              onClick={() => {
-                props.updateFunction(newVal, props.id, props.field);
-                setEditOn(false);
-              }}
+              className="inventory-btn inventory-save-btn"
+              onClick={() => updateRow()}
             >
               Save
             </div>
           </div>
+        </td>
+      </tr>
+    );
+  }
+}
+
+function ItemModal(props: ItemModalProps) {
+  const [state, setState] = useState(ModalState.default);
+  const [name, setName] = useState('');
+  const [stock, setStock] = useState(0);
+  const [price, setPrice] = useState(0);
+
+  const auth = useAuth();
+
+  function verifyInput(name: string, stock: number, price: number) {
+    if (!/^[0-9]*(\.([0-9])?([0-9])?)?$/.test(String(price)) || price <= 0) {
+      return false;
+    }
+    if (!/^[0-9]*$/.test(String(stock))) {
+      return false;
+    }
+    if (!/^[a-zA-Z\s]*$/.test(name) || name === '') {
+      return false;
+    }
+    return true;
+  }
+
+  function createItem() {
+    if (!verifyInput(name, stock, price)) {
+      setState(ModalState.failed);
+      return;
+    }
+    const newItem: item = {
+      id: 0,
+      name: name,
+      price: price,
+      stock: stock,
+      lastModified: '',
+    };
+
+    fetch(props.createParams.endpoint, {
+      headers: {
+        Authorization: `Token ${auth?.userInfo.key}`,
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+      method: 'POST',
+      body: props.createParams.stringify(newItem),
+    })
+      .then((response) => {
+        if (response.status === 201) {
+          response.json().then((data) => {
+            const addItem: item = {
+              id: data.id,
+              name: data.name,
+              price: data.price_per_unit,
+              stock: data.stock,
+              lastModified: String(data.updated_on).split('T')[0],
+            };
+            props.createParams.addItem(addItem);
+            setState(ModalState.success);
+          });
+        } else if (response.status === 400) {
+          response.json().then((data) => {
+            if (data.name[0] === 'milk with this name already exists.') {
+              setState(ModalState.success);
+            } else {
+              setState(ModalState.failed);
+            }
+          });
+        } else {
+          setState(ModalState.failed);
+        }
+      })
+      .catch(() => setState(ModalState.failed));
+  }
+
+  return (
+    <div className="item-modal-container">
+      <h1>Create New Item:</h1>
+      <h2>Name:</h2>
+      <input onChange={(e) => setName(e.target.value)}></input>
+      <h2>Initial Stock:</h2>
+      <input
+        type="number"
+        pattern="\d.*$"
+        step="1"
+        onChange={(e) => setStock(Number.parseInt(e.target.value))}
+      ></input>
+      <h2>Price:</h2>
+      <div className="modal-price-container">
+        <div className="modal-dollar">$</div>
+        <input
+          type="number"
+          pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+          step="0.01"
+          onChange={(e) => setPrice(Number.parseFloat(e.target.value))}
+        ></input>
+      </div>
+      {(state === ModalState.failed || state === ModalState.success) && (
+        <div
+          className={`modal-status ${
+            state == ModalState.failed ? 'inventory-red' : 'inventory-green2'
+          }`}
+        >
+          {state === ModalState.success ? '✓' : '✕'}
         </div>
       )}
-    </td>
+      {state !== ModalState.updating && (
+        <div className="inventory-modal-btns">
+          <div
+            className="inventory-btn inventory-decline-btn"
+            onClick={() => props.setModal(false)}
+          >
+            {state === ModalState.default ? 'Cancel' : 'Close'}
+          </div>
+          <div
+            className="inventory-btn inventory-accept-btn"
+            onClick={() => createItem()}
+          >
+            Create
+          </div>
+        </div>
+      )}
+      {state === ModalState.updating && <div className="modal-loader"></div>}
+    </div>
   );
 }

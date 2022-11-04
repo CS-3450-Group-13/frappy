@@ -22,7 +22,7 @@ interface Props {
 
 export default function Login({ setPages, user, setUser }: Props) {
   const navigate = useNavigate();
-  const authToken = '7af6c160689e100b567df19b91e8a4ad0f2de704';
+  const authToken = '8433d0bed6df53aef210f30480aba93a2b617a82 ';
 
   const auth = useAuth();
 
