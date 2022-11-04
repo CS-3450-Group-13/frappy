@@ -1,0 +1,61 @@
+@import url('Global.css');
+
+.edit-inventory-container {
+    height: 100%;
+    margin-left: 15%;
+    color: white;
+}
+
+.edit-inventory-container h2 {
+    margin-top: 20px;
+    margin-left: 10%;
+    text-align: left;
+}
+
+.inventory-table-wrapper {
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
+    padding: 5px;
+
+}
+
+.inventory-table{
+    background-color: var( --frappy-dgreen);
+    width: 80%;
+    padding:5px;
+}
+
+.inventory-table .first-row {
+    background-color: var( --frappy-dgreen);
+    height: 30px;
+}
+
+
+
+.inventory-table tr {
+    background-color: var( --frappy-l-lgreen);
+    height: 60px;
+
+}
+
+.inventory-table tr:nth-child(even) {
+    background-color: var( --frappy-lgreen);
+
+  }
+
+.inventory-btn{
+    border: none;
+    border-radius: 15px;
+    background-color: var( --frappy-red);
+    margin: 3px;
+}
+
+.inventory-btn:hover{
+background-color: lightcoral;
+}
+
+
+
+
+
