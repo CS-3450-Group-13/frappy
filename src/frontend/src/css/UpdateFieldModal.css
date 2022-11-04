@@ -44,15 +44,23 @@
     border: hidden;
 }
 
-.balance-buttons {
-    margin-top: 32px;
+.field-error-div {
+    font-style: italic;
+    text-align: right;
+    margin-top: -8px;
+    color: var(--frappy-red)
+}
+
+.field-balance-buttons {
+    margin-top: 24px;
     display: flex;
     justify-content: space-between;
     padding-left: 4px;
     padding-right: 4px;
+    font-size: 1.5em;
 }
 
-.balance-button {
+.field-balance-button {
     border-radius: 0.4em;
     font-size: 2em;
     padding: 4px;
