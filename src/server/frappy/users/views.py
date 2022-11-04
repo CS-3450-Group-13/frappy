@@ -90,6 +90,7 @@ class UserViewSet(
     @action(detail=False, methods=["GET"])
     def current_user(self, request):
         serializer = UserSerializer(request.user)
+        
         return Response(serializer.data)
 
 
