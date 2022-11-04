@@ -284,7 +284,6 @@ export default function CustomizeDrink({setCart}: Props) {
   }
 
   function handleBackBtn() {
-    alert("Back button clicked, frappe not added to cart");
     navigate("/menu");
   }
 
@@ -298,7 +297,6 @@ export default function CustomizeDrink({setCart}: Props) {
     // }
     // alert("frappe added to cart with " + customizations);
     setCart((oldState) => [...oldState, currentFrappe]);
-    console.log("the cart is now");
     console.log(cart);
     navigate("/menu");
   }
@@ -350,42 +348,21 @@ export default function CustomizeDrink({setCart}: Props) {
             </div>
           </div>
         </div>
+        <div className='customize-drink-nav-btns'>
+          <div
+            className='customize-drink-nav-btn'
+            onClick={handleBackBtn}
+          >
+            BACK
+          </div>
+          <div
+            className='customize-drink-nav-btn customize-drink-lgreen'
+            onClick={handleAddToCart}
+          >
+            ADD TO CART
+          </div>
+        </div>
       </div>
     </div>
   );
 }
-
-
-{/* <div className='drink-details'>
-        <DrinkCard frappe={frappe}/>
-        <div className='customization-list'>
-          CUSTOMIZATIONS
-          <ul>
-            {generateCustomizationList()}
-          </ul>
-        </div>
-      </div>
-      <div className='customization-section'>
-        <div className='size-options'>
-        <div className='large'>CUSTOMIZATIONS</div>
-          <div className='column white'>
-            <div>SMALL</div>
-            <input type='radio' name='small' value='1' checked={frappe.frappe.size === 1} onChange={(e) => sizeChange(e)} />
-          </div>
-          <div className='column white'>
-            <div>MEDIUM</div>
-            <input type='radio' name='medium' value='2' checked={frappe.frappe.size === 2} onChange={(e) => sizeChange(e)} />
-          </div>
-          <div className='column white'>
-            <div>LARGE</div>
-            <input type='radio' name='large' value='3' checked={frappe.frappe.size === 3} onChange={(e) => sizeChange(e)} />
-          </div>
-        </div>
-        <div className='current-customizations white'>
-          <div>{createCustomizationButtons()}</div>
-        </div>
-        <div className='decision-btns'>
-          <div className='back-btn' onClick={handleBackBtn}>BACK</div>
-          <div className='add-to-cart-btn' onClick={handleAddToCart}>ADD TO CART</div>
-        </div>
-      </div> */}
