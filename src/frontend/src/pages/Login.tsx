@@ -207,6 +207,10 @@ export default function Login({ setPages, user, setUser }: Props) {
                           title: 'Edit Menu',
                           path: '/edit-menu',
                         },
+                        {
+                          title: 'Edit Inventory',
+                          path: '/edit-inventory',
+                        },
                       ]);
                       break;
                     case 'none':

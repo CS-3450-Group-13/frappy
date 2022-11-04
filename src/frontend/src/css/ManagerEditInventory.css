@@ -36,26 +36,72 @@
 .inventory-table tr {
     background-color: var( --frappy-l-lgreen);
     height: 60px;
+    text-align: left;
 
 }
+
+.inventory-table tr td {
+    padding-left: 1em;
+}
+
 
 .inventory-table tr:nth-child(even) {
     background-color: var( --frappy-lgreen);
 
   }
 
-.inventory-btn{
+.inventory-edit-btn{
     border: none;
-    border-radius: 15px;
-    background-color: var( --frappy-red);
-    margin: 3px;
+    border-radius: 4px;
+    background-color: var( --frappy-orange);
+    margin-right: 8px;
+    margin-left:auto;
+    padding: 4px 8px 4px 8px;
 }
 
-.inventory-btn:hover{
-background-color: lightcoral;
+.action-btn-container {
+    margin-left: auto;
+    display: flex;
+}
+.inventory-edit-btn:hover{
+background-color: orangered;
+cursor: pointer;
+}
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+.inventory-accept-btn {
+    background-color: var(--frappy-dgreen);
+}
+
+.inventory-accept-btn:hover {
+    background-color: rgb(14, 121, 0);
+}
+
+.inventory-cancel-btn {
+    background-color: var(--frappy-red);
+}
+
+.inventory-cancel-btn:hover {
+    background-color: lightcoral;
 }
 
 
+.cell-container {
+    display:flex;
+    align-items: center;
 
+}
+
+.cell-container input {
+    background-color: var(--frappy-white);
+    border: none;
+    border-radius: 1px;
+    padding: 4px;
+    display: flex;
+    width: fit-content;
+}
 
 

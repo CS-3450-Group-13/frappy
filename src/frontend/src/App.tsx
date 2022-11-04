@@ -20,6 +20,7 @@ import { AuthProvider } from './components/auth';
 import CustomerRoutes from './components/CustomerRoutes';
 import EmployeeRoutes from './components/EmployeeRoutes';
 import ManagerRoutes from './components/ManagerRoutes';
+import ManagerEditInventory from './pages/ManagerEditInventory';
 
 function App() {
   const [pages, setPages] = useState([
@@ -89,6 +90,10 @@ function App() {
                     element={<ManagerEditAccounts />}
                   />
                   <Route path="/edit-menu" element={<ManagerEditMenu />} />
+                  <Route
+                    path="/edit-inventory"
+                    element={<ManagerEditInventory />}
+                  />
                 </Route>
               </Route>
             </Route>
