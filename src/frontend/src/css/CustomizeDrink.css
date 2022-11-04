@@ -4,15 +4,19 @@
   display: flex;
   flex-direction: row;
   color: var(--frappy-white);
+  background-image: linear-gradient(#08A45B, #143224);
 }
 
 .customize-drink-details {
   display: flex;
   flex-direction: column;
-  background-color: var(--frappy-lgreen);
+  background-color: transparent;
   height: 100%;
   width: 30%;
-  padding-top: 12%;
+  padding-top: 5%;
+  position: sticky;
+  top: 0;
+  border-radius: 15px;
 }
 
 .customize-drink-current-customizations {
@@ -48,6 +52,7 @@
   font-size: 3rem;
   height: 100%;
   width: 100%;
+  background-color: var(--frappy-background);
 }
 
 .customize-drink-size-options {
