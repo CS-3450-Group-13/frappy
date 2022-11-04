@@ -5,7 +5,7 @@ import '../css/DrinkCard.css';
 import '../css/CustomizeDrink.css';
 import DrinkCustomizationModal from './DrinkCustomizationModal';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MenuItem, Base, Milk, SizeNames, Extra, SizeOptions } from '../types/Types';
+import { MenuItem, Base, Milk, SizeNames, Extra, SizeOptions, BaseOptions, FrappeExtra } from '../types/Types';
 import { TestBases, TestExtras } from '../tests/TestServerData'
 
 type Props = {
@@ -15,7 +15,6 @@ type Props = {
 export default function CustomizeDrink({setCart}: Props) {
   const navigate = useNavigate();
   const { state } = useLocation();
-  // const frappe: MenuItem = state.drink;
   const cart: MenuItem[] = state.cart;
 
   const [bases, setBases] = useState<Base[]>([]);
@@ -91,43 +90,177 @@ export default function CustomizeDrink({setCart}: Props) {
     });
   }
 
-  function createCustomizationButtons() {
-    let buttons: ReactNode[] = [];
+  // function createCustomizationButtons() {
+  //   let buttons: ReactNode[] = [];
 
-    const frappeMilk = milks.find((item) => { return item.id === currentFrappe.frappe.milk; });
-    if (frappeMilk) {
-      buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{frappeMilk.name}</div>);
-    }
+  //   const frappeMilk = milks.find((item) => { return item.id === currentFrappe.frappe.milk; });
+  //   if (frappeMilk) {
+  //     buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{frappeMilk.name}</div>);
+  //   }
 
-    const frappeBase = bases.find((item) => { return item.id === currentFrappe.frappe.base; });
-    if (frappeBase) {
-      buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{frappeBase.name}</div>);
-    }
+  //   const frappeBase = bases.find((item) => { return item.id === currentFrappe.frappe.base; });
+  //   if (frappeBase) {
+  //     buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{frappeBase.name}</div>);
+  //   }
 
-    currentFrappe.frappe.extras.forEach((extra) => {
-      let extraObj = TestExtras.find((item) => item.id === extra.extras);
+  //   currentFrappe.frappe.extras.forEach((extra) => {
+  //     let extraObj = TestExtras.find((item) => item.id === extra.extras);
 
-      buttons.push(
-        <div className='row customization-button'>
-          <div className='delete-btn' onClick={() => handleDeleteAddin(extra.extras)}>X</div>
-          <div className='customization-amounts' onClick={handleCustomizeDrink}>{extra.amount}x {extraObj ? extraObj.name : "ERROR"}</div>
+  //     buttons.push(
+  //       <div className='row customization-button'>
+  //         <div className='delete-btn' onClick={() => handleDeleteAddin(extra.extras)}>X</div>
+  //         <div className='customization-amounts' onClick={handleCustomizeDrink}>{extra.amount}x {extraObj ? extraObj.name : "ERROR"}</div>
+  //       </div>
+  //     );
+  //   })
+
+  //   return buttons
+  // }
+
+  const createBasesBtns = () => {
+    let basesBtns: ReactNode[] = [];
+
+    bases.forEach((base) => {
+      basesBtns.push(
+        <label>
+            <input className='hide-radio' type='radio' name={base.name} value={base.id} checked={ currentFrappe.frappe.base === base.id } onChange={(e) => handleBaseChange(e)} />
+            <div className='customize-drink-selection-btn'>{base.name.toUpperCase()}</div>
+        </label>
+      );
+    });
+
+    return basesBtns;
+  }
+
+  const handleBaseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentFrappe((prevState) => {
+      prevState.frappe.base = parseInt(e.target.value);
+
+      return({...prevState});
+    })
+  }
+
+  const createMilkBtns = () => {
+    let milkBtns: ReactNode[] = [];
+
+    milks.forEach((milk) => {
+      milkBtns.push(
+        <label>
+            <input className='hide-radio' type='radio' name={milk.name} value={milk.id} checked={ currentFrappe.frappe.milk === milk.id } onChange={(e) => handleMilkChange(e)} />
+            <div className='customize-drink-selection-btn'>{milk.name.toUpperCase()}</div>
+        </label>
+      );
+    });
+
+    return milkBtns;
+  }
+
+  const handleMilkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentFrappe((prevState) => {
+      prevState.frappe.milk = parseInt(e.target.value);
+
+      return({...prevState});
+    })
+  }
+
+  const createExtrasBtns = () => {
+    let extrasBtns: ReactNode[] = [];
+
+    extras.forEach((extra) => {
+      // Check and see if the currentFrappe currently has this extra in the drink
+      let item = currentFrappe.frappe.extras.find((item) => item.extras === extra.id);
+
+      extrasBtns.push(
+        <div className='customize-drink-extra-item'>
+          <div>{extra.name}</div>
+          <div className='customize-drink-extra-btns-container'>
+            <div 
+              className='customize-drink-reduce-increment-extra-btn circle'
+              onClick={() => {handleDecrementExtra(extra.id)}}
+            >
+              -
+            </div>
+            <div>{item ? item.amount : 0}</div>
+            <div 
+              className='customize-drink-reduce-increment-extra-btn circle'
+              onClick={() => {handleAddExtra(extra.id)}}
+            >
+              +
+            </div>
+          </div>
         </div>
       );
     })
 
-    return buttons
+    return extrasBtns;
   }
 
+  const handleAddExtra = (extraId: number) => {
+    let idx = currentFrappe.frappe.extras.findIndex((item) => item.extras === extraId);
+
+    if (idx > -1) {
+      setCurrentFrappe((prevState) => {
+        prevState.frappe.extras[idx].amount += 1;
+
+        return({...prevState});
+      });
+    }
+
+    else {
+      setCurrentFrappe((prevState) => {
+        let extra: FrappeExtra = {
+          amount: 1,
+          extras: extraId,
+          frappe: prevState.frappe.id,
+        };
+
+        prevState.frappe.extras.push(extra);
+
+        return({...prevState});
+      });
+    }
+  }
+
+  const handleDecrementExtra = (extraId: number) => {
+    let idx = currentFrappe.frappe.extras.findIndex((item) => item.extras === extraId);
+
+    if (idx > -1) {
+      // Completely remove the item from the frappe if there is only 1 and then want to decrement
+      if (currentFrappe.frappe.extras[idx].amount <= 1) {
+        setCurrentFrappe((prevState) => {
+          prevState.frappe.extras.splice(idx, 1);
+
+          return({...prevState});
+        });
+      }
+      else {
+        setCurrentFrappe((prevState) => {
+          prevState.frappe.extras[idx].amount -= 1;
+
+          return({...prevState});
+        });
+      }
+    }
+  }
+
+  /**
+   * @brief Generates a list of all the current customizations a user has for their frappe
+   * so that they can easily see what's currently going to be in the drink
+   *
+   * @returns A list of <li>'s of all the current customizations of their frappe
+   */
   const generateCustomizationList = () => {
     let listItems: ReactNode[] = [];
 
     const frappeMilk = milks.find((item) => { return item.id === currentFrappe.frappe.milk; });
     if (frappeMilk) {
+      // Milk id will likely be the same as base id or an extras id. Just set it to something large so that it's 'unique-ish'
       listItems.push(<li key={10000}>{frappeMilk.name}</li>);
     }
 
     const frappeBase = bases.find((item) => { return item.id === currentFrappe.frappe.base; });
     if (frappeBase) {
+      // Base id will likely be the same as milk id or an extras id. Just set it to something large so that it's 'unique-ish'
       listItems.push(<li key={10001}>{frappeBase.name}</li>)
     }
 
@@ -135,16 +268,14 @@ export default function CustomizeDrink({setCart}: Props) {
       const frappeExtra = extras.find((item) => { return item.id === extra.extras; });
 
       if (frappeExtra) {
-        const extraStr = extra.amount + " " + frappeExtra.name;
+        const extraStr = extra.amount + "x " + frappeExtra.name;
+        
+        // These guys get ownership of the actual id's (1-11 or whatever). Why? Because extras are better I guess
         listItems.push(<li key={extra.extras}>{extraStr}</li>);
       }
     })
 
     return listItems;
-  }
-
-  function handleCustomizeDrink() {
-    
   }
 
   function handleDeleteAddin(addin: number) {
@@ -177,14 +308,14 @@ export default function CustomizeDrink({setCart}: Props) {
       <div className='customize-drink-details'>
         <DrinkCard frappe={currentFrappe} />
         <div className='customize-drink-current-customizations'>
-          CUSTOMIZATIONS
+          YOUR CUSTOMIZATIONS
           <ul className='customize-drink-current-customizations-list'>
             {generateCustomizationList()}
           </ul>
         </div>
       </div>
       <div className='customize-drink-customizations-container'>
-        CUSTOMIZE YOUR DRINK
+        CUSTOMIZE YOUR SIZE
         <div className='customize-drink-size-options'>
           <label>
             <input className='hide-radio' type='radio' name='small' value='small' checked={ currentFrappe.frappe.size === SizeOptions.Small } onChange={(e) => handleSizeChange(e)} />
@@ -198,6 +329,26 @@ export default function CustomizeDrink({setCart}: Props) {
             <input className='hide-radio' type='radio' name='large' value='large' checked={ currentFrappe.frappe.size === SizeOptions.Large } onChange={(e) => handleSizeChange(e)} />
             <img className='customize-drink-img-sm circle' src={ require('../images/large-frappe.png') } alt='size large' />
           </label>
+        </div>
+        <div className='customize-drink-bases-container'>
+          CHOOSE YOUR MILK
+          <div className='customize-drink-bases-options'>
+            {createMilkBtns()}
+          </div>
+        </div>
+        <div className='customize-drink-bases-container'>
+          CHOOSE YOUR BASE
+          <div className='customize-drink-bases-options'>
+            {createBasesBtns()}
+          </div>
+        </div>
+        <div className='customize-drink-extras-container'>
+          CHOOSE YOUR EXTRAS
+          <div>
+            <div className='customize-drink-extras-options'>
+              {createExtrasBtns()}
+            </div>
+          </div>
         </div>
       </div>
     </div>

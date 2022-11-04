@@ -9,10 +9,9 @@
 .customize-drink-details {
   display: flex;
   flex-direction: column;
-  flex: 3;
   background-color: var(--frappy-lgreen);
   height: 100%;
-  width: 100%;
+  width: 30%;
   padding-top: 12%;
 }
 
@@ -55,7 +54,7 @@
   flex-direction: row;
   font-size: 1.5rem;
   justify-content: space-around;
-  padding-top: 10%;
+  padding-top: 5%;
 }
 
 .hide-radio {
@@ -73,14 +72,66 @@
   background-color: var(--frappy-l-lgreen);
 }
 
+.hide-radio:checked + div {
+  background-color: var(--frappy-l-lgreen);
+}
+
 .customize-drink-img-sm {
   height: 80%;
   width: 30%;
   background-color: var(--frappy-white);
 }
 
+.customize-drink-bases-container {
+  padding-top: 3%;
+}
 
+.customize-drink-selection-btn {
+  color: black;
+  background-color: var(--frappy-gray);
+  font-size: 1.5rem;
+  padding: 10px;
+  border-radius: 15px;
+  cursor: pointer;
+}
 
+.customize-drink-bases-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 5%;
+}
+
+.customize-drink-extra-item {
+  background-color: var(--frappy-gray);
+  color: black;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  margin-left: 5%;
+  margin-right: 5%;
+  padding-left: 2%;
+  padding-right: 2%;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 2rem;
+}
+
+.customize-drink-extra-btns-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.customize-drink-reduce-increment-extra-btn {
+  background-color: white;
+  width: 40px;
+  height: 40px;
+  margin-right: 20px;
+  margin-left: 20px;
+  cursor: pointer;
+  color: black;
+}
 
 /* .customizeDrink-container {
   display: flex;
