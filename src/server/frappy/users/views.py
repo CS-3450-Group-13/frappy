@@ -90,7 +90,7 @@ class UserViewSet(
     @action(detail=False, methods=["GET"])
     def current_user(self, request):
         serializer = UserSerializer(request.user)
-        
+
         return Response(serializer.data)
 
 
@@ -99,8 +99,10 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
     queryset = Employee.objects.all()
     permission_classes = [IsAdminUser, IsManager]
 
-    @action(detail=False)
+    @action(detail=False, methods=["GET", "POST"])
     def pay_all(self, request: Request):
+        print(self.action)
+
         manager: User = request.user
         cost = 0
         employees = Employee.objects.all()
@@ -108,28 +110,32 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
         for e in employees:
             cost += e.hours * e.wage
 
-        if cost < manager.balance:
-            # Pay employees
-            for e in employees:
-                pay = e.hours * e.wage
-                e.user.balance += pay
-                manager.balance -= pay
+        if self.action == "post":
+            # 
+            if cost < manager.balance:
+                # Pay employees
+                for e in employees:
+                    pay = e.hours * e.wage
+                    e.user.balance += pay
+                    manager.balance -= pay
 
-            return Response(
-                {
-                    "success": "Balance paid successfully",
-                    "wages_total": cost,
-                    "remainging_balance": manager.balance,
-                }
-            )
+                return Response(
+                    {
+                        "success": "Balance paid successfully",
+                        "wages_total": cost,
+                        "remainging_balance": manager.balance,
+                    }
+                )
+            else:
+                return Response(
+                    {
+                        "fail": "Insuficcient Balance, employees are not paid.",
+                        "wages_total": cost,
+                        "remainging_balance": manager.balance,
+                    }
+                )
         else:
-            return Response(
-                {
-                    "fail": "Insuficcient Balance, employees are not paid.",
-                    "wages_total": cost,
-                    "remainging_balance": manager.balance,
-                }
-            )
+            return Response({"wages_total": cost, "manager_current": manager.balance})
 
     # Users must be a manager to pay employees, however admins still have access
     def get_permissions(self):
