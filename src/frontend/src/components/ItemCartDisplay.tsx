@@ -18,8 +18,7 @@ export default function ItemCartDisplay({item, cart, removeItemFromCart, idx}: P
     navigate('/customize', {state:{
       drink: item,
       cart: cart,
-      // setCart: setCart,
-      // setCurrentFrappe: setCurrentFrappe,
+      isNewDrink: false,
     }});
   }
 

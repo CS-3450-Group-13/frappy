@@ -58,7 +58,7 @@ function App() {
           ></Route>
           <Route
             path="/customize"
-            element={<CustomizeDrink setCart={setCart}/>}
+            element={<CustomizeDrink setCart={setCart} />}
           />
           <Route
             path="/cart"

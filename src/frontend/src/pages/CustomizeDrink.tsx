@@ -13,14 +13,15 @@ type Props = {
 }
 
 export default function CustomizeDrink({setCart}: Props) {
-  const navigate = useNavigate();
-  const { state } = useLocation();
-  const cart: MenuItem[] = state.cart;
+  const navigate = useNavigate();      //!< Allows navigation to other pages through the Router
+  const { state } = useLocation();     //!< State passed to us through the Router
+  const cart: MenuItem[] = state.cart; //!< Current list of all items in the cart
+  const isNewDrink = state.isNewDrink; //!< Flag to determine if the current drink is new (needs to be added to the cart), or is just being updated from the cart
 
-  const [bases, setBases] = useState<Base[]>([]);
-  const [milks, setMilks] = useState<Milk[]>([]);
-  const [extras, setExtras] = useState<Extra[]>([]);
-  const [currentFrappe, setCurrentFrappe] = useState<MenuItem>(state.drink)
+  const [bases, setBases] = useState<Base[]>([]);                           //!< Keeps track of the current bases retrieved from the server
+  const [milks, setMilks] = useState<Milk[]>([]);                           //!< Keeps track of the current milks retrieved from the server
+  const [extras, setExtras] = useState<Extra[]>([]);                        //!< Keeps track of the current extras retrieved from the server
+  const [currentFrappe, setCurrentFrappe] = useState<MenuItem>(state.drink) //!< Keeps track of the current frappe customizations
 
   // Get the current list of bases from the server
   useEffect(() => {
@@ -73,6 +74,10 @@ export default function CustomizeDrink({setCart}: Props) {
     });
   }, []);
 
+  /**
+   * @brief Handles updating the frappes current size choice
+   * @param e The event that triggered the change
+   */
   function handleSizeChange(e: React.ChangeEvent<HTMLInputElement>) {
 
     let newSize = SizeOptions.Small;
@@ -90,33 +95,10 @@ export default function CustomizeDrink({setCart}: Props) {
     });
   }
 
-  // function createCustomizationButtons() {
-  //   let buttons: ReactNode[] = [];
-
-  //   const frappeMilk = milks.find((item) => { return item.id === currentFrappe.frappe.milk; });
-  //   if (frappeMilk) {
-  //     buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{frappeMilk.name}</div>);
-  //   }
-
-  //   const frappeBase = bases.find((item) => { return item.id === currentFrappe.frappe.base; });
-  //   if (frappeBase) {
-  //     buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{frappeBase.name}</div>);
-  //   }
-
-  //   currentFrappe.frappe.extras.forEach((extra) => {
-  //     let extraObj = TestExtras.find((item) => item.id === extra.extras);
-
-  //     buttons.push(
-  //       <div className='row customization-button'>
-  //         <div className='delete-btn' onClick={() => handleDeleteAddin(extra.extras)}>X</div>
-  //         <div className='customization-amounts' onClick={handleCustomizeDrink}>{extra.amount}x {extraObj ? extraObj.name : "ERROR"}</div>
-  //       </div>
-  //     );
-  //   })
-
-  //   return buttons
-  // }
-
+  /**
+   * @brief Creates a list of radio buttons, one for each base that was retrieved from the server
+   * @returns A list of buttons, one for each base that was retrieved from the server
+   */
   const createBasesBtns = () => {
     let basesBtns: ReactNode[] = [];
 
@@ -132,6 +114,10 @@ export default function CustomizeDrink({setCart}: Props) {
     return basesBtns;
   }
 
+  /**
+   * @brief Handles updating the frappes current base choice
+   * @param e The event that triggered the change
+   */
   const handleBaseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentFrappe((prevState) => {
       prevState.frappe.base = parseInt(e.target.value);
@@ -140,6 +126,10 @@ export default function CustomizeDrink({setCart}: Props) {
     })
   }
 
+  /**
+   * @brief Creates a list of radio buttons, one for each milk that was retrieved from the server
+   * @returns A list of buttons, one for each milk that was retrieved from the server
+   */
   const createMilkBtns = () => {
     let milkBtns: ReactNode[] = [];
 
@@ -155,6 +145,10 @@ export default function CustomizeDrink({setCart}: Props) {
     return milkBtns;
   }
 
+  /**
+   * @brief Handles updating the frappes current milk choice
+   * @param e The event that triggered the change
+   */
   const handleMilkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentFrappe((prevState) => {
       prevState.frappe.milk = parseInt(e.target.value);
@@ -163,7 +157,11 @@ export default function CustomizeDrink({setCart}: Props) {
     })
   }
 
-  const createExtrasBtns = () => {
+  /**
+   * @brief Creates a view for every extra that was retrieved from the server
+   * @returns A list of views, one for every extra that was retrieved from the server
+   */
+  const createExtrasViews = () => {
     let extrasBtns: ReactNode[] = [];
 
     extras.forEach((extra) => {
@@ -195,6 +193,11 @@ export default function CustomizeDrink({setCart}: Props) {
     return extrasBtns;
   }
 
+  /**
+   * @brief Handles adding an extra to the drink. This takes into account whether
+   * the item already exists in the drinks current customizations or not
+   * @param extraId The ID of the extra
+   */
   const handleAddExtra = (extraId: number) => {
     let idx = currentFrappe.frappe.extras.findIndex((item) => item.extras === extraId);
 
@@ -221,6 +224,12 @@ export default function CustomizeDrink({setCart}: Props) {
     }
   }
 
+  /**
+   * @brief Handles decrementing of an extra. If the extra is not already part of
+   * their current customizations, nothing happens. If they decrement the extra to 0
+   * then the extra is removed from the drinks extra list
+   * @param extraId The ID of the extra
+   */
   const handleDecrementExtra = (extraId: number) => {
     let idx = currentFrappe.frappe.extras.findIndex((item) => item.extras === extraId);
 
@@ -278,24 +287,17 @@ export default function CustomizeDrink({setCart}: Props) {
     return listItems;
   }
 
-  function handleDeleteAddin(addin: number) {
-    alert("User wants to delete " + addin);
-    return;
-  }
-
+  /**
+   * @brief Navigates back to the menu and discards current drink changes
+   */
   function handleBackBtn() {
     navigate("/menu");
   }
 
+  /**
+   * @brief Adds a new drink to the cart
+   */
   function handleAddToCart() {
-    // let customizations: string[] = [];
-    // customizations.push(frappeContents.base);
-
-    // for (const [key, value] of Object.entries(frappeContents.addins)) {
-    //   let str = value.toString() + " " + key;
-    //   customizations.push(str);
-    // }
-    // alert("frappe added to cart with " + customizations);
     setCart((oldState) => [...oldState, currentFrappe]);
     console.log(cart);
     navigate("/menu");
@@ -344,24 +346,36 @@ export default function CustomizeDrink({setCart}: Props) {
           CHOOSE YOUR EXTRAS
           <div>
             <div className='customize-drink-extras-options'>
-              {createExtrasBtns()}
+              {createExtrasViews()}
             </div>
           </div>
         </div>
-        <div className='customize-drink-nav-btns'>
-          <div
-            className='customize-drink-nav-btn'
-            onClick={handleBackBtn}
-          >
-            BACK
+        {!isNewDrink &&
+          <div className='customize-drink-center'>
+            <div
+              className='customize-drink-nav-btn customize-drink-lgreen'
+              onClick={() => {navigate("/cart")}}
+            >
+              BACK TO CART
+            </div>
           </div>
-          <div
-            className='customize-drink-nav-btn customize-drink-lgreen'
-            onClick={handleAddToCart}
-          >
-            ADD TO CART
+        }
+        {isNewDrink &&
+          <div className='customize-drink-nav-btns'>
+            <div
+              className='customize-drink-nav-btn'
+              onClick={handleBackBtn}
+            >
+              BACK
+            </div>
+            <div
+              className='customize-drink-nav-btn customize-drink-lgreen'
+              onClick={handleAddToCart}
+            >
+              ADD TO CART
+            </div>
           </div>
-        </div>
+        }
       </div>
     </div>
   );

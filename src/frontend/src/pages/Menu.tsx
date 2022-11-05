@@ -39,8 +39,7 @@ export default function Menu({cart, setCart}: Props) {
       navigate('/customize', {state:{
         drink: frappe,
         cart: cart,
-        // setCart: setCart,
-        // setCurrentFrappe: setCurrentFrappe,
+        isNewDrink: true,
       }});
     }}>ORDER</button>
     </div>
