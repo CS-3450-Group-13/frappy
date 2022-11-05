@@ -22,7 +22,7 @@ interface Props {
 
 export default function Login({ setPages, user, setUser }: Props) {
   const navigate = useNavigate();
-  const authToken = '050973b1cd5d3715cf49b25621255b0a3b48672a';
+  const authToken = '7af6c160689e100b567df19b91e8a4ad0f2de704';
 
   const auth = useAuth();
 
@@ -59,6 +59,7 @@ export default function Login({ setPages, user, setUser }: Props) {
             .then((response) => response.json())
             .then((CurrentUserdata) => {
               console.log(CurrentUserdata);
+              console.log('k');
               const USERID = CurrentUserdata.id;
               const FIRSTNAME = CurrentUserdata.first_name;
               const LASTNAME = ' ' + CurrentUserdata.last_name;
@@ -72,9 +73,9 @@ export default function Login({ setPages, user, setUser }: Props) {
               })
                 .then((response) => response.json())
                 .then((data) => {
+                  console.log(data);
                   for (let i = 0; i < data.length; i++) {
                     if (data[i].user == USERID) {
-                      console.log(data[i]);
                       HOURS = Number(data[i].hours);
                       console.log(data[i].is_manager);
                       console.log('kdsjaopfhsdogsdg');

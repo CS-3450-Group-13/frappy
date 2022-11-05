@@ -269,6 +269,7 @@ const DEMO_USER: User2 = {
 
 export default function Home(props: Props) {
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const auth = useAuth();
 
@@ -288,6 +289,34 @@ export default function Home(props: Props) {
     };
   }
 
+  function payAll() {
+    fetch('http://127.0.0.1:8000/users/employees/pay_all/', {
+      headers: { Authorization: `Token ${USER.key}` },
+      credentials: 'same-origin',
+    }).then((response) => {
+      if (response.status === 200) {
+        response.json().then((data) => {
+          if (data.fail) {
+            const response = window.confirm(
+              `Insufficient Store Balance. Would You Like to Take Out a Loan for ${
+                Number.parseFloat(data.wages_total) -
+                Number.parseFloat(data.remainging_balance)
+              }?`
+            );
+            if (response) {
+              // Do Things
+            }
+          } else {
+            alert('Employees Paid Successfully');
+            // Relog
+          }
+        });
+      } else {
+        alert('Server Error: Try Again Later');
+      }
+    });
+  }
+
   return (
     <div className="home-container">
       <div className="header">
@@ -297,14 +326,27 @@ export default function Home(props: Props) {
         </div>
       </div>
       <div className="fast-nav-buttons">
-        <div
-          className="button favorite-button"
-          onClick={() => {
-            navigate('/menu');
-          }}
-        >
-          Order Favorite Drink
-        </div>
+        {USER.role === 'user' ||
+          (USER.role === 'employee' && (
+            <div
+              className="button favorite-button"
+              onClick={() => {
+                navigate('/menu');
+              }}
+            >
+              Order Favorite Drink
+            </div>
+          ))}
+        {USER.role === 'manager' && (
+          <div
+            className="button favorite-button"
+            onClick={() => {
+              payAll();
+            }}
+          >
+            Pay All Employees
+          </div>
+        )}
         <div
           className="button order-button"
           onClick={() => {
