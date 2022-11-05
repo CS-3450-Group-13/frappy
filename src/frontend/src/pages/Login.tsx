@@ -22,7 +22,8 @@ interface Props {
 
 export default function Login({ setPages, user, setUser }: Props) {
   const navigate = useNavigate();
-  const authToken = '8433d0bed6df53aef210f30480aba93a2b617a82 ';
+  const authToken = '7af6c160689e100b567df19b91e8a4ad0f2de704';
+
 
   const auth = useAuth();
 
@@ -77,6 +78,8 @@ export default function Login({ setPages, user, setUser }: Props) {
                   for (let i = 0; i < data.length; i++) {
                     if (data[i].user == USERID) {
                       HOURS = Number(data[i].hours);
+                      console.log(data[i].is_manager);
+                      console.log('kdsjaopfhsdogsdg');
                       if (data[i].is_manager) {
                         role = 'manager';
                       } else {

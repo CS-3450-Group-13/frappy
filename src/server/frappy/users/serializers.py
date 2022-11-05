@@ -147,6 +147,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
+    employee = EmployeeSerializer(required=False, allow_null=True)
+
     class Meta:
         model = User
         exclude = ["is_staff", "groups", "is_superuser"]
