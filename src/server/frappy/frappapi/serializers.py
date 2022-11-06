@@ -70,11 +70,14 @@ class FrappeSerializer(serializers.ModelSerializer):
         exclude = ["creator"]
 
 
+class UserPKRF(serializers.PrimaryKeyRelatedField):
+    def display_value(self, instance):
+        return instance.email
+
+
 class CashierFrappeSerializer(FrappeSerializer):
     creator = serializers.ReadOnlyField(source="creator.email")
-    user = serializers.PrimaryKeyRelatedField(
-        required=True, queryset=User.objects.all()
-    )
+    user = UserPKRF(required=True, queryset=User.objects.all())
 
     class Meta:
         model = Frappe
