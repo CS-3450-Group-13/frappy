@@ -75,7 +75,6 @@ class Frappe(models.Model):
             )
             + (self.base.price_per_unit * size)
             + (self.milk.price_per_unit * size)
-            + (self.menu_key.markup if self.menu_key.markup else 0)
         )
 
 
