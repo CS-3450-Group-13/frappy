@@ -54,7 +54,7 @@ class Frappe(models.Model):
     comments = models.TextField(blank=True)
     final_price = models.DecimalField(max_digits=20, decimal_places=2)
     menu_key = models.ForeignKey(
-        "Menu", related_name="menu_key", on_delete=models.CASCADE, blank=True
+        "Menu", related_name="menu_key", on_delete=models.CASCADE, blank=True, null=True
     )
 
     def __str__(self):
