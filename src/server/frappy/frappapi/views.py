@@ -23,7 +23,7 @@ class UserFrappeViewSet(ModelViewSet):
         serial: FrappeSerializer = self.get_serializer(data=request.data)
         serial.is_valid(raise_exception=True)
         cost = serial.get_price(serial.validated_data)
-
+        print(serial.validated_data)
         user: User = self.request.user
         manager: user = Employee.objects.get(is_manager=True).user
         print(manager)
