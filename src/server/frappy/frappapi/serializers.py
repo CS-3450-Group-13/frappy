@@ -50,11 +50,14 @@ class FrappeSerializer(serializers.ModelSerializer):
     )
     # Add on the fly price calulcations
     def get_price(self, obj):
-        print(type(obj))
         if type(obj) == OrderedDict:
             total = 0
-            if obj.get("extras"):
-                pass
+            extras = obj.get("extradetail_set")
+
+            for ex in extras:
+                print(ex["extras"])
+                total += ex["amount"] * ex["extras"].price_per_unit
+
             total += obj["milk"].price_per_unit * obj["size"]
             total += obj["base"].price_per_unit * obj["size"]
             total += obj["menu_key"].markup
