@@ -111,6 +111,8 @@ export enum ExtraOptions {
   Oreos = 8,
   Whip_Cream = 9,
   Sugar = 10,
+  Frappuccino_Roast_Pumps = 11,
+  Chocolate_Chips = 12,
 }
 
 /**

@@ -5,7 +5,7 @@ import '../css/DrinkCard.css';
 import '../css/CustomizeDrink.css';
 import DrinkCustomizationModal from './DrinkCustomizationModal';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { MenuItem, Base, Milk, SizeNames, Extra, SizeOptions } from '../types/Types';
+import { MenuItem, Base, Milk, SizeNames, Extra, SizeOptions, BaseOptions, FrappeExtra } from '../types/Types';
 import { TestBases, TestExtras } from '../tests/TestServerData'
 
 type Props = {
@@ -13,17 +13,17 @@ type Props = {
 }
 
 export default function CustomizeDrink({setCart}: Props) {
-  const navigate = useNavigate();
-  const { state } = useLocation();
-  const frappe: MenuItem = state.drink;
-  const cart: MenuItem[] = state.cart;
+  const navigate = useNavigate();      //!< Allows navigation to other pages through the Router
+  const { state } = useLocation();     //!< State passed to us through the Router
+  const cart: MenuItem[] = state.cart; //!< Current list of all items in the cart
+  const isNewDrink = state.isNewDrink; //!< Flag to determine if the current drink is new (needs to be added to the cart), or is just being updated from the cart
 
-  const [size, setSize] = useState(SizeNames[frappe.frappe.size]);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [bases, setBases] = useState<Base[]>([]);
-  const [milks, setMilks] = useState<Milk[]>([]);
-  const [extras, setExtras] = useState<Extra[]>([]);
+  const [bases, setBases] = useState<Base[]>([]);                           //!< Keeps track of the current bases retrieved from the server
+  const [milks, setMilks] = useState<Milk[]>([]);                           //!< Keeps track of the current milks retrieved from the server
+  const [extras, setExtras] = useState<Extra[]>([]);                        //!< Keeps track of the current extras retrieved from the server
+  const [currentFrappe, setCurrentFrappe] = useState<MenuItem>(state.drink) //!< Keeps track of the current frappe customizations
 
+  // Get the current list of bases from the server
   useEffect(() => {
     fetch('http://127.0.0.1:8000/frappapi/bases/')
     .then((response) => response.json())
@@ -40,6 +40,7 @@ export default function CustomizeDrink({setCart}: Props) {
     });
   }, []);
 
+  // Get the current list of milks from the server
   useEffect(() => {
     fetch('http://127.0.0.1:8000/frappapi/milks/')
     .then((response) => response.json())
@@ -56,6 +57,7 @@ export default function CustomizeDrink({setCart}: Props) {
     });
   }, []);
 
+  // Get the current list of extras from the server
   useEffect(() => {
     fetch('http://127.0.0.1:8000/frappapi/extras/')
     .then((response) => response.json())
@@ -72,67 +74,212 @@ export default function CustomizeDrink({setCart}: Props) {
     });
   }, []);
 
-  function sizeChange(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log("size changed to " + e.target.value);
-    console.log(e);
+  /**
+   * @brief Handles updating the frappes current size choice
+   * @param e The event that triggered the change
+   */
+  function handleSizeChange(e: React.ChangeEvent<HTMLInputElement>) {
 
-    let size = SizeOptions.Small;
-    if (parseInt(e.target.value) === 2) {
-      size = SizeOptions.Medium;
+    let newSize = SizeOptions.Small;
+    if (e.target.value === 'medium') {
+      newSize = SizeOptions.Medium;
     }
-    else if (parseInt(e.target.value) === 3) {
-      size = SizeOptions.Large;
+    else if (e.target.value === 'large') {
+      newSize = SizeOptions.Large;
     }
 
-    frappe.frappe.size = size;
-    setSize(e.target.value);
+    setCurrentFrappe((prevState) => {
+      prevState.frappe.size = newSize;
+
+      return({...prevState});
+    });
   }
 
-  function createCustomizationButtons() {
-    let buttons: ReactNode[] = [];
+  /**
+   * @brief Creates a list of radio buttons, one for each base that was retrieved from the server
+   * @returns A list of buttons, one for each base that was retrieved from the server
+   */
+  const createBasesBtns = () => {
+    let basesBtns: ReactNode[] = [];
 
-    const frappeMilk = milks.find((item) => { return item.id === frappe.frappe.milk; });
-    if (frappeMilk) {
-      buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{frappeMilk.name}</div>);
-    }
+    bases.forEach((base) => {
+      basesBtns.push(
+        <label>
+            <input className='hide-radio' type='radio' name={base.name} value={base.id} checked={ currentFrappe.frappe.base === base.id } onChange={(e) => handleBaseChange(e)} />
+            <div className='customize-drink-selection-btn'>{base.name.toUpperCase()}</div>
+        </label>
+      );
+    });
 
-    const frappeBase = bases.find((item) => { return item.id === frappe.frappe.base; });
-    if (frappeBase) {
-      buttons.push(<div className='customization-button' onClick={handleCustomizeDrink}>{frappeBase.name}</div>);
-    }
+    return basesBtns;
+  }
 
-    frappe.frappe.extras.forEach((extra) => {
-      let extraObj = TestExtras.find((item) => item.id === extra.extras);
+  /**
+   * @brief Handles updating the frappes current base choice
+   * @param e The event that triggered the change
+   */
+  const handleBaseChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentFrappe((prevState) => {
+      prevState.frappe.base = parseInt(e.target.value);
 
-      buttons.push(
-        <div className='row customization-button'>
-          <div className='delete-btn' onClick={() => handleDeleteAddin(extra.extras)}>X</div>
-          <div className='customization-amounts' onClick={handleCustomizeDrink}>{extra.amount}x {extraObj ? extraObj.name : "ERROR"}</div>
+      return({...prevState});
+    })
+  }
+
+  /**
+   * @brief Creates a list of radio buttons, one for each milk that was retrieved from the server
+   * @returns A list of buttons, one for each milk that was retrieved from the server
+   */
+  const createMilkBtns = () => {
+    let milkBtns: ReactNode[] = [];
+
+    milks.forEach((milk) => {
+      milkBtns.push(
+        <label>
+            <input className='hide-radio' type='radio' name={milk.name} value={milk.id} checked={ currentFrappe.frappe.milk === milk.id } onChange={(e) => handleMilkChange(e)} />
+            <div className='customize-drink-selection-btn'>{milk.name.toUpperCase()}</div>
+        </label>
+      );
+    });
+
+    return milkBtns;
+  }
+
+  /**
+   * @brief Handles updating the frappes current milk choice
+   * @param e The event that triggered the change
+   */
+  const handleMilkChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentFrappe((prevState) => {
+      prevState.frappe.milk = parseInt(e.target.value);
+
+      return({...prevState});
+    })
+  }
+
+  /**
+   * @brief Creates a view for every extra that was retrieved from the server
+   * @returns A list of views, one for every extra that was retrieved from the server
+   */
+  const createExtrasViews = () => {
+    let extrasBtns: ReactNode[] = [];
+
+    extras.forEach((extra) => {
+      // Check and see if the currentFrappe currently has this extra in the drink
+      let item = currentFrappe.frappe.extras.find((item) => item.extras === extra.id);
+
+      extrasBtns.push(
+        <div className='customize-drink-extra-item'>
+          <div>{extra.name}</div>
+          <div className='customize-drink-extra-btns-container'>
+            <div 
+              className='customize-drink-reduce-increment-extra-btn circle'
+              onClick={() => {handleDecrementExtra(extra.id)}}
+            >
+              -
+            </div>
+            <div>{item ? item.amount : 0}</div>
+            <div 
+              className='customize-drink-reduce-increment-extra-btn circle'
+              onClick={() => {handleAddExtra(extra.id)}}
+            >
+              +
+            </div>
+          </div>
         </div>
       );
     })
 
-    return buttons
+    return extrasBtns;
   }
 
+  /**
+   * @brief Handles adding an extra to the drink. This takes into account whether
+   * the item already exists in the drinks current customizations or not
+   * @param extraId The ID of the extra
+   */
+  const handleAddExtra = (extraId: number) => {
+    let idx = currentFrappe.frappe.extras.findIndex((item) => item.extras === extraId);
+
+    if (idx > -1) {
+      setCurrentFrappe((prevState) => {
+        prevState.frappe.extras[idx].amount += 1;
+
+        return({...prevState});
+      });
+    }
+
+    else {
+      setCurrentFrappe((prevState) => {
+        let extra: FrappeExtra = {
+          amount: 1,
+          extras: extraId,
+          frappe: prevState.frappe.id,
+        };
+
+        prevState.frappe.extras.push(extra);
+
+        return({...prevState});
+      });
+    }
+  }
+
+  /**
+   * @brief Handles decrementing of an extra. If the extra is not already part of
+   * their current customizations, nothing happens. If they decrement the extra to 0
+   * then the extra is removed from the drinks extra list
+   * @param extraId The ID of the extra
+   */
+  const handleDecrementExtra = (extraId: number) => {
+    let idx = currentFrappe.frappe.extras.findIndex((item) => item.extras === extraId);
+
+    if (idx > -1) {
+      // Completely remove the item from the frappe if there is only 1 and then want to decrement
+      if (currentFrappe.frappe.extras[idx].amount <= 1) {
+        setCurrentFrappe((prevState) => {
+          prevState.frappe.extras.splice(idx, 1);
+
+          return({...prevState});
+        });
+      }
+      else {
+        setCurrentFrappe((prevState) => {
+          prevState.frappe.extras[idx].amount -= 1;
+
+          return({...prevState});
+        });
+      }
+    }
+  }
+
+  /**
+   * @brief Generates a list of all the current customizations a user has for their frappe
+   * so that they can easily see what's currently going to be in the drink
+   *
+   * @returns A list of <li>'s of all the current customizations of their frappe
+   */
   const generateCustomizationList = () => {
     let listItems: ReactNode[] = [];
 
-    const frappeMilk = milks.find((item) => { return item.id === frappe.frappe.milk; });
+    const frappeMilk = milks.find((item) => { return item.id === currentFrappe.frappe.milk; });
     if (frappeMilk) {
+      // Milk id will likely be the same as base id or an extras id. Just set it to something large so that it's 'unique-ish'
       listItems.push(<li key={10000}>{frappeMilk.name}</li>);
     }
 
-    const frappeBase = bases.find((item) => { return item.id === frappe.frappe.base; });
+    const frappeBase = bases.find((item) => { return item.id === currentFrappe.frappe.base; });
     if (frappeBase) {
+      // Base id will likely be the same as milk id or an extras id. Just set it to something large so that it's 'unique-ish'
       listItems.push(<li key={10001}>{frappeBase.name}</li>)
     }
 
-    frappe.frappe.extras.map((extra) => {
+    currentFrappe.frappe.extras.map((extra) => {
       const frappeExtra = extras.find((item) => { return item.id === extra.extras; });
 
       if (frappeExtra) {
-        const extraStr = extra.amount + " " + frappeExtra.name;
+        const extraStr = extra.amount + "x " + frappeExtra.name;
+        
+        // These guys get ownership of the actual id's (1-11 or whatever). Why? Because extras are better I guess
         listItems.push(<li key={extra.extras}>{extraStr}</li>);
       }
     })
@@ -140,87 +287,96 @@ export default function CustomizeDrink({setCart}: Props) {
     return listItems;
   }
 
-  function handleCustomizeDrink() {
-    setModalIsOpen(true);
-  }
-
-  function handleDeleteAddin(addin: number) {
-    alert("User wants to delete " + addin);
-    return;
-  }
-
+  /**
+   * @brief Navigates back to the menu and discards current drink changes
+   */
   function handleBackBtn() {
-    alert("Back button clicked, frappe not added to cart");
     navigate("/menu");
   }
 
+  /**
+   * @brief Adds a new drink to the cart
+   */
   function handleAddToCart() {
-    // let customizations: string[] = [];
-    // customizations.push(frappeContents.base);
-
-    // for (const [key, value] of Object.entries(frappeContents.addins)) {
-    //   let str = value.toString() + " " + key;
-    //   customizations.push(str);
-    // }
-    // alert("frappe added to cart with " + customizations);
-    setCart((oldState) => [...oldState, frappe]);
-    console.log("the cart is now");
+    setCart((oldState) => [...oldState, currentFrappe]);
     console.log(cart);
     navigate("/menu");
   }
 
   return (
-    <div className='customizeDrink-container'>
-      <div className='drink-details'>
-        <DrinkCard frappe={frappe}/>
-        <div className='customization-list'>
-          CUSTUMIZATIONS
-          <ul>
+    <div className='customize-drink-container'>
+      <div className='customize-drink-details'>
+        <DrinkCard frappe={currentFrappe} />
+        <div className='customize-drink-current-customizations'>
+          YOUR CUSTOMIZATIONS
+          <ul className='customize-drink-current-customizations-list'>
             {generateCustomizationList()}
           </ul>
         </div>
       </div>
-      <div className='customization-selection'>
-        <div className='size-options'>
-          <div className='column white'>
-            <div>SMALL</div>
-            <input type='radio' name='small' value='1' checked={frappe.frappe.size === 1} onChange={(e) => sizeChange(e)} />
-          </div>
-          <div className='column white'>
-            <div>MEDIUM</div>
-            <input type='radio' name='medium' value='2' checked={frappe.frappe.size === 2} onChange={(e) => sizeChange(e)} />
-          </div>
-          <div className='column white'>
-            <div>LARGE</div>
-            <input type='radio' name='large' value='3' checked={frappe.frappe.size === 3} onChange={(e) => sizeChange(e)} />
+      <div className='customize-drink-customizations-container'>
+        CUSTOMIZE YOUR SIZE
+        <div className='customize-drink-size-options'>
+          <label>
+            <input className='hide-radio' type='radio' name='small' value='small' checked={ currentFrappe.frappe.size === SizeOptions.Small } onChange={(e) => handleSizeChange(e)} />
+            <img className='customize-drink-img-sm circle' src={ require('../images/small-frappe.png') } alt='size small' />
+          </label>
+          <label>
+            <input className='hide-radio' type='radio' name='medium' value='medium' checked={ currentFrappe.frappe.size === SizeOptions.Medium } onChange={(e) => handleSizeChange(e)} />
+            <img className='customize-drink-img-sm circle' src={ require('../images/medium-frappe.png') } alt='size medium' />
+          </label>
+          <label>
+            <input className='hide-radio' type='radio' name='large' value='large' checked={ currentFrappe.frappe.size === SizeOptions.Large } onChange={(e) => handleSizeChange(e)} />
+            <img className='customize-drink-img-sm circle' src={ require('../images/large-frappe.png') } alt='size large' />
+          </label>
+        </div>
+        <div className='customize-drink-bases-container'>
+          CHOOSE YOUR MILK
+          <div className='customize-drink-bases-options'>
+            {createMilkBtns()}
           </div>
         </div>
-        <div className='current-customizations white'>
-          <div className='large'>CUSTOMIZATIONS</div>
-          <div>{createCustomizationButtons()}</div>
+        <div className='customize-drink-bases-container'>
+          CHOOSE YOUR BASE
+          <div className='customize-drink-bases-options'>
+            {createBasesBtns()}
+          </div>
         </div>
-        <div className='decision-btns'>
-          <div className='back-btn' onClick={handleBackBtn}>BACK</div>
-          <div className='add-to-cart-btn' onClick={handleAddToCart}>ADD TO CART</div>
+        <div className='customize-drink-extras-container'>
+          CHOOSE YOUR EXTRAS
+          <div>
+            <div className='customize-drink-extras-options'>
+              {createExtrasViews()}
+            </div>
+          </div>
         </div>
+        {!isNewDrink &&
+          <div className='customize-drink-center'>
+            <div
+              className='customize-drink-nav-btn customize-drink-lgreen'
+              onClick={() => {navigate("/cart")}}
+            >
+              BACK TO CART
+            </div>
+          </div>
+        }
+        {isNewDrink &&
+          <div className='customize-drink-nav-btns'>
+            <div
+              className='customize-drink-nav-btn'
+              onClick={handleBackBtn}
+            >
+              BACK
+            </div>
+            <div
+              className='customize-drink-nav-btn customize-drink-lgreen'
+              onClick={handleAddToCart}
+            >
+              ADD TO CART
+            </div>
+          </div>
+        }
       </div>
-      <Modal 
-        isOpen={modalIsOpen}
-        style={
-          {
-            content: {
-              marginTop: '100px',
-              marginBottom: '100px',
-              marginLeft: '20%',
-              marginRight: '20%',
-              padding: '0',
-              border: '2px solid black',
-              backgroundColor: '#10603B',
-            },
-          }
-        }>
-        <DrinkCustomizationModal setModalIsOpen={setModalIsOpen} bases={bases} milks={milks} extras={extras} frappe={frappe} />
-      </Modal>
     </div>
   );
 }
