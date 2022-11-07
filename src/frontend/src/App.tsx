@@ -20,6 +20,7 @@ import { AuthProvider } from './components/auth';
 import CustomerRoutes from './components/CustomerRoutes';
 import EmployeeRoutes from './components/EmployeeRoutes';
 import ManagerRoutes from './components/ManagerRoutes';
+import ManagerEditInventory from './pages/ManagerEditInventory';
 
 function App() {
   const [pages, setPages] = useState([
@@ -62,7 +63,7 @@ function App() {
             <Route path="/new-user" element={<NewUser />} />
 
             <Route element={<CustomerRoutes />}>
-              <Route path="/home-page" element={<Home />} />
+              <Route path="/home-page" element={<Home authKey={authKey} />} />
               <Route path="/order-status" element={<OrderStatus />} />
               <Route
                 path="/menu"
@@ -80,7 +81,7 @@ function App() {
                 path="/cart"
                 element={<Cart cart={cart} setCart={setCart} />}
               />
-              <Route path="/account" element={<Account authKey={authKey} />} />
+              <Route path="/account" element={<Account />} />
               <Route element={<EmployeeRoutes />}>
                 <Route path="/queue" element={<Queue />} />
                 <Route element={<ManagerRoutes />}>
@@ -89,6 +90,10 @@ function App() {
                     element={<ManagerEditAccounts />}
                   />
                   <Route path="/edit-menu" element={<ManagerEditMenu />} />
+                  <Route
+                    path="/edit-inventory"
+                    element={<ManagerEditInventory />}
+                  />
                 </Route>
               </Route>
             </Route>

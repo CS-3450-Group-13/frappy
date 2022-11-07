@@ -59,6 +59,7 @@ export default function Login({ setPages, user, setUser }: Props) {
             .then((response) => response.json())
             .then((CurrentUserdata) => {
               console.log(CurrentUserdata);
+              console.log('k');
               const USERID = CurrentUserdata.id;
               const FIRSTNAME = CurrentUserdata.first_name;
               const LASTNAME = ' ' + CurrentUserdata.last_name;
@@ -72,10 +73,12 @@ export default function Login({ setPages, user, setUser }: Props) {
               })
                 .then((response) => response.json())
                 .then((data) => {
+                  console.log(data);
                   for (let i = 0; i < data.length; i++) {
                     if (data[i].user == USERID) {
-                      console.log(data[i]);
                       HOURS = Number(data[i].hours);
+                      console.log(data[i].is_manager);
+                      console.log('kdsjaopfhsdogsdg');
                       if (data[i].is_manager) {
                         role = 'manager';
                       } else {
@@ -87,7 +90,8 @@ export default function Login({ setPages, user, setUser }: Props) {
                     case 'customer':
                       navigate('/home-page');
                       auth?.loginAs(
-                        FIRSTNAME + LASTNAME,
+                        USERID,
+                        FIRSTNAME + ' ' + LASTNAME,
                         'username',
                         input.email,
                         input.password,
@@ -122,6 +126,7 @@ export default function Login({ setPages, user, setUser }: Props) {
                     case 'employee':
                       navigate('/home-page');
                       auth?.loginAs(
+                        USERID,
                         FIRSTNAME + LASTNAME,
                         'username',
                         input.email,
@@ -161,6 +166,7 @@ export default function Login({ setPages, user, setUser }: Props) {
                     case 'manager':
                       navigate('/home-page');
                       auth?.loginAs(
+                        USERID,
                         FIRSTNAME + LASTNAME,
                         'username',
                         input.email,
@@ -202,6 +208,10 @@ export default function Login({ setPages, user, setUser }: Props) {
                         {
                           title: 'Edit Menu',
                           path: '/edit-menu',
+                        },
+                        {
+                          title: 'Edit Inventory',
+                          path: '/edit-inventory',
                         },
                       ]);
                       break;

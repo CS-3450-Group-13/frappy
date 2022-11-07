@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import test from '../images/test.png';
 import Frappe from '../images/Frappe.jpg';
 import '../css/Home.css';
@@ -6,7 +6,11 @@ import ScrollableList from '../components/ScrollableList';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/auth';
 
-interface User {
+interface Props {
+  authKey: string;
+}
+
+interface User2 {
   fullName: string;
   userName: string;
   eMail: string;
@@ -14,6 +18,17 @@ interface User {
   balance: number;
   favoriteDrink: string;
   orderHistory: Order[];
+}
+
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  userName: string;
+  eMail: string;
+  balance: number;
+  accountType: string;
+  hours: number;
 }
 
 interface Order {
@@ -37,7 +52,7 @@ interface PropsOrder {
   order: Order;
 }
 
-const DEMO_USER: User = {
+const DEMO_USER: User2 = {
   fullName: 'Glorgo Glumbus',
   userName: 'GlorGlu',
   eMail: 'glorglugaming@gmail.com',
@@ -252,8 +267,9 @@ const DEMO_USER: User = {
   ],
 };
 
-export default function Home() {
+export default function Home(props: Props) {
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   const auth = useAuth();
 
@@ -261,6 +277,7 @@ export default function Home() {
     var USER = auth.userInfo;
   } else {
     var USER = {
+      id: -1,
       fullName: '',
       userName: '',
       email: '',
@@ -272,23 +289,64 @@ export default function Home() {
     };
   }
 
+  function payAll() {
+    fetch('http://127.0.0.1:8000/users/employees/pay_all/', {
+      headers: { Authorization: `Token ${USER.key}` },
+      credentials: 'same-origin',
+    }).then((response) => {
+      if (response.status === 200) {
+        response.json().then((data) => {
+          if (data.fail) {
+            const response = window.confirm(
+              `Insufficient Store Balance. Would You Like to Take Out a Loan for ${
+                Number.parseFloat(data.wages_total) -
+                Number.parseFloat(data.remainging_balance)
+              }?`
+            );
+            if (response) {
+              // Do Things
+            }
+          } else {
+            alert('Employees Paid Successfully');
+            // Relog
+          }
+        });
+      } else {
+        alert('Server Error: Try Again Later');
+      }
+    });
+  }
+
   return (
     <div className="home-container">
       <div className="header">
-        <div className="home-title">Welcome Back {DEMO_USER.fullName}!</div>
+        <div className="home-title">Welcome Back {USER.fullName}!</div>
         <div className="profile-picture">
           <img src={test} alt="test" width="110em" height="110em" />
         </div>
       </div>
       <div className="fast-nav-buttons">
-        <div
-          className="button favorite-button"
-          onClick={() => {
-            navigate('/menu');
-          }}
-        >
-          Order Favorite Drink
-        </div>
+        {USER.role === 'user' ||
+          (USER.role === 'employee' && (
+            <div
+              className="button favorite-button"
+              onClick={() => {
+                navigate('/menu');
+              }}
+            >
+              Order Favorite Drink
+            </div>
+          ))}
+        {USER.role === 'manager' && (
+          <div
+            className="button favorite-button"
+            onClick={() => {
+              payAll();
+            }}
+          >
+            Pay All Employees
+          </div>
+        )}
         <div
           className="button order-button"
           onClick={() => {
@@ -311,10 +369,15 @@ export default function Home() {
           <DetailCard
             title="Balance"
             // eslint-disable-next-line
-            value={`\$${DEMO_USER.balance.toFixed(2)}`}
+            value={USER.balance > 0 ? `\$${USER.balance.toFixed(2)}` : '$0.00'}
           />
           <DetailCard title="Favorite Drink" value={DEMO_USER.favoriteDrink} />
-          <DetailCard title="Total Spent" value="$100.00" />
+          <DetailCard
+            title="Tab"
+            value={
+              USER.balance < 0 ? `\$${(-1 * USER.balance).toFixed(2)}` : '$0.00'
+            }
+          />
         </ScrollableList>
         <ScrollableList title="Order History" width="65%">
           {DEMO_USER.orderHistory.map((orderInstance) => (
