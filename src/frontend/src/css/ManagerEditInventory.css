@@ -1,0 +1,326 @@
+@import url('Global.css');
+
+::-webkit-scrollbar {
+    display: none;
+}
+
+
+.edit-inventory-container {
+    height: 100%;
+    margin-left: 15%;
+    color: white;
+}
+
+.edit-inventory-container h2 {
+    margin-top: 20px;
+    margin-left: 10%;
+    text-align: left;
+}
+
+.inventory-table-wrapper {
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
+    padding: 5px;
+
+}
+
+.inventory-table {
+    background-color: var(--frappy-dgreen);
+    width: 80%;
+    padding: 5px;
+}
+
+.inventory-table .first-row {
+    background-color: var(--frappy-dgreen);
+    height: 30px;
+}
+
+
+
+.inventory-table tr {
+    background-color: var(--frappy-l-lgreen);
+    height: 60px;
+    text-align: left;
+
+}
+
+.inventory-table tr td {
+    padding-left: 1em;
+}
+
+
+.inventory-table tr:nth-child(even) {
+    background-color: var(--frappy-lgreen);
+
+}
+
+.inventory-btn {
+    border: none;
+    border-radius: 4px;
+    margin-right: 8px;
+    padding: 4px 8px 4px 8px;
+}
+
+.inventory-btn:hover {
+    cursor: pointer;
+}
+
+.inventory-edit-btn {
+    background-color: var(--frappy-orange);
+}
+
+.inventory-edit-btn:hover {
+    background-color: orange;
+}
+
+.inventory-delete-btn {
+    background-color: var(--frappy-red);
+}
+
+.inventory-delete-btn:hover {
+    background-color: lightcoral;
+}
+
+.action-btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+}
+
+.inventory-save-btn {
+    background-color: var(--frappy-dgreen);
+}
+
+.inventory-save-btn:hover {
+    background-color: rgb(14, 121, 0);
+}
+
+.inventory-cancel-btn {
+    background-color: var(--frappy-red);
+}
+
+.inventory-cancel-btn:hover {
+    background-color: lightcoral;
+}
+
+.inventory-restore-btn {
+    background-color: var(--frappy-white);
+    color: var(--frappy-dgreen);
+}
+
+.inventory-restore-btn:hover {
+    background-color: var(--frappy-gray);
+}
+
+.inventory-x {
+    margin-right: auto;
+}
+.cell-container {
+    display: flex;
+    align-items: center;
+
+}
+
+.status-display {
+    margin-right: auto;
+    font-weight: 900;
+}
+
+.inventory-red {
+    color: darkred;
+}
+
+.inventory-green {
+    color: rgb(5, 26, 5);
+}
+
+input {
+    background-color: var(--frappy-white);
+    border: none;
+    border-radius: 4px;
+    padding: 4px;
+    display: flex;
+    width: fit-content;
+}
+.inventory-price-container {
+    display: flex;
+    justify-content: flex-start;
+    font-weight: 600;
+    font-size: 1em;
+    border-radius: 0.3em;
+    margin-bottom: 0.1em;
+    margin-bottom: 0.1em;
+}
+.inventory-dollar {
+    background-color: fvar(--frappy-white);
+    border-radius: 0.3em 0 0 0.3em;
+    color: black;
+    padding: 4px;
+    border-right: 1px solid grey;
+}
+
+.inventory-price-input {
+    background-color: var(--frappy-white);
+    color: black;
+    border-radius:0 0.3em 0.3em 0;
+    border: none;
+    width: 50%;
+    text-align: right;
+    font-size: 1em;
+    padding-left: 8px;
+}
+
+.loader {
+    width: auto;
+    height: 100%;
+    aspect-ratio : 1 / 1;
+}
+
+.loader {
+    border: 8px solid var(--frappy-white);
+    border-top: 8px solid var(--frappy-dgray);
+    border-radius: 50%;
+    width: 10%;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  
+
+.inventory-loader-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: auto;
+}
+
+.inventory-last-row {
+    background-color: var(--frappy-dgreen) !important;
+}
+
+.inventory-create-btn {
+    background-color: var(--frappy-orange);
+    display: flex;
+    width: fit-content;
+}
+
+
+
+
+.item-modal-container {
+    background-color: var(--frappy-background);
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.item-modal-container h1 {
+    color: var(--frappy-l-lgreen);
+    font-size: 3em;
+    font-weight: 900;
+    margin-top: 0.5em;
+    margin-left: 5%;
+    text-decoration: underline;
+}
+
+.item-modal-container > h2 {
+    font-size: 2em;
+    color: var(--frappy-white);
+    font-weight: 600;
+    margin-left: 1em;
+    margin-top: 1em;
+}
+
+.item-modal-container > input {
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    font-size: 3em;
+    border-radius: 0.2em;
+}
+
+.inventory-modal-btns {
+    display: flex;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-top: 2em !important;
+    font-size: 2em;
+    color: var(--frappy-white);
+}
+
+.inventory-accept-btn {
+    background-color: var(--frappy-lgreen);
+    font-size: 1em;
+    margin-left: auto;
+}
+
+.inventory-accept-btn:hover {
+    background-color: var(--frappy-l-lgreen);
+}
+
+.inventory-decline-btn {
+    background-color: var(--frappy-red);
+}
+
+.inventory-decline-btn:hover {
+    background-color: lightcoral;
+}
+
+.modal-price-container {
+    display: flex;
+    justify-content: flex-start;
+    font-weight: 600;
+    font-size: 3em !important;
+    border-radius: 0.3em;
+    margin-bottom: 0.1em;
+    margin-bottom: 0.1em;
+    width: 90%;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.modal-price-container > input {
+    font-size: 1em;
+    width: 100% !important;
+    border-radius: 0em 0.2em 0.2em 0em;
+}
+.modal-dollar {
+    background-color: var(--frappy-white) !important;
+    border-radius: 0.2em 0 0 0.2em;
+    color: black;
+    padding: 4px;
+    border-right: 1px solid grey;
+}
+
+.modal-loader {
+    width: 100%;
+    aspect-ratio : 1 / 1;
+    align-self: center;
+    margin-top: 0.5em;
+}
+
+.modal-loader {
+    border: 8px solid var(--frappy-white);
+    border-top: 8px solid var(--frappy-dgray);
+    border-radius: 50%;
+    width: 10%;
+    animation: spin 2s linear infinite;
+  }
+
+  .modal-status {
+    margin-bottom: -1.33333em;
+    font-size: 3em;
+    align-self: flex-end;
+    margin-right: 5%;
+  }
+
+  .inventory-green2 {
+    color: var(--frappy-lgreen); 
+  }

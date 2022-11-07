@@ -1,20 +1,42 @@
 import React, { ChangeEvent, useState } from 'react';
 import '../css/HoursModal.css';
+import { useAuth } from '../components/auth';
 
 interface Props {
   setModalIsOpen: (modalIsOpen: boolean) => void;
-  currentHours: number;
+  currentHours: number | undefined;
 }
 
 export default function HoursModal(props: Props) {
   const [startTime, setStartTime] = useState(0);
   const [stopTime, setStopTime] = useState(0);
+  const [errorMessage, setErrorMessage] = useState('');
+
+  const auth = useAuth();
+  let user = auth?.userInfo;
 
   function handleConfirm() {
-    props.setModalIsOpen(false);
+    if (stopTime > startTime) {
+      fetch(`http://127.0.0.1/8000/users/users/add_balance/?balance=$100`, {
+        headers: { Authorization: `Token ${user?.key}` },
+        credentials: 'same-origin',
+      })
+        .then((response) => {
+          console.log(response);
+          console.log(response.status);
+          if (response.status === 200) {
+            setErrorMessage('');
+            props.setModalIsOpen(false);
+          } else {
+            setErrorMessage('Server Error: Please Try Again Later');
+          }
+        })
+        .catch(() => setErrorMessage('Server Error: Please Try Again Later'));
+    }
   }
 
   function handleCancel() {
+    setErrorMessage('');
     props.setModalIsOpen(false);
   }
 
@@ -60,6 +82,9 @@ export default function HoursModal(props: Props) {
           )}
         </div>
       </div>
+      {errorMessage !== '' && (
+        <div className="red  hours-error-div">{errorMessage}</div>
+      )}
       <div className="hours-buttons">
         <div className="hours-button cancel" onClick={handleCancel}>
           Cancel
