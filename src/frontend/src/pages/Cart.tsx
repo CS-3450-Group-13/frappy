@@ -25,10 +25,7 @@ export default function Cart({cart, setCart}: Props) {
    * @returns Nothing
    */
   const removeItemFromCart = (idx: number): MouseEventHandler<HTMLDivElement> | undefined => {
-    // Do something with setCart here
-    let tmp = cart;
-    tmp.splice(idx, 1);
-    setCart(tmp);
+    setCart(cart.filter((item, index) => { return index != idx; }));
     return;
   }
 
@@ -79,7 +76,7 @@ export default function Cart({cart, setCart}: Props) {
   }
 
   /**
-   * Callback for handling when the user wants to place their order
+   * @brief Callback for handling when the user wants to place their order
    */
   const handlePlaceOrder = () => {
     alert('Customer wants to place their order');
@@ -110,7 +107,7 @@ export default function Cart({cart, setCart}: Props) {
           <div className='cart-place-order-btn'
             onClick={() => {handlePlaceOrder()}}
           >
-            PLACE ORDER
+            CHECKOUT
           </div>
         </div>
       </div>

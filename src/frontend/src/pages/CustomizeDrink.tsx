@@ -279,7 +279,7 @@ export default function CustomizeDrink({setCart}: Props) {
       if (frappeExtra) {
         const extraStr = extra.amount + "x " + frappeExtra.name;
         
-        // These guys get ownership of the actual id's (1-11 or whatever). Why? Because extras are better I guess
+        // These guys get ownership of the actual id's (1-12 or whatever). Why? Because extras are better I guess
         listItems.push(<li key={extra.extras}>{extraStr}</li>);
       }
     })
