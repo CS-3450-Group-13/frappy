@@ -26,7 +26,6 @@ class UserFrappeViewSet(ModelViewSet):
         print(serial.validated_data)
         user: User = self.request.user
         manager: user = Employee.objects.get(is_manager=True).user
-        print(manager)
         if cost < user.balance:
             serial.is_valid()
             self.perform_create(serial, cost)
