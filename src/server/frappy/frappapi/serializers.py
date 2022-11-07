@@ -32,7 +32,6 @@ class ExtraDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExtraDetail
         fields = ["amount", "extras", "frappe"]
-        depth = 1
 
 
 class FrappeSerializer(serializers.ModelSerializer):
@@ -68,7 +67,8 @@ class FrappeSerializer(serializers.ModelSerializer):
         exclude = ["creator"]
 
     def create(self, validated_data):
-        extras = validated_data.pop("extras")
+        print(validated_data)
+        extras = validated_data.pop("extradetail_set")
         frappe = Frappe.objects.create(**validated_data)
         for extra_data in extras:
             ExtraDetail.objects.create(frappe=frappe, **extra_data)
