@@ -50,7 +50,7 @@ class UserFrappeViewSet(ModelViewSet):
             )
 
     def perform_create(self, serializer: FrappeSerializer, cost):
-        
+
         serializer.save(
             creator=self.request.user, user=self.request.user, final_price=cost
         )
@@ -80,11 +80,12 @@ class UserFrappeViewSet(ModelViewSet):
 
 
 class CashierFrappeViewSet(UserFrappeViewSet):
-    permission_classes = [IsCashier|IsEmployee]
+    permission_classes = [IsCashier | IsEmployee]
     serializer_class = CashierFrappeSerializer
     queryset = Frappe.objects.all()
     filter_backends = [DjangoFilterBackend]
-    filterset_fields = ['status']
+    filterset_fields = ["status"]
+
     def perform_create(self, serializer, cost):
         serializer.save(
             creator=self.request.user,
@@ -96,7 +97,7 @@ class CashierFrappeViewSet(UserFrappeViewSet):
 class MenuViewSet(ModelViewSet):
     permission_classes = [IsManagerOrReadOnly]
     queryset = Menu.objects.all()
-    serializer_class = MenuSerializer()
+    serializer_class = MenuSerializer
 
 
 class ExtrasViewSet(ModelViewSet):
