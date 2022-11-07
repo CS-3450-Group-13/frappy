@@ -84,14 +84,14 @@ export default function Cart({cart, setCart}: Props) {
    */
   const handlePlaceOrder = () => {
 
+    // TODO: Wait to submit again until the previous is accepted if there is more than one drink
     cart.forEach((frappe) => {
-      // TODO add user
       let tmp = {
         user: "Deez nuts",
         milk: frappe.frappe.milk,
         base: frappe.frappe.base,
         extras: frappe.frappe.extras,
-        menu_key: 4,
+        menu_key: frappe.frappe.menu_key,
         size: frappe.frappe.size,
         comments: "for testing",
       };
@@ -103,8 +103,8 @@ export default function Cart({cart, setCart}: Props) {
         delete extra.frappe;
       });
 
-      console.log(tmp);
-      console.log(JSON.stringify(tmp));
+      // console.log(tmp);
+      // console.log(JSON.stringify(tmp));
 
       fetch('http://127.0.0.1:8000/frappapi/frappes/', {
         method: 'POST',
