@@ -63,18 +63,17 @@ class Frappe(models.Model):
         return f"{self.creator.email}@ {self.create_date} : {self.base}/{self.milk}/{self.extras}"
 
     def price(self, size=None):
-        if not size:
-            size = self.size
+
         # If no price is provided, use the default of the model
         return (
             sum(
                 [
-                    detail.extras.price_per_unit * round(detail.amount)
+                    round(detail.extras.price_per_unit * detail.amount, 2)
                     for detail in ExtraDetail.objects.filter(frappe=self)
                 ]
             )
-            + (self.base.price_per_unit * size)
-            + (self.milk.price_per_unit * size)
+            + (self.base.price_per_unit)
+            + (self.milk.price_per_unit)
         )
 
 
