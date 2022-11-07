@@ -27,9 +27,7 @@ class ExtraDetailSerializer(serializers.ModelSerializer):
     extras = serializers.PrimaryKeyRelatedField(
         required=True, queryset=Extras.objects.all()
     )
-    frappe = serializers.PrimaryKeyRelatedField(
-        required=True, queryset=Frappe.objects.all()
-    )
+    frappe = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = ExtraDetail
@@ -48,6 +46,9 @@ class FrappeSerializer(serializers.ModelSerializer):
     extras = ExtraDetailSerializer(source="extradetail_set", many=True, required=False)
     price = serializers.SerializerMethodField()
     final_price = serializers.ReadOnlyField()
+    menu_key = serializers.PrimaryKeyRelatedField(
+        required=True, queryset=Menu.objects.all()
+    )
     # Add on the fly price calulcations
     def get_price(self, obj):
         print(type(obj))
@@ -57,6 +58,7 @@ class FrappeSerializer(serializers.ModelSerializer):
                 pass
             total += obj["milk"].price_per_unit * obj["size"]
             total += obj["base"].price_per_unit * obj["size"]
+            total += obj["menu_key"].markup
             return total
         else:
             return Frappe.objects.get(id=obj.id).price()
@@ -65,20 +67,22 @@ class FrappeSerializer(serializers.ModelSerializer):
         model = Frappe
         exclude = ["creator"]
 
+    def create(self, validated_data):
+        extras = validated_data.pop("extras")
+        frappe = Frappe.objects.create(**validated_data)
+        for extra_data in extras:
+            ExtraDetail.objects.create(frappe=frappe, **extra_data)
+        return frappe
+
+
+class UserPKRF(serializers.PrimaryKeyRelatedField):
+    def display_value(self, instance):
+        return instance.email
+
 
 class CashierFrappeSerializer(FrappeSerializer):
     creator = serializers.ReadOnlyField(source="creator.email")
-    user = serializers.PrimaryKeyRelatedField(
-        required=True, queryset=User.objects.all()
-    )
-    milk = serializers.PrimaryKeyRelatedField(
-        required=True, queryset=Milk.objects.all()
-    )
-    base = serializers.PrimaryKeyRelatedField(
-        required=True, queryset=Base.objects.all()
-    )
-    extras = ExtraDetailSerializer(source="extradetail_set", many=True, required=False)
-    final_price = serializers.ReadOnlyField()
+    user = UserPKRF(required=True, queryset=User.objects.all())
 
     class Meta:
         model = Frappe
