@@ -26,7 +26,7 @@ export default function NewMenuItemModal({
       milk: '1',
       base: '1',
       extras: [],
-      size: '!',
+      size: '1',
     },
     photo: null,
   };
@@ -51,10 +51,6 @@ export default function NewMenuItemModal({
           });
         }
       }
-      formData.append('frappe[extras]', JSON.stringify(extrasList));
-      formData.append('frappe[milk]', milk.value);
-      formData.append('frappe[base]', base.value);
-      formData.append('frappe[size]', '1');
       let frappe = {
         milk: milk.value,
         base: base.value,
@@ -92,7 +88,6 @@ export default function NewMenuItemModal({
         content: {
           marginLeft: '10%',
           marginRight: '10%',
-          height: '300px',
           padding: '20px',
           borderRadius: '15px',
           backgroundColor: '#10603B',
@@ -108,7 +103,7 @@ export default function NewMenuItemModal({
             <label>Name: </label>
             <input id="new-name" type="text"></input>
             <label>Photo:</label>
-            <input id="photo" type="file" accept="image/*"></input>
+            <input id="photo" type="file"></input>
             <label>Base: </label>
             <select id="base">
               {bases?.map((item) => (

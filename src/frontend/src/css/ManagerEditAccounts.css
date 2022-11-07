@@ -167,3 +167,7 @@ background-color: lightcoral;
 .edit-decrease-btn:hover {
     background-color: var(--frappy-l-lgreen);
 }
+
+#photo {
+    background-color: var(--frappy-lgreen);
+}
