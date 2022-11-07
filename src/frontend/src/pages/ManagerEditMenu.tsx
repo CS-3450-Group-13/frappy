@@ -34,7 +34,6 @@ export default function ManagerEditMenu() {
           setBases((oldState) => [...oldState, item]);
         });
         console.log('Got bases: ', data);
-        console.log(bases);
       })
       .catch((err) => {
         console.log(err);
@@ -50,7 +49,6 @@ export default function ManagerEditMenu() {
           setMilks((oldState) => [...oldState, item]);
         });
         console.log('Got milks: ', data);
-        console.log(milks);
       })
       .catch((err) => {
         console.log(err);
@@ -66,7 +64,6 @@ export default function ManagerEditMenu() {
           setExtras((oldState) => [...oldState, item]);
         });
         console.log('data is ', data);
-        console.log(extras);
       })
       .catch((err) => {
         console.log(err);
@@ -81,7 +78,6 @@ export default function ManagerEditMenu() {
         data.forEach((item: MenuItem) => {
           setMenuItems((oldState) => [...oldState, item]);
         });
-        console.log(extras);
         setNewId(menuItems[menuItems.length - 1].frappe.id + 1);
         setCurrentFrappe(menuItems[0]);
       })

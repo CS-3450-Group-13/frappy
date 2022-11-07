@@ -38,11 +38,13 @@ const MockAccounts = [
 export default function ManagerEditAccounts() {
   const [editOpen, setEditOpen] = useState(false);
   const [currentPerson, setCurrentPerson] = useState({
+    id: 0,
     name: '',
     role: '',
   });
   const [accounts, setAccounts] = useState([
     {
+      id: 0,
       name: '',
       email: '',
       balance: '',
@@ -65,11 +67,23 @@ export default function ManagerEditAccounts() {
         console.log(data);
         let accountsData = [];
         for (let i = 0; i < data.length; i++) {
+          let Newrole = 'Customer';
+          if (data[i].employee !== null) {
+            let employee = data[i].employee;
+            if (employee.is_manager) {
+              Newrole = 'Manager';
+            } else if (employee.is_barista) {
+              Newrole = 'Barista';
+            } else if (employee.is_cashier) {
+              Newrole = 'Cashier';
+            }
+          }
           let newAccount = {
+            id: data[i].id,
             name: data[i].first_name + ' ' + data[i].last_name,
             email: data[i].email,
             balance: data[i].balance,
-            role: 'customer',
+            role: Newrole,
           };
           accountsData.push(newAccount);
         }
@@ -78,8 +92,9 @@ export default function ManagerEditAccounts() {
       });
   }, []);
 
-  function handleEditRole(name: string, role: string) {
+  function handleEditRole(id: number, name: string, role: string) {
     setCurrentPerson({
+      id: id,
       name: name,
       role: role,
     });
@@ -93,7 +108,7 @@ export default function ManagerEditAccounts() {
         {data.role}
         <button
           className="btn"
-          onClick={() => handleEditRole(data.name, data.role)}
+          onClick={() => handleEditRole(data.id, data.name, data.role)}
         >
           edit
         </button>

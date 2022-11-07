@@ -1,8 +1,10 @@
 import React from 'react';
 import Modal from 'react-modal';
+import { useAuth } from '../components/auth';
 import '../css/ManagerEditAccounts.css';
 
 interface Person {
+  id: number;
   name: string;
   role: string;
 }
@@ -18,6 +20,65 @@ export default function EditAccountRoleModal({
   setOpen,
   person,
 }: PropsType) {
+  const auth = useAuth();
+
+  const updateRole = () => {
+    var body = {
+      id: person.id,
+      user: person.id,
+      is_cashier: false,
+      is_barista: false,
+      is_manager: false,
+    };
+    let newRole = document.getElementById('new-role') as HTMLInputElement;
+    switch (newRole.value) {
+      case 'Customer':
+        break;
+      case 'Cashier':
+        body = {
+          id: person.id,
+          user: person.id,
+          is_cashier: true,
+          is_barista: false,
+          is_manager: false,
+        };
+        break;
+      case 'Barista':
+        body = {
+          id: person.id,
+          user: person.id,
+          is_cashier: false,
+          is_barista: true,
+          is_manager: false,
+        };
+        break;
+      case 'Manager':
+        body = {
+          id: person.id,
+          user: person.id,
+          is_cashier: true,
+          is_barista: true,
+          is_manager: true,
+        };
+        break;
+      default:
+        break;
+    }
+    console.log(body);
+    fetch('http://127.0.0.1:8000/users/employees/', {
+      method: 'POST',
+      headers: {
+        Authorization: `Token ${auth?.userInfo.key}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    })
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data);
+      });
+  };
+
   return (
     <Modal
       isOpen={open}
@@ -40,7 +101,7 @@ export default function EditAccountRoleModal({
         <h2>Current Role: {person.role}</h2>
         <div className="options-container">
           <h3>Change To: </h3>
-          <select>
+          <select id="new-role">
             <option>Customer</option>
             <option>Barista</option>
             <option>Cashier</option>
@@ -53,7 +114,10 @@ export default function EditAccountRoleModal({
           </button>
           <button
             className="accounts-update-btn"
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              updateRole();
+              setOpen(false);
+            }}
           >
             Update
           </button>
