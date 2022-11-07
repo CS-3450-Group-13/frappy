@@ -1,5 +1,5 @@
 import React, { MouseEventHandler } from 'react';
-import { Frappe, MenuItem } from '../types/Types';
+import { Frappe, MenuItem, SizeNames } from '../types/Types';
 
 import '../css/ItemCartDisplay.css';
 import { useNavigate } from 'react-router-dom';
@@ -18,15 +18,14 @@ export default function ItemCartDisplay({item, cart, removeItemFromCart, idx}: P
     navigate('/customize', {state:{
       drink: item,
       cart: cart,
-      // setCart: setCart,
-      // setCurrentFrappe: setCurrentFrappe,
+      isNewDrink: false,
     }});
   }
 
   return (
     <div className='item-cart-container'>
       <div className='item-cart-lhs'>
-        <div>{item.frappe.size} {item.name}</div>
+        <div>{SizeNames[item.frappe.size - 1]} {item.name}</div>
       </div>
       <div className='item-cart-rhs'>
         <div>${item.frappe.final_price.toFixed(2)}</div>

@@ -32,7 +32,6 @@ class ExtraDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = ExtraDetail
         fields = ["amount", "extras", "frappe"]
-        depth = 1
 
 
 class FrappeSerializer(serializers.ModelSerializer):
@@ -51,11 +50,14 @@ class FrappeSerializer(serializers.ModelSerializer):
     )
     # Add on the fly price calulcations
     def get_price(self, obj):
-        print(type(obj))
         if type(obj) == OrderedDict:
             total = 0
-            if obj.get("extras"):
-                pass
+            extras = obj.get("extradetail_set")
+
+            for ex in extras:
+                print(ex["extras"])
+                total += ex["amount"] * ex["extras"].price_per_unit
+
             total += obj["milk"].price_per_unit * obj["size"]
             total += obj["base"].price_per_unit * obj["size"]
             total += obj["menu_key"].markup
@@ -68,7 +70,8 @@ class FrappeSerializer(serializers.ModelSerializer):
         exclude = ["creator"]
 
     def create(self, validated_data):
-        extras = validated_data.pop("extras")
+        print(validated_data)
+        extras = validated_data.pop("extradetail_set")
         frappe = Frappe.objects.create(**validated_data)
         for extra_data in extras:
             ExtraDetail.objects.create(frappe=frappe, **extra_data)

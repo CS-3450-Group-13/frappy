@@ -4,6 +4,8 @@ import { Frappe, SizeOptions, MenuItem } from '../types/Types';
 import { TestBases, TestExtras, TestMilks } from '../tests/TestServerData';
 import '../css/Cart.css'
 import { useNavigate } from 'react-router-dom';
+import { FrappeExtra } from '../types/Types';
+import { useAuth } from '../components/auth';
 
 type Props = {
   cart: Array<MenuItem>;
@@ -14,6 +16,8 @@ export default function Cart({cart, setCart}: Props) {
   const [total, setTotal] = useState(0);
 
   const navigate = useNavigate();
+  const auth = useAuth();
+  let user = auth?.userInfo;
 
   useEffect(() => {
     setTotal(calculateTotal);
@@ -25,10 +29,7 @@ export default function Cart({cart, setCart}: Props) {
    * @returns Nothing
    */
   const removeItemFromCart = (idx: number): MouseEventHandler<HTMLDivElement> | undefined => {
-    // Do something with setCart here
-    let tmp = cart;
-    tmp.splice(idx, 1);
-    setCart(tmp);
+    setCart(cart.filter((item, index) => { return index != idx; }));
     return;
   }
 
@@ -79,10 +80,44 @@ export default function Cart({cart, setCart}: Props) {
   }
 
   /**
-   * Callback for handling when the user wants to place their order
+   * @brief Callback for handling when the user wants to place their order
    */
   const handlePlaceOrder = () => {
-    alert('Customer wants to place their order');
+
+    // TODO: Wait to submit again until the previous is accepted if there is more than one drink
+    cart.forEach((frappe) => {
+      let tmp = {
+        user: "Deez nuts",
+        milk: frappe.frappe.milk,
+        base: frappe.frappe.base,
+        extras: frappe.frappe.extras,
+        menu_key: frappe.frappe.menu_key,
+        size: frappe.frappe.size,
+        comments: "for testing",
+      };
+
+      // frappe.frappe.menu_key = 4;
+
+      // Server doesn't want the frappe key for each extra
+      tmp.extras.forEach((extra) => {
+        delete extra.frappe;
+      });
+
+      // console.log(tmp);
+      // console.log(JSON.stringify(tmp));
+
+      fetch('http://127.0.0.1:8000/frappapi/frappes/', {
+        method: 'POST',
+        headers: { Authorization: `Token ${user?.key}`, 'Content-Type': 'application/json' },
+        credentials: 'same-origin',
+        body: JSON.stringify(tmp),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('got response: ', data);
+      })
+      .catch((err) => console.log("got error: ", err))
+    });
   }
 
   return (
@@ -110,7 +145,7 @@ export default function Cart({cart, setCart}: Props) {
           <div className='cart-place-order-btn'
             onClick={() => {handlePlaceOrder()}}
           >
-            PLACE ORDER
+            CHECKOUT
           </div>
         </div>
       </div>
