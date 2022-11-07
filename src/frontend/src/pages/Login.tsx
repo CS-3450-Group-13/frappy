@@ -22,7 +22,6 @@ interface Props {
 
 export default function Login({ setPages, user, setUser }: Props) {
   const navigate = useNavigate();
-  const authToken = '050973b1cd5d3715cf49b25621255b0a3b48672a';
 
   const auth = useAuth();
 
@@ -59,157 +58,147 @@ export default function Login({ setPages, user, setUser }: Props) {
             .then((response) => response.json())
             .then((CurrentUserdata) => {
               console.log(CurrentUserdata);
+              console.log('k');
               const USERID = CurrentUserdata.id;
               const FIRSTNAME = CurrentUserdata.first_name;
               const LASTNAME = ' ' + CurrentUserdata.last_name;
               const BALANCE = Number(CurrentUserdata.balance);
-              fetch('http://127.0.0.1:8000/users/employees/', {
-                headers: {
-                  Authorization: `Token ${authToken}`,
-                  'Content-Type': 'application/json',
-                },
-                credentials: 'same-origin',
-              })
-                .then((response) => response.json())
-                .then((data) => {
-                  for (let i = 0; i < data.length; i++) {
-                    if (data[i].user == USERID) {
-                      console.log(data[i]);
-                      HOURS = Number(data[i].hours);
-                      if (data[i].is_manager) {
-                        role = 'manager';
-                      } else {
-                        role = 'employee';
-                      }
-                    }
-                  }
-                  switch (role) {
-                    case 'customer':
-                      navigate('/home-page');
-                      auth?.loginAs(
-                        FIRSTNAME + LASTNAME,
-                        'username',
-                        input.email,
-                        input.password,
-                        BALANCE,
-                        role,
-                        LoginData.key,
-                        HOURS
-                      );
-                      setPages([
-                        {
-                          title: 'Home',
-                          path: '/home-page',
-                        },
-                        {
-                          title: 'Order Status',
-                          path: '/order-status',
-                        },
-                        {
-                          title: 'Menu',
-                          path: '/menu',
-                        },
-                        {
-                          title: 'Account',
-                          path: '/account',
-                        },
-                        {
-                          title: 'Cart',
-                          path: '/cart',
-                        },
-                      ]);
-                      break;
-                    case 'employee':
-                      navigate('/home-page');
-                      auth?.loginAs(
-                        FIRSTNAME + LASTNAME,
-                        'username',
-                        input.email,
-                        input.password,
-                        BALANCE,
-                        role,
-                        LoginData.key,
-                        HOURS
-                      );
-                      setPages([
-                        {
-                          title: 'Home',
-                          path: '/home-page',
-                        },
-                        {
-                          title: 'Order Status',
-                          path: '/order-status',
-                        },
-                        {
-                          title: 'Menu',
-                          path: '/menu',
-                        },
-                        {
-                          title: 'Account',
-                          path: '/account',
-                        },
-                        {
-                          title: 'Cart',
-                          path: '/cart',
-                        },
-                        {
-                          title: 'Queue',
-                          path: '/queue',
-                        },
-                      ]);
-                      break;
-                    case 'manager':
-                      navigate('/home-page');
-                      auth?.loginAs(
-                        FIRSTNAME + LASTNAME,
-                        'username',
-                        input.email,
-                        input.password,
-                        BALANCE,
-                        role,
-                        LoginData.key,
-                        HOURS
-                      );
-                      setPages([
-                        {
-                          title: 'Home',
-                          path: '/home-page',
-                        },
-                        {
-                          title: 'Order Status',
-                          path: '/order-status',
-                        },
-                        {
-                          title: 'Menu',
-                          path: '/menu',
-                        },
-                        {
-                          title: 'Account',
-                          path: '/account',
-                        },
-                        {
-                          title: 'Cart',
-                          path: '/cart',
-                        },
-                        {
-                          title: 'Queue',
-                          path: '/queue',
-                        },
-                        {
-                          title: 'Edit Accounts',
-                          path: '/edit-accounts',
-                        },
-                        {
-                          title: 'Edit Menu',
-                          path: '/edit-menu',
-                        },
-                      ]);
-                      break;
-                    case 'none':
-                      console.error("can't login");
-                      break;
-                  }
-                });
+              if (CurrentUserdata.employee !== null) {
+                role = 'employee';
+                HOURS = Number(CurrentUserdata.employee.hours);
+                if (CurrentUserdata.employee.is_manager) {
+                  role = 'manager';
+                }
+              }
+              switch (role) {
+                case 'customer':
+                  navigate('/home-page');
+                  auth?.loginAs(
+                    USERID,
+                    FIRSTNAME + ' ' + LASTNAME,
+                    'username',
+                    input.email,
+                    input.password,
+                    BALANCE,
+                    role,
+                    LoginData.key,
+                    HOURS
+                  );
+                  setPages([
+                    {
+                      title: 'Home',
+                      path: '/home-page',
+                    },
+                    {
+                      title: 'Order Status',
+                      path: '/order-status',
+                    },
+                    {
+                      title: 'Menu',
+                      path: '/menu',
+                    },
+                    {
+                      title: 'Account',
+                      path: '/account',
+                    },
+                    {
+                      title: 'Cart',
+                      path: '/cart',
+                    },
+                  ]);
+                  break;
+                case 'employee':
+                  navigate('/home-page');
+                  auth?.loginAs(
+                    USERID,
+                    FIRSTNAME + LASTNAME,
+                    'username',
+                    input.email,
+                    input.password,
+                    BALANCE,
+                    role,
+                    LoginData.key,
+                    HOURS
+                  );
+                  setPages([
+                    {
+                      title: 'Home',
+                      path: '/home-page',
+                    },
+                    {
+                      title: 'Order Status',
+                      path: '/order-status',
+                    },
+                    {
+                      title: 'Menu',
+                      path: '/menu',
+                    },
+                    {
+                      title: 'Account',
+                      path: '/account',
+                    },
+                    {
+                      title: 'Cart',
+                      path: '/cart',
+                    },
+                    {
+                      title: 'Queue',
+                      path: '/queue',
+                    },
+                  ]);
+                  break;
+                case 'manager':
+                  navigate('/home-page');
+                  auth?.loginAs(
+                    USERID,
+                    FIRSTNAME + LASTNAME,
+                    'username',
+                    input.email,
+                    input.password,
+                    BALANCE,
+                    role,
+                    LoginData.key,
+                    HOURS
+                  );
+                  setPages([
+                    {
+                      title: 'Home',
+                      path: '/home-page',
+                    },
+                    {
+                      title: 'Order Status',
+                      path: '/order-status',
+                    },
+                    {
+                      title: 'Menu',
+                      path: '/menu',
+                    },
+                    {
+                      title: 'Account',
+                      path: '/account',
+                    },
+                    {
+                      title: 'Cart',
+                      path: '/cart',
+                    },
+                    {
+                      title: 'Queue',
+                      path: '/queue',
+                    },
+                    {
+                      title: 'Edit Accounts',
+                      path: '/edit-accounts',
+                    },
+                    {
+                      title: 'Edit Menu',
+                      path: '/edit-menu',
+                    },
+                  ]);
+                  break;
+                case 'none':
+                  console.error("can't login");
+                  break;
+              }
             });
         } else {
           navigate('/new-user');

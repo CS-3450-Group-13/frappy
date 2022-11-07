@@ -23,6 +23,7 @@ export default function ManagerEditMenu() {
   const [bases, setBases] = useState<Base[]>([]);
   const [milks, setMilks] = useState<Milk[]>([]);
   const [extras, setExtras] = useState<Extra[]>([]);
+  const [newId, setNewId] = useState(0);
 
   useEffect(() => {
     fetch('http://127.0.0.1:8000/frappapi/bases/')
@@ -81,6 +82,7 @@ export default function ManagerEditMenu() {
           setMenuItems((oldState) => [...oldState, item]);
         });
         console.log(extras);
+        setNewId(menuItems[menuItems.length - 1].frappe.id + 1);
         setCurrentFrappe(menuItems[0]);
       })
       .catch((err) => {
@@ -163,7 +165,7 @@ export default function ManagerEditMenu() {
         bases={bases}
         milks={milks}
         extras={extras}
-        newId={menuItems[menuItems.length - 1].frappe.id}
+        newId={newId}
       ></NewMenuItemModal>
     </div>
   );

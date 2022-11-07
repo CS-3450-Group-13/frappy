@@ -21,59 +21,60 @@ export default function NewMenuItemModal({
   newId,
 }: PropsType) {
   let newFrappyBody = {
-    name: '',
+    name: 'Test',
     frappe: {
-      milk: 0,
-      base: 0,
+      milk: '1',
+      base: '1',
       extras: [],
-      size: 1,
+      size: '!',
     },
     photo: null,
   };
 
   const postData = () => {
     if (extras !== undefined) {
+      let formData = new FormData();
       let newName = document.getElementById('new-name') as HTMLInputElement;
       let base = document.getElementById('base') as HTMLInputElement;
       let milk = document.getElementById('milk') as HTMLInputElement;
       let photo = document.getElementById('photo') as HTMLInputElement;
-
-      if (photo.files !== null) {
-        var reader = new FileReader();
-        let photodata = reader.readAsBinaryString(photo.files[0]);
-        console.log(photodata);
-      }
-
+      let image_url = null;
+      formData.append('name', newName.value);
       let extrasList = [];
       for (let i = 0; i < extras.length; i++) {
         let temp = document.getElementById(extras[i].name) as HTMLInputElement;
         if (Number(temp.value) > 0) {
           extrasList.push({
-            amount: Number(temp.value),
+            amount: temp.value,
             extras: extras[i].id,
-            frappe: newId,
+            frappe: '1',
           });
         }
       }
-
+      formData.append('frappe[extras]', JSON.stringify(extrasList));
+      formData.append('frappe[milk]', milk.value);
+      formData.append('frappe[base]', base.value);
+      formData.append('frappe[size]', '1');
+      let frappe = {
+        milk: milk.value,
+        base: base.value,
+        extras: extrasList,
+        size: 1,
+      };
+      if (photo.files !== null) {
+        var file = photo.files[0];
+        image_url = URL.createObjectURL(file);
+        formData.append('photo', photo.files[0]);
+      }
       let newFrappyBody = {
         name: newName.value,
-        frappe: {
-          milk: Number(milk.value),
-          base: Number(base.value),
-          extras: extrasList,
-          size: 1,
-        },
-        photo: 'http://127.0.0.1:8000/uploads/product-placeholder.webp',
+        frappe: frappe,
+        photo: image_url,
       };
-      console.log(newFrappyBody);
-
+      console.log(formData);
       fetch('http://127.0.0.1:8000/frappapi/menu/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(newFrappyBody),
+        body: formData,
       })
         .then((response) => response.json())
         .then((Data) => {
@@ -103,11 +104,11 @@ export default function NewMenuItemModal({
       <div className="accounts-modal">
         <h1>Create New Menu Item</h1>
         <div className="edit-menu-container">
-          <form>
+          <form method="post" encType="multipart/form-data">
             <label>Name: </label>
             <input id="new-name" type="text"></input>
             <label>Photo:</label>
-            <input id="photo" type="file"></input>
+            <input id="photo" type="file" accept="image/*"></input>
             <label>Base: </label>
             <select id="base">
               {bases?.map((item) => (
