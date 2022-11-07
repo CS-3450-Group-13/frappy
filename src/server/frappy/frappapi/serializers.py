@@ -27,9 +27,7 @@ class ExtraDetailSerializer(serializers.ModelSerializer):
     extras = serializers.PrimaryKeyRelatedField(
         required=True, queryset=Extras.objects.all()
     )
-    frappe = serializers.PrimaryKeyRelatedField(
-        required=True, queryset=Frappe.objects.all()
-    )
+    frappe = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = ExtraDetail
@@ -68,6 +66,13 @@ class FrappeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Frappe
         exclude = ["creator"]
+
+    def create(self, validated_data):
+        extras = validated_data.pop("extras")
+        frappe = Frappe.objects.create(**validated_data)
+        for extra_data in extras:
+            ExtraDetail.objects.create(frappe=frappe, **extra_data)
+        return frappe
 
 
 class UserPKRF(serializers.PrimaryKeyRelatedField):

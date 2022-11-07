@@ -50,6 +50,7 @@ class UserFrappeViewSet(ModelViewSet):
             )
 
     def perform_create(self, serializer: FrappeSerializer, cost):
+        
         serializer.save(
             creator=self.request.user, user=self.request.user, final_price=cost
         )
