@@ -250,7 +250,8 @@
             "creator": 1,
             "create_date": "2022-10-23T04:36:09.503Z",
             "comments": "",
-            "final_price": "0.0"
+            "final_price": "0.0",
+            "menu_key": 1
         }
     },
     {
@@ -264,7 +265,8 @@
             "creator": 1,
             "final_price": "0.0",
             "create_date": "2022-10-23T04:49:41.420Z",
-            "comments": ""
+            "comments": "",
+            "menu_key": 2
         }
     },
     {
@@ -278,7 +280,8 @@
             "creator": 1,
             "final_price": "0.0",
             "create_date": "2022-10-23T04:49:43.457Z",
-            "comments": ""
+            "comments": "",
+            "menu_key": 5
         }
     },
     {
@@ -292,7 +295,8 @@
             "creator": 1,
             "final_price": "0.0",
             "create_date": "2022-10-23T04:49:44.209Z",
-            "comments": ""
+            "comments": "",
+            "menu_key": 6
         }
     },
     {
@@ -362,7 +366,8 @@
             "user": 1,
             "final_price": "0.0",
             "create_date": "2022-10-23T04:49:46.036Z",
-            "comments": ""
+            "comments": "",
+            "menu_key": 4
         }
     },
     {
@@ -376,7 +381,8 @@
             "user": 1,
             "final_price": "0.0",
             "create_date": "2022-10-23T15:20:38.910Z",
-            "comments": "For Menu"
+            "comments": "For Menu",
+            "menu_key": 3
         }
     },
     {
@@ -542,15 +548,6 @@
         }
     },
     {
-        "model": "frappapi.extradetail",
-        "pk": 21,
-        "fields": {
-            "amount": 2,
-            "frappe": 5,
-            "extras": 12
-        }
-    },
-    {
         "model": "frappapi.menu",
         "pk": 1,
         "fields": {
@@ -623,7 +620,7 @@
             "is_active": true,
             "date_joined": "2022-10-23T03:26:41.176Z",
             "email": "admin@admin.com",
-            "balance": "0.00",
+            "balance": "10000.00",
             "groups": [],
             "user_permissions": []
         }
