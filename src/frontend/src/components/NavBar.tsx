@@ -29,7 +29,7 @@ export default function NavBar({
       .then((data) => {
         console.log('response: ', data);
       });
-
+    localStorage.removeItem('LoginToken');
     auth?.logout();
     setPages([
       {

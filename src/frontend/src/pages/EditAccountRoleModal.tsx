@@ -105,7 +105,6 @@ export default function EditAccountRoleModal({
             <option>Customer</option>
             <option>Barista</option>
             <option>Cashier</option>
-            <option>Manager</option>
           </select>
         </div>
         <div className="btns-container">
