@@ -53,6 +53,13 @@ class IsCashier(permissions.BasePermission):
         return False
 
 
+class IsEmployee(permissions.BasePermission):
+    def has_permission(self, request, view):
+        if hasattr(request.user, "employee"):
+            return True
+        return False
+
+
 class UserUpdatePermission(permissions.BasePermission):
     """
     Permission class to check that a user can update his own resource only

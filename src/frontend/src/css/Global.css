@@ -30,8 +30,8 @@ body {
 }
 
 .loader {
-  border: 16px solid var(--frappy-gray);
-  border-top: 16px solid var(--frappy-dgreen);
+  border: 8px solid var(--frappy-white);
+  border-top: 8px solid var(--frappy-dgray);
   border-radius: 50%;
   width: 10%;
   animation: spin 2s linear infinite;

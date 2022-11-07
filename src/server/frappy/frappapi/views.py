@@ -4,11 +4,13 @@ from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
+
+from django_filters.rest_framework import DjangoFilterBackend
+
 from .serializers import *
 from .models import *
-from users.permissions import IsManager, IsManagerOrReadOnly, IsCashier
-from users.models import User
-from django.db import transaction
+from users.permissions import IsManagerOrReadOnly, IsCashier, IsEmployee
+from users.models import User, Employee
 
 
 class UserFrappeViewSet(ModelViewSet):
@@ -23,11 +25,13 @@ class UserFrappeViewSet(ModelViewSet):
         cost = serial.get_price(serial.validated_data)
 
         user: User = self.request.user
-
+        manager: user = Employee.objects.get(is_manager=True).user
+        print(manager)
         if cost < user.balance:
             serial.is_valid()
             self.perform_create(serial, cost)
             user.balance -= cost
+            manager.balance += cost
             user.save()
 
             return Response(
@@ -46,6 +50,7 @@ class UserFrappeViewSet(ModelViewSet):
             )
 
     def perform_create(self, serializer: FrappeSerializer, cost):
+
         serializer.save(
             creator=self.request.user, user=self.request.user, final_price=cost
         )
@@ -66,11 +71,20 @@ class UserFrappeViewSet(ModelViewSet):
         serializers = self.get_serializer(recent_frappes, many=True)
         return Response(serializers.data)
 
+    @action(detail=False)
+    def price_check(self, request):
+        serial: FrappeSerializer = self.get_serializer(data=request.data)
+        serial.is_valid(raise_exception=True)
+        cost = serial.get_price(serial.validated_data)
+        return Response({"Cost": cost})
+
 
 class CashierFrappeViewSet(UserFrappeViewSet):
-    permission_classes = [IsCashier]
+    permission_classes = [IsCashier | IsEmployee]
     serializer_class = CashierFrappeSerializer
     queryset = Frappe.objects.all()
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["status"]
 
     def perform_create(self, serializer, cost):
         serializer.save(
