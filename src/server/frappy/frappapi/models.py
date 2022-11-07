@@ -1,6 +1,5 @@
 from django.db import models
 from users.models import User
-from .settings import SIZE_SCALE
 
 
 class Ingredient(models.Model):
@@ -48,14 +47,15 @@ class Frappe(models.Model):
     extras = models.ManyToManyField(
         Extras, blank=True, related_name="details", through="ExtraDetail"
     )
+    final_price = models.DecimalField(max_digits=20, decimal_places=2)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    comments = models.TextField(blank=True)
     creator = models.ForeignKey(User, related_name="frappes", on_delete=models.CASCADE)
     create_date = models.DateTimeField(auto_now_add=True)
-    comments = models.TextField(blank=True)
-    final_price = models.DecimalField(max_digits=20, decimal_places=2)
     menu_key = models.ForeignKey(
-        "Menu", related_name="menu_key", on_delete=models.CASCADE, blank=True
+        "Menu", related_name="menu_key", on_delete=models.CASCADE, blank=True, null=True
     )
+    status = models.IntegerField(choices=OrderStates.choices, default=1)
 
     def __str__(self):
         if hasattr(self, "menu"):
