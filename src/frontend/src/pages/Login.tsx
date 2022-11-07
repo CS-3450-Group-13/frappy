@@ -24,6 +24,7 @@ export default function Login({ setPages, user, setUser }: Props) {
   const navigate = useNavigate();
   const authToken = '7af6c160689e100b567df19b91e8a4ad0f2de704';
 
+
   const auth = useAuth();
 
   const submitForm = () => {
@@ -208,6 +209,10 @@ export default function Login({ setPages, user, setUser }: Props) {
                         {
                           title: 'Edit Menu',
                           path: '/edit-menu',
+                        },
+                        {
+                          title: 'Edit Inventory',
+                          path: '/edit-inventory',
                         },
                       ]);
                       break;
