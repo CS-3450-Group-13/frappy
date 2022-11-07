@@ -70,10 +70,6 @@ function App() {
                 element={<Menu cart={cart} setCart={setCart} />}
               />
               <Route
-                path="/cart"
-                element={<Cart cart={cart} setCart={setCart} />}
-              />
-              <Route
                 path="/customize"
                 element={<CustomizeDrink setCart={setCart} />}
               />
