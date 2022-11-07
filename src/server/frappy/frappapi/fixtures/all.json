@@ -623,7 +623,7 @@
             "is_active": true,
             "date_joined": "2022-10-23T03:26:41.176Z",
             "email": "admin@admin.com",
-            "balance": "0.00",
+            "balance": "10000.00",
             "groups": [],
             "user_permissions": []
         }
