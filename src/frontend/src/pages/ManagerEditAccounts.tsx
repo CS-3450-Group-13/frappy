@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../components/auth';
 import '../css/ManagerEditAccounts.css';
 import EditAccountRoleModal from './EditAccountRoleModal';
+import customer from '../images/test.png';
+import employee from '../images/test1.png';
 
 const MockAccounts = [
   {
@@ -39,12 +41,14 @@ export default function ManagerEditAccounts() {
   const [editOpen, setEditOpen] = useState(false);
   const [currentPerson, setCurrentPerson] = useState({
     id: 0,
+    employeeId: 0,
     name: '',
     role: '',
   });
   const [accounts, setAccounts] = useState([
     {
       id: 0,
+      employeeId: 0,
       name: '',
       email: '',
       balance: '',
@@ -68,8 +72,10 @@ export default function ManagerEditAccounts() {
         let accountsData = [];
         for (let i = 0; i < data.length; i++) {
           let Newrole = 'Customer';
+          let employeeId = 0;
           if (data[i].employee !== null) {
             let employee = data[i].employee;
+            employeeId = employee.id;
             if (employee.is_manager) {
               Newrole = 'Manager';
             } else if (employee.is_barista) {
@@ -80,6 +86,7 @@ export default function ManagerEditAccounts() {
           }
           let newAccount = {
             id: data[i].id,
+            employeeId: employeeId,
             name: data[i].first_name + ' ' + data[i].last_name,
             email: data[i].email,
             balance: data[i].balance,
@@ -92,9 +99,15 @@ export default function ManagerEditAccounts() {
       });
   }, []);
 
-  function handleEditRole(id: number, name: string, role: string) {
+  function handleEditRole(
+    id: number,
+    employeeId: number,
+    name: string,
+    role: string
+  ) {
     setCurrentPerson({
       id: id,
+      employeeId: employeeId,
       name: name,
       role: role,
     });
@@ -103,12 +116,25 @@ export default function ManagerEditAccounts() {
 
   const tableRows = accounts.map((data) => (
     <tr>
+      <td>
+        {data.role == 'Customer' ? (
+          <div className="image-wrapper-customer">
+            <img src={customer} alt={data.name}></img>
+          </div>
+        ) : (
+          <div className="image-wrapper-employee">
+            <img src={employee} alt={data.name}></img>
+          </div>
+        )}
+      </td>
       <td>{data.name}</td>
       <td>
         {data.role}
         <button
           className="btn"
-          onClick={() => handleEditRole(data.id, data.name, data.role)}
+          onClick={() =>
+            handleEditRole(data.id, data.employeeId, data.name, data.role)
+          }
         >
           edit
         </button>
@@ -128,6 +154,7 @@ export default function ManagerEditAccounts() {
       <div className="accounts-table-wrapper">
         <table className="accounts-table">
           <tr className="first-row">
+            <th>Photo</th>
             <th>Name</th>
             <th>Role</th>
             <th>Balance</th>

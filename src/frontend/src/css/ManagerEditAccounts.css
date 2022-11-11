@@ -120,6 +120,20 @@ background-color: lightcoral;
     height: 75px;
 }
 
+.image-wrapper-customer img {
+    width: 75px;
+    height: 75px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.image-wrapper-employee img {
+    width: 75px;
+    height: 75px;
+    background-color: wheat;
+    border-radius: 50%;
+}
+
 .edit-accounts-container h2 {
     width: fit-content;
 }

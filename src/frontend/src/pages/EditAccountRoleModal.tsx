@@ -5,6 +5,7 @@ import '../css/ManagerEditAccounts.css';
 
 interface Person {
   id: number;
+  employeeId: number;
   name: string;
   role: string;
 }
@@ -36,7 +37,7 @@ export default function EditAccountRoleModal({
         break;
       case 'Cashier':
         body = {
-          id: person.id,
+          id: person.employeeId,
           user: person.id,
           is_cashier: true,
           is_barista: false,
@@ -45,7 +46,7 @@ export default function EditAccountRoleModal({
         break;
       case 'Barista':
         body = {
-          id: person.id,
+          id: person.employeeId,
           user: person.id,
           is_cashier: false,
           is_barista: true,
@@ -54,7 +55,7 @@ export default function EditAccountRoleModal({
         break;
       case 'Manager':
         body = {
-          id: person.id,
+          id: person.employeeId,
           user: person.id,
           is_cashier: true,
           is_barista: true,
@@ -65,18 +66,33 @@ export default function EditAccountRoleModal({
         break;
     }
     console.log(body);
-    fetch('http://127.0.0.1:8000/users/employees/', {
-      method: 'POST',
-      headers: {
-        Authorization: `Token ${auth?.userInfo.key}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    })
-      .then((resp) => resp.json())
-      .then((data) => {
-        console.log(data);
-      });
+    if (person.role === 'Customer') {
+      fetch('http://127.0.0.1:8000/users/employees/', {
+        method: 'POST',
+        headers: {
+          Authorization: `Token ${auth?.userInfo.key}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          console.log(data);
+        });
+    } else if (person.role === 'Barista' || person.role === 'Cashier') {
+      fetch('http://127.0.0.1:8000/users/employees/', {
+        method: 'PUT',
+        headers: {
+          Authorization: `Token ${auth?.userInfo.key}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+        .then((resp) => resp.json())
+        .then((data) => {
+          console.log(data);
+        });
+    }
   };
 
   return (
@@ -105,6 +121,7 @@ export default function EditAccountRoleModal({
             <option>Customer</option>
             <option>Barista</option>
             <option>Cashier</option>
+            {/* <option>Manager</option> */}
           </select>
         </div>
         <div className="btns-container">

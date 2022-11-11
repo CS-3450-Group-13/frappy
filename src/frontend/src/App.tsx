@@ -21,6 +21,8 @@ import CustomerRoutes from './components/CustomerRoutes';
 import EmployeeRoutes from './components/EmployeeRoutes';
 import ManagerRoutes from './components/ManagerRoutes';
 import ManagerEditInventory from './pages/ManagerEditInventory';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   const [pages, setPages] = useState([
@@ -52,6 +54,7 @@ function App() {
     <div className="App">
       <AuthProvider>
         <Router>
+          <ToastContainer />
           <NavBar pages={pages} setPages={setPages} />
           <Routes>
             <Route

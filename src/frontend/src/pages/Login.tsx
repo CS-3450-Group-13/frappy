@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { EventHandler, useEffect } from 'react';
 import '../css/Login.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/auth';
+import { toast } from 'react-toastify';
 
 interface UserType {
   fullName: string;
@@ -22,7 +23,6 @@ interface Props {
 
 export default function Login({ setPages, user, setUser }: Props) {
   const navigate = useNavigate();
-  const authToken = 'c00af7f0e53bae4bccc3bd0a37123ec1191b9def';
 
   const auth = useAuth();
 
@@ -114,7 +114,7 @@ export default function Login({ setPages, user, setUser }: Props) {
                   navigate('/home-page');
                   auth?.loginAs(
                     USERID,
-                    FIRSTNAME + LASTNAME,
+                    FIRSTNAME + ' ' + LASTNAME,
                     'username',
                     input.email,
                     input.password,
@@ -154,7 +154,7 @@ export default function Login({ setPages, user, setUser }: Props) {
                   navigate('/home-page');
                   auth?.loginAs(
                     USERID,
-                    FIRSTNAME + LASTNAME,
+                    FIRSTNAME + ' ' + LASTNAME,
                     'username',
                     input.email,
                     input.password,
@@ -206,10 +206,10 @@ export default function Login({ setPages, user, setUser }: Props) {
                   console.error("can't login");
                   break;
               }
+              toast.success(`Logged in as ${FIRSTNAME + ' ' + LASTNAME}`);
             });
         } else {
-          navigate('/new-user');
-          alert(LoginData.non_field_errors[0]);
+          toast.error('Email or Password is incorrect');
         }
       })
       .catch((error) => {
@@ -376,6 +376,9 @@ export default function Login({ setPages, user, setUser }: Props) {
               console.error("can't login");
               break;
           }
+          toast.success(
+            `User ${auth?.userInfo.fullName} was already logged in`
+          );
         });
     } catch (err: any) {
       console.error(err);
@@ -386,6 +389,11 @@ export default function Login({ setPages, user, setUser }: Props) {
     checkLoggedIn();
   }, []);
 
+  const handleEnter = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.code === 'Enter') {
+      submitForm();
+    }
+  };
   return (
     <div className="login-div">
       <h1>Login Page</h1>
@@ -393,7 +401,12 @@ export default function Login({ setPages, user, setUser }: Props) {
         <form>
           <div className="form-input-item">
             <label>Email: </label>
-            <input type="email" id="input-email" aria-label="email"></input>
+            <input
+              type="email"
+              id="input-email"
+              aria-label="email"
+              onKeyDown={handleEnter}
+            ></input>
           </div>
           <div className="form-input-item">
             <label>Password: </label>
@@ -401,6 +414,7 @@ export default function Login({ setPages, user, setUser }: Props) {
               type="password"
               id="input-password"
               aria-label="password"
+              onKeyDown={handleEnter}
             ></input>
           </div>
           <div className="form-input-item-last">

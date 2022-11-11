@@ -1,8 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import '../css/Login.css';
+import { toast } from 'react-toastify';
+import { useAuth } from '../components/auth';
 
 export default function NewUser() {
   const navigate = useNavigate();
+  const auth = useAuth();
 
   const addToData = () => {
     let email = document.getElementById('input-email') as HTMLInputElement;
@@ -34,6 +37,8 @@ export default function NewUser() {
       .then((response) => response.json())
       .then((data) => {
         if (data.key) {
+          localStorage.setItem('LoginToken', data.key);
+          let key = data.key;
           console.log('Success:', data);
           let first = document.getElementById(
             'input-first'
@@ -56,10 +61,26 @@ export default function NewUser() {
             .then((response) => response.json())
             .then((data) => {
               console.log(data);
+              auth?.loginAs(
+                data.pk,
+                data.first_name + ' ' + data.last_name,
+                'username',
+                data.email,
+                password.value,
+                0,
+                'customer',
+                key,
+                0
+              );
+              toast.success(
+                `Successfully Registered ${
+                  data.first_name + ' ' + data.last_name
+                }`
+              );
+              navigate('/home-page');
             });
-          navigate('/');
         } else {
-          alert(
+          toast.error(
             'Error can not create user, try again. Passwords must be at least 8 characters'
           );
         }
