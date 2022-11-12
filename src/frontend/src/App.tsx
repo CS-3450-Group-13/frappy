@@ -63,7 +63,7 @@ function App() {
                 <Login setPages={setPages} user={user} setUser={setUser} />
               }
             />
-            <Route path="/new-user" element={<NewUser />} />
+            <Route path="/new-user" element={<NewUser setPages={setPages} />} />
 
             <Route element={<CustomerRoutes />}>
               <Route path="/home-page" element={<Home authKey={authKey} />} />

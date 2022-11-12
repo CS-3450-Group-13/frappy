@@ -12,6 +12,7 @@ import '../css/Cart.css';
 import { useNavigate } from 'react-router-dom';
 import { FrappeExtra } from '../types/Types';
 import { useAuth } from '../components/auth';
+import Confirmation from './Confirmation';
 
 type Props = {
   cart: Array<MenuItem>;
@@ -20,6 +21,7 @@ type Props = {
 
 export default function Cart({ cart, setCart }: Props) {
   const [total, setTotal] = useState(0);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
 
   const navigate = useNavigate();
   const auth = useAuth();
@@ -169,13 +171,19 @@ export default function Cart({ cart, setCart }: Props) {
           <div
             className="cart-place-order-btn"
             onClick={() => {
-              handlePlaceOrder();
+              setCheckoutOpen(true);
             }}
           >
             CHECKOUT
           </div>
         </div>
       </div>
+      <Confirmation
+        open={checkoutOpen}
+        cart={cart}
+        setCart={setCart}
+        setOpen={() => setCheckoutOpen(false)}
+      />
     </div>
   );
 }

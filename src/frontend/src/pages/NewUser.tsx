@@ -3,7 +3,11 @@ import '../css/Login.css';
 import { toast } from 'react-toastify';
 import { useAuth } from '../components/auth';
 
-export default function NewUser() {
+interface Props {
+  setPages: Function;
+}
+
+export default function NewUser({ setPages }: Props) {
   const navigate = useNavigate();
   const auth = useAuth();
 
@@ -78,6 +82,28 @@ export default function NewUser() {
                 }`
               );
               navigate('/home-page');
+              setPages([
+                {
+                  title: 'Home',
+                  path: '/home-page',
+                },
+                {
+                  title: 'Order Status',
+                  path: '/order-status',
+                },
+                {
+                  title: 'Menu',
+                  path: '/menu',
+                },
+                {
+                  title: 'Account',
+                  path: '/account',
+                },
+                {
+                  title: 'Cart',
+                  path: '/cart',
+                },
+              ]);
             });
         } else {
           toast.error(
