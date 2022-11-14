@@ -52,7 +52,7 @@ class FrappeSerializer(serializers.ModelSerializer):
     def get_price(self, obj):
         if type(obj) == OrderedDict:
             total = 0
-            extras = obj.get("extradetail_set")
+            extras = obj["extradetail_set"]
 
             for ex in extras:
                 print(ex["extras"])
@@ -70,8 +70,7 @@ class FrappeSerializer(serializers.ModelSerializer):
         exclude = ["creator"]
 
     def create(self, validated_data):
-        print(validated_data)
-        extras = validated_data.pop("extradetail_set")
+        extras = validated_data.get("extradetail_set", [])
         frappe = Frappe.objects.create(**validated_data)
         for extra_data in extras:
             ExtraDetail.objects.create(frappe=frappe, **extra_data)
@@ -98,5 +97,36 @@ class MenuSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Menu
-        fields = ["name", "frappe", "photo", "prices"]
+        fields = ["name", "frappe", "photo", "prices", "markup"]
         detail = 1
+
+    def create(self, validated_data):
+        frappe_data = validated_data.pop("frappe")
+        frappe_data["final_price"] = 0
+        frappe_data["creator_id"] = validated_data.pop("creator").id
+        frappe_data["user_id"] = validated_data.pop("user").id
+        frappe = Frappe.objects.create(**frappe_data)
+        menu = Menu.objects.create(**validated_data, frappe=frappe)
+        return menu
+
+    def update(self, instance, validated_data):
+        frappe_data = validated_data.pop("frappe")
+        frappe = instance.frappe
+
+        # Menu info
+        instance.name = validated_data.get("name")
+        instance.photo = validated_data.get("photo")
+        instance.markup = validated_data.get("markup")
+        instance.save()
+        # Frappe info
+        frappe.base = frappe_data.get("base", frappe.base)
+        frappe.milk = frappe_data.get("milk", frappe.milk)
+        frappe.size = frappe_data.get("size", frappe.size)
+        frappe.user = frappe_data.get("user", frappe.user)
+        frappe.creator = frappe_data.get("creator", frappe.creator)
+        frappe.menu_key = frappe_data.get("menu_key", frappe.menu_key)
+        frappe.status = frappe_data.get("status", frappe.status)
+
+        frappe.save()
+
+        return instance

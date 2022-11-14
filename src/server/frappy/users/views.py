@@ -97,11 +97,10 @@ class UserViewSet(
 class EmployeeUserViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializer
     queryset = Employee.objects.all()
-    permission_classes = [IsAdminUser, IsManager]
+    permission_classes = [IsAdminUser | IsManager]
 
     @action(detail=False, methods=["GET", "POST"])
     def pay_all(self, request: Request):
-        print(self.action)
 
         manager: User = request.user
         cost = 0
@@ -111,7 +110,7 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
             cost += e.hours * e.wage
 
         if self.action == "post":
-            # 
+            #
             if cost < manager.balance:
                 # Pay employees
                 for e in employees:
