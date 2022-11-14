@@ -12,10 +12,6 @@ class IngredientSerializer(serializers.ModelSerializer):
 
 class BuyOrderserializer(serializers.Serializer):
     amount = serializers.IntegerField(required=True)
-    item = serializers.PrimaryKeyRelatedField(
-        required=True, queryset=Ingredient.objects.all()
-    )
-
 
 class ExtraSerializer(serializers.ModelSerializer):
     class Meta:

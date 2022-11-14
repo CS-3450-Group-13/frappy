@@ -141,41 +141,17 @@ class MenuViewSet(
         return super().perform_create(serializer)
 
 
-class ExtrasViewSet(ModelViewSet):
-    serializer_class = ExtraSerializer
-    queryset = Extras.objects.all()
-
-
-class MilkViewSet(ModelViewSet):
-    serializer_class = MilkSerializer
-    queryset = Milk.objects.all()
-
-
-class BaseViewSet(ModelViewSet):
-    serializer_class = BaseSerializer
-    queryset = Base.objects.all()
-
-
-class ExtraDetailViewSet(GenericViewSet, mixins.CreateModelMixin):
-    serializer_class = ExtraDetailSerializer
-    queryset = ExtraDetail.objects.all()
-
-
-class IngredientsViewSet(ModelViewSet):
-    serializer_class = IngredientSerializer
-    permission_classes = [IsManagerOrReadOnly]
-    queryset = Ingredient.objects.all()
-
-    @action(detail=True)
-    def buy_item(self, request: Request):
+class IngredientViewSet(ModelViewSet):
+    @action(detail=True, methods=["POST"])
+    def buy(self, request: Request, pk=None):
         manager: User = Employee.objects.get(is_manager=True).user
         serial: BuyOrderserializer = BuyOrderserializer(data=request.data)
 
+        # Return error if insufficient balance for manager
         if serial.is_valid():
-            item: Ingredient = serial.validated_data["item"]
+            item: Base = Base.objects.get(id=pk)
             cost = serial.validated_data["amount"] * item.price_per_unit
 
-            # Return error if insufficient balance for manager
             if cost > manager.balance:
                 return Response(
                     {
@@ -191,6 +167,33 @@ class IngredientsViewSet(ModelViewSet):
 
             item.stock += serial.validated_data["amount"]
             item.save()
-
+            return Response(
+                {
+                    "success": "Stock updated",
+                    "orderCost": cost,
+                    "stock": item.stock,
+                    "current_balance": manager.balance,
+                }
+            )
         else:
             return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ExtrasViewSet(IngredientViewSet):
+    serializer_class = ExtraSerializer
+    queryset = Extras.objects.all()
+
+
+class MilkViewSet(IngredientViewSet):
+    serializer_class = MilkSerializer
+    queryset = Milk.objects.all()
+
+
+class BaseViewSet(IngredientViewSet):
+    serializer_class = BaseSerializer
+    queryset = Base.objects.all()
+
+
+class ExtraDetailViewSet(GenericViewSet, mixins.CreateModelMixin):
+    serializer_class = ExtraDetailSerializer
+    queryset = ExtraDetail.objects.all()
