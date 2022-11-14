@@ -54,9 +54,10 @@ class FrappeSerializer(serializers.ModelSerializer):
             total = 0
             extras = obj.get("extradetail_set")
 
-            for ex in extras:
-                print(ex["extras"])
-                total += ex["amount"] * ex["extras"].price_per_unit
+            if extras:
+                for ex in extras:
+                    print(ex["extras"])
+                    total += ex["amount"] * ex["extras"].price_per_unit
 
             total += obj["milk"].price_per_unit * obj["size"]
             total += obj["base"].price_per_unit * obj["size"]
@@ -71,7 +72,10 @@ class FrappeSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         print(validated_data)
-        extras = validated_data.pop("extradetail_set")
+        try:
+            extras = validated_data.pop("extradetail_set")
+        except KeyError:
+            extras = []
         frappe = Frappe.objects.create(**validated_data)
         for extra_data in extras:
             ExtraDetail.objects.create(frappe=frappe, **extra_data)
