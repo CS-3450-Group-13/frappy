@@ -10,9 +10,11 @@ export interface Frappe {
   extras: Array<FrappeExtra>
   price: number;
   final_price: number;
+  menu_key: number;
   size: SizeOptions;
-  create_date: string;
   comments: string;
+  create_date: string;
+  status: StatusOptions;
 }
 
 /**
@@ -28,6 +30,11 @@ export interface MenuItem {
   frappe: Frappe;
   photo: string;
   prices: Array<number>;
+}
+
+export enum StatusOptions {
+  In_Progress = 1,
+  Completed = 2,
 }
 
 /**
@@ -142,7 +149,7 @@ export interface Extra {
 export interface FrappeExtra {
   amount: number;
   extras: ExtraOptions;
-  frappe: number;
+  frappe?: number;
 }
 
 /**

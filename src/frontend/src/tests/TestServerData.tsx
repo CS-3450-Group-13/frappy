@@ -28,9 +28,11 @@ export const TestFrappes: Array<Frappe> = [
     ],
     "price": 6.1,
     "final_price": 0.0,
+    "menu_key": 3,
     "size": 1,
+    "comments": "",
     "create_date": "2022-10-23T04:36:09.503000Z",
-    "comments": ""
+    "status": 1,
 },
 {
     "id": 3,
@@ -51,9 +53,11 @@ export const TestFrappes: Array<Frappe> = [
     ],
     "price": 4.05,
     "final_price": 0.0,
+    "menu_key": 3,
     "size": 1,
+    "comments": "",
     "create_date": "2022-10-23T04:49:41.420000Z",
-    "comments": ""
+    "status": 1,
 },
 {
     "id": 4,
@@ -74,9 +78,11 @@ export const TestFrappes: Array<Frappe> = [
     ],
     "price": 5.05,
     "final_price": 0.0,
+    "menu_key": 3,
     "size": 1,
-    "create_date": "2022-10-23T04:49:43.457000Z",
-    "comments": ""
+    "comments": "",
+    "create_date": "2022-10-23T04:49:41.420000Z",
+    "status": 1,
 },
 {
     "id": 5,
@@ -127,9 +133,11 @@ export const TestFrappes: Array<Frappe> = [
     ],
     "price": 78.65,
     "final_price": 0.0,
+    "menu_key": 3,
     "size": 1,
-    "create_date": "2022-10-23T04:49:44.209000Z",
-    "comments": ""
+    "comments": "",
+    "create_date": "2022-10-23T04:49:41.420000Z",
+    "status": 1,
 },
 {
     "id": 6,
@@ -139,9 +147,11 @@ export const TestFrappes: Array<Frappe> = [
     "extras": [],
     "price": 3.05,
     "final_price": 0.0,
+    "menu_key": 3,
     "size": 1,
-    "create_date": "2022-10-23T04:49:44.588000Z",
-    "comments": ""
+    "comments": "",
+    "create_date": "2022-10-23T04:49:41.420000Z",
+    "status": 1,
 },
 {
     "id": 7,
@@ -151,9 +161,11 @@ export const TestFrappes: Array<Frappe> = [
     "extras": [],
     "price": 3.05,
     "final_price": 0.0,
+    "menu_key": 3,
     "size": 1,
-    "create_date": "2022-10-23T04:49:44.933000Z",
-    "comments": ""
+    "comments": "",
+    "create_date": "2022-10-23T04:49:41.420000Z",
+    "status": 1,
 },
 {
     "id": 8,
@@ -163,9 +175,11 @@ export const TestFrappes: Array<Frappe> = [
     "extras": [],
     "price": 3.05,
     "final_price": 0.0,
+    "menu_key": 3,
     "size": 1,
-    "create_date": "2022-10-23T04:49:45.216000Z",
-    "comments": ""
+    "comments": "",
+    "create_date": "2022-10-23T04:49:41.420000Z",
+    "status": 1,
 },
 {
     "id": 9,
@@ -175,9 +189,11 @@ export const TestFrappes: Array<Frappe> = [
     "extras": [],
     "price": 3.05,
     "final_price": 0.0,
+    "menu_key": 3,
     "size": 1,
-    "create_date": "2022-10-23T04:49:45.534000Z",
-    "comments": ""
+    "comments": "",
+    "create_date": "2022-10-23T04:49:41.420000Z",
+    "status": 1,
 },
 {
     "id": 10,
@@ -198,9 +214,11 @@ export const TestFrappes: Array<Frappe> = [
     ],
     "price": 4.4,
     "final_price": 0.0,
+    "menu_key": 3,
     "size": 1,
-    "create_date": "2022-10-23T04:49:46.036000Z",
-    "comments": ""
+    "comments": "",
+    "create_date": "2022-10-23T04:49:41.420000Z",
+    "status": 1,
 },
 {
     "id": 11,
@@ -221,10 +239,12 @@ export const TestFrappes: Array<Frappe> = [
     ],
     "price": 23.0,
     "final_price": 0.0,
+    "menu_key": 3,
     "size": 1,
-    "create_date": "2022-10-23T15:20:38.910000Z",
-    "comments": "For Menu"
-}
+    "comments": "",
+    "create_date": "2022-10-23T04:49:41.420000Z",
+    "status": 1,
+  }
 ]
 
 /**
