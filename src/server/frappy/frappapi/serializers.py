@@ -1,7 +1,20 @@
 from collections import OrderedDict
 from rest_framework import serializers
-from .models import Frappe, Menu, Extras, ExtraDetail, Milk, Base
+from .models import Frappe, Menu, Extras, ExtraDetail, Milk, Base, Ingredient
 from users.models import User
+
+
+class IngredientSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ingredient
+        fields = "__all__"
+
+
+class BuyOrderserializer(serializers.Serializer):
+    amount = serializers.IntegerField(required=True)
+    item = serializers.PrimaryKeyRelatedField(
+        required=True, queryset=Ingredient.objects.all()
+    )
 
 
 class ExtraSerializer(serializers.ModelSerializer):

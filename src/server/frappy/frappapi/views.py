@@ -3,6 +3,7 @@ from rest_framework import permissions
 from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
@@ -55,8 +56,11 @@ class UserFrappeViewSet(ModelViewSet):
             self.perform_create(serial, cost)
             user.balance -= cost
             user.save()
-            manager.balance += cost
-            manager.save()
+
+            # Fixes some atomic transaction stuff
+            if user != manager:
+                manager.balance += cost
+                manager.save()
 
             return Response(
                 {"user_balance": request.user.balance, "cost": cost},
@@ -155,3 +159,38 @@ class BaseViewSet(ModelViewSet):
 class ExtraDetailViewSet(GenericViewSet, mixins.CreateModelMixin):
     serializer_class = ExtraDetailSerializer
     queryset = ExtraDetail.objects.all()
+
+
+class IngredientsViewSet(ModelViewSet):
+    serializer_class = IngredientSerializer
+    permission_classes = [IsManagerOrReadOnly]
+    queryset = Ingredient.objects.all()
+
+    @action(detail=True)
+    def buy_item(self, request: Request):
+        manager: User = Employee.objects.get(is_manager=True).user
+        serial: BuyOrderserializer = BuyOrderserializer(data=request.data)
+
+        if serial.is_valid():
+            item: Ingredient = serial.validated_data["item"]
+            cost = serial.validated_data["amount"] * item.price_per_unit
+
+            # Return error if insufficient balance for manager
+            if cost > manager.balance:
+                return Response(
+                    {
+                        "error": "manager has insuficcient balance",
+                        "orderCost": cost,
+                        "current_balance": manager.balance,
+                    }
+                )
+
+            # Update inventory
+            manager.balance -= cost
+            manager.save()
+
+            item.stock += serial.validated_data["amount"]
+            item.save()
+
+        else:
+            return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
