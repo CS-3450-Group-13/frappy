@@ -3,6 +3,7 @@ from rest_framework import permissions
 from rest_framework import mixins
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.request import Request
 from rest_framework import status
 
 from django_filters.rest_framework import DjangoFilterBackend
@@ -22,16 +23,44 @@ class UserFrappeViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         serial: FrappeSerializer = self.get_serializer(data=request.data)
         serial.is_valid(raise_exception=True)
-        cost = serial.get_price(serial.validated_data)
-        print(serial.validated_data)
+
+        # Get profile data
         user: User = self.request.user
         manager: user = Employee.objects.get(is_manager=True).user
+
+        # Check against stock
+        for e in serial.validated_data["extradetail_set"]:
+            amount = e["amount"]
+            extra = e["extras"]
+
+            # Fail if stock is invalid
+            if extra.stock < amount:
+                return Response(
+                    {
+                        "error": f"{e} has insufficient stock",
+                    }
+                )
+
+        # Check against balance
+        cost = serial.get_price(serial.validated_data)
         if cost < user.balance:
+            # Update stock
+            for e in serial.validated_data.pop("extradetail_set"):
+                amount = e["amount"]
+                extra = e["extras"]
+
+                extra.stock -= amount
+                extra.save()
+
             serial.is_valid()
             self.perform_create(serial, cost)
             user.balance -= cost
-            manager.balance += cost
             user.save()
+
+            # Fixes some atomic transaction stuff
+            if user != manager:
+                manager.balance += cost
+                manager.save()
 
             return Response(
                 {"user_balance": request.user.balance, "cost": cost},
@@ -56,7 +85,7 @@ class UserFrappeViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return Frappe.objects.filter(user=user)
+        return Frappe.objects.filter(user=user).order_by()
 
     @action(detail=False)
     def recent_frappes(self, request):
@@ -92,24 +121,75 @@ class CashierFrappeViewSet(UserFrappeViewSet):
             final_price=cost,
         )
 
+    def get_queryset(self):
+        return Frappe.objects.filter(user=user).order_by()
 
-class MenuViewSet(ModelViewSet):
+
+class MenuViewSet(
+    mixins.CreateModelMixin,
+    mixins.ListModelMixin,
+    mixins.DestroyModelMixin,
+    mixins.RetrieveModelMixin,
+    GenericViewSet,
+):
     permission_classes = [IsManagerOrReadOnly]
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(creator=self.request.user, user=self.request.user)
+        return super().perform_create(serializer)
 
-class ExtrasViewSet(ModelViewSet):
+
+class IngredientViewSet(ModelViewSet):
+    @action(detail=True, methods=["POST"])
+    def buy(self, request: Request, pk=None):
+        manager: User = Employee.objects.get(is_manager=True).user
+        serial: BuyOrderserializer = BuyOrderserializer(data=request.data)
+
+        # Return error if insufficient balance for manager
+        if serial.is_valid():
+            item: Base = Base.objects.get(id=pk)
+            cost = serial.validated_data["amount"] * item.price_per_unit
+
+            if cost > manager.balance:
+                return Response(
+                    {
+                        "error": "manager has insuficcient balance",
+                        "orderCost": cost,
+                        "current_balance": manager.balance,
+                    }
+                )
+
+            # Update inventory
+            manager.balance -= cost
+            manager.save()
+
+            item.stock += serial.validated_data["amount"]
+            item.save()
+            return Response(
+                {
+                    "success": "Stock updated",
+                    "orderCost": cost,
+                    "stock": item.stock,
+                    "current_balance": manager.balance,
+                }
+            )
+        else:
+            return Response(serial.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ExtrasViewSet(IngredientViewSet):
     serializer_class = ExtraSerializer
     queryset = Extras.objects.all()
 
 
-class MilkViewSet(ModelViewSet):
+class MilkViewSet(IngredientViewSet):
     serializer_class = MilkSerializer
     queryset = Milk.objects.all()
 
 
-class BaseViewSet(ModelViewSet):
+class BaseViewSet(IngredientViewSet):
     serializer_class = BaseSerializer
     queryset = Base.objects.all()
 
