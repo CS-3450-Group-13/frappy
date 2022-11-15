@@ -41,14 +41,14 @@ class Frappe(models.Model):
         IN_PROGRESS = 1
         COMPLETED = 2
 
-    base = models.ForeignKey(Base, on_delete=models.CASCADE)
-    milk = models.ForeignKey(Milk, on_delete=models.CASCADE)
+    base = models.ForeignKey(Base, on_delete=models.DO_NOTHING)
+    milk = models.ForeignKey(Milk, on_delete=models.DO_NOTHING)
     size = models.IntegerField(choices=Sizes.choices)
     extras = models.ManyToManyField(
         Extras, blank=True, related_name="details", through="ExtraDetail"
     )
     final_price = models.DecimalField(max_digits=20, decimal_places=2)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.DO_NOTHING)
     comments = models.TextField(blank=True)
     creator = models.ForeignKey(User, related_name="frappes", on_delete=models.CASCADE)
     create_date = models.DateTimeField(auto_now_add=True)
@@ -88,7 +88,7 @@ class ExtraDetail(models.Model):
 
 class Menu(models.Model):
     name = models.CharField(max_length=250)
-    frappe = models.ForeignKey(Frappe, on_delete=models.CASCADE)
+    frappe = models.ForeignKey(Frappe, on_delete=models.PROTECT)
     photo = models.ImageField(upload_to="uploads")
     markup = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     active = models.BooleanField(default=True)
