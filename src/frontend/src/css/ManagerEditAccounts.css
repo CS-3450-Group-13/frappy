@@ -185,3 +185,15 @@ background-color: lightcoral;
 #photo {
     background-color: var(--frappy-lgreen);
 }
+
+.add-item-btn{
+    cursor: pointer;
+    border: none;
+    background-color: var(--frappy-lgreen);
+    color: white;
+    border-radius: 15px;
+}
+
+.add-item-btn:hover{
+    background-color: var(--frappy-l-lgreen);
+}

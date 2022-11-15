@@ -118,9 +118,6 @@ export default function ManagerEditMenu() {
         <button>Extras</button>
       </td>
       <td>{data.frappe.create_date.slice(0, 10)}</td>
-      <td>
-        <button>Delete</button>
-      </td>
     </tr>
   ));
 
@@ -129,7 +126,9 @@ export default function ManagerEditMenu() {
       <h1>Edit Menu:</h1>
       <div className="table-header">
         <h2>Menu Items:</h2>
-        <button onClick={handleNewOpen}>Add New Item</button>
+        <button className="add-item-btn" onClick={handleNewOpen}>
+          Add New Item
+        </button>
       </div>
       <div className="accounts-table-wrapper">
         <table className="accounts-table">
@@ -142,7 +141,6 @@ export default function ManagerEditMenu() {
             <th>Milk</th>
             <th>Extras</th>
             <th>Date Created</th>
-            <th>Delete</th>
           </tr>
           {tableRows}
         </table>

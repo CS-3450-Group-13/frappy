@@ -59,14 +59,9 @@ export default function NewMenuItemModal({
       };
       if (photo.files !== null) {
         var file = photo.files[0];
-        image_url = URL.createObjectURL(file);
         formData.append('photo', photo.files[0]);
       }
-      let newFrappyBody = {
-        name: newName.value,
-        frappe: frappe,
-        photo: image_url,
-      };
+
       formData.append('frappe', JSON.stringify(frappe));
       console.log(formData);
       fetch('http://127.0.0.1:8000/frappapi/menu/', {
