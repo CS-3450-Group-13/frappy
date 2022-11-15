@@ -127,7 +127,6 @@ class CashierFrappeViewSet(UserFrappeViewSet):
 class MenuViewSet(
     mixins.CreateModelMixin,
     mixins.ListModelMixin,
-    mixins.DestroyModelMixin,
     mixins.RetrieveModelMixin,
     GenericViewSet,
 ):
