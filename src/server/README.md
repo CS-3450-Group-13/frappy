@@ -19,9 +19,20 @@ So you wanna run the server backend huh? Well it takes just about as much as a f
 >
 ### Step 1: Install required packages
 
-You may want to configure a `.venv` for your python intepreter before running this step, but go ahead and run
+You may want to configure a `.venv` (in fact its required).  To build a python interpreter that your process can use, run the following.
+
+```python
+~ /src/server
+python -m venv .venv
+```
+
+ After youve sucessfully created a virtual environment, activate the environment and install the required packages using the commands below.
 
 ```bash
+~ /src/server
+.venv\Scripts\activate
+
+~ /src/server
 pip install -r src/server/requirements.txt
 ```
 
@@ -31,10 +42,12 @@ This should install django, django rest, pillow, and any other packages used for
 
 ## 2.1
 
-To build a local copy of the database you can run, navigate to the `./server` folder and run
+To build a local copy of the database you can run, navigate to the `./server` folder and run.
 
 ```shell
-init.ps1
+./init.ps1
 ```
 
 This script will load all the required docker containers and testing data into our server.
+
+This script currently only supports running commands on windows, however running the commands inside by hand will also work, ignoring those PS specific commands.
