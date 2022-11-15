@@ -14,8 +14,9 @@
 }
 
 .image {
-  height: 75%;
-  width: 55%;
+  height: 150px;
+  width: 150px;
+  margin-bottom: 40px;
 }
 
 .drink-name {
@@ -30,6 +31,7 @@
   border-radius: 15px;
   color:white;
   background-color: var(--frappy-dgreen);
+  margin-top: 5px;
 }
 .customize-btn:hover {
   background-color: var(--frappy-l-lgreen);
