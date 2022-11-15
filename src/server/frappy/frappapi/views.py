@@ -17,9 +17,9 @@ from users.models import User, Employee
 class UserFrappeViewSet(ModelViewSet):
     serializer_class = FrappeSerializer
     permission_classes = [permissions.IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
 
     # Check if sufficient balance is in place
-
     def create(self, request, *args, **kwargs):
         serial: FrappeSerializer = self.get_serializer(data=request.data)
         serial.is_valid(raise_exception=True)
@@ -85,11 +85,13 @@ class UserFrappeViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return Frappe.objects.filter(user=user).order_by()
+        return Frappe.objects.filter(user=user).order_by(-"create_date")
 
     @action(detail=False)
     def recent_frappes(self, request):
-        recent_frappes = Frappe.objects.all().order_by("-create_date")[:10]
+        recent_frappes = Frappe.objects.filter(user=self.request.user).order_by(
+            "-create_date"
+        )
 
         page = self.paginate_queryset(recent_frappes)
         if page is not None:
@@ -121,9 +123,6 @@ class CashierFrappeViewSet(UserFrappeViewSet):
             final_price=cost,
         )
 
-    def get_queryset(self):
-        return Frappe.objects.filter(user=user).order_by()
-
 
 class MenuViewSet(
     mixins.CreateModelMixin,
@@ -135,12 +134,26 @@ class MenuViewSet(
     permission_classes = [IsManagerOrReadOnly]
     queryset = Menu.objects.all()
     serializer_class = MenuSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["active"]
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user, user=self.request.user)
         return super().perform_create(serializer)
 
+    @action(detail=True, methods=["get", "post"])
+    def activate(self, request: Request, pk=None):
+        menu_item: Menu = Menu.objects.get(id=pk)
 
+        # Only update on post request
+        if request.method == "POST":
+            menu_item.active = not menu_item.active
+            menu_item.save()
+
+        return Response({"status": menu_item.active})
+
+
+# Abstract class only
 class IngredientViewSet(ModelViewSet):
     @action(detail=True, methods=["POST"])
     def buy(self, request: Request, pk=None):

@@ -1,4 +1,5 @@
 from rest_framework.decorators import action
+from django_filters import Filter
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework import status
@@ -35,6 +36,7 @@ class UserViewSet(
 ):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    filter_backends = {}
 
     def get_permissions(self):
         if self.action in ["current_user", "add_balance"]:

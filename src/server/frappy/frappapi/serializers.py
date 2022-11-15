@@ -13,6 +13,7 @@ class IngredientSerializer(serializers.ModelSerializer):
 class BuyOrderserializer(serializers.Serializer):
     amount = serializers.IntegerField(required=True)
 
+
 class ExtraSerializer(serializers.ModelSerializer):
     class Meta:
         model = Extras
@@ -111,7 +112,7 @@ class MenuSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Menu
-        fields = ["name", "frappe", "photo", "prices", "markup"]
+        fields = ["name", "frappe", "photo", "prices", "markup", "active"]
         detail = 1
 
     def create(self, validated_data):

@@ -91,6 +91,7 @@ class Menu(models.Model):
     frappe = models.ForeignKey(Frappe, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to="uploads")
     markup = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    active = models.BooleanField(default=True)
 
     def prices(self) -> list[int]:
         return [round(self.frappe.price(x) + self.markup, 2) for x in (1, 2, 3)]
