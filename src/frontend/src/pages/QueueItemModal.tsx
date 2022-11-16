@@ -3,6 +3,7 @@ import { CashierFrappe, MenuItem } from '../types/Types';
 
 import '../css/QueueItemModal.css';
 import { TestBases, TestExtras, TestMilks } from '../tests/TestServerData';
+import { useAuth } from '../components/auth';
 
 type Props = {
   setModalIsOpen: (modalIsOpen: boolean) => void;
@@ -16,6 +17,9 @@ type ButtonPressedTracker = {
 
 export default function QueueItemModal({setModalIsOpen, frappe}: Props) {
   const [buttonPressedTracker, setButtonPressedTracker] = useState<ButtonPressedTracker[]>([]);
+
+  const auth = useAuth();
+  let user = auth?.userInfo;
 
   useEffect(() => {
     let tmp: ButtonPressedTracker[] = [];
@@ -114,6 +118,21 @@ export default function QueueItemModal({setModalIsOpen, frappe}: Props) {
     return ingredientViews;
   }
 
+  const markDrinkComplete = () => {
+    fetch(`http://127.0.0.1:8000/frappapi/cashier/${frappe?.id}/status/`, {
+      method: 'POST',
+      headers: { Authorization: `Token ${user?.key}` },
+      credentials: 'same-origin',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('response for updating queue item: ', data);
+      })
+      .catch((err) => {
+        console.log(`got error when updating marking frappe ${frappe?.id} complete: ${err}`);
+      });
+  }
+
   const handleBtnPress = (extraName: string) => {
     console.log("button pressed with name: ", extraName);
     const newState = buttonPressedTracker.map(obj => {
@@ -139,6 +158,7 @@ export default function QueueItemModal({setModalIsOpen, frappe}: Props) {
       }
     }
 
+    markDrinkComplete();
     setModalIsOpen(isIngredientUnchecked);
   }
 
