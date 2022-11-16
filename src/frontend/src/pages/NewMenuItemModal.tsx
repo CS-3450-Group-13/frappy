@@ -4,6 +4,7 @@ import '../css/ManagerEditAccounts.css';
 import { Base, Extra, Milk } from '../types/Types';
 
 interface PropsType {
+  getMenu: Function;
   open: boolean;
   setOpen: (open: boolean) => void;
   bases: Base[] | undefined;
@@ -13,6 +14,7 @@ interface PropsType {
 }
 
 export default function NewMenuItemModal({
+  getMenu,
   open,
   setOpen,
   bases,
@@ -71,10 +73,10 @@ export default function NewMenuItemModal({
         .then((response) => response.json())
         .then((Data) => {
           console.log(Data);
+          getMenu();
         });
     }
   };
-  console.log(extras);
 
   return (
     <Modal

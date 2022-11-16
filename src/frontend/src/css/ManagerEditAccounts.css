@@ -197,3 +197,14 @@ background-color: lightcoral;
 .add-item-btn:hover{
     background-color: var(--frappy-l-lgreen);
 }
+
+.extras-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.status-row {
+    display: flex;
+    flex-direction: column;
+}
