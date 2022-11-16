@@ -162,7 +162,12 @@ class MenuViewSet(
 
         # Only update on post request
         if request.method == "POST":
-            menu_item.active = not menu_item.active
+            # 1 and 2
+            if menu_item.active == 1:
+                menu_item.active = 2
+            else:
+                menu_item.active = 1
+
             menu_item.save()
 
         return Response({"status": menu_item.active})
