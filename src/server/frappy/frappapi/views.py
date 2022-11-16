@@ -136,7 +136,7 @@ class CashierFrappeViewSet(UserFrappeViewSet):
         if request.method == "POST":
             if frappe.status == 1:
                 frappe.status == 2
-            else
+            else:
                 frappe.status == 1
             frappe.save()
 
