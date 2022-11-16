@@ -4,6 +4,7 @@ import { useAuth } from '../components/auth';
 
 interface Props {
   setModalIsOpen: (modalIsOpen: boolean) => void;
+  setOutOfDate: (outOfDate: boolean) => void;
   currentBalance: number;
 }
 
@@ -28,7 +29,7 @@ export default function BalanceModal(props: Props) {
     if (balanceValid) {
       console.log('lmaoo');
       fetch(
-        `http://127.0.0.1/8000/users/users/add_balance/?balance=${newBalance}`,
+        `http://127.0.0.1:8000/users/users/add_balance/?balance=${newBalance}`,
         {
           headers: { Authorization: `Token ${user?.key}` },
           credentials: 'same-origin',
@@ -39,6 +40,7 @@ export default function BalanceModal(props: Props) {
           console.log(response.status);
           if (response.status === 200) {
             props.setModalIsOpen(false);
+            props.setOutOfDate(true);
           } else {
             setErrorMessage('Server Error: Please Try Again Later');
           }
