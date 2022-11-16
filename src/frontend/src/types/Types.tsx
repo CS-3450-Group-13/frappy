@@ -18,6 +18,27 @@ export interface Frappe {
 }
 
 /**
+ * Interface for what a Frappe looks like on the server when requested from
+ * http://127.0.0.1:8000/frappapi/cashier/
+ */
+ export interface CashierFrappe {
+  id: number;
+  user: string;
+  milk: MilkOptions;
+  base: BaseOptions;
+  extras: Array<FrappeExtra>
+  price: number;
+  final_price: number;
+  menu_key: number;
+  creator: string;
+  size: SizeOptions;
+  comments: string;
+  create_date: string;
+  status: StatusOptions;
+  name?: string;
+}
+
+/**
  * Interface for what a Menu Item looks like on the server when requested from
  * http://127.0.0.1:8000/frappapi/menu/
  *

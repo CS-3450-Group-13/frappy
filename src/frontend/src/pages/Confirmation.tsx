@@ -53,8 +53,9 @@ export default function Confirmation({
           delete extra.frappe;
         });
 
-        // console.log(tmp);
-        // console.log(JSON.stringify(tmp));
+        console.log("Submitting this frappe to the server:");
+        console.log(tmp);
+        console.log(JSON.stringify(tmp));
 
         fetch('http://127.0.0.1:8000/frappapi/frappes/', {
           method: 'POST',
@@ -100,8 +101,9 @@ export default function Confirmation({
           delete extra.frappe;
         });
 
-        // console.log(tmp);
-        // console.log(JSON.stringify(tmp));
+        console.log("Submitting this frappe to the server:");
+        console.log(tmp);
+        console.log(JSON.stringify(tmp));
 
         fetch('http://127.0.0.1:8000/frappapi/frappes/', {
           method: 'POST',

@@ -1,12 +1,12 @@
 import React, { ReactNode, useEffect, useState } from 'react'
-import { MenuItem } from '../types/Types';
+import { CashierFrappe, MenuItem } from '../types/Types';
 
 import '../css/QueueItemModal.css';
 import { TestBases, TestExtras, TestMilks } from '../tests/TestServerData';
 
 type Props = {
   setModalIsOpen: (modalIsOpen: boolean) => void;
-  frappe: MenuItem;
+  frappe: CashierFrappe | undefined;
 }
 
 type ButtonPressedTracker = {
@@ -20,19 +20,19 @@ export default function QueueItemModal({setModalIsOpen, frappe}: Props) {
   useEffect(() => {
     let tmp: ButtonPressedTracker[] = [];
 
-    const base = TestBases.find((b) => { return b.id === frappe.frappe.base });
+    const base = TestBases.find((b) => { return b.id === frappe?.base });
     if (base) {
       let buttonPressedTracker: ButtonPressedTracker = {extraName: base.name, pressed: false};
       tmp.push(buttonPressedTracker);
     }
     
-    const milk = TestMilks.find((b) => { return b.id === frappe.frappe.milk });
+    const milk = TestMilks.find((b) => { return b.id === frappe?.milk });
     if (milk) {
       let buttonPressedTracker: ButtonPressedTracker = {extraName: milk.name, pressed: false};
       tmp.push(buttonPressedTracker);
     }
 
-    frappe.frappe.extras.forEach((ingredient) => {
+    frappe?.extras.forEach((ingredient) => {
       const extra = TestExtras.find((item) => {return item.id === ingredient.extras});
 
       if (extra) {
@@ -49,7 +49,7 @@ export default function QueueItemModal({setModalIsOpen, frappe}: Props) {
   const createIngredientView = () => {
     let ingredientViews: ReactNode[] = [];
 
-    const base = TestBases.find((b) => { return b.id === frappe.frappe.base });
+    const base = TestBases.find((b) => { return b.id === frappe?.base });
     let btnPressedTracker = buttonPressedTracker.find((item) => {return item.extraName === base?.name});
     
     if (base) {
@@ -69,7 +69,7 @@ export default function QueueItemModal({setModalIsOpen, frappe}: Props) {
       );
     }
 
-    const milk = TestMilks.find((m) => { return m.id === frappe.frappe.milk });
+    const milk = TestMilks.find((m) => { return m.id === frappe?.milk });
     btnPressedTracker = buttonPressedTracker.find((item) => {return item.extraName === milk?.name});
 
     if (milk) {
@@ -89,7 +89,7 @@ export default function QueueItemModal({setModalIsOpen, frappe}: Props) {
       );
     }
 
-    frappe.frappe.extras.forEach((ingredient, i) => {
+    frappe?.extras.forEach((ingredient, i) => {
       const extra = TestExtras.find((item) => {return item.id === ingredient.extras});
       btnPressedTracker = buttonPressedTracker.find((item) => {return item.extraName === extra?.name});
 
@@ -144,7 +144,7 @@ export default function QueueItemModal({setModalIsOpen, frappe}: Props) {
 
   return (
     <div className='queue-item-modal-container'>
-      {frappe.name}
+      {frappe?.name}
       <div className='queue-item-modal-ingredient-container'>
         {createIngredientView()}
       </div>

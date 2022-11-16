@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import {
   TestMenu,
@@ -6,31 +6,132 @@ import {
   TestMilks,
   TestExtras,
 } from '../tests/TestServerData';
-import { Base, FrappeExtra, MenuItem, Milk, SizeNames } from '../types/Types';
+import { Base, CashierFrappe, Extra, FrappeExtra, MenuItem, Milk, SizeNames } from '../types/Types';
 
 import '../css/Queue.css';
 import QueueItemModal from './QueueItemModal';
+import { useAuth } from '../components/auth';
 
 export default function Queue() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [currentFrappe, setCurrentFrappe] = useState(TestMenu[0]);
-  const queue = [TestMenu[0], TestMenu[1], TestMenu[4]];
+  const [bases, setBases] = useState<Base[]>([]); //!< Keeps track of the current bases retrieved from the server
+  const [milks, setMilks] = useState<Milk[]>([]); //!< Keeps track of the current milks retrieved from the server
+  const [extras, setExtras] = useState<Extra[]>([]); //!< Keeps track of the current extras retrieved from the server
+  const [menuItems, setMenuItems] = useState<MenuItem[]>([]);
+  const [currentFrappe, setCurrentFrappe] = useState<CashierFrappe>();
+  const [queue, setQueue] = useState<CashierFrappe[]>([]);
+
+  const auth = useAuth();
+  let user = auth?.userInfo;
+
+  // Get the current list of bases from the server
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/frappapi/bases/')
+      .then((response) => response.json())
+      .then((data) => {
+        setBases([]);
+        data.forEach((item: Base) => {
+          setBases((oldState) => [...oldState, item]);
+        });
+        // console.log('Got bases: ', data);
+        // console.log(bases);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // Get the current list of milks from the server
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/frappapi/milks/')
+      .then((response) => response.json())
+      .then((data) => {
+        setMilks([]);
+        data.forEach((item: Milk) => {
+          setMilks((oldState) => [...oldState, item]);
+        });
+        // console.log('Got milks: ', data);
+        // console.log(milks);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // Get the current list of extras from the server
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/frappapi/extras/')
+      .then((response) => response.json())
+      .then((data) => {
+        setExtras([]);
+        data.forEach((item: Extra) => {
+          setExtras((oldState) => [...oldState, item]);
+        });
+        // console.log('data is ', data);
+        // console.log(extras);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // Get the current list of menu items from the server
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/frappapi/menu/')
+      .then((response) => response.json())
+      .then((data) => {
+        setMenuItems([]);
+        data.forEach((item: MenuItem) => {
+          setMenuItems((oldState) => [...oldState, item]);
+        });
+        console.log('menu items are ', data);
+        console.log(menuItems);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  // Get the queue of drinks that need to be made
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/frappapi/cashier/?status=1', {
+      method: 'GET',
+      headers: { Authorization: `Token ${user?.key}` },
+      credentials: 'same-origin',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setQueue([]);
+        console.log('Got queue: ', data);
+        console.log(queue);
+        data.forEach((item: CashierFrappe) => {
+          setQueue((oldState) => [...oldState, item]);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
 
   const createQueueItemView = () => {
     let queueItem: ReactNode[] = [];
 
-    for (const item of queue) {
+    for (const frappe of queue) {
+
+      frappe.name = menuItems[frappe.menu_key-1].name ?? "undefined";
+
       const header =
-        item.frappe.user +
+      frappe.creator +
         ' -- ' +
-        SizeNames[item.frappe.size] +
+        SizeNames[frappe.size - 1] +
         ' ' +
-        item.name;
+        frappe.name;
       const base = TestBases.find((b) => {
-        return b.id === item.frappe.base;
+        return b.id === frappe.base;
       });
       const milk = TestMilks.find((m) => {
-        return m.id === item.frappe.milk;
+        return m.id === frappe.milk;
       });
 
       queueItem.push(
@@ -40,7 +141,7 @@ export default function Queue() {
             <ul className="queue-item-ingredients">
               <li>{base?.name}</li>
               <li>{milk?.name}</li>
-              {item.frappe.extras.map((extra) => {
+              {frappe.extras.map((extra) => {
                 const extraDetails = TestExtras.find(
                   (item) => item.id === extra.extras
                 );
@@ -54,7 +155,7 @@ export default function Queue() {
           </div>
           <div
             className="queue-details-btn"
-            onClick={() => handleQueueDetailsBtn(item)}
+            onClick={() => handleQueueDetailsBtn(frappe)}
           >
             &gt;
           </div>
@@ -65,7 +166,7 @@ export default function Queue() {
     return queueItem;
   };
 
-  const handleQueueDetailsBtn = (frappe: MenuItem) => {
+  const handleQueueDetailsBtn = (frappe: CashierFrappe) => {
     console.log('button clicked with frappe');
     console.log(frappe);
     setCurrentFrappe(frappe);
