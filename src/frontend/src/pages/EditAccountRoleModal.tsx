@@ -14,12 +14,14 @@ interface PropsType {
   open: boolean;
   setOpen: (open: boolean) => void;
   person: Person;
+  getAccounts: Function;
 }
 
 export default function EditAccountRoleModal({
   open,
   setOpen,
   person,
+  getAccounts,
 }: PropsType) {
   const auth = useAuth();
 
@@ -78,20 +80,40 @@ export default function EditAccountRoleModal({
         .then((resp) => resp.json())
         .then((data) => {
           console.log(data);
+          getAccounts();
         });
     } else if (person.role === 'Barista' || person.role === 'Cashier') {
-      fetch('http://127.0.0.1:8000/users/employees/', {
-        method: 'PUT',
-        headers: {
-          Authorization: `Token ${auth?.userInfo.key}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(body),
-      })
-        .then((resp) => resp.json())
-        .then((data) => {
-          console.log(data);
-        });
+      if (newRole.value !== 'Customer') {
+        fetch(`http://127.0.0.1:8000/users/employees/${person.employeeId}/`, {
+          method: 'PUT',
+          headers: {
+            Authorization: `Token ${auth?.userInfo.key}`,
+            'Content-Type': 'application/json',
+          },
+          credentials: 'same-origin',
+          body: JSON.stringify(body),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            getAccounts();
+          });
+      } else {
+        fetch(`http://127.0.0.1:8000/users/employees/${person.employeeId}/`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Token ${auth?.userInfo.key}`,
+            'Content-Type': 'application/json',
+          },
+          credentials: 'same-origin',
+          body: JSON.stringify(body),
+        })
+          .then((resp) => resp.json())
+          .then((data) => {
+            console.log(data);
+            getAccounts();
+          });
+      }
     }
   };
 
