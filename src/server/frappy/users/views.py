@@ -111,7 +111,7 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
         for e in employees:
             cost += e.hours * e.wage
 
-        if self.action == "post":
+        if self.action == "POST":
             #
             if cost < manager.balance:
                 # Pay employees
@@ -137,6 +137,25 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
                 )
         else:
             return Response({"wages_total": cost, "manager_current": manager.balance})
+
+    @action(detail=True, methods=["POST"])
+    def add_hours(self, request: Request, pk=None):
+        emp: Employee = Employee.objects.get(pk=pk)
+        hours = request.data.get("hours")
+
+        if hours:
+            try:
+                hours = float(hours)
+                emp.hours += hours
+                emp.save()
+                return Response(
+                    {"success": "Hours updated sucessfully", "hours": emp.hours}
+                )
+            except ValueError:
+                return Response(
+                    {"error": f"{hours} is not a float value"},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
     # Users must be a manager to pay employees, however admins still have access
     def get_permissions(self):

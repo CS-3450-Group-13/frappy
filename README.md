@@ -14,7 +14,8 @@ Frappy is a monolithic web app for managing a generic coffee shop catered toward
 | Milestone | Location |
 | :--- | ---: |
 | Milestone 1 | [Documentation](docs/ ) |
-| Milestone 2 | [Milestone 2](#milestone-2)
+| Milestone 2 | [Milestone 2](#milestone-2) |
+| Milestone 3 | [Milestone 3](#milestone-3) |
 
 ## Build Instructions
 
@@ -78,20 +79,46 @@ Testing is performed using JEST and pytest and can be run using
 
 ![ER Database Diagram](./docs/images/ER_Diagram.png)
 
-## Link to Wireframes (low-level prototype)
+### Link to Wireframes (low-level prototype)
 
 <https://www.figma.com/file/fefIrPhFVDjBRaiS6Jyh3U/FRAPPY-MANAGER-PAGES?node-id=0%3A1>
 
-## Burndown Chart
+### Burndown Chart
 
 ![Milestone 2 Burndown Chart](docs/images/burndown-charts/milestone2.png)
 
-## Activity Diagrams
+### Activity Diagrams
 
 [Customer Orders a Drink](docs/images/order_drink.png)
 
 [Manager Creates a New Drink](docs/images/manager_creates_new_drink.png)
 
-## Milestone 3.1
+## Milestone 3
+
+Milestone 3 contains the first working demo of our project, however the "scalable" stack involves many separate processes to get up and running.  To get started follow the instructions below.
+
+### Running the Project
+
+#### Requirements
+
+- NodeJS >16
+- Python >3.9
+- Docker Destkop
+
+To build and run the frontend, navigate to `/src/frontend` and run
+
+```node
+npm run
+```
+
+To build and run the backend web server, follow the instructions inside `/src/server`'s [README.md](/src/server/README.md).  This will guide you through creating a virtual environment that our init script can use to build and link the server and database.
+
+After both frontend and backend servers are running, head over to the link specified in your NPM terminal to open and view the website.
+
+#### Testing
+
+To run server side testing, navagate to `/src/server/frappy` with your virtual environment activated.  This will create a temp database and prefill it with test data.
+
+### Milestone 3.1
 
 ![Milestone 3.1 Burndown Chart](docs/images/burndown-charts//burndown_milestone_3.1.png)
