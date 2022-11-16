@@ -127,6 +127,17 @@ class CashierFrappeViewSet(UserFrappeViewSet):
             final_price=cost,
         )
 
+    @action(detail=True, methods=["get", "post"])
+    def status(self, request: Request, pk=None):
+        frappe: Frappe = Frappe.objects.get(pk=pk)
+
+        # Only update on post request
+        if request.method == "POST":
+            frappe.status = not frappe.status
+            frappe.save()
+
+        return Response({"status": frappe.active})
+
 
 class MenuViewSet(
     mixins.CreateModelMixin,
@@ -146,7 +157,7 @@ class MenuViewSet(
 
     @action(detail=True, methods=["get", "post"])
     def activate(self, request: Request, pk=None):
-        menu_item: Menu = Menu.objects.get(id=pk)
+        menu_item: Menu = Menu.objects.get(pk=pk)
 
         # Only update on post request
         if request.method == "POST":
