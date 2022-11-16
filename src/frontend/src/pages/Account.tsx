@@ -101,10 +101,11 @@ export default function Account() {
   }
 
   function parseUser(json: any) {
+    console.log(json);
     let user: User = {
       id: json.id,
-      firstName: json.firstName ? json.firstName : 'FirstName',
-      lastName: json.lastName ? json.lastName : 'LastName',
+      firstName: json.first_name ? json.first_name : 'FirstName',
+      lastName: json.last_name ? json.last_name : 'LastName',
       userName: json.email,
       eMail: json.email,
       balance: Number.parseFloat(json.balance),
@@ -126,11 +127,15 @@ export default function Account() {
     console.log(user?.key);
     console.log(user);
 
-    fetch(`http://127.0.0.1:8000/users/users/${user?.id}/`, {
+    const formData = new FormData();
+    formData.append('first_name', first);
+    formData.append('last_name', last);
+
+    fetch(`http://127.0.0.1:8000/auth-endpoint/user/`, {
       method: 'PUT',
       headers: { Authorization: `Token ${user?.key}` },
       credentials: 'same-origin',
-      body: JSON.stringify({ firstName: first, lastName: last }),
+      body: formData,
     })
       .then((response) => {
         if (response.status === 200) {
@@ -159,11 +164,14 @@ export default function Account() {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/users/users/${user?.id}/`, {
+    const formData = new FormData();
+    formData.append('email', field1);
+
+    fetch(`http://127.0.0.1:8000/auth-endpoint/user/`, {
       headers: { Authorization: `Token ${user?.key}` },
       method: 'PUT',
       credentials: 'same-origin',
-      body: JSON.stringify({ email: field1 }),
+      body: formData,
     })
       .then((response) => {
         if (response.status === 200) {
@@ -348,6 +356,7 @@ export default function Account() {
       >
         <BalanceModal
           setModalIsOpen={setBalanceModal}
+          setOutOfDate={setOutOfDate}
           currentBalance={user?.balance ? user?.balance : 0.0}
         />
       </Modal>
