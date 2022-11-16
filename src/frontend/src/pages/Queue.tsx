@@ -179,6 +179,7 @@ export default function Queue() {
       <div className="queue-items-container">{menuItems.length > 0 && createQueueItemView()}</div>
       <Modal
         isOpen={modalIsOpen}
+        onRequestClose={() => {setModalIsOpen(false)}}
         style={{
           content: {
             marginTop: '100px',

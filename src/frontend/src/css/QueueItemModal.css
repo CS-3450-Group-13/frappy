@@ -54,6 +54,7 @@
   border-radius: 15px;
   align-self: stretch;
   color: white;
+  cursor: pointer;
 }
 
 .queue-item-modal-complete-order-btn {
@@ -63,6 +64,22 @@
   padding: 10px;
   margin-right: 2%;
   align-self: flex-end;
+  cursor: pointer;
+}
+
+.queue-item-modal-back-btn {
+  background-color: var(--frappy-dgreen);
+  border-radius: 15px;
+  margin-top: 2%;
+  padding: 10px;
+  margin-left: 2%;
+  cursor: pointer;
+}
+
+.queue-item-modal-nav-btns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .green {

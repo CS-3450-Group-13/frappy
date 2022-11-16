@@ -149,14 +149,10 @@ export default function QueueItemModal({setModalIsOpen, frappe, queue, setQueue}
   }
 
   const handleCompleteOrder = () => {
-    let isIngredientUnchecked = false;
-
     // Only allow the barista to close the modal if they have checked off every ingredient
     for (let i = 0; i < buttonPressedTracker.length; i++) {
       if (!buttonPressedTracker[i].pressed) {
-        isIngredientUnchecked = true;
-        // console.log("a button was not pressed");
-        break;
+        return;
       }
     }
 
@@ -165,7 +161,7 @@ export default function QueueItemModal({setModalIsOpen, frappe, queue, setQueue}
         return item.id != frappe?.id;
       })
     );
-    setModalIsOpen(isIngredientUnchecked);
+    setModalIsOpen(false);
   }
 
   return (
@@ -174,11 +170,18 @@ export default function QueueItemModal({setModalIsOpen, frappe, queue, setQueue}
       <div className='queue-item-modal-ingredient-container'>
         {createIngredientView()}
       </div>
-      <div 
-        className='queue-item-modal-complete-order-btn'
-        onClick={handleCompleteOrder}
-      >
-        COMPLETE ORDER
+      <div className='queue-item-modal-nav-btns'>
+        <div className='queue-item-modal-back-btn'
+          onClick={() => {setModalIsOpen(false)}}
+        >
+          BACK
+        </div>
+        <div 
+          className='queue-item-modal-complete-order-btn'
+          onClick={handleCompleteOrder}
+        >
+          COMPLETE ORDER
+        </div>
       </div>
     </div>
   )
