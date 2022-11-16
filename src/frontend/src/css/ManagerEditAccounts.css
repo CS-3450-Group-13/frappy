@@ -1,0 +1,199 @@
+@import url('Global.css');
+
+.edit-accounts-container {
+    height: 100%;
+    margin-left: 15%;
+    color: white;
+}
+
+.edit-accounts-container h2 {
+    margin-top: 20px;
+    margin-left: 10%;
+    text-align: left;
+}
+
+.accounts-table-wrapper {
+    display: flex;
+    justify-content: center;
+    border-radius: 15px;
+    padding: 5px;
+
+}
+
+.accounts-table{
+    background-color: var( --frappy-dgreen);
+    width: 80%;
+    padding:5px;
+}
+
+.accounts-table .first-row {
+    background-color: var( --frappy-dgreen);
+    height: 30px;
+}
+
+
+
+.accounts-table tr {
+    background-color: var( --frappy-l-lgreen);
+    height: 60px;
+
+}
+
+.accounts-table tr:nth-child(even) {
+    background-color: var( --frappy-lgreen);
+
+  }
+
+.btn{
+    border: none;
+    border-radius: 15px;
+    background-color: var( --frappy-red);
+    margin: 3px;
+}
+
+.btn:hover{
+background-color: lightcoral;
+}
+
+.accounts-modal {
+    height: 100%;
+}
+
+.accounts-modal h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.accounts-modal h2 {
+    margin-bottom: 20px;
+}
+
+.accounts-modal h3 {
+    margin-right: 100px;
+}
+
+.options-container {
+    display: flex;
+}
+
+.accounts-close-btn {
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 15px;
+    background-color: var( --frappy-red);
+}
+
+.accounts-close-btn:hover {
+    background-color: lightcoral;
+}
+
+.accounts-update-btn {
+    width: 150px;
+    height: 50px;
+    border: none;
+    border-radius: 15px;
+    background-color: var( --frappy-lgreen);
+}
+
+.accounts-update-btn:hover {
+    background-color:var(--frappy-l-lgreen);
+}
+
+.btns-container {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.accounts-modal select {
+    border-radius: 15px;
+    border: none;
+    text-align: center;
+    width: 100px;
+    height: 30px;
+}
+
+.image-wrapper img{
+    width: 75px;
+    height: 75px;
+}
+
+.image-wrapper-customer img {
+    width: 75px;
+    height: 75px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.image-wrapper-employee img {
+    width: 75px;
+    height: 75px;
+    background-color: wheat;
+    border-radius: 50%;
+}
+
+.edit-accounts-container h2 {
+    width: fit-content;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    margin-right: 10%;
+}
+
+.edit-menu-container form{
+    display: flex;
+    width: fit-content;
+    flex-direction: column;
+    background-color: var(--frappy-lgreen);
+
+}
+
+.edit-menu-container input {
+    margin: 3px;
+}
+
+.edit-increase-btn {
+    margin-top: 5px;
+    margin-right: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.edit-increase-btn:hover {
+    background-color: var(--frappy-l-lgreen);
+}
+
+.edit-decrease-btn {
+    margin-top: 5px;
+    margin-right: 5px;
+    padding-right: 10px;
+    padding-left: 10px;
+    background-color: white;
+    cursor: pointer;
+}
+
+.edit-decrease-btn:hover {
+    background-color: var(--frappy-l-lgreen);
+}
+
+#photo {
+    background-color: var(--frappy-lgreen);
+}
+
+.add-item-btn{
+    cursor: pointer;
+    border: none;
+    background-color: var(--frappy-lgreen);
+    color: white;
+    border-radius: 15px;
+}
+
+.add-item-btn:hover{
+    background-color: var(--frappy-l-lgreen);
+}

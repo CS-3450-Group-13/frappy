@@ -61,7 +61,12 @@
 }
 
 .cart-place-order-btn {
-  background-color: var(--frappy-l-lgreen);
+  cursor: pointer;
+  background-color: var(--frappy-lgreen);
   padding: 5px;
   border-radius: 15px;
+}
+
+.cart-place-order-btn:hover {
+  background-color: var(--frappy-l-lgreen);
 }

@@ -89,6 +89,7 @@ class UserFrappeViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
+
         return Frappe.objects.filter(user=user).order_by("-create_date")
 
     @action(detail=False)
