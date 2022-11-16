@@ -115,6 +115,10 @@ To build and run the backend web server, follow the instructions inside `/src/se
 
 After both frontend and backend servers are running, head over to the link specified in your NPM terminal to open and view the website.
 
+#### Testing
+
+To run server side testing, navagate to `/src/server/frappy` with your virtual environment activated.  This will create a temp database and prefill it with test data.
+
 ### Milestone 3.1
 
 ![Milestone 3.1 Burndown Chart](docs/images/burndown-charts//burndown_milestone_3.1.png)
