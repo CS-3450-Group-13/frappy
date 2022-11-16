@@ -134,7 +134,10 @@ class CashierFrappeViewSet(UserFrappeViewSet):
 
         # Only update on post request
         if request.method == "POST":
-            frappe.status = not frappe.status
+            if frappe.status == 1:
+                frappe.status == 2
+            else
+                frappe.status == 1
             frappe.save()
 
         return Response({"status": frappe.active})
@@ -162,12 +165,7 @@ class MenuViewSet(
 
         # Only update on post request
         if request.method == "POST":
-            # 1 and 2
-            if menu_item.active == 1:
-                menu_item.active = 2
-            else:
-                menu_item.active = 1
-
+            menu_item.active = not menu_item.active
             menu_item.save()
 
         return Response({"status": menu_item.active})
