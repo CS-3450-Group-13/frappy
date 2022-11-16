@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react'
+import React, { Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react'
 import { CashierFrappe, MenuItem } from '../types/Types';
 
 import '../css/QueueItemModal.css';
@@ -8,6 +8,8 @@ import { useAuth } from '../components/auth';
 type Props = {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   frappe: CashierFrappe | undefined;
+  queue: CashierFrappe[];
+  setQueue: Dispatch<SetStateAction<CashierFrappe[]>>;
 }
 
 type ButtonPressedTracker = {
@@ -15,7 +17,7 @@ type ButtonPressedTracker = {
   pressed: boolean;
 }
 
-export default function QueueItemModal({setModalIsOpen, frappe}: Props) {
+export default function QueueItemModal({setModalIsOpen, frappe, queue, setQueue}: Props) {
   const [buttonPressedTracker, setButtonPressedTracker] = useState<ButtonPressedTracker[]>([]);
 
   const auth = useAuth();
@@ -134,7 +136,7 @@ export default function QueueItemModal({setModalIsOpen, frappe}: Props) {
   }
 
   const handleBtnPress = (extraName: string) => {
-    console.log("button pressed with name: ", extraName);
+    // console.log("button pressed with name: ", extraName);
     const newState = buttonPressedTracker.map(obj => {
       if (obj.extraName === extraName) {
         return {...obj, pressed: true};
@@ -153,12 +155,16 @@ export default function QueueItemModal({setModalIsOpen, frappe}: Props) {
     for (let i = 0; i < buttonPressedTracker.length; i++) {
       if (!buttonPressedTracker[i].pressed) {
         isIngredientUnchecked = true;
-        console.log("a button was not pressed");
+        // console.log("a button was not pressed");
         break;
       }
     }
 
     markDrinkComplete();
+    setQueue(queue.filter((item) => {
+        return item.id != frappe?.id;
+      })
+    );
     setModalIsOpen(isIngredientUnchecked);
   }
 

@@ -194,6 +194,8 @@ export default function Queue() {
         <QueueItemModal
           setModalIsOpen={setModalIsOpen}
           frappe={currentFrappe}
+          queue={queue}
+          setQueue={setQueue}
         />
       </Modal>
     </div>
