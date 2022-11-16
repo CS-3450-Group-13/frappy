@@ -26,31 +26,35 @@ class UserFrappeViewSet(ModelViewSet):
 
         # Get profile data
         user: User = self.request.user
-        manager: user = Employee.objects.get(is_manager=True).user
+        manager: User = Employee.objects.get(is_manager=True).user
 
         # Check against stock
-        for e in serial.validated_data["extradetail_set"]:
-            amount = e["amount"]
-            extra = e["extras"]
+        details = serial.validated_data.get("extradetail_set")
 
-            # Fail if stock is invalid
-            if extra.stock < amount:
-                return Response(
-                    {
-                        "error": f"{e} has insufficient stock",
-                    }
-                )
+        if details:
+            for e in details:
+                amount = e["amount"]
+                extra = e["extras"]
+
+                # Fail if stock is invalid
+                if extra.stock < amount:
+                    return Response(
+                        {
+                            "error": f"{e} has insufficient stock",
+                        }
+                    )
 
         # Check against balance
         cost = serial.get_price(serial.validated_data)
         if cost < user.balance:
             # Update stock
-            for e in serial.validated_data.pop("extradetail_set"):
-                amount = e["amount"]
-                extra = e["extras"]
+            if details:
+                for e in details:
+                    amount = e["amount"]
+                    extra = e["extras"]
 
-                extra.stock -= amount
-                extra.save()
+                    extra.stock -= amount
+                    extra.save()
 
             serial.is_valid()
             self.perform_create(serial, cost)
@@ -85,7 +89,8 @@ class UserFrappeViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return Frappe.objects.filter(user=user).order_by(-"create_date")
+
+        return Frappe.objects.filter(user=user).order_by("-create_date")
 
     @action(detail=False)
     def recent_frappes(self, request):

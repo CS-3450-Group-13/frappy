@@ -1,0 +1,144 @@
+[
+    {
+        "model": "users.user",
+        "pk": 1,
+        "fields": {
+            "password": "pbkdf2_sha256$390000$qVGEx38DyJj5fEQjkM7GAB$BFpPttJlpCoYiDfhUNbpk/cc2+lJpYO4LNqniPlN9NA=",
+            "last_login": "2022-10-23T18:32:47.897Z",
+            "is_superuser": true,
+            "first_name": "",
+            "last_name": "",
+            "is_staff": true,
+            "is_active": true,
+            "date_joined": "2022-10-23T03:26:41.176Z",
+            "email": "admin@admin.com",
+            "balance": "500.00",
+            "groups": [],
+            "user_permissions": []
+        }
+    },
+    {
+        "model": "users.employee",
+        "pk": 1,
+        "fields": {
+            "user": 1,
+            "hours": "0.00",
+            "wage": "14.95",
+            "is_cashier": true,
+            "is_barista": true,
+            "is_manager": true
+        }
+    },
+    {
+        "model": "frappapi.base",
+        "pk": 1,
+        "fields": {
+            "name": "Coffee",
+            "stock": 999999999,
+            "price_per_unit": "1.00",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": false
+        }
+    },
+    {
+        "model": "frappapi.base",
+        "pk": 2,
+        "fields": {
+            "name": "Cream",
+            "stock": 999999999,
+            "price_per_unit": "1.50",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true
+        }
+    },
+    {
+        "model": "frappapi.milk",
+        "pk": 1,
+        "fields": {
+            "name": "Whole Milk",
+            "stock": 1000,
+            "price_per_unit": "2.05",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": false
+        }
+    },
+    {
+        "model": "frappapi.milk",
+        "pk": 2,
+        "fields": {
+            "name": "Soy Milk",
+            "stock": 1000,
+            "price_per_unit": "5.05",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "non_dairy": true
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 1,
+        "fields": {
+            "name": "Vanilla",
+            "stock": 1000,
+            "price_per_unit": "0.30",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 4
+        }
+    },
+    {
+        "model": "frappapi.extras",
+        "pk": 2,
+        "fields": {
+            "name": "Caramel",
+            "stock": 1000,
+            "price_per_unit": "0.30",
+            "updated_on": "2022-10-10T20:19:20.523Z",
+            "created_on": "2022-10-10T20:19:20.523Z",
+            "decaf": true,
+            "non_dairy": true,
+            "gluten_free": true,
+            "limit": 5
+        }
+    },
+    {
+        "model": "frappapi.frappe",
+        "pk": 1,
+        "fields": {
+            "base": 1,
+            "milk": 1,
+            "size": 1,
+            "user": 1,
+            "creator": 1,
+            "create_date": "2022-10-23T04:36:09.503Z",
+            "comments": "",
+            "final_price": "0.0",
+            "menu_key": 1
+        }
+    },
+    {
+        "model": "frappapi.extradetail",
+        "pk": 1,
+        "fields": {
+            "amount": 1,
+            "frappe": 1,
+            "extras": 1
+        }
+    },
+    {
+        "model": "frappapi.menu",
+        "pk": 1,
+        "fields": {
+            "name": "Pumpin Spice Frappe",
+            "frappe": 1,
+            "photo": "uploads/product-placeholder.webp",
+            "markup": "2.50"
+        }
+    }
+]

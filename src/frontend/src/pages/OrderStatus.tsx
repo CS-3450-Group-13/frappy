@@ -8,13 +8,17 @@ import '../css/OrderStatus.css';
 
 export default function OrderStatus() {
   const [orderDone, updateOrderDone] = useState(false);
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(90);
 
   const navigate = useNavigate();
 
   function checkDone() {
-    updateOrderDone(true); //API CALL HERE
-    console.log('done');
+    if (time > 0) {
+      updateOrderDone(false);
+    } else {
+      updateOrderDone(true); //API CALL HERE
+      console.log('done');
+    }
   }
 
   // Updates the Timer Every Second
@@ -23,7 +27,7 @@ export default function OrderStatus() {
 
     if (!orderDone) {
       interval = setInterval(() => {
-        setTime((time) => time + 1);
+        setTime((time) => time - 1);
       }, 1000);
     } else {
       clearInterval(interval);

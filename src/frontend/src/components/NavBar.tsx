@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import Logo from '../images/frappy-logo.jpg';
 import '../css/NavBar.css';
 import { useAuth } from './auth';
+import { toast } from 'react-toastify';
 
 interface Props {
   title: string;
@@ -29,7 +30,9 @@ export default function NavBar({
       .then((data) => {
         console.log('response: ', data);
       });
+    toast.success(`Logged out`);
 
+    localStorage.removeItem('LoginToken');
     auth?.logout();
     setPages([
       {
