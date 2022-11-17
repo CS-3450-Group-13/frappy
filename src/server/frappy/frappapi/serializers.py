@@ -143,3 +143,6 @@ class MenuSerializer(serializers.ModelSerializer):
         frappe.save()
 
         return instance
+
+class MenuImageSerializer(serializers.Serializer):
+    image = serializers.ImageField()

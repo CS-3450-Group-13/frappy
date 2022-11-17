@@ -18,7 +18,7 @@ class UserFrappeViewSet(ModelViewSet):
     serializer_class = FrappeSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-
+    
     # Check if sufficient balance is in place
     def create(self, request, *args, **kwargs):
         serial: FrappeSerializer = self.get_serializer(data=request.data)
@@ -169,6 +169,14 @@ class MenuViewSet(
             menu_item.save()
 
         return Response({"status": menu_item.active})
+
+    @action(detail=True, methods={"POST"}, serializer_class=MenuImageSerializer)
+    def add_photo(self, request: Request, pk=None):
+        item = Menu.objects.get(pk=pk)
+        serializer = MenuImageSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        item.photo = serializer.get("photo")
+        return Response(serializer.data)
 
 
 # Abstract class only
