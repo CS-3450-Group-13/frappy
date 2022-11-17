@@ -10,16 +10,34 @@ interface Props {
 export default function HoursModal(props: Props) {
   const [startTime, setStartTime] = useState(0);
   const [stopTime, setStopTime] = useState(0);
+  const [hoursWorked, setHoursWorked] = useState(0);
   const [errorMessage, setErrorMessage] = useState('');
 
   const auth = useAuth();
-  let user = auth?.userInfo;
+
+  let user = auth?.userInfo
+    ? auth?.userInfo
+    : {
+        id: -1,
+        fullName: 'Uknown User',
+        userName: 'none@none.com',
+        email: 'none@none.com',
+        password: 'none',
+        balance: 0,
+        role: 'user',
+        key: 'none',
+        hours: 0,
+      };
 
   function handleConfirm() {
     if (stopTime > startTime) {
-      fetch(`http://127.0.0.1/8000/users/users/add_balance/?balance=$100`, {
+      const formData = new FormData();
+      formData.append('hours', String(user?.hours + stopTime - startTime));
+      fetch(`http://127.0.0.1:8000/users/users/${user?.id}`, {
+        method: 'PUT',
         headers: { Authorization: `Token ${user?.key}` },
         credentials: 'same-origin',
+        body: formData,
       })
         .then((response) => {
           console.log(response);

@@ -100,11 +100,33 @@ export default function Account() {
     setHoursModal(true);
   }
 
+  function reAuth(password: string) {
+    const formData = new FormData();
+    formData.append('email', user?.email ? user.email : '');
+    formData.append('password', password);
+    fetch('http://127.0.0.1:8000/auth-endpoint/login/', {
+      headers: { Authorization: `Token ${user?.key}` },
+      credentials: 'same-origin',
+      method: 'POST',
+      body: formData,
+    })
+      .then((response) => {
+        if (response.status == 200) {
+          return true;
+        }
+        return false;
+      })
+      .catch((response) => {
+        return false;
+      });
+  }
+
   function parseUser(json: any) {
+    console.log(json);
     let user: User = {
       id: json.id,
-      firstName: json.firstName ? json.firstName : 'FirstName',
-      lastName: json.lastName ? json.lastName : 'LastName',
+      firstName: json.first_name ? json.first_name : 'FirstName',
+      lastName: json.last_name ? json.last_name : 'LastName',
       userName: json.email,
       eMail: json.email,
       balance: Number.parseFloat(json.balance),
@@ -115,7 +137,7 @@ export default function Account() {
     return user;
   }
 
-  function postName(field1: string, field2: string, password: string) {
+  async function postName(field1: string, field2: string, password: string) {
     if (field1.split(' ').length !== 2) {
       setFieldError('Name Must Consist of Two Parts, Seperated by a Space');
       return;
@@ -126,24 +148,46 @@ export default function Account() {
     console.log(user?.key);
     console.log(user);
 
-    fetch(`http://127.0.0.1:8000/users/users/${user?.id}/`, {
-      method: 'PUT',
+    const formData = new FormData();
+    formData.append('first_name', first);
+    formData.append('last_name', last);
+
+    const formData2 = new FormData();
+    formData2.append('email', user?.email ? user.email : '');
+    formData2.append('password', password);
+    fetch('http://127.0.0.1:8000/auth-endpoint/login/', {
       headers: { Authorization: `Token ${user?.key}` },
       credentials: 'same-origin',
-      body: JSON.stringify({ firstName: first, lastName: last }),
+      method: 'POST',
+      body: formData2,
     })
       .then((response) => {
-        if (response.status === 200) {
-          setFieldError('');
-          setFieldModal(false);
-          setOutOfDate(true);
+        if (response.status == 200) {
+          fetch(`http://127.0.0.1:8000/auth-endpoint/user/`, {
+            method: 'PUT',
+            headers: { Authorization: `Token ${user?.key}` },
+            credentials: 'same-origin',
+            body: formData,
+          })
+            .then((response) => {
+              if (response.status === 200) {
+                setFieldError('');
+                setFieldModal(false);
+                setOutOfDate(true);
+              } else {
+                setFieldError('Server Error: Please Try Again Later');
+              }
+              console.log(response);
+            })
+            .catch(() => {
+              setFieldError('Server Error: Please Try Again Later');
+            });
         } else {
-          setFieldError('Server Error: Please Try Again Later');
+          setFieldError('Incorrect Password');
         }
-        console.log(response);
       })
       .catch(() => {
-        setFieldError('Server Error: Please Try Again Later');
+        setFieldError('Incorrect Password');
       });
   }
 
@@ -159,23 +203,44 @@ export default function Account() {
       return;
     }
 
-    fetch(`http://127.0.0.1:8000/users/users/${user?.id}/`, {
+    const formData = new FormData();
+    formData.append('email', field1);
+
+    const formData2 = new FormData();
+    formData2.append('email', user?.email ? user.email : '');
+    formData2.append('password', password);
+    fetch('http://127.0.0.1:8000/auth-endpoint/login/', {
       headers: { Authorization: `Token ${user?.key}` },
-      method: 'PUT',
       credentials: 'same-origin',
-      body: JSON.stringify({ email: field1 }),
+      method: 'POST',
+      body: formData2,
     })
       .then((response) => {
-        if (response.status === 200) {
-          setFieldError('');
-          setFieldModal(false);
-          setOutOfDate(true);
+        if (response.status == 200) {
+          fetch(`http://127.0.0.1:8000/auth-endpoint/user/`, {
+            headers: { Authorization: `Token ${user?.key}` },
+            method: 'PUT',
+            credentials: 'same-origin',
+            body: formData,
+          })
+            .then((response) => {
+              if (response.status === 200) {
+                setFieldError('');
+                setFieldModal(false);
+                setOutOfDate(true);
+              } else {
+                setFieldError('Server Error: Please Try Again Later');
+              }
+              console.log(response);
+            })
+            .catch(() => setFieldError('Server Error: Please Try Again Later'));
         } else {
-          setFieldError('Server Error: Please Try Again Later');
+          setFieldError('Incorrect password');
         }
-        console.log(response);
       })
-      .catch(() => setFieldError('Server Error: Please Try Again Later'));
+      .catch(() => {
+        setFieldError('Incorrect password');
+      });
   }
 
   function postPassword(field1: string, field2: string, password: string) {
@@ -194,23 +259,41 @@ export default function Account() {
     data.append('new_password1', field1);
     data.append('new_password2', field2);
 
-    fetch('http://127.0.0.1:8000/auth-endpoint/password/change/', {
+    const formData2 = new FormData();
+    formData2.append('email', user?.email ? user.email : '');
+    formData2.append('password', password);
+    fetch('http://127.0.0.1:8000/auth-endpoint/login/', {
       headers: { Authorization: `Token ${user?.key}` },
       credentials: 'same-origin',
       method: 'POST',
-      body: data,
+      body: formData2,
     })
       .then((response) => {
-        if (response.status === 200) {
-          setFieldError('');
-          setFieldModal(false);
-          setOutOfDate(true);
+        if (response.status == 200) {
+          fetch('http://127.0.0.1:8000/auth-endpoint/password/change/', {
+            headers: { Authorization: `Token ${user?.key}` },
+            credentials: 'same-origin',
+            method: 'POST',
+            body: data,
+          })
+            .then((response) => {
+              if (response.status === 200) {
+                setFieldError('');
+                setFieldModal(false);
+                setOutOfDate(true);
+              } else {
+                setFieldError('Server Error: Please Try Again Later');
+              }
+              console.log(response);
+            })
+            .catch(() => setFieldError('Server Error: Please Try Again Later'));
         } else {
-          setFieldError('Server Error: Please Try Again Later');
+          setFieldError('Incorrect Password');
         }
-        console.log(response);
       })
-      .catch(() => setFieldError('Server Error: Please Try Again Later'));
+      .catch(() => {
+        setFieldError('Incorrect Password');
+      });
   }
 
   return (
@@ -348,6 +431,7 @@ export default function Account() {
       >
         <BalanceModal
           setModalIsOpen={setBalanceModal}
+          setOutOfDate={setOutOfDate}
           currentBalance={user?.balance ? user?.balance : 0.0}
         />
       </Modal>

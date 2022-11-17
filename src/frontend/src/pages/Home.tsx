@@ -5,7 +5,11 @@ import '../css/Home.css';
 import ScrollableList from '../components/ScrollableList';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/auth';
+import Modal from 'react-modal';
+import userEvent from '@testing-library/user-event';
+import { userInfo } from 'os';
 
+const PAYMENT_ENDPOINT = 'http://127.0.0.1:8000/users/employees/pay_all/';
 interface Props {
   authKey: string;
 }
@@ -50,6 +54,23 @@ interface PropsDetail {
 
 interface PropsOrder {
   order: Order;
+}
+
+enum ModalStates {
+  default,
+  processing,
+  success,
+  failure,
+  broke,
+  loading,
+}
+
+interface PayProps {
+  setModalOpen: (open: boolean) => void;
+  modalState: ModalStates;
+  setModalState: (modalState: ModalStates) => void;
+  payAll: () => void;
+  toPay: number;
 }
 
 const DEMO_USER: User2 = {
@@ -269,7 +290,9 @@ const DEMO_USER: User2 = {
 
 export default function Home(props: Props) {
   const navigate = useNavigate();
-  const [error, setError] = useState('');
+  const [payModalOpen, setPayModalOpen] = useState(false);
+  const [payModalState, setPayModalState] = useState(ModalStates.default);
+  const [toPay, setToPay] = useState(0);
 
   const auth = useAuth();
 
@@ -289,32 +312,99 @@ export default function Home(props: Props) {
     };
   }
 
+  updateUser();
+
+  function updateUser() {
+    if (auth !== null) {
+      var USER = auth.userInfo;
+    } else {
+      var USER = {
+        id: -1,
+        fullName: '',
+        userName: '',
+        email: '',
+        password: '',
+        balance: 0.0,
+        role: 'none',
+        key: '',
+        hours: 0,
+      };
+    }
+  }
+
   function payAll() {
+    if (payModalState === ModalStates.broke) {
+      const response = window.confirm(
+        `Insufficient Store Balance. Would You Like to Take Out a Loan for ${
+          toPay - USER.balance
+        }?`
+      );
+    }
+    setPayModalState(ModalStates.processing);
     fetch('http://127.0.0.1:8000/users/employees/pay_all/', {
       headers: { Authorization: `Token ${USER.key}` },
       credentials: 'same-origin',
-    }).then((response) => {
-      if (response.status === 200) {
-        response.json().then((data) => {
-          if (data.fail) {
-            const response = window.confirm(
-              `Insufficient Store Balance. Would You Like to Take Out a Loan for ${
-                Number.parseFloat(data.wages_total) -
-                Number.parseFloat(data.remainging_balance)
-              }?`
-            );
-            if (response) {
-              // Do Things
+      method: 'POST',
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            if (data.fail) {
+              setPayModalState(ModalStates.broke);
+            } else {
+              setPayModalState(ModalStates.success);
+              console.log(data);
+              auth?.loginAs(
+                USER.id,
+                USER.fullName,
+                USER.userName,
+                USER.email,
+                USER.password,
+                data.manager_current,
+                USER.role,
+                USER.key,
+                USER.hours
+              );
+              updateUser();
             }
-          } else {
-            alert('Employees Paid Successfully');
-            // Relog
-          }
-        });
-      } else {
-        alert('Server Error: Try Again Later');
-      }
-    });
+          });
+        } else {
+          setPayModalState(ModalStates.failure);
+        }
+      })
+      .catch(() => {
+        setPayModalState(ModalStates.failure);
+      });
+  }
+
+  function openPayModal() {
+    setPayModalOpen(true);
+    setPayModalState(ModalStates.loading);
+    fetch(PAYMENT_ENDPOINT, {
+      headers: { Authorization: `Token ${USER.key}` },
+      credentials: 'same-origin',
+      method: 'GET',
+    })
+      .then((response) => {
+        if (response.status == 200) {
+          response
+            .json()
+            .then((data) => {
+              setToPay(data.wages_total);
+              if (toPay <= USER.balance) {
+                setPayModalState(ModalStates.default);
+              } else {
+                setPayModalState(ModalStates.broke);
+              }
+            })
+            .catch(() => setPayModalState(ModalStates.failure));
+        } else {
+          setPayModalState(ModalStates.failure);
+        }
+      })
+      .catch(() => {
+        setPayModalState(ModalStates.failure);
+      });
   }
 
   return (
@@ -341,7 +431,7 @@ export default function Home(props: Props) {
           <div
             className="button favorite-button"
             onClick={() => {
-              payAll();
+              openPayModal();
             }}
           >
             Pay All Employees
@@ -385,6 +475,31 @@ export default function Home(props: Props) {
           ))}
         </ScrollableList>
       </div>
+      <Modal
+        overlayClassName="dark"
+        isOpen={payModalOpen}
+        style={{
+          content: {
+            height: '100vh',
+            width: '500px',
+            marginLeft: 'auto',
+            padding: '0px',
+            inset: '0px',
+            border: 'none',
+            borderRadius: '0px',
+            background: 'white',
+            backgroundColor: 'rgba(0,0,0,0)',
+          },
+        }}
+      >
+        <PayEmployeesModal
+          setModalOpen={setPayModalOpen}
+          modalState={payModalState}
+          setModalState={setPayModalState}
+          payAll={payAll}
+          toPay={toPay}
+        ></PayEmployeesModal>
+      </Modal>
     </div>
   );
 }
@@ -458,6 +573,86 @@ function OrderCard(props: PropsOrder) {
       <div className="expand-arrow" onClick={() => setExpanded(!expanded)}>
         {expanded ? '▲' : '▼'}
       </div>
+    </div>
+  );
+}
+
+function PayEmployeesModal(props: PayProps) {
+  const auth = useAuth();
+  const user = auth?.userInfo;
+  if (props.modalState == ModalStates.loading) {
+    return (
+      <div className="pay-container">
+        <h1 className="pay-title">Payment Information</h1>
+        <span className="pay-loader"></span>
+        <div className="pay-buttons">
+          <div
+            className="pay-button pay-cancel"
+            onClick={() => props.setModalOpen(false)}
+          >
+            Cancel
+          </div>
+          <div className="pay-button pay-confirm">Pay</div>
+        </div>
+      </div>
+    );
+  }
+  return (
+    <div className="pay-container">
+      <h1 className="pay-title">Payment Information</h1>
+      <h2>Store Balance:</h2>
+      <div className="pay-field">
+        <div className="pay-dollar">$</div>
+        <div className="pay-number">{user?.balance.toFixed(2)}</div>
+      </div>
+      <h2>Employee Payment:</h2>
+      <div className="pay-field">
+        <div className="pay-dollar">$</div>
+        <div className="pay-number">{props.toPay.toFixed(2)}</div>
+      </div>
+      <h2>Remaining Balance:</h2>
+      <div className="pay-field last-field">
+        <div className="pay-dollar">$</div>
+        <div className="pay-number">
+          {(user?.balance ? user.balance : 0 - props.toPay).toFixed(2)}
+        </div>
+      </div>
+      {(props.modalState === ModalStates.failure ||
+        props.modalState === ModalStates.broke ||
+        props.modalState === ModalStates.success) && (
+        <div
+          className={`pay-status${
+            props.modalState === ModalStates.success ? ' pay-green' : ' pay-red'
+          }`}
+        >
+          {props.modalState === ModalStates.broke
+            ? 'Warning: Insufficient Funds - Loan Required'
+            : props.modalState === ModalStates.failure
+            ? 'Server Error: Please Try Again Later'
+            : 'Employees Payed Succesfully'}
+        </div>
+      )}
+      {props.modalState !== ModalStates.processing && (
+        <div className="pay-buttons">
+          <div
+            className="pay-button pay-cancel"
+            onClick={() => props.setModalOpen(false)}
+          >
+            {props.modalState === ModalStates.success ? 'Exit' : 'Cancel'}
+          </div>
+          {props.modalState !== ModalStates.success && (
+            <div
+              className="pay-button pay-confirm"
+              onClick={() => props.payAll()}
+            >
+              Pay
+            </div>
+          )}
+        </div>
+      )}
+      {props.modalState === ModalStates.processing && (
+        <span className="pay-loader"></span>
+      )}
     </div>
   );
 }

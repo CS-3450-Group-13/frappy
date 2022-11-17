@@ -89,7 +89,7 @@ class ExtraDetail(models.Model):
 class Menu(models.Model):
     name = models.CharField(max_length=250)
     frappe = models.ForeignKey(Frappe, on_delete=models.PROTECT)
-    photo = models.ImageField(upload_to="uploads")
+    photo = models.ImageField(upload_to="uploads", blank=True)
     markup = models.DecimalField(max_digits=5, decimal_places=2, default=0)
     active = models.BooleanField(default=True)
 
