@@ -29,8 +29,6 @@ Frappy is a monolithic web app for managing a generic coffee shop catered toward
 * Unit tests can be found [here](#milestone-3/testing) (Not Yet Fully Implemented)
 * Updated System Docs can be found [here](docs/)
 
-
-
 # Milestone 1
 
 ## Build Instructions
