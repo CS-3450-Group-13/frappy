@@ -58,7 +58,7 @@ export default function ManagerEditAccounts() {
 
   const auth = useAuth();
 
-  useEffect(() => {
+  const getAccounts = () => {
     fetch('http://127.0.0.1:8000/users/users/', {
       headers: {
         Authorization: `Token ${auth?.userInfo.key}`,
@@ -97,6 +97,10 @@ export default function ManagerEditAccounts() {
         console.log(accountsData);
         setAccounts(accountsData);
       });
+  };
+
+  useEffect(() => {
+    getAccounts();
   }, []);
 
   function handleEditRole(
@@ -165,6 +169,7 @@ export default function ManagerEditAccounts() {
         </table>
       </div>
       <EditAccountRoleModal
+        getAccounts={getAccounts}
         open={editOpen}
         setOpen={setEditOpen}
         person={currentPerson}
