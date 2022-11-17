@@ -22,6 +22,8 @@ type Props = {
 export default function Cart({ cart, setCart }: Props) {
   const [total, setTotal] = useState(0);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [customer, setCustomer] = useState();
 
   const navigate = useNavigate();
   const auth = useAuth();
@@ -93,6 +95,26 @@ export default function Cart({ cart, setCart }: Props) {
     navigate('/menu');
   };
 
+  const handleVerifyCustomer = () => {
+    console.log("attempting to get user information for ", customerEmail);
+    let idx = `127.0.0.1:8000/users/users/?email='${customerEmail}'`;
+    console.log(idx);
+    fetch(`127.0.0.1:8000/users/users/?email='${customerEmail}'`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Token ${user?.key}`,
+          'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin',
+        // body: JSON.stringify(tmp),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('got response: ', data);
+      })
+      .catch((err) => console.log('got error: ', err));
+  };
+
   /**
    * @brief Callback for handling when the user wants to place their order
    */
@@ -135,6 +157,10 @@ export default function Cart({ cart, setCart }: Props) {
     navigate('/order-status');
   };
 
+  const handleCustomerEmailChange = (text: string) => {
+    setCustomerEmail(text);
+  }
+
   return (
     <div className="cart-container">
       CART:
@@ -157,6 +183,25 @@ export default function Cart({ cart, setCart }: Props) {
           TOTAL:
           <div className="cart-total">${total.toFixed(2)}</div>
         </div>
+        {user?.role !== "customer" &&
+          <div className="cart-customer-order-container">
+            <div className="cart-customer-order-text">
+              Ordering on behalf of a customer? Verify their account here:
+            </div>
+            <input
+              className="cart-customer-name-tb" 
+              type="text"
+              placeholder="customer email"
+              onChange={(e) => handleCustomerEmailChange(e.target.value)}
+            />
+            <div
+              className="cart-verify-customer-btn"
+              onClick={() => {handleVerifyCustomer()}}
+            >
+              verify
+            </div>
+          </div>
+        }
         <div className="cart-decision-btns">
           <div
             className="cart-back-btn"
