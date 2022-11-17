@@ -26,14 +26,13 @@ Functions available to all users of the web application include:
 
 1. Account Creation
    * Default Option Presented to Users Who are Not Currently Signed In
-   * Requires Unique Username
+   * Requires Unique Email
    * Requires Password
-   * Requires an Email
    * Password Should Pass Some Level of Minimum Security
 
 2. Sign In
    * Default Option Presented to Users Who are Not Currently Signed In
-   * Requires Username
+   * Requires Email
    * Requires Matching Password
   
    ![User Login UML](images/useCase7.png)
@@ -68,7 +67,7 @@ Functions available to customers include:
 
 1. Customize and Order Drinks
    * Several Modifiable Preset Options
-   * "Build-Your-Own" Option
+   * Full Customization Options
    * Paid for Using Account Balance (Must Have Non-Negative Balance to Start Order)
    * Drink Order Will Go Through if Drink Options are Valid
    ![Order Drink UML](images/user_orders_drink.png)
@@ -78,13 +77,13 @@ Functions available to customers include:
    * An Add to Balance Button Will Allow Users to Top Off Their Balance
 
 3. View Their Order History
-   * Order History Will be Viewable Via a User Profile Button
-   * Customers Will Have the Option to Create an Order Using a Past Order as a Preset
+   * Order History Could be Viewable Via the Home Page
+   * Customers Could Have the Option to Create an Order Using a Past Order as a Preset
 
 ### All Employees
 
 1. Log Hours Worked
-   * Available Via a Calander Tab
+   * Available Via the Account Page
    ![How to submit Hours](images/Diagram%205.1.png)
 
 > **Participating actor: Employee**
@@ -110,7 +109,7 @@ Functions available to customers include:
 Functions Available to Cashiers Include:
 
 1. Customize and Order Drinks on Behalf of a User
-   * Option to Select from All Registered Users
+   * Option to Enter User Email Adress
    * Several Modifiable Preset Options
    * "Build-Your-Own" Option
    * Paid for Using Customer Account Balance
@@ -177,9 +176,9 @@ Functions available to Baristas Include:
 Functions available to Managers Include:
 
 1. View and Manage Other Accounts
-   * Available Via an Management Tab
+   * Available Via an Accounts Tab
    * Can Mark Accounts as Different Roles (Except for Manager)
-   * Can Change Account Balances
+   * Could Change Account Balances
 
    ![Manager Edits Account Info](images/useCase8.png)
    > **Participating Actors:** Customer, Barista/Cashier (referred to as Employee)
@@ -216,12 +215,12 @@ Functions available to Managers Include:
 
 2. View and Manage Inventory
    * Available Via an Inventory Tab
-   * Can Add to Current Inventory Stock
-   * Can Add New Items to Inventory?
+   * Can Add to Current Inventory Stock (Ordered With Balance)
+   * Can Add New Items to Inventory
 
 3. Create New Drink Presets
    * Available Via a Drink Tab
-   * Can Upload a Custom Image
+   * Could Upload a Custom Image
 
    ![Create New Drinks UML](images/Diagram%206.png)
    > **Participating actor: Barista**
@@ -244,10 +243,10 @@ Functions available to Managers Include:
    >    5. success message is returned
 
 4. Pay Employees
-   * Available Via a Payment Tab
+   * Available Via the Manager Home Page
    * Automatically Transfers Balance from the Managers Account to Employees Accounts
    * Pays Employees Based on Hours Logged
-   * Fails if Insufficient Funds are Available
+   * Manager Can Take Out a Loan if They Have Insufficient Funds
 
    ![Pay Employees UML](images/manager_pays_employees.png)
 
@@ -274,7 +273,7 @@ Functions available to Managers Include:
 
 1. User Authentication and Access
    1. The system must have all users to authenticate themselves before giving them access to the system.
-      1. User must have the ability to Login with username/email and password.
+      1. User must have the ability to Login with email and password.
          1. If the account does not exist, the user should be redirected to the create an account option.
       2. If User does not have an account, the user must have the ability be a create an account.
          1. The system must only allow the user to create customer accounts. Managers must have the ability to create other accounts and assign roles.
@@ -292,7 +291,7 @@ Functions available to Managers Include:
          1. When things are added/removed the price must change and so must the inventory.
          2. The system should check to see if there are sufficient ingredients in inventory to complete order.
    2. The menu must have multiple sizes (small, medium, large).
-      1. Amount of ingredients used should change depending on the size.
+      1. Amount of base ingredients used should change depending on the size.
    3. The price of the menu items must be based on the price of the ingredients used, with a profit margin.
    4. The inventory must have all the different ingredients and other store items.
       1. If empty, the manager must have the ability to order more inventory items.
@@ -347,7 +346,7 @@ Functions available to Managers Include:
       1. make new drinks
       2. delete drinks
       3. edit drinks in menu
-      4. edit the price of the drinks
+      4. could edit the price of the drinks
    4. Manager must be able to add inventory items
       1. The system must subtract money from the Managers/stores account
    5. Manager must be able to do everything a cashier and Barista can
@@ -358,7 +357,6 @@ There exist several non-functional requirements for this project as well, namely
 
 1. The system must use a database
    1. The database should store account information for users, managers, cashiers, and baristas, including the following fields:
-      1. Username
       2. Password (*Encrypted*)
       3. Email
       4. Account Balance
