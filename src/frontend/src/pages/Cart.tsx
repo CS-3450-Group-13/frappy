@@ -109,8 +109,6 @@ export default function Cart({ cart, setCart }: Props) {
         comments: 'for testing',
       };
 
-      // frappe.frappe.menu_key = 4;
-
       // Server doesn't want the frappe key for each extra
       tmp.extras.forEach((extra) => {
         delete extra.frappe;
