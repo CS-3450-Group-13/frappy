@@ -1,5 +1,6 @@
 # Frappy
 
+
 Frappy is a monolithic web app for managing a generic coffee shop catered towards millennials. For a more detailed overview, see [Project Plan](docs/Frappy_Project_Plan.docx) or [Requirements Definition](docs/requirement_definition.md)
 
 ## Team Members
@@ -17,6 +18,16 @@ Frappy is a monolithic web app for managing a generic coffee shop catered toward
 | Milestone 1 | [Milestone 1](#milestone-1)
 | Milestone 2 | [Milestone 2](#milestone-2) |
 | Milestone 3 | [Milestone 3](#milestone-3) |
+
+# Notes for Grader
+
+* We kept in the outdated build artifacts from earlier milestones. In order to run/test the project follow the directions in milestone 3. 
+* Sprint Planning Docs can be found [here](docs/planning)
+* Standup Reports can be found [here](docs/planning/standups)
+* Sprint Restrspective Reports can be found [here](docs/planning)
+* Instructions for running can be found [here](#milestone-3)
+* Unit tests can be found [here](#milestone-3/testing) (Not Yet Fully Implemented)
+* Updated System Docs can be found [here](docs/)
 
 # Milestone 1
 
@@ -112,7 +123,14 @@ After both frontend and backend servers are running, head over to the link speci
 
 #### Testing
 
-To run server side testing, navagate to `/src/server/frappy` with your virtual environment activated.  This will create a temp database and prefill it with test data.
+To run server side testing, navagate to `/src/server/frappy` with your virtual environment activated. 
+
+Run:
+```
+python manage.py test
+```
+
+This will create a temp database and prefill it with test data.
 
 ### Milestone 3.1
 
