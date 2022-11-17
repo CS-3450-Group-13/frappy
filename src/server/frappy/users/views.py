@@ -6,6 +6,8 @@ from rest_framework import status
 from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework.request import Request
 from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateModelMixin
+from django_filters.rest_framework import DjangoFilterBackend
+
 from .serializers import (
     BalanceSerializer,
     EmployeeSerializer,
@@ -36,7 +38,8 @@ class UserViewSet(
 ):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    filter_backends = {}
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["email"]
 
     def get_permissions(self):
         if self.action in ["current_user", "add_balance"]:
