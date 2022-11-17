@@ -176,7 +176,9 @@ export default function Queue() {
   return (
     <div className="queue-container">
       BARISTA QUEUE:
-      <div className="queue-items-container">{menuItems.length > 0 && createQueueItemView()}</div>
+      <div className="queue-items-container">
+        {menuItems.length > 0 && createQueueItemView()}
+      </div>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={() => {setModalIsOpen(false)}}
