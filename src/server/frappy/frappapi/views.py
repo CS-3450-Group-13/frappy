@@ -89,7 +89,6 @@ class UserFrappeViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-
         return Frappe.objects.filter(user=user).order_by("-create_date")
 
     @action(detail=False)
@@ -135,12 +134,12 @@ class CashierFrappeViewSet(UserFrappeViewSet):
         # Only update on post request
         if request.method == "POST":
             if frappe.status == 1:
-                frappe.status == 2
+                frappe.status = 2
             else:
                 frappe.status == 1
             frappe.save()
 
-        return Response({"status": frappe.active})
+        return Response({"status": frappe.status})
 
 
 class MenuViewSet(
