@@ -142,7 +142,7 @@ class CashierFrappeViewSet(UserFrappeViewSet):
         return Response({"status": frappe.status})
 
     def get_queryset(self):
-        return Frappe.objects.all()
+        return Frappe.objects.all().order_by("-create_date")[::-1]
 
     def create(self, request, *args, **kwargs):
         serial: FrappeSerializer = self.get_serializer(data=request.data)
