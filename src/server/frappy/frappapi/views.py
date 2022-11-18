@@ -140,6 +140,10 @@ class CashierFrappeViewSet(UserFrappeViewSet):
             frappe.save()
 
         return Response({"status": frappe.status})
+    
+    def get_queryset(self):
+        return Frappe.objects.all()
+    
 
 
 class MenuViewSet(
