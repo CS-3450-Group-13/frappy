@@ -103,3 +103,8 @@
   border-radius: 15px;
   cursor: pointer;
 }
+
+.cart-customer-balance-invalid {
+  color: red;
+  font-size: 1.5rem;
+}
