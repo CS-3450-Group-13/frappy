@@ -44,15 +44,27 @@
 
   }
 
-.btn{
+.btn {
+    user-select: none;
+    cursor: pointer;
     border: none;
-    border-radius: 15px;
-    background-color: var( --frappy-red);
-    margin: 3px;
+    border-radius: 4px;
+    margin-right: 8px;
+    padding: 4px 8px 4px 8px;
+    background-color: var(--frappy-orange);
+    margin: auto;
 }
 
 .btn:hover{
-background-color: lightcoral;
+    background-color: orange;
+}
+
+.active {
+    background-color: var(--frappy-red);
+}
+
+.active:hover {
+    background-color: lightcoral;
 }
 
 .accounts-modal {

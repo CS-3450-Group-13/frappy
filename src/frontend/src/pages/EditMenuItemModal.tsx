@@ -25,16 +25,6 @@ export default function EditMenuItemModal({
 }: PropsType) {
   const auth = useAuth();
 
-  function getBase64Image(img: any) {
-    var canvas = document.createElement('canvas');
-    canvas.width = img.width;
-    canvas.height = img.height;
-    var ctx = canvas.getContext('2d');
-    ctx?.drawImage(img, 0, 0);
-    var dataURL = canvas.toDataURL('image/png');
-    return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
-  }
-
   const postData = () => {
     if (
       menuItem !== undefined &&
@@ -84,9 +74,26 @@ export default function EditMenuItemModal({
           size: menuItem.frappe.size,
         },
         prices: menuItem.prices,
-        photo: menuItem.photo,
       };
       console.log(newMenuItem);
+
+      fetch(
+        `http://127.0.0.1:8000/frappapi/menu/${menuItem.frappe.menu_key}/activate/`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Token ${auth?.userInfo.key}`,
+            'Content-Type': 'application/json',
+          },
+          credentials: 'same-origin',
+          body: JSON.stringify(menuItem),
+        }
+      )
+        .then((resp) => resp.json())
+        .then((data) => {
+          console.log(data);
+          getMenu();
+        });
 
       fetch(`http://127.0.0.1:8000/frappapi/menu/`, {
         method: 'POST',

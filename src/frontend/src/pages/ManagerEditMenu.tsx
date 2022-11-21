@@ -40,7 +40,7 @@ export default function ManagerEditMenu() {
         data.forEach((item: MenuItem) => {
           setMenuItems((oldState) => [...oldState, item]);
         });
-        setNewId(menuItems[menuItems.length - 1].frappe.id + 1);
+        setNewId(menuItems.length);
         setCurrentFrappe(menuItems[0]);
       })
       .catch((err) => {
@@ -145,7 +145,9 @@ export default function ManagerEditMenu() {
   const tableRows = menuItems.map((data) => (
     <tr>
       <td>
-        <button onClick={() => handleEditOpen(data)}>Edit</button>
+        <button className="btn" onClick={() => handleEditOpen(data)}>
+          Edit
+        </button>
       </td>
       <td>
         <div className="image-wrapper">
@@ -165,7 +167,9 @@ export default function ManagerEditMenu() {
         <div className="status-row">
           {data.active && <div>Active</div>}
           {data.active === false && <div>Not Active</div>}
-          <button onClick={() => deActivate(data)}>Change</button>
+          <button className="btn active" onClick={() => deActivate(data)}>
+            Change
+          </button>
         </div>
       </td>
     </tr>

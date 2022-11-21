@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import Modal from 'react-modal';
+import { useAuth } from '../components/auth';
 import '../css/ManagerEditAccounts.css';
 import { Base, Extra, Milk } from '../types/Types';
 
@@ -33,50 +34,61 @@ export default function NewMenuItemModal({
     photo: null,
   };
 
+  let auth = useAuth();
+
   const postData = () => {
-    if (extras !== undefined) {
-      let formData = new FormData();
-      let newName = document.getElementById('new-name') as HTMLInputElement;
-      let base = document.getElementById('base') as HTMLInputElement;
-      let milk = document.getElementById('milk') as HTMLInputElement;
-      let photo = document.getElementById('photo') as HTMLInputElement;
-      let image_url = null;
-      formData.append('name', newName.value);
-      let extrasList = [];
+    if (bases !== undefined && milks !== undefined && extras !== undefined) {
+      let newName = (document.getElementById('new-name') as HTMLInputElement)
+        .value;
+      let newBase = (document.getElementById('base') as HTMLSelectElement)
+        .value;
+      let newMilk = (document.getElementById('milk') as HTMLSelectElement)
+        .value;
+      let ExtrasList = ['0'];
       for (let i = 0; i < extras.length; i++) {
-        let temp = document.getElementById(extras[i].name) as HTMLInputElement;
-        if (Number(temp.value) > 0) {
-          extrasList.push({
-            amount: temp.value,
-            extras: extras[i].id,
-            frappe: '1',
-          });
+        let temp = (
+          document.getElementById(extras[i].name) as HTMLSelectElement
+        ).value;
+        ExtrasList.push(temp);
+      }
+      let frappyExtras = [];
+      for (let i = 0; i < ExtrasList.length; i++) {
+        if (ExtrasList[i] !== '0') {
+          let frappy = {
+            amount: Number(ExtrasList[i]),
+            extras: i,
+            frappe: newId,
+          };
+          frappyExtras.push(frappy);
         }
       }
-      let frappe = {
-        milk: milk.value,
-        base: base.value,
-        extras: extrasList,
-        size: 1,
+
+      let body = {
+        name: newName,
+        frappe: {
+          id: newId,
+          menu_key: newId + 1,
+          base: Number(newBase),
+          milk: Number(newMilk),
+          extras: frappyExtras,
+          size: 1,
+        },
+        active: true,
       };
-      if (photo.files !== null) {
-        formData.append('photo', photo.files[0]);
-      }
+      console.log(body);
 
-      const data = new Blob([JSON.stringify(frappe)], {
-        type: 'application/json',
-      });
-
-      formData.append('frappe', JSON.stringify(frappe));
-      console.log(formData);
-      fetch('http://127.0.0.1:8000/frappapi/menu/', {
+      fetch(`http://127.0.0.1:8000/frappapi/menu/`, {
         method: 'POST',
-        body: formData,
+        headers: {
+          Authorization: `Token ${auth?.userInfo.key}`,
+          'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify(body),
       })
-        .then((response) => response.json())
-        .then((Data) => {
-          console.log(Data);
-          getMenu();
+        .then((resp) => resp.json())
+        .then((data) => {
+          console.log(data);
         });
     }
   };
@@ -100,11 +112,9 @@ export default function NewMenuItemModal({
       <div className="accounts-modal">
         <h1>Create New Menu Item</h1>
         <div className="edit-menu-container">
-          <form method="post" encType="multipart/form-data">
+          <form>
             <label>Name: </label>
             <input id="new-name" type="text"></input>
-            <label>Photo:</label>
-            <input id="photo" type="file"></input>
             <label>Base: </label>
             <select id="base">
               {bases?.map((item) => (

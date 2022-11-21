@@ -23,6 +23,7 @@
     border-radius: 15px;
     width: 90%;
     height: 50px;
+    cursor: pointer;
 }
 
 .nav-bar-container button:hover {

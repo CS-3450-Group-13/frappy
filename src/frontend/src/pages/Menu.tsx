@@ -20,7 +20,9 @@ export default function Menu({ cart, setCart }: Props) {
       .then((data) => {
         setMenuItems([]);
         data.forEach((item: MenuItem) => {
-          setMenuItems((oldState) => [...oldState, item]);
+          if (item.active) {
+            setMenuItems((oldState) => [...oldState, item]);
+          }
         });
         // console.log('data is ', data);
         // console.log(menuItems);
