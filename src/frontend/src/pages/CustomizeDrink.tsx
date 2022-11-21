@@ -33,6 +33,8 @@ export default function CustomizeDrink({ setCart }: Props) {
   const [extras, setExtras] = useState<Extra[]>([]); //!< Keeps track of the current extras retrieved from the server
   const [currentFrappe, setCurrentFrappe] = useState<MenuItem>(state.drink); //!< Keeps track of the current frappe customizations
 
+  console.log("current frappe is ", currentFrappe);
+
   // Get the current list of bases from the server
   useEffect(() => {
     console.log('user', customer);
@@ -43,8 +45,8 @@ export default function CustomizeDrink({ setCart }: Props) {
         data.forEach((item: Base) => {
           setBases((oldState) => [...oldState, item]);
         });
-        console.log('Got bases: ', data);
-        console.log(bases);
+        // console.log('Got bases: ', data);
+        // console.log(bases);
       })
       .catch((err) => {
         console.log(err);
@@ -60,8 +62,8 @@ export default function CustomizeDrink({ setCart }: Props) {
         data.forEach((item: Milk) => {
           setMilks((oldState) => [...oldState, item]);
         });
-        console.log('Got milks: ', data);
-        console.log(milks);
+        // console.log('Got milks: ', data);
+        // console.log(milks);
       })
       .catch((err) => {
         console.log(err);
@@ -77,8 +79,8 @@ export default function CustomizeDrink({ setCart }: Props) {
         data.forEach((item: Extra) => {
           setExtras((oldState) => [...oldState, item]);
         });
-        console.log('data is ', data);
-        console.log(extras);
+        // console.log('data is ', data);
+        // console.log(extras);
       })
       .catch((err) => {
         console.log(err);
@@ -339,7 +341,7 @@ export default function CustomizeDrink({ setCart }: Props) {
    */
   function handleAddToCart() {
     setCart((oldState) => [...oldState, currentFrappe]);
-    console.log(cart);
+    // console.log(cart);
     navigate('/menu');
   }
 

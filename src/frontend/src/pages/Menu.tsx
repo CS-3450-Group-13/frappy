@@ -22,11 +22,11 @@ export default function Menu({ cart, setCart }: Props) {
         data.forEach((item: MenuItem) => {
           setMenuItems((oldState) => [...oldState, item]);
         });
-        console.log('data is ', data);
-        console.log(menuItems);
+        // console.log('data is ', data);
+        // console.log(menuItems);
         setCurrentFrappe(menuItems[0]);
-        console.log('current frappe is ');
-        console.log(currentFrappe);
+        // console.log('current frappe is ');
+        // console.log(currentFrappe);
       })
       .catch((err) => {
         console.log(err);

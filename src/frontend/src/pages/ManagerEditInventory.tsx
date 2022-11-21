@@ -7,6 +7,8 @@ import ItemCartDisplay from '../components/ItemCartDisplay';
 import '../css/ManagerEditInventory.css';
 import Modal from 'react-modal';
 import { stat } from 'fs';
+import { json } from 'stream/consumers';
+import userEvent from '@testing-library/user-event';
 
 const BASE_ENDPOINT = 'http://127.0.0.1:8000/frappapi/bases/';
 const MILK_ENDPOINT = 'http://127.0.0.1:8000/frappapi/milks/';
@@ -28,6 +30,7 @@ enum RowState {
   success,
   failed,
   deleted,
+  order,
 }
 
 enum ModalState {
@@ -207,16 +210,21 @@ export default function ManagerEditInventory() {
     endpoint: string,
     stringify: (item: item) => string
   ) {
-    const tableRows = list.map((data: any) => (
-      <EditableRow
-        item={data}
-        endpoint={endpoint}
-        stringify={stringify}
-        updateItem={(item: item, oldItem: item) =>
-          updateItem(item, list, setter, oldItem)
-        }
-      />
-    ));
+    const tableRows = list.map((data: any) => {
+      if (data.stock !== -1) {
+        return (
+          <EditableRow
+            item={data}
+            endpoint={endpoint}
+            stringify={stringify}
+            updateItem={(item: item, oldItem: item) =>
+              updateItem(item, list, setter, oldItem)
+            }
+          />
+        );
+      }
+      return;
+    });
 
     return (
       <div className="inventory-table-wrapper">
@@ -284,8 +292,73 @@ function EditableRow(props: EditableRowPrpos) {
   const [name, setName] = useState(props.item.name);
   const [stock, setStock] = useState(props.item.stock);
   const [price, setPrice] = useState(props.item.price);
+  const [order, setOrder] = useState(0);
 
   const auth = useAuth();
+  const user = auth?.userInfo;
+
+  function handleOrder() {
+    setState(RowState.order);
+  }
+
+  function updateOrder(value: any) {
+    if (value) {
+      setOrder(value);
+    } else {
+      setOrder(0);
+    }
+  }
+
+  function orderInventory() {
+    const orderDetails = { amount: order };
+    updateOrder(0);
+    setState(RowState.updating);
+    fetch(`${props.endpoint}${props.item.id}/buy/`, {
+      headers: {
+        Authorization: `Token ${auth?.userInfo.key}`,
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+      method: 'POST',
+      body: JSON.stringify(orderDetails),
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            if (!data.error) {
+              const newItem: item = {
+                id: props.item.id,
+                name: props.item.name,
+                price: props.item.price,
+                stock: data.stock,
+                lastModified: props.item.lastModified,
+              };
+
+              props.updateItem(newItem, props.item);
+
+              auth?.loginAs(
+                user?.id,
+                user?.fullName,
+                user?.userName,
+                user?.email,
+                user?.password,
+                data.current_balance,
+                user?.role,
+                user?.key,
+                user?.hours
+              );
+
+              setState(RowState.success);
+            } else {
+              setState(RowState.failed);
+            }
+          });
+        } else {
+          setState(RowState.failed);
+        }
+      })
+      .catch(() => setState(RowState.failed));
+  }
 
   function handelEdit() {
     setState(RowState.edit);
@@ -355,16 +428,25 @@ function EditableRow(props: EditableRowPrpos) {
   function deleteRow() {
     setState(RowState.updating);
 
+    const newItem: item = {
+      id: props.item.id,
+      name: name,
+      stock: -1,
+      price: price,
+      lastModified: props.item.lastModified,
+    };
+
     fetch(`${props.endpoint}${props.item.id}/`, {
       headers: {
         Authorization: `Token ${auth?.userInfo.key}`,
         'Content-Type': 'application/json',
       },
       credentials: 'same-origin',
-      method: 'DELETE',
+      method: 'PUT',
+      body: props.stringify(newItem),
     })
       .then((response) => {
-        if (response.status === 204) {
+        if (response.status === 200) {
           setState(RowState.deleted);
         } else {
           setState(RowState.failed);
@@ -376,17 +458,17 @@ function EditableRow(props: EditableRowPrpos) {
   function restoreRow() {
     setState(RowState.updating);
     const postItem: item = props.item;
-    fetch(`${props.endpoint}`, {
+    fetch(`${props.endpoint}${props.item.id}/`, {
       headers: {
         Authorization: `Token ${auth?.userInfo.key}`,
         'Content-Type': 'application/json',
       },
       credentials: 'same-origin',
-      method: 'POST',
+      method: 'PUT',
       body: props.stringify(postItem),
     })
       .then((response) => {
-        if (response.status === 201) {
+        if (response.status === 200) {
           response.json().then((data) => {
             const newItem: item = {
               id: data.id,
@@ -438,6 +520,91 @@ function EditableRow(props: EditableRowPrpos) {
       </tr>
     );
   }
+
+  if (state === RowState.order) {
+    return (
+      <tr>
+        <td>
+          {props.item.name}{' '}
+          <span className="orange">(@${props.item.price})</span>
+        </td>
+        <td colSpan={3}>
+          <div className="inventory-order-sheet">
+            <div className="inventory-order-cell">
+              <div>Current Balance:</div>
+              <div>${user?.balance.toFixed(2)}</div>
+            </div>
+            <div className="inventory-order-cell">
+              <div>To Order:</div>
+              <div className="order-input-container">
+                <input
+                  className="order-input"
+                  type="number"
+                  onChange={(e) => updateOrder(Number.parseInt(e.target.value))}
+                  value={order !== 0 ? String(order) : ''}
+                ></input>
+                <div className="garbo">({props.item.stock + order})</div>
+              </div>
+            </div>
+            <div className="inventory-order-cell">
+              {' '}
+              <div>Total Cost:</div>
+              <div>${(props.item.price * order).toFixed(2)}</div>
+            </div>
+            <div className="inventory-order-cell">
+              {' '}
+              <div>Remaining Balance:</div>
+              <div>
+                $
+                {(
+                  (user?.balance ? user.balance : 0) -
+                  props.item.price * order
+                ).toFixed(2)}
+              </div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <div className="action-btn-container">
+            <div className="inventory-increment-btns">
+              <div
+                className="inventory-increment"
+                onClick={() => updateOrder(order + 1)}
+              >
+                +
+              </div>
+              <div
+                className="inventory-decrement"
+                onClick={() => {
+                  if (order > 0) {
+                    updateOrder(order - 1);
+                  }
+                }}
+              >
+                -
+              </div>
+            </div>
+            <div
+              className="inventory-btn inventory-cancel-btn"
+              onClick={() => {
+                updateOrder(0);
+                setState(RowState.default);
+              }}
+            >
+              Cancel
+            </div>
+            <div
+              className="inventory-btn inventory-save-btn"
+              onClick={() => orderInventory()}
+            >
+              Confirm
+            </div>
+          </div>
+        </td>
+      </tr>
+    );
+  }
+
   if (state !== RowState.edit) {
     return (
       <tr>
@@ -459,6 +626,12 @@ function EditableRow(props: EditableRowPrpos) {
                   {state === RowState.success ? '✓' : '✕'}
                 </div>
               )}
+              <div
+                className="inventory-btn inventory-order-btn"
+                onClick={() => handleOrder()}
+              >
+                Order
+              </div>
               <div
                 className="inventory-btn inventory-edit-btn"
                 onClick={() => handelEdit()}
@@ -495,15 +668,7 @@ function EditableRow(props: EditableRowPrpos) {
           </div>
         </td>
         <td>
-          <div>
-            <input
-              defaultValue={props.item.stock}
-              type="number"
-              pattern="\d.*$"
-              step="1"
-              onChange={(e) => setStock(Number.parseInt(e.target.value))}
-            ></input>
-          </div>
+          <div>{props.item.stock}</div>
         </td>
         <td>
           <div className="inventory-price-container">

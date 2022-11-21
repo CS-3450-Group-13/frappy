@@ -1,5 +1,6 @@
 import React from 'react';
 import Modal from 'react-modal';
+import { toast } from 'react-toastify';
 import { useAuth } from '../components/auth';
 import '../css/ManagerEditAccounts.css';
 
@@ -79,6 +80,7 @@ export default function EditAccountRoleModal({
       })
         .then((resp) => resp.json())
         .then((data) => {
+          toast.success('Hired new employee');
           console.log(data);
           getAccounts();
         });
@@ -96,6 +98,7 @@ export default function EditAccountRoleModal({
           .then((resp) => resp.json())
           .then((data) => {
             console.log(data);
+            toast.success('Changed role');
             getAccounts();
           });
       } else {
@@ -112,8 +115,11 @@ export default function EditAccountRoleModal({
           .then((data) => {
             console.log(data);
             getAccounts();
+            toast.success('Fired employee, refresh page to see update');
           });
       }
+    } else {
+      toast.error('Can not edit manager');
     }
   };
 
@@ -143,7 +149,6 @@ export default function EditAccountRoleModal({
             <option>Customer</option>
             <option>Barista</option>
             <option>Cashier</option>
-            {/* <option>Manager</option> */}
           </select>
         </div>
         <div className="btns-container">

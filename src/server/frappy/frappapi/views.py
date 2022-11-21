@@ -18,7 +18,7 @@ class UserFrappeViewSet(ModelViewSet):
     serializer_class = FrappeSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-
+    
     # Check if sufficient balance is in place
     def create(self, request, *args, **kwargs):
         serial: FrappeSerializer = self.get_serializer(data=request.data)
@@ -26,31 +26,35 @@ class UserFrappeViewSet(ModelViewSet):
 
         # Get profile data
         user: User = self.request.user
-        manager: user = Employee.objects.get(is_manager=True).user
+        manager: User = Employee.objects.get(is_manager=True).user
 
         # Check against stock
-        for e in serial.validated_data["extradetail_set"]:
-            amount = e["amount"]
-            extra = e["extras"]
+        details = serial.validated_data.get("extradetail_set")
 
-            # Fail if stock is invalid
-            if extra.stock < amount:
-                return Response(
-                    {
-                        "error": f"{e} has insufficient stock",
-                    }
-                )
+        if details:
+            for e in details:
+                amount = e["amount"]
+                extra = e["extras"]
+
+                # Fail if stock is invalid
+                if extra.stock < amount:
+                    return Response(
+                        {
+                            "error": f"{e} has insufficient stock",
+                        }
+                    )
 
         # Check against balance
         cost = serial.get_price(serial.validated_data)
         if cost < user.balance:
             # Update stock
-            for e in serial.validated_data.pop("extradetail_set"):
-                amount = e["amount"]
-                extra = e["extras"]
+            if details:
+                for e in details:
+                    amount = e["amount"]
+                    extra = e["extras"]
 
-                extra.stock -= amount
-                extra.save()
+                    extra.stock -= amount
+                    extra.save()
 
             serial.is_valid()
             self.perform_create(serial, cost)
@@ -85,7 +89,7 @@ class UserFrappeViewSet(ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        return Frappe.objects.filter(user=user).order_by(-"create_date")
+        return Frappe.objects.filter(user=user).order_by("-create_date")
 
     @action(detail=False)
     def recent_frappes(self, request):
@@ -123,6 +127,20 @@ class CashierFrappeViewSet(UserFrappeViewSet):
             final_price=cost,
         )
 
+    @action(detail=True, methods=["get", "post"])
+    def status(self, request: Request, pk=None):
+        frappe: Frappe = Frappe.objects.get(pk=pk)
+
+        # Only update on post request
+        if request.method == "POST":
+            if frappe.status == 1:
+                frappe.status = 2
+            else:
+                frappe.status == 1
+            frappe.save()
+
+        return Response({"status": frappe.status})
+
 
 class MenuViewSet(
     mixins.CreateModelMixin,
@@ -142,7 +160,7 @@ class MenuViewSet(
 
     @action(detail=True, methods=["get", "post"])
     def activate(self, request: Request, pk=None):
-        menu_item: Menu = Menu.objects.get(id=pk)
+        menu_item: Menu = Menu.objects.get(pk=pk)
 
         # Only update on post request
         if request.method == "POST":
@@ -150,6 +168,14 @@ class MenuViewSet(
             menu_item.save()
 
         return Response({"status": menu_item.active})
+
+    @action(detail=True, methods={"POST"}, serializer_class=MenuImageSerializer)
+    def add_photo(self, request: Request, pk=None):
+        item = Menu.objects.get(pk=pk)
+        serializer = MenuImageSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        item.photo = serializer.get("photo")
+        return Response(serializer.data)
 
 
 # Abstract class only

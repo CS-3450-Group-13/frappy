@@ -62,11 +62,10 @@ class FrappeSerializer(serializers.ModelSerializer):
     def get_price(self, obj):
         if type(obj) == OrderedDict:
             total = 0
-            extras = obj["extradetail_set"]
+            extras = obj.get("extradetail_set")
 
             if extras:
                 for ex in extras:
-                    print(ex["extras"])
                     total += ex["amount"] * ex["extras"].price_per_unit
 
             total += obj["milk"].price_per_unit * obj["size"]
@@ -81,7 +80,6 @@ class FrappeSerializer(serializers.ModelSerializer):
         exclude = ["creator"]
 
     def create(self, validated_data):
-        print(validated_data)
         try:
             extras = validated_data.pop("extradetail_set")
         except KeyError:
@@ -145,3 +143,6 @@ class MenuSerializer(serializers.ModelSerializer):
         frappe.save()
 
         return instance
+
+class MenuImageSerializer(serializers.Serializer):
+    image = serializers.ImageField()

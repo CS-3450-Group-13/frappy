@@ -1,4 +1,5 @@
 CREATE USER django_frappe with password 'insecure';
+ALTER USER django_frappe CREATEDB;
 alter role django_frappe
 set client_encoding to 'utf8';
 alter role django_frappe
