@@ -18,7 +18,8 @@ class UserFrappeViewSet(ModelViewSet):
     serializer_class = FrappeSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    
+    filterset_fields = ["status"]
+
     # Check if sufficient balance is in place
     def create(self, request, *args, **kwargs):
         serial: FrappeSerializer = self.get_serializer(data=request.data)
@@ -65,6 +66,8 @@ class UserFrappeViewSet(ModelViewSet):
             if user != manager:
                 manager.balance += cost
                 manager.save()
+            else:
+                manager.save()  # Overrides the drink purchase
 
             return Response(
                 {"user_balance": request.user.balance, "cost": cost},
