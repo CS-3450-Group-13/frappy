@@ -18,6 +18,7 @@ class UserFrappeViewSet(ModelViewSet):
     serializer_class = FrappeSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
+    filterset_fields = ["status"]
 
     # Check if sufficient balance is in place
     def create(self, request, *args, **kwargs):
