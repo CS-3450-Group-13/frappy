@@ -165,7 +165,7 @@ export default function ManagerEditMenu() {
         <div className="status-row">
           {data.active && <div>Active</div>}
           {data.active === false && <div>Not Active</div>}
-          <button onClick={() => deActivate(data)}>delete</button>
+          <button onClick={() => deActivate(data)}>Change</button>
         </div>
       </td>
     </tr>

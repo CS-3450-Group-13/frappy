@@ -24,6 +24,17 @@ export default function EditMenuItemModal({
   extras,
 }: PropsType) {
   const auth = useAuth();
+
+  function getBase64Image(img: any) {
+    var canvas = document.createElement('canvas');
+    canvas.width = img.width;
+    canvas.height = img.height;
+    var ctx = canvas.getContext('2d');
+    ctx?.drawImage(img, 0, 0);
+    var dataURL = canvas.toDataURL('image/png');
+    return dataURL.replace(/^data:image\/(png|jpg);base64,/, '');
+  }
+
   const postData = () => {
     if (
       menuItem !== undefined &&
@@ -66,11 +77,14 @@ export default function EditMenuItemModal({
       let body = {
         name: menuItem.name,
         frappe: {
+          menu_key: menuItem.frappe.menu_key,
           base: Number(newBase),
           milk: Number(newMilk),
           extras: frappyExtras,
+          size: menuItem.frappe.size,
         },
         prices: menuItem.prices,
+        photo: menuItem.photo,
       };
       console.log(newMenuItem);
 

@@ -60,9 +60,12 @@ export default function NewMenuItemModal({
         size: 1,
       };
       if (photo.files !== null) {
-        var file = photo.files[0];
         formData.append('photo', photo.files[0]);
       }
+
+      const data = new Blob([JSON.stringify(frappe)], {
+        type: 'application/json',
+      });
 
       formData.append('frappe', JSON.stringify(frappe));
       console.log(formData);
