@@ -115,29 +115,19 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
             cost += e.hours * e.wage
 
         if self.action == "POST":
-            #
-            if cost < manager.balance:
-                # Pay employees
-                for e in employees:
-                    pay = e.hours * e.wage
-                    e.user.balance += pay
-                    manager.balance -= pay
+            # Pay employees
+            for e in employees:
+                pay = e.hours * e.wage
+                e.user.balance += pay
+                manager.balance -= pay
 
-                return Response(
-                    {
-                        "success": "Balance paid successfully",
-                        "wages_total": cost,
-                        "remainging_balance": manager.balance,
-                    }
-                )
-            else:
-                return Response(
-                    {
-                        "fail": "Insuficcient Balance, employees are not paid.",
-                        "wages_total": cost,
-                        "remainging_balance": manager.balance,
-                    }
-                )
+            return Response(
+                {
+                    "success": "Balance paid successfully",
+                    "wages_total": cost,
+                    "remainging_balance": manager.balance,
+                }
+            )
         else:
             return Response({"wages_total": cost, "manager_current": manager.balance})
 
