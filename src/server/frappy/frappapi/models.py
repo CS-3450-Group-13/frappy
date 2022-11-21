@@ -53,7 +53,11 @@ class Frappe(models.Model):
     creator = models.ForeignKey(User, related_name="frappes", on_delete=models.CASCADE)
     create_date = models.DateTimeField(auto_now_add=True)
     menu_key = models.ForeignKey(
-        "Menu", related_name="menu_key", on_delete=models.CASCADE, blank=True, null=True
+        "Menu",
+        related_name="menu_key",
+        on_delete=models.DO_NOTHING,
+        blank=True,
+        null=True,
     )
     status = models.IntegerField(choices=OrderStates.choices, default=1)
 
