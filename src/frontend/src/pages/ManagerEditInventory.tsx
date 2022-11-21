@@ -430,7 +430,7 @@ function EditableRow(props: EditableRowPrpos) {
 
     const newItem: item = {
       id: props.item.id,
-      name: name,
+      name: props.item.name,
       stock: -1,
       price: price,
       lastModified: props.item.lastModified,

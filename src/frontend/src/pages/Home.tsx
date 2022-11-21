@@ -386,12 +386,13 @@ export default function Home(props: Props) {
       method: 'GET',
     })
       .then((response) => {
+        console.log(response);
         if (response.status == 200) {
           response
             .json()
             .then((data) => {
               setToPay(data.wages_total);
-              if (toPay <= USER.balance) {
+              if (data.wages_total <= USER.balance) {
                 setPayModalState(ModalStates.default);
               } else {
                 setPayModalState(ModalStates.broke);
