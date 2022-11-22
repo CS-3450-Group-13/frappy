@@ -56,7 +56,7 @@ class FrappeSerializer(serializers.ModelSerializer):
     price = serializers.SerializerMethodField()
     final_price = serializers.ReadOnlyField()
     menu_key = serializers.PrimaryKeyRelatedField(
-        required=True, queryset=Menu.objects.all()
+        required=False, queryset=Menu.objects.all()
     )
     # Add on the fly price calulcations
     def get_price(self, obj):
@@ -143,3 +143,6 @@ class MenuSerializer(serializers.ModelSerializer):
         frappe.save()
 
         return instance
+
+class MenuImageSerializer(serializers.Serializer):
+    image = serializers.ImageField()

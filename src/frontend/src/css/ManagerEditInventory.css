@@ -56,6 +56,7 @@
 }
 
 .inventory-btn {
+    user-select: none;
     border: none;
     border-radius: 4px;
     margin-right: 8px;
@@ -323,4 +324,98 @@ input {
 
   .inventory-green2 {
     color: var(--frappy-lgreen); 
+  }
+
+  .inventory-order-btn {
+    background-color: var(--frappy-dgray);
+  }
+
+  .inventory-order-btn:hover {
+    background-color: rgb(72, 72, 72);
+  }
+  .inventory-order-sheet {
+    display: flex;
+    column-span: 3;
+  }
+
+  .inventory-order-cell {
+    margin-right: 1em;
+  }
+
+  .inventory-order-cell > div:first-child {
+    font-style: italic;
+    text-decoration: underline;
+    margin-bottom: 0.25em;
+    color: var(--frappy-dgreen);
+    font-weight: 1000;
+  }
+  
+
+  .orange {
+    color: var(--frappy-dgreen);
+  }
+
+  .inventory-increment-btns {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-right: auto;
+  }
+
+  .inventory-increment-btns > div {
+    user-select: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 21px;
+    width: 21px;
+    padding: 4px;
+    font-size: 1.25em;
+    border-radius: 50%;
+    
+  }
+
+  .inventory-increment {
+    margin-top: 4px;
+    background-color: var(--frappy-orange);
+  }
+
+  .inventory-increment:hover {
+    cursor: pointer;
+    background-color: orange;
+  }
+
+  .inventory-decrement {
+    background-color: var(--frappy-red);
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  .inventory-decrement:hover {
+    cursor: pointer;
+    background-color: lightcoral;
+  }
+
+  .order-input {
+    display: flex;
+    width: 50px;
+  }
+  .order-input-container {
+    display: flex;
+  }
+
+  .order-input::-webkit-outer-spin-button {
+    display: none;
+  }
+
+  .order-input::-webkit-inner-spin-button {
+    display: none;
+  }
+
+  .garbo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
   }
