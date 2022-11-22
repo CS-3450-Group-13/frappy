@@ -12,6 +12,7 @@ interface PropsType {
   cart: Array<MenuItem>;
   setCart: Function;
   userId: number;
+  userRole: string | undefined;
 }
 
 export default function Confirmation({
@@ -20,6 +21,7 @@ export default function Confirmation({
   cart,
   setCart,
   userId,
+  userRole,
 }: PropsType) {
   const getSubTotal = () => {
     let total = 0.0;
@@ -57,7 +59,12 @@ export default function Confirmation({
         console.log(tmp);
         console.log(JSON.stringify(tmp));
 
-        fetch('http://127.0.0.1:8000/frappapi/cashier/', {
+        let endpoint = "http://127.0.0.1:8000/frappapi/frappes/";
+        if (userRole !== "customer" && userId > 0) {
+          endpoint = "http://127.0.0.1:8000/frappapi/cashier/";
+        }
+
+        fetch(endpoint, {
           method: 'POST',
           headers: {
             Authorization: `Token ${auth?.userInfo.key}`,
@@ -73,6 +80,7 @@ export default function Confirmation({
             } else {
               console.log('got response: ', data);
               toast.success('Your Order was placed!');
+              setCart([]);
               navigate('/order-status');
             }
           })

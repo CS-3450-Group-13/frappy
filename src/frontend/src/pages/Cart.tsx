@@ -222,6 +222,9 @@ export default function Cart({ cart, setCart }: Props) {
         { user?.role !== "customer" && customer.id > 0 && parseFloat(customer.balance) < total &&
           <div className='cart-customer-balance-invalid'>Customer balance is too low</div>
         }
+        { user?.role !== "customer" && customer.id > 0 &&
+          <div className='cart-customer-balance-valid'>User {customerEmail} was successfully verified</div>
+        }
         <div className="cart-decision-btns">
           <div
             className="cart-back-btn"
@@ -247,6 +250,7 @@ export default function Cart({ cart, setCart }: Props) {
         setCart={setCart}
         setOpen={() => setCheckoutOpen(false)}
         userId={customer.id}
+        userRole={user?.role}
       />
     </div>
   );
