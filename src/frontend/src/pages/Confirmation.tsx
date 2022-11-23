@@ -11,6 +11,8 @@ interface PropsType {
   setOpen: (open: boolean) => void;
   cart: Array<MenuItem>;
   setCart: Function;
+  userId: number;
+  userRole: string | undefined;
 }
 
 export default function Confirmation({
@@ -18,6 +20,8 @@ export default function Confirmation({
   setOpen,
   cart,
   setCart,
+  userId,
+  userRole,
 }: PropsType) {
   const getSubTotal = () => {
     let total = 0.0;
@@ -30,14 +34,14 @@ export default function Confirmation({
   const subTotal = getSubTotal();
   const navigate = useNavigate();
 
+  console.log(`User id is ${userId}`);
+
   const auth = useAuth();
   const placeOrder = () => {
-    console.log(`ordering for ${auth?.customer}`);
-    if (auth?.customer.name === 'self') {
       // TODO: Wait to submit again until the previous is accepted if there is more than one drink
       cart.forEach((frappe) => {
         let tmp = {
-          user: 'Deez nuts',
+          user: userId,
           milk: frappe.frappe.milk,
           base: frappe.frappe.base,
           extras: frappe.frappe.extras,
@@ -45,8 +49,6 @@ export default function Confirmation({
           size: frappe.frappe.size,
           comments: auth?.userInfo.fullName,
         };
-
-        // frappe.frappe.menu_key = 4;
 
         // Server doesn't want the frappe key for each extra
         tmp.extras.forEach((extra) => {
@@ -57,7 +59,12 @@ export default function Confirmation({
         console.log(tmp);
         console.log(JSON.stringify(tmp));
 
-        fetch('http://127.0.0.1:8000/frappapi/frappes/', {
+        let endpoint = "http://127.0.0.1:8000/frappapi/frappes/";
+        if (userRole !== "customer" && userId > 0) {
+          endpoint = "http://127.0.0.1:8000/frappapi/cashier/";
+        }
+
+        fetch(endpoint, {
           method: 'POST',
           headers: {
             Authorization: `Token ${auth?.userInfo.key}`,
@@ -73,54 +80,6 @@ export default function Confirmation({
             } else {
               console.log('got response: ', data);
               toast.success('Your Order was placed!');
-              navigate('/order-status');
-            }
-          })
-          .catch((err) => {
-            toast.error(err);
-            console.log('got error: ', err);
-          });
-      });
-    } else {
-      // TODO: Wait to submit again until the previous is accepted if there is more than one drink
-      cart.forEach((frappe) => {
-        let tmp = {
-          user: auth?.customer.name,
-          milk: frappe.frappe.milk,
-          base: frappe.frappe.base,
-          extras: frappe.frappe.extras,
-          menu_key: frappe.frappe.menu_key,
-          size: frappe.frappe.size,
-          comments: `ordered by ${auth?.userInfo.fullName}`,
-        };
-
-        // frappe.frappe.menu_key = 4;
-
-        // Server doesn't want the frappe key for each extra
-        tmp.extras.forEach((extra) => {
-          delete extra.frappe;
-        });
-
-        console.log("Submitting this frappe to the server:");
-        console.log(tmp);
-        console.log(JSON.stringify(tmp));
-
-        fetch('http://127.0.0.1:8000/frappapi/frappes/', {
-          method: 'POST',
-          headers: {
-            Authorization: `Token ${auth?.customer.key}`,
-            'Content-Type': 'application/json',
-          },
-          credentials: 'same-origin',
-          body: JSON.stringify(tmp),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.error) {
-              toast.error(data.error);
-            } else {
-              console.log('got response: ', data);
-              toast.success(`Your Order was placed for ${auth?.customer.name}`);
               setCart([]);
               navigate('/order-status');
             }
@@ -130,7 +89,6 @@ export default function Confirmation({
             console.log('got error: ', err);
           });
       });
-    }
   };
 
   return (

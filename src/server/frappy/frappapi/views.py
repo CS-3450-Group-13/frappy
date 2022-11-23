@@ -139,10 +139,30 @@ class CashierFrappeViewSet(UserFrappeViewSet):
             if frappe.status == 1:
                 frappe.status = 2
             else:
-                frappe.status == 1
+                frappe.status = 1
             frappe.save()
 
         return Response({"status": frappe.status})
+
+    def get_queryset(self):
+        return Frappe.objects.all().order_by("create_date")
+
+    def create(self, request, *args, **kwargs):
+        serial: FrappeSerializer = self.get_serializer(data=request.data)
+        serial.is_valid(raise_exception=True)
+
+        # Get profile data
+        self.request.user = serial.validated_data.get("user")
+
+        if not self.request.user:
+            return Response(
+                {
+                    "error": "User not provided in request",
+                    "invalid_pk": self.request.user,
+                },
+                status=status.HTTP_406_NOT_ACCEPTABLE,
+            )
+        return super().create(request, *args, **kwargs)
 
 
 class MenuViewSet(
