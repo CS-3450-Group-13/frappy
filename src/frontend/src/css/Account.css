@@ -109,6 +109,7 @@
 }
 
 .balance-information {
+  margin-top: -48px;
   margin-left: 12%;
   display: grid;
   align-content: flex-start;
