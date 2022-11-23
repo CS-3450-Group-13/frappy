@@ -32,8 +32,9 @@ export default function CustomizeDrink({ setCart }: Props) {
   const [milks, setMilks] = useState<Milk[]>([]); //!< Keeps track of the current milks retrieved from the server
   const [extras, setExtras] = useState<Extra[]>([]); //!< Keeps track of the current extras retrieved from the server
   const [currentFrappe, setCurrentFrappe] = useState<MenuItem>(state.drink); //!< Keeps track of the current frappe customizations
+  const [currentCost, setCurrentCost] = useState(0);
 
-  console.log("current frappe is ", currentFrappe);
+  console.log('current frappe is ', currentFrappe);
 
   // Get the current list of bases from the server
   useEffect(() => {
@@ -86,6 +87,10 @@ export default function CustomizeDrink({ setCart }: Props) {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    console.log(currentFrappe);
+  }, [currentFrappe]);
 
   /**
    * @brief Handles updating the frappes current size choice
