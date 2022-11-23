@@ -1,10 +1,5 @@
 @import url('Global.css');
 
-::-webkit-scrollbar {
-    display: none;
-}
-
-
 .edit-inventory-container {
     height: 100%;
     margin-left: 15%;

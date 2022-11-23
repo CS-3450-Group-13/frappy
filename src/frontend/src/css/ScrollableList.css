@@ -41,6 +41,7 @@
 .container::-webkit-scrollbar {
     background-color: var(--frappy-gray);
     border-radius: 1em;
+    display: block !important;
 }
 
 .container::-webkit-scrollbar-button {

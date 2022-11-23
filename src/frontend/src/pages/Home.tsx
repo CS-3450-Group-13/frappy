@@ -10,8 +10,23 @@ import userEvent from '@testing-library/user-event';
 import { userInfo } from 'os';
 
 const PAYMENT_ENDPOINT = 'http://127.0.0.1:8000/users/employees/pay_all/';
+const ORDERS_ENDPOINT =
+  'http://127.0.0.1:8000/frappapi/frappes/recent_frappes/';
+const MENU_ENDPOINT = 'http://127.0.0.1:8000/frappapi/menu/';
 interface Props {
   authKey: string;
+}
+
+interface StateType {
+  id: number;
+  fullName: string;
+  userName: string;
+  email: string;
+  password: string;
+  balance: number;
+  role: string;
+  key: string;
+  hours: number;
 }
 
 interface User2 {
@@ -42,7 +57,6 @@ interface Order {
 
 interface Drink {
   name: string;
-  ingredients: any;
   cost: number;
   picture: string;
 }
@@ -65,6 +79,13 @@ enum ModalStates {
   loading,
 }
 
+enum OrderState {
+  loading,
+  failed,
+  empty,
+  default,
+}
+
 interface PayProps {
   setModalOpen: (open: boolean) => void;
   modalState: ModalStates;
@@ -73,233 +94,23 @@ interface PayProps {
   toPay: number;
 }
 
-const DEMO_USER: User2 = {
-  fullName: 'Glorgo Glumbus',
-  userName: 'GlorGlu',
-  eMail: 'glorglugaming@gmail.com',
-  password: 4,
-  balance: 400.32,
-  favoriteDrink: 'Pumpkin Spice Latte',
-  orderHistory: [
-    {
-      date: new Date(5000000000),
-      drinks: [
-        {
-          name: 'Pumpkin Spice',
-          ingredients: 1,
-          cost: 23.0,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'All Spice',
-          ingredients: 1,
-          cost: 1.0,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Lame Spice',
-          ingredients: 1,
-          cost: 12.0,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Scary Spice',
-          ingredients: 1,
-          cost: 1.03,
-          picture: '../images/Frappe.jpg',
-        },
-      ],
-    },
-
-    {
-      date: new Date(544533534534),
-      drinks: [
-        {
-          name: 'Pumpkin Spice',
-          ingredients: 1,
-          cost: 2.0,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'All Spice',
-          ingredients: 1,
-          cost: 1.01,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Lame Spice',
-          ingredients: 1,
-          cost: 102.32,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Scary Spice',
-          ingredients: 1,
-          cost: 3.03,
-          picture: '../images/Frappe.jpg',
-        },
-      ],
-    },
-    {
-      date: new Date(544533534534),
-      drinks: [
-        {
-          name: 'Pumpkin Spice',
-          ingredients: 1,
-          cost: 2.0,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'All Spice',
-          ingredients: 1,
-          cost: 1.01,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Lame Spice',
-          ingredients: 1,
-          cost: 102.32,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Scary Spice',
-          ingredients: 1,
-          cost: 3.03,
-          picture: '../images/Frappe.jpg',
-        },
-      ],
-    },
-    {
-      date: new Date(544533534534),
-      drinks: [
-        {
-          name: 'Pumpkin Spice',
-          ingredients: 1,
-          cost: 2.0,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'All Spice',
-          ingredients: 1,
-          cost: 1.01,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Lame Spice',
-          ingredients: 1,
-          cost: 102.32,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Scary Spice',
-          ingredients: 1,
-          cost: 3.03,
-          picture: '../images/Frappe.jpg',
-        },
-      ],
-    },
-    {
-      date: new Date(544533534534),
-      drinks: [
-        {
-          name: 'Pumpkin Spice',
-          ingredients: 1,
-          cost: 2.0,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'All Spice',
-          ingredients: 1,
-          cost: 1.01,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Lame Spice',
-          ingredients: 1,
-          cost: 102.32,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Scary Spice',
-          ingredients: 1,
-          cost: 3.03,
-          picture: '../images/Frappe.jpg',
-        },
-      ],
-    },
-    {
-      date: new Date(544533534534),
-      drinks: [
-        {
-          name: 'Pumpkin Spice',
-          ingredients: 1,
-          cost: 2.0,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'All Spice',
-          ingredients: 1,
-          cost: 1.01,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Lame Spice',
-          ingredients: 1,
-          cost: 102.32,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Scary Spice',
-          ingredients: 1,
-          cost: 3.03,
-          picture: '../images/Frappe.jpg',
-        },
-      ],
-    },
-    {
-      date: new Date(544533534534),
-      drinks: [
-        {
-          name: 'Pumpkin Spice',
-          ingredients: 1,
-          cost: 2.0,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'All Spice',
-          ingredients: 1,
-          cost: 1.01,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Lame Spice',
-          ingredients: 1,
-          cost: 102.32,
-          picture: '../images/Frappe.jpg',
-        },
-        {
-          name: 'Scary Spice',
-          ingredients: 1,
-          cost: 3.03,
-          picture: '../images/Frappe.jpg',
-        },
-      ],
-    },
-  ],
-};
-
 export default function Home(props: Props) {
   const navigate = useNavigate();
   const [payModalOpen, setPayModalOpen] = useState(false);
   const [payModalState, setPayModalState] = useState(ModalStates.default);
   const [toPay, setToPay] = useState(0);
+  const [orderState, setOrderState] = useState(OrderState.loading);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [menu, setMenu] = useState<any | undefined>();
 
   const auth = useAuth();
+
+  var USER: StateType;
 
   if (auth !== null) {
     var USER = auth.userInfo;
   } else {
-    var USER = {
+    USER = {
       id: -1,
       fullName: '',
       userName: '',
@@ -314,11 +125,106 @@ export default function Home(props: Props) {
 
   updateUser();
 
+  useEffect(() => {
+    fetch(MENU_ENDPOINT, {
+      headers: { Authorization: `Token ${USER.key}` },
+      credentials: 'same-origin',
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            console.log(data);
+            updateMenu(data);
+            fetchOrders();
+          });
+        } else {
+          setOrderState(OrderState.failed);
+        }
+      })
+      .catch(() => setOrderState(OrderState.failed));
+  }, []);
+
+  function updateMenu(data: any) {
+    var len = 0;
+    for (const item of data) {
+      if (item.frappe.id > len) {
+        len = item.frappe.id;
+      }
+    }
+    const newMenu: any[] = [];
+    for (let i = 0; i < len; i++) {
+      newMenu.push(undefined);
+    }
+
+    for (const item of data) {
+      console.log(item.frappe.id);
+      const id: number = item.frappe.id;
+      newMenu[id] = item;
+    }
+    setMenu(newMenu);
+  }
+  function fetchOrders() {
+    setOrderState(OrderState.loading);
+    fetch(ORDERS_ENDPOINT, {
+      headers: { Authorization: `Token ${USER.key}` },
+      credentials: 'same-origin',
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          response.json().then((data) => {
+            if (data.length > 0) {
+              console.log(data);
+              updateOrders(data);
+              setOrderState(OrderState.default);
+            } else {
+              setOrderState(OrderState.empty);
+            }
+          });
+        } else {
+          setOrderState(OrderState.failed);
+        }
+      })
+      .catch(() => setOrderState(OrderState.failed));
+  }
+
+  function updateOrders(data: any) {
+    const newOrders: Order[] = [];
+    for (const drink of data) {
+      drink.create_date = drink.create_date.split('T')[0];
+      var sameDate = false;
+      if (drink.menu_key && menu[drink.menu_key]) {
+        const newDrink: Drink = {
+          name: menu[drink.menu_key].name,
+          cost: drink.price,
+          picture: menu[drink.id].photo,
+        };
+        for (const order of newOrders) {
+          if (order.date == drink.date) {
+            sameDate = true;
+
+            order.drinks.push(newDrink);
+          }
+        }
+        if (!sameDate) {
+          const newOrder: Order = {
+            date: drink.create_date,
+            drinks: [newDrink],
+          };
+          newOrders.push(newOrder);
+        }
+      } else {
+        continue;
+      }
+    }
+    console.log(newOrders);
+    setOrders(newOrders);
+  }
+
   function updateUser() {
     if (auth !== null) {
       var USER = auth.userInfo;
     } else {
-      var USER = {
+      USER = {
         id: -1,
         fullName: '',
         userName: '',
@@ -462,7 +368,7 @@ export default function Home(props: Props) {
             // eslint-disable-next-line
             value={USER.balance > 0 ? `\$${USER.balance.toFixed(2)}` : '$0.00'}
           />
-          <DetailCard title="Favorite Drink" value={DEMO_USER.favoriteDrink} />
+          <DetailCard title="Favorite Drink" value={'None'} />
           <DetailCard
             title="Tab"
             value={
@@ -470,11 +376,28 @@ export default function Home(props: Props) {
             }
           />
         </ScrollableList>
-        <ScrollableList title="Order History" width="65%">
-          {DEMO_USER.orderHistory.map((orderInstance) => (
-            <OrderCard order={orderInstance} />
-          ))}
-        </ScrollableList>
+        {orderState === OrderState.default && (
+          <ScrollableList title="Order History" width="65%">
+            {orders.map((orderInstance) => (
+              <OrderCard order={orderInstance} />
+            ))}
+          </ScrollableList>
+        )}
+        {orderState === OrderState.loading && (
+          <ScrollableList title="Order History" width="65%">
+            <div className="order-loader"></div>
+          </ScrollableList>
+        )}
+        {orderState === OrderState.failed && (
+          <ScrollableList title="Order History" width="65%">
+            <div className="order-red">Loading Error</div>
+          </ScrollableList>
+        )}
+        {orderState === OrderState.empty && (
+          <ScrollableList title="Order History" width="65%">
+            <div className="order-gray">No Order History</div>
+          </ScrollableList>
+        )}
       </div>
       <Modal
         overlayClassName="dark"
@@ -538,7 +461,7 @@ function OrderCard(props: PropsOrder) {
             <div className="small-container">
               <div className="home-drink-name">
                 {props.order.drinks[0].name}
-                {props.order.drinks.length > 0
+                {props.order.drinks.length > 1
                   ? ` (${props.order.drinks.length})`
                   : ''}
               </div>
@@ -551,7 +474,11 @@ function OrderCard(props: PropsOrder) {
               </div>
             </div>
             <div className="drink-photo-container">
-              <img src={Frappe} alt="frappe1" className="home-drink-photo" />
+              <img
+                src={props.order.drinks[0].picture}
+                alt="frappe1"
+                className="home-drink-photo"
+              />
             </div>
           </div>
         )}
@@ -564,16 +491,25 @@ function OrderCard(props: PropsOrder) {
                   <div className="cost">${drink.cost.toFixed(2)}</div>
                 </div>
                 <div className="drink-photo-container">
-                  <img src={Frappe} alt="frappe" className="home-drink-photo" />
+                  <img
+                    src={drink.picture}
+                    alt="frappe"
+                    className="home-drink-photo"
+                  />
                 </div>
               </div>
             ))}{' '}
           </div>
         )}
       </div>
-      <div className="expand-arrow" onClick={() => setExpanded(!expanded)}>
-        {expanded ? '▲' : '▼'}
-      </div>
+      {props.order.drinks.length > 1 && (
+        <div className="expand-arrow" onClick={() => setExpanded(!expanded)}>
+          {expanded ? '▲' : '▼'}
+        </div>
+      )}
+      {props.order.drinks.length <= 1 && (
+        <div className="expand-arrow2">{'\u00A0'}</div>
+      )}
     </div>
   );
 }

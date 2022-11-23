@@ -185,6 +185,14 @@
     user-select: none;
 }
 
+.expand-arrow2 {
+    margin-top: -8px;
+    color: var(--frappy-gray);
+    font-size: 0.8em;
+    text-decoration: none;
+    user-select: none;
+}
+
 .pay-container {
     height: 100%;
     background-color: var(--frappy-background);
@@ -285,6 +293,40 @@
 
 .pay-loader {
     border: 8px solid var(--frappy-white);
+    border-top: 8px solid var(--frappy-dgray);
+    border-radius: 50%;
+    width: 10%;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .order-red {
+    font-style: italic;
+    font-size: 2em;
+    margin-top: 1em !important;
+    color: lightcoral;
+  }
+
+  .order-gray {
+    font-style: italic;
+    font-size: 1em;
+    margin-top: 2em !important;
+    color: var(--frappy-gray);
+  }
+
+.order-loader {
+    width: auto;
+    height: 100px !important;
+    width: 100px !important;
+    margin-top: 3em !important;
+}
+
+.order-loader {
+    border: 8px solid var(--frappy-gray);
     border-top: 8px solid var(--frappy-dgray);
     border-radius: 50%;
     width: 10%;
