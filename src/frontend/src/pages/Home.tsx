@@ -172,6 +172,7 @@ export default function Home(props: Props) {
       .then((response) => {
         if (response.status === 200) {
           response.json().then((data) => {
+            console.log(data);
             if (data.length > 0) {
               console.log(data);
               updateOrders(data);
@@ -192,11 +193,11 @@ export default function Home(props: Props) {
     for (const drink of data) {
       drink.create_date = drink.create_date.split('T')[0];
       var sameDate = false;
-      if (drink.menu_key && menu[drink.menu_key]) {
+      if (drink.menu_key && menu && menu[drink.menu_key]) {
         const newDrink: Drink = {
           name: menu[drink.menu_key].name,
-          cost: drink.price,
-          picture: menu[drink.id].photo,
+          cost: drink.final_price,
+          picture: menu[drink.menu_key].photo,
         };
         for (const order of newOrders) {
           if (order.date == drink.date) {
