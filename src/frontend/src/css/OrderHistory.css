@@ -1,5 +1,7 @@
 
-
+.box {
+    color: var(--frappy-white);
+}
 .order-card {
     border-radius: 0.5em;
     font-size: 1.5em;
@@ -19,6 +21,7 @@
     display: flex;
     align-items: center;
     padding-top: 8px;
+
 }
 
 .order-date {

@@ -13,6 +13,7 @@ interface Props {
   condense: boolean;
   setOutdated: (status: boolean) => void;
   setLength?: (length: number) => void;
+  filter?: number;
 }
 
 interface PropsOrder {
@@ -139,6 +140,11 @@ export default function OrderHistory(props: Props) {
       drink.create_date = drink.create_date.split('T')[0];
       var sameDate = false;
       if (drink.menu_key && menu && menu[drink.menu_key]) {
+        if (props.filter) {
+          if (drink.user !== props.filter) {
+            continue;
+          }
+        }
         const newDrink: Drink = {
           name: menu[drink.menu_key].name,
           cost: drink.final_price,
