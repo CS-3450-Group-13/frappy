@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import test from '../images/test.png';
-import Frappe from '../images/Frappe.jpg';
 import '../css/Home.css';
 import ScrollableList from '../components/ScrollableList';
 import { useNavigate } from 'react-router-dom';
@@ -8,11 +7,11 @@ import { useAuth } from '../components/auth';
 import Modal from 'react-modal';
 import userEvent from '@testing-library/user-event';
 import { userInfo } from 'os';
+import OrderHistory from '../components/OrderHistory';
 
 const PAYMENT_ENDPOINT = 'http://127.0.0.1:8000/users/employees/pay_all/';
 const ORDERS_ENDPOINT =
   'http://127.0.0.1:8000/frappapi/frappes/recent_frappes/';
-const MENU_ENDPOINT = 'http://127.0.0.1:8000/frappapi/menu/';
 interface Props {
   authKey: string;
 }
@@ -29,47 +28,9 @@ interface StateType {
   hours: number;
 }
 
-interface User2 {
-  fullName: string;
-  userName: string;
-  eMail: string;
-  password: number; // Only Care About Password Length for Display Purposes, Should be Hashed Anyways
-  balance: number;
-  favoriteDrink: string;
-  orderHistory: Order[];
-}
-
-interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  userName: string;
-  eMail: string;
-  balance: number;
-  accountType: string;
-  hours: number;
-}
-
-interface Order {
-  date: Date;
-  drinks: Drink[];
-  status: number;
-}
-
-interface Drink {
-  name: string;
-  cost: number;
-  picture: string;
-  status: number;
-}
-
 interface PropsDetail {
   title: string;
   value: string;
-}
-
-interface PropsOrder {
-  order: Order;
 }
 
 enum ModalStates {
@@ -79,13 +40,6 @@ enum ModalStates {
   failure,
   broke,
   loading,
-}
-
-enum OrderState {
-  loading,
-  failed,
-  empty,
-  default,
 }
 
 interface PayProps {
@@ -101,9 +55,6 @@ export default function Home(props: Props) {
   const [payModalOpen, setPayModalOpen] = useState(false);
   const [payModalState, setPayModalState] = useState(ModalStates.default);
   const [toPay, setToPay] = useState(0);
-  const [orderState, setOrderState] = useState(OrderState.default);
-  const [orders, setOrders] = useState<Order[]>([]);
-  const [menu, setMenu] = useState<any | undefined>();
 
   const auth = useAuth();
 
@@ -126,115 +77,6 @@ export default function Home(props: Props) {
   }
 
   updateUser();
-
-  useEffect(() => {
-    setOrderState(OrderState.loading);
-    fetch(MENU_ENDPOINT, {
-      headers: { Authorization: `Token ${USER.key}` },
-      credentials: 'same-origin',
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          response.json().then((data) => {
-            updateMenu(data);
-          });
-        } else {
-          setOrderState(OrderState.failed);
-        }
-      })
-      .catch(() => setOrderState(OrderState.failed));
-  }, []);
-
-  useEffect(() => {
-    fetchOrders();
-  }, [menu]);
-
-  function updateMenu(data: any) {
-    console.log(data);
-    var len = 0;
-    for (const item of data) {
-      if (item.frappe.id > len) {
-        len = item.frappe.id;
-      }
-    }
-    const newMenu: any[] = [];
-    for (let i = 0; i < len; i++) {
-      newMenu.push(undefined);
-    }
-
-    for (const item of data) {
-      console.log(item.frappe.id);
-      const id: number = item.frappe.id;
-      newMenu[id] = item;
-    }
-    console.log(newMenu);
-    setMenu(newMenu);
-    console.log(menu);
-  }
-
-  function fetchOrders() {
-    fetch(ORDERS_ENDPOINT, {
-      headers: { Authorization: `Token ${USER.key}` },
-      credentials: 'same-origin',
-    })
-      .then((response) => {
-        if (response.status === 200) {
-          response.json().then((data) => {
-            if (data.length > 0) {
-              updateOrders(data);
-              setOrderState(OrderState.default);
-            } else {
-              setOrderState(OrderState.empty);
-            }
-          });
-        } else {
-          setOrderState(OrderState.failed);
-        }
-      })
-      .catch(() => setOrderState(OrderState.failed));
-  }
-
-  function updateOrders(data: any) {
-    const newOrders: Order[] = [];
-    for (const drink of data) {
-      drink.create_date = drink.create_date.split('T')[0];
-      var sameDate = false;
-      if (drink.menu_key && menu && menu[drink.menu_key]) {
-        const newDrink: Drink = {
-          name: menu[drink.menu_key].name,
-          cost: drink.final_price,
-          picture: menu[drink.menu_key].photo,
-          status: drink.status,
-        };
-        for (const order of newOrders) {
-          if (order.date == drink.date) {
-            sameDate = true;
-
-            order.drinks.push(newDrink);
-          }
-        }
-        if (!sameDate) {
-          const newOrder: Order = {
-            date: drink.create_date,
-            drinks: [newDrink],
-            status: 2,
-          };
-          newOrders.push(newOrder);
-        }
-      } else {
-        continue;
-      }
-    }
-
-    for (const order of newOrders) {
-      for (const drink of order.drinks) {
-        if (drink.status === 1) {
-          order.status = 1;
-        }
-      }
-    }
-    setOrders(newOrders);
-  }
 
   function updateUser() {
     if (auth !== null) {
@@ -378,7 +220,7 @@ export default function Home(props: Props) {
         </div>
       </div>
       <div className="list-container">
-        <ScrollableList title="Account" width="70%">
+        <ScrollableList title="Account" width="100%">
           <DetailCard
             title="Balance"
             // eslint-disable-next-line
@@ -392,28 +234,16 @@ export default function Home(props: Props) {
             }
           />
         </ScrollableList>
-        {orderState === OrderState.default && (
-          <ScrollableList title="Order History" width="65%">
-            {orders.map((orderInstance) => (
-              <OrderCard order={orderInstance} />
-            ))}
-          </ScrollableList>
-        )}
-        {orderState === OrderState.loading && (
-          <ScrollableList title="Order History" width="65%">
-            <div className="order-loader"></div>
-          </ScrollableList>
-        )}
-        {orderState === OrderState.failed && (
-          <ScrollableList title="Order History" width="65%">
-            <div className="order-red">Loading Error</div>
-          </ScrollableList>
-        )}
-        {orderState === OrderState.empty && (
-          <ScrollableList title="Order History" width="65%">
-            <div className="order-gray">No Order History</div>
-          </ScrollableList>
-        )}
+        <OrderHistory
+          endpoint={ORDERS_ENDPOINT}
+          title="Order History"
+          width={65}
+          outdated={true}
+          condense={true}
+          setOutdated={(argument) => {
+            return;
+          }}
+        ></OrderHistory>
       </div>
       <Modal
         overlayClassName="dark"
@@ -456,80 +286,6 @@ function DetailCard(props: PropsDetail) {
       <div className="detail-value" style={{ fontSize: fontSize }}>
         {props.value}
       </div>
-    </div>
-  );
-}
-
-function OrderCard(props: PropsOrder) {
-  const [expanded, setExpanded] = useState(false);
-  return (
-    <div
-      className={`order-card ${
-        props.order.status === 1 ? ' order-card-orange' : ' order-card-gray'
-      }`}
-    >
-      <div className="content">
-        <div className="order-date">
-          {props.order.date.toLocaleString('en-us', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-          })}
-        </div>
-        {!expanded && (
-          <div className="order-summary">
-            <div className="small-container">
-              <div className="home-drink-name">
-                {props.order.drinks[0].name}
-                {props.order.drinks.length > 1
-                  ? ` (${props.order.drinks.length})`
-                  : ''}
-              </div>
-              <div className="cost">
-                $
-                {props.order.drinks
-                  .map((drink) => drink.cost)
-                  .reduce((a, b) => a + b, 0)
-                  .toFixed(2)}
-              </div>
-            </div>
-            <div className="drink-photo-container">
-              <img
-                src={props.order.drinks[0].picture}
-                alt="frappe1"
-                className="home-drink-photo"
-              />
-            </div>
-          </div>
-        )}
-        {expanded && (
-          <div className="drink-list">
-            {props.order.drinks.map((drink) => (
-              <div className="order-summary">
-                <div className="small-container">
-                  <div className="home-drink-name">{drink.name}</div>
-                  <div className="cost">${drink.cost.toFixed(2)}</div>
-                </div>
-                <div className="drink-photo-container">
-                  <img
-                    src={drink.picture}
-                    alt="frappe"
-                    className="home-drink-photo"
-                  />
-                </div>
-              </div>
-            ))}{' '}
-          </div>
-        )}
-      </div>
-      {props.order.drinks.length > 1 && (
-        <div className="expand-arrow" onClick={() => setExpanded(!expanded)}>
-          {expanded ? '▲' : '▼'}
-        </div>
-      )}
-      {props.order.drinks.length <= 1 && (
-        <div className="expand-arrow2">{'\u00A0'}</div>
-      )}
     </div>
   );
 }

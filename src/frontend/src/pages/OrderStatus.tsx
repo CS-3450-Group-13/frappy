@@ -1,42 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../css/OrderStatus.css';
+import OrderHistory from '../components/OrderHistory';
 
-// interface Props {
-//   order: string;
-// }
+const ORDERS_ENDPOINT =
+  'http://127.0.0.1:8000/frappapi/frappes/recent_frappes/?status=1';
 
 export default function OrderStatus() {
   const [orderDone, updateOrderDone] = useState(false);
-  const [time, setTime] = useState(90);
+  const [outdated, setOutdated] = useState(false);
+  const [length, setLength] = useState(1);
 
   const navigate = useNavigate();
 
   function checkDone() {
-    if (time > 0) {
-      updateOrderDone(false);
-    } else {
-      updateOrderDone(true); //API CALL HERE
-      console.log('done');
+    console.log('ChEKC');
+    if (!orderDone) {
+      setOutdated(true);
     }
   }
-
-  // Updates the Timer Every Second
-  useEffect(() => {
-    let interval: any = null;
-
-    if (!orderDone) {
-      interval = setInterval(() => {
-        setTime((time) => time - 1);
-      }, 1000);
-    } else {
-      clearInterval(interval);
-    }
-    return () => {
-      clearInterval(interval);
-    };
-  }, [orderDone]);
-
   // Checks if the Drink is Done Every 10 Seconds
   useEffect(() => {
     let interval: any = null;
@@ -51,6 +33,16 @@ export default function OrderStatus() {
     };
   }, [orderDone]);
 
+  useEffect(() => {
+    console.log('LENGTH');
+    console.log(length);
+    if (length <= 0) {
+      updateOrderDone(true);
+    } else {
+      updateOrderDone(false);
+    }
+  }, [length]);
+
   return (
     <div className="order-container">
       <div className="details-container">
@@ -62,11 +54,15 @@ export default function OrderStatus() {
           </div>
         </div>
         <div className="timer-container">
-          <div className="wait-text">Wait Time:</div>
-          <div className="timer">
-            {String(Math.floor(time / 60)).padStart(2, '0')}:
-            {String(time % 60).padStart(2, '0')}
-          </div>
+          <OrderHistory
+            endpoint={ORDERS_ENDPOINT}
+            outdated={outdated}
+            width={65}
+            condense={false}
+            setOutdated={setOutdated}
+            title=" "
+            setLength={setLength}
+          ></OrderHistory>
         </div>
         <div className="nav-buttons">
           <div
