@@ -114,11 +114,13 @@ export default function Queue() {
   }, []);
 
 
+  /**
+   * @brief Creates a view for every item in the queue
+   */
   const createQueueItemView = () => {
     let queueItem: ReactNode[] = [];
 
     for (const frappe of queue) {
-
       frappe.name = menuItems[(frappe.menu_key-1)].name ?? "undefined";
 
       const header =
@@ -166,6 +168,9 @@ export default function Queue() {
     return queueItem;
   };
 
+  /**
+   * @brief Sets the current frappe and opens the QueueItemModal
+   */
   const handleQueueDetailsBtn = (frappe: CashierFrappe) => {
     console.log('button clicked with frappe');
     console.log(frappe);

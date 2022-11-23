@@ -6,7 +6,7 @@ import { Base, Extra, Frappe, MenuItem, Milk } from "../types/Types";
 export const TestFrappes: Array<Frappe> = [
   {
     "id": 2,
-    "user": "admin@admin.com",
+    "user": 1,
     "milk": 1,
     "base": 1,
     "extras": [
@@ -36,7 +36,7 @@ export const TestFrappes: Array<Frappe> = [
 },
 {
     "id": 3,
-    "user": "admin@admin.com",
+    "user": 1,
     "milk": 1,
     "base": 1,
     "extras": [
@@ -61,7 +61,7 @@ export const TestFrappes: Array<Frappe> = [
 },
 {
     "id": 4,
-    "user": "admin@admin.com",
+    "user": 1,
     "milk": 1,
     "base": 1,
     "extras": [
@@ -86,7 +86,7 @@ export const TestFrappes: Array<Frappe> = [
 },
 {
     "id": 5,
-    "user": "admin@admin.com",
+    "user": 1,
     "milk": 1,
     "base": 1,
     "extras": [
@@ -141,7 +141,7 @@ export const TestFrappes: Array<Frappe> = [
 },
 {
     "id": 6,
-    "user": "admin@admin.com",
+    "user": 1,
     "milk": 1,
     "base": 1,
     "extras": [],
@@ -155,7 +155,7 @@ export const TestFrappes: Array<Frappe> = [
 },
 {
     "id": 7,
-    "user": "admin@admin.com",
+    "user": 1,
     "milk": 1,
     "base": 1,
     "extras": [],
@@ -169,7 +169,7 @@ export const TestFrappes: Array<Frappe> = [
 },
 {
     "id": 8,
-    "user": "admin@admin.com",
+    "user": 1,
     "milk": 1,
     "base": 1,
     "extras": [],
@@ -183,7 +183,7 @@ export const TestFrappes: Array<Frappe> = [
 },
 {
     "id": 9,
-    "user": "admin@admin.com",
+    "user": 1,
     "milk": 1,
     "base": 1,
     "extras": [],
@@ -197,7 +197,7 @@ export const TestFrappes: Array<Frappe> = [
 },
 {
     "id": 10,
-    "user": "admin@admin.com",
+    "user": 1,
     "milk": 1,
     "base": 1,
     "extras": [
@@ -222,7 +222,7 @@ export const TestFrappes: Array<Frappe> = [
 },
 {
     "id": 11,
-    "user": "admin@admin.com",
+    "user": 1,
     "milk": 1,
     "base": 3,
     "extras": [
