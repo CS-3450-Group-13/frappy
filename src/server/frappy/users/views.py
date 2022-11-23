@@ -114,12 +114,18 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
         for e in employees:
             cost += e.hours * e.wage
 
-        if self.action == "POST":
+        if request.method == "POST":
             # Pay employees
             for e in employees:
+                print(e.hours)
                 pay = e.hours * e.wage
                 e.user.balance += pay
                 manager.balance -= pay
+                e.hours = 0
+                print(e.hours)
+                e.save()
+            manager.save()
+
 
             return Response(
                 {

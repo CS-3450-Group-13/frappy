@@ -124,12 +124,13 @@ export default function Home(props: Props) {
                 USER.userName,
                 USER.email,
                 USER.password,
-                data.manager_current,
+                data.remainging_balance,
                 USER.role,
                 USER.key,
                 USER.hours
               );
               updateUser();
+              setToPay(0);
             }
           });
         } else {
