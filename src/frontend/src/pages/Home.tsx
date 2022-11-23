@@ -53,12 +53,14 @@ interface User {
 interface Order {
   date: Date;
   drinks: Drink[];
+  status: number;
 }
 
 interface Drink {
   name: string;
   cost: number;
   picture: string;
+  status: number;
 }
 
 interface PropsDetail {
@@ -99,7 +101,7 @@ export default function Home(props: Props) {
   const [payModalOpen, setPayModalOpen] = useState(false);
   const [payModalState, setPayModalState] = useState(ModalStates.default);
   const [toPay, setToPay] = useState(0);
-  const [orderState, setOrderState] = useState(OrderState.loading);
+  const [orderState, setOrderState] = useState(OrderState.default);
   const [orders, setOrders] = useState<Order[]>([]);
   const [menu, setMenu] = useState<any | undefined>();
 
@@ -126,6 +128,7 @@ export default function Home(props: Props) {
   updateUser();
 
   useEffect(() => {
+    setOrderState(OrderState.loading);
     fetch(MENU_ENDPOINT, {
       headers: { Authorization: `Token ${USER.key}` },
       credentials: 'same-origin',
@@ -133,9 +136,7 @@ export default function Home(props: Props) {
       .then((response) => {
         if (response.status === 200) {
           response.json().then((data) => {
-            console.log(data);
             updateMenu(data);
-            fetchOrders();
           });
         } else {
           setOrderState(OrderState.failed);
@@ -144,7 +145,12 @@ export default function Home(props: Props) {
       .catch(() => setOrderState(OrderState.failed));
   }, []);
 
+  useEffect(() => {
+    fetchOrders();
+  }, [menu]);
+
   function updateMenu(data: any) {
+    console.log(data);
     var len = 0;
     for (const item of data) {
       if (item.frappe.id > len) {
@@ -161,10 +167,12 @@ export default function Home(props: Props) {
       const id: number = item.frappe.id;
       newMenu[id] = item;
     }
+    console.log(newMenu);
     setMenu(newMenu);
+    console.log(menu);
   }
+
   function fetchOrders() {
-    setOrderState(OrderState.loading);
     fetch(ORDERS_ENDPOINT, {
       headers: { Authorization: `Token ${USER.key}` },
       credentials: 'same-origin',
@@ -172,9 +180,7 @@ export default function Home(props: Props) {
       .then((response) => {
         if (response.status === 200) {
           response.json().then((data) => {
-            console.log(data);
             if (data.length > 0) {
-              console.log(data);
               updateOrders(data);
               setOrderState(OrderState.default);
             } else {
@@ -198,6 +204,7 @@ export default function Home(props: Props) {
           name: menu[drink.menu_key].name,
           cost: drink.final_price,
           picture: menu[drink.menu_key].photo,
+          status: drink.status,
         };
         for (const order of newOrders) {
           if (order.date == drink.date) {
@@ -210,6 +217,7 @@ export default function Home(props: Props) {
           const newOrder: Order = {
             date: drink.create_date,
             drinks: [newDrink],
+            status: 2,
           };
           newOrders.push(newOrder);
         }
@@ -217,7 +225,14 @@ export default function Home(props: Props) {
         continue;
       }
     }
-    console.log(newOrders);
+
+    for (const order of newOrders) {
+      for (const drink of order.drinks) {
+        if (drink.status === 1) {
+          order.status = 1;
+        }
+      }
+    }
     setOrders(newOrders);
   }
 
@@ -448,7 +463,11 @@ function DetailCard(props: PropsDetail) {
 function OrderCard(props: PropsOrder) {
   const [expanded, setExpanded] = useState(false);
   return (
-    <div className="order-card">
+    <div
+      className={`order-card ${
+        props.order.status === 1 ? ' order-card-orange' : ' order-card-gray'
+      }`}
+    >
       <div className="content">
         <div className="order-date">
           {props.order.date.toLocaleString('en-us', {

@@ -128,11 +128,18 @@
 
 
 .order-card {
-    background-color: var(--frappy-dgray);
     border-radius: 0.5em;
     font-size: 1.5em;
     height: fit-content;
 
+}
+
+.order-card-gray {
+    background-color: var(--frappy-dgray);
+}
+
+.order-card-orange {
+    background-color: var(--frappy-orange);
 }
 
 .content {
