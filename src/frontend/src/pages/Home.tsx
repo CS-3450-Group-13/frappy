@@ -10,8 +10,7 @@ import { userInfo } from 'os';
 import OrderHistory from '../components/OrderHistory';
 
 const PAYMENT_ENDPOINT = 'http://127.0.0.1:8000/users/employees/pay_all/';
-const ORDERS_ENDPOINT =
-  'http://127.0.0.1:8000/frappapi/frappes/recent_frappes/';
+const ORDERS_ENDPOINT = 'http://127.0.0.1:8000/frappapi/frappes/';
 interface Props {
   authKey: string;
 }

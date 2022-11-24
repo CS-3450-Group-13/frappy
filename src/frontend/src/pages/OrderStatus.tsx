@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../css/OrderStatus.css';
 import OrderHistory from '../components/OrderHistory';
 
-const ORDERS_ENDPOINT =
-  'http://127.0.0.1:8000/frappapi/frappes/recent_frappes/?status=1';
+const ORDERS_ENDPOINT = 'http://127.0.0.1:8000/frappapi/frappes/?status=1';
 
 export default function OrderStatus() {
   const [orderDone, updateOrderDone] = useState(false);

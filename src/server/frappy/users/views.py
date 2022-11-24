@@ -117,14 +117,18 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
         if request.method == "POST":
             # Pay employees
             for e in employees:
-                print(e.hours)
+                if e.user == manager:
+                    e.hours = 0
+                    e.save()
+                    continue
                 pay = e.hours * e.wage
                 e.user.balance += pay
-                manager.balance -= pay
-                e.hours = 0
-                print(e.hours)
                 e.save()
-            manager.save()
+                manager.balance -= pay
+                manager.save()
+                e.hours = 0
+
+
 
 
             return Response(
