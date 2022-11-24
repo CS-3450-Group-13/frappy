@@ -123,6 +123,9 @@ export default function OrderHistory(props: Props) {
               updateOrders(data);
               setOrderState(OrderState.default);
             } else {
+              if (props.setLength) {
+                props.setLength(0);
+              }
               setOrderState(OrderState.empty);
             }
           });
