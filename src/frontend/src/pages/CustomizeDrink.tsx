@@ -16,9 +16,29 @@ import {
   FrappeExtra,
 } from '../types/Types';
 import { TestBases, TestExtras } from '../tests/TestServerData';
+import { useAuth } from '../components/auth';
+
+const BASE_ENDPOINT = 'http://127.0.0.1:8000/frappapi/bases/';
+const MILK_ENDPOINT = 'http://127.0.0.1:8000/frappapi/milks/';
+const EXTRA_ENDPOINT = 'http://127.0.0.1:8000/frappapi/extras/';
+const EMPTY_ITEM: item = {
+  id: 0,
+  name: '',
+  price: 0,
+  stock: 0,
+  lastModified: '',
+};
 
 type Props = {
   setCart: React.Dispatch<React.SetStateAction<MenuItem[]>>;
+};
+
+type item = {
+  id: number;
+  name: string;
+  price: number;
+  stock: number;
+  lastModified: string;
 };
 
 export default function CustomizeDrink({ setCart }: Props) {
@@ -28,64 +48,113 @@ export default function CustomizeDrink({ setCart }: Props) {
   const isNewDrink = state.isNewDrink; //!< Flag to determine if the current drink is new (needs to be added to the cart), or is just being updated from the cart
   const customer = state.user;
 
-  const [bases, setBases] = useState<Base[]>([]); //!< Keeps track of the current bases retrieved from the server
-  const [milks, setMilks] = useState<Milk[]>([]); //!< Keeps track of the current milks retrieved from the server
-  const [extras, setExtras] = useState<Extra[]>([]); //!< Keeps track of the current extras retrieved from the server
+  const [bases, setBases] = useState<item[]>([]); //!< Keeps track of the current bases retrieved from the server
+  const [milks, setMilks] = useState<item[]>([]); //!< Keeps track of the current milks retrieved from the server
+  const [extras, setExtras] = useState<item[]>([]); //!< Keeps track of the current extras retrieved from the server
   const [currentFrappe, setCurrentFrappe] = useState<MenuItem>(state.drink); //!< Keeps track of the current frappe customizations
+  const [currentCost, setCurrentCost] = useState(0);
+  const [costOutdated, setCostOutdated] = useState(false);
 
-  console.log("current frappe is ", currentFrappe);
+  const [basesCurrent, setBasesCurrent] = useState(false);
+  const [milksCurrent, setMilksCurrent] = useState(false);
+  const [extrasCurrent, setExtrasCurrent] = useState(false);
 
-  // Get the current list of bases from the server
+  console.log('current frappe is ', currentFrappe);
+
+  const auth = useAuth();
+  const user = auth?.userInfo;
+
+  // Gets Ingredient Prices
   useEffect(() => {
-    console.log('user', customer);
-    fetch('http://127.0.0.1:8000/frappapi/bases/')
-      .then((response) => response.json())
-      .then((data) => {
-        setBases([]);
-        data.forEach((item: Base) => {
-          setBases((oldState) => [...oldState, item]);
-        });
-        // console.log('Got bases: ', data);
-        // console.log(bases);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (!basesCurrent) {
+      getItems(BASE_ENDPOINT, setBases);
+      setBasesCurrent(true);
+    }
+    if (!milksCurrent) {
+      getItems(MILK_ENDPOINT, setMilks);
+      setMilksCurrent(true);
+    }
+    if (!extrasCurrent) {
+      getItems(EXTRA_ENDPOINT, setExtras);
+      setExtrasCurrent(true);
+    }
   }, []);
 
-  // Get the current list of milks from the server
+  // Updates Frappe Price
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/frappapi/milks/')
-      .then((response) => response.json())
-      .then((data) => {
-        setMilks([]);
-        data.forEach((item: Milk) => {
-          setMilks((oldState) => [...oldState, item]);
-        });
-        // console.log('Got milks: ', data);
-        // console.log(milks);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    if (!costOutdated) {
+      return;
+    }
+    let newPrice = 0;
 
-  // Get the current list of extras from the server
+    console.log('CURRENT PRICE:');
+    console.log(newPrice);
+
+    for (const milk of milks) {
+      if (milk.id === currentFrappe.frappe.milk) {
+        newPrice += milk.price * currentFrappe.frappe.size;
+        console.log(newPrice);
+        break;
+      }
+    }
+
+    for (const base of bases) {
+      if (base.id === currentFrappe.frappe.milk) {
+        newPrice += base.price * currentFrappe.frappe.size;
+        console.log(newPrice);
+        break;
+      }
+    }
+
+    for (const extra of extras) {
+      for (const currentExtra of currentFrappe.frappe.extras) {
+        if (currentExtra.extras === extra.id) {
+          console.log('Extra Price:');
+          console.log(extra);
+          newPrice += extra.price * currentExtra.amount;
+          console.log(newPrice);
+          break;
+        }
+      }
+    }
+
+    console.log(newPrice);
+    setCurrentCost(newPrice);
+    setCostOutdated(false);
+  }, [costOutdated]);
+
+  // Makes Sure Cost Keeps Up With Frappe Changes
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/frappapi/extras/')
+    setCostOutdated(true);
+  }, [currentFrappe]);
+
+  function getItems(endpoint: string, setFunction: (items: item[]) => void) {
+    fetch(endpoint, {
+      headers: {
+        Authorization: `Token ${auth?.userInfo.key}`,
+        'Content-Type': 'application/json',
+      },
+      credentials: 'same-origin',
+    })
       .then((response) => response.json())
       .then((data) => {
-        setExtras([]);
-        data.forEach((item: Extra) => {
-          setExtras((oldState) => [...oldState, item]);
-        });
-        // console.log('data is ', data);
-        // console.log(extras);
-      })
-      .catch((err) => {
-        console.log(err);
+        console.log(data);
+        let dataList: item[] = [];
+
+        for (let i = 0; i < data.length; i++) {
+          let newItem = {
+            id: data[i].id,
+            name: data[i].name,
+            stock: data[i].stock,
+            price: data[i].price_per_unit,
+            lastModified: String(data[i].updated_on).split('T')[0],
+          };
+          dataList.push(newItem);
+        }
+        setFunction(dataList);
+        setCostOutdated(true);
       });
-  }, []);
+  }
 
   /**
    * @brief Handles updating the frappes current size choice
@@ -442,6 +511,7 @@ export default function CustomizeDrink({ setCart }: Props) {
             <div className="customize-drink-nav-btn" onClick={handleBackBtn}>
               BACK
             </div>
+            <div className="price-tracker">${currentCost.toFixed(2)}</div>
             <div
               className="customize-drink-nav-btn customize-drink-lgreen"
               onClick={handleAddToCart}

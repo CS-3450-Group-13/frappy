@@ -5,7 +5,9 @@ import '../css/ManagerEditAccounts.css';
 import EditAccountRoleModal from './EditAccountRoleModal';
 import customer from '../images/test.png';
 import employee from '../images/test1.png';
+import OrderHistoryModal from './OrderHistoryModal';
 
+const ORDER_ENDPOINT = 'http://127.0.0.1:8000/frappapi/cashier/';
 const MockAccounts = [
   {
     photo: 'hehe',
@@ -55,6 +57,8 @@ export default function ManagerEditAccounts() {
       role: '',
     },
   ]);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [filter, setFilter] = useState(0);
 
   const auth = useAuth();
 
@@ -118,6 +122,12 @@ export default function ManagerEditAccounts() {
     setEditOpen(true);
   }
 
+  function handleOpenHistory(id: number) {
+    console.log('OPEN HISTORY');
+    setFilter(id);
+    setHistoryOpen(true);
+  }
+
   const tableRows = accounts.map((data) => (
     <tr>
       <td>
@@ -145,7 +155,10 @@ export default function ManagerEditAccounts() {
       </td>
       <td>{data.balance}</td>
       <td>
-        History <button className="btn">open</button>
+        History{' '}
+        <button onClick={() => handleOpenHistory(data.id)} className="btn">
+          open
+        </button>
       </td>
       <td>{data.email}</td>
     </tr>
@@ -173,6 +186,12 @@ export default function ManagerEditAccounts() {
         open={editOpen}
         setOpen={setEditOpen}
         person={currentPerson}
+      />
+      <OrderHistoryModal
+        open={historyOpen}
+        endpoint={ORDER_ENDPOINT}
+        filter={filter}
+        setOpen={setHistoryOpen}
       />
     </div>
   );
