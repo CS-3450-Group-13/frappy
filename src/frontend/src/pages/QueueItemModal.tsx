@@ -5,7 +5,7 @@ import React, {
   useEffect,
   useState,
 } from 'react';
-import { CashierFrappe } from '../types/Types';
+import { CashierFrappe, MenuItem } from '../types/Types';
 
 import '../css/QueueItemModal.css';
 import { TestBases, TestExtras, TestMilks } from '../tests/TestServerData';

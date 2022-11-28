@@ -4,7 +4,7 @@
  */
 export interface Frappe {
   id: number;
-  user: string;
+  user: number;
   milk: MilkOptions;
   base: BaseOptions;
   extras: Array<FrappeExtra>;
@@ -21,12 +21,33 @@ export interface Frappe {
  * Interface for what a Frappe looks like on the server when requested from
  * http://127.0.0.1:8000/frappapi/cashier/
  */
- export interface CashierFrappe {
+export interface CashierFrappe {
   id: number;
-  user: string;
+  user: number;
   milk: MilkOptions;
   base: BaseOptions;
-  extras: Array<FrappeExtra>
+  extras: Array<FrappeExtra>;
+  price: number;
+  final_price: number;
+  menu_key: number;
+  creator: string;
+  size: SizeOptions;
+  comments: string;
+  create_date: string;
+  status: StatusOptions;
+  name?: string;
+}
+
+/**
+ * Interface for what a Frappe looks like on the server when requested from
+ * http://127.0.0.1:8000/frappapi/cashier/
+ */
+export interface CashierFrappe {
+  id: number;
+  user: number;
+  milk: MilkOptions;
+  base: BaseOptions;
+  extras: Array<FrappeExtra>;
   price: number;
   final_price: number;
   menu_key: number;
@@ -206,6 +227,37 @@ export interface UserDetails {
   email: string;
   first_name: string;
   last_name: string;
+}
+
+/**
+ * Interface for what a user looks like on the server when sending a GET
+ * request to /users/users/
+ */
+export interface User {
+  id: number;
+  employee?: Employee;
+  last_login: string;
+  first_name: string;
+  last_name: string;
+  is_active: boolean;
+  dat_joined: string;
+  email: string;
+  balance: string;
+  user_permissions: Array<any>;
+}
+
+/**
+ * Interface for what an employee looks like on the server when sending a GET
+ * request to /users/users/
+ */
+export interface Employee {
+  id: number;
+  user: number;
+  hours: string;
+  wage: string;
+  is_cashier: boolean;
+  is_barista: boolean;
+  is_manager: boolean;
 }
 
 /**

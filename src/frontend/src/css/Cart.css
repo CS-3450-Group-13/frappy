@@ -70,3 +70,41 @@
 .cart-place-order-btn:hover {
   background-color: var(--frappy-l-lgreen);
 }
+
+.cart-customer-order-container {
+  display: flex;
+  flex-direction: row;
+  background-color: var(--frappy-gray);
+  margin-top: 2%;
+  margin-bottom: 2%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  justify-content: space-between;
+  font-size: 1rem;
+}
+
+.cart-customer-order-text {
+  margin-left: 10px;
+}
+
+.cart-customer-name-tb {
+  border: 1px solid black;
+  margin-right: 10px;
+}
+
+.cart-customer-name-tb:focus {
+  outline: none;
+}
+
+.cart-verify-customer-btn {
+  background-color: var(--frappy-lgreen);
+  padding: 2%;
+  margin-right: 10px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.cart-customer-balance-invalid {
+  color: red;
+  font-size: 1.5rem;
+}

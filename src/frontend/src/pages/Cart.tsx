@@ -6,22 +6,37 @@ import React, {
   useState,
 } from 'react';
 import ItemCartDisplay from '../components/ItemCartDisplay';
-import { Frappe, SizeOptions, MenuItem } from '../types/Types';
+import { Frappe, SizeOptions, MenuItem, User } from '../types/Types';
 import { TestBases, TestExtras, TestMilks } from '../tests/TestServerData';
 import '../css/Cart.css';
 import { useNavigate } from 'react-router-dom';
 import { FrappeExtra } from '../types/Types';
 import { useAuth } from '../components/auth';
 import Confirmation from './Confirmation';
+import { toast } from 'react-toastify';
 
 type Props = {
   cart: Array<MenuItem>;
   setCart: Dispatch<SetStateAction<MenuItem[]>>;
 };
 
+const emptyUser: User = {
+  id: 0,
+  last_login: "",
+  first_name: "",
+  last_name: "",
+  is_active: true,
+  dat_joined: "",
+  email: "",
+  balance: "",
+  user_permissions: [],
+}
+
 export default function Cart({ cart, setCart }: Props) {
   const [total, setTotal] = useState(0);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [customerEmail, setCustomerEmail] = useState("");
+  const [customer, setCustomer] = useState<User>(emptyUser);
 
   const navigate = useNavigate();
   const auth = useAuth();
@@ -93,6 +108,30 @@ export default function Cart({ cart, setCart }: Props) {
     navigate('/menu');
   };
 
+  const handleVerifyCustomer = () => {
+    console.log("attempting to get user information for ", customerEmail);
+    fetch(`http://127.0.0.1:8000/users/users/?email=${customerEmail}`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Token ${user?.key}`,
+          'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin',
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.size < 1) {
+          toast.error("Cannot find customer " + customerEmail);
+          return;
+        }
+        
+        // Customer comes in as an array for some reason... probably because query 
+        // know that emails are unique
+        setCustomer(data[0]);
+      })
+      .catch((err) => console.log('got error: ', err));
+  };
+
   /**
    * @brief Callback for handling when the user wants to place their order
    */
@@ -135,6 +174,10 @@ export default function Cart({ cart, setCart }: Props) {
     navigate('/order-status');
   };
 
+  const handleCustomerEmailChange = (text: string) => {
+    setCustomerEmail(text);
+  }
+
   return (
     <div className="cart-container">
       CART:
@@ -157,6 +200,28 @@ export default function Cart({ cart, setCart }: Props) {
           TOTAL:
           <div className="cart-total">${total.toFixed(2)}</div>
         </div>
+        {user?.role !== "customer" &&
+          <div className="cart-customer-order-container">
+            <div className="cart-customer-order-text">
+              Ordering on behalf of a customer? Verify their account here:
+            </div>
+            <input
+              className="cart-customer-name-tb" 
+              type="text"
+              placeholder="customer email"
+              onChange={(e) => handleCustomerEmailChange(e.target.value)}
+            />
+            <div
+              className="cart-verify-customer-btn"
+              onClick={handleVerifyCustomer}
+            >
+              verify
+            </div>
+          </div>
+        }
+        { user?.role !== "customer" && customer.id > 0 && parseFloat(customer.balance) < total &&
+          <div className='cart-customer-balance-invalid'>Customer balance is too low</div>
+        }
         <div className="cart-decision-btns">
           <div
             className="cart-back-btn"
@@ -181,6 +246,7 @@ export default function Cart({ cart, setCart }: Props) {
         cart={cart}
         setCart={setCart}
         setOpen={() => setCheckoutOpen(false)}
+        userId={customer.id}
       />
     </div>
   );

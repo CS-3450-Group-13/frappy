@@ -10,6 +10,7 @@ interface PropsType {
   setOpen: (open: boolean) => void;
   cart: Array<MenuItem>;
   setCart: Function;
+  userId: number;
 }
 
 export default function Confirmation({
@@ -17,6 +18,7 @@ export default function Confirmation({
   setOpen,
   cart,
   setCart,
+  userId,
 }: PropsType) {
   const getSubTotal = () => {
     let total = 0.0;
@@ -29,12 +31,14 @@ export default function Confirmation({
   const subTotal = getSubTotal();
   const navigate = useNavigate();
 
+  console.log(`User id is ${userId}`);
+
   const auth = useAuth();
   const placeOrder = () => {
     // TODO: Wait to submit again until the previous is accepted if there is more than one drink
     cart.forEach((frappe) => {
       let tmp = {
-        user: 'Deez nuts',
+        user: userId,
         milk: frappe.frappe.milk,
         base: frappe.frappe.base,
         extras: frappe.frappe.extras,
@@ -43,17 +47,16 @@ export default function Confirmation({
         comments: auth?.userInfo.fullName,
       };
 
-      // frappe.frappe.menu_key = 4;
-
       // Server doesn't want the frappe key for each extra
       tmp.extras.forEach((extra) => {
         delete extra.frappe;
       });
 
-      // console.log(tmp);
-      // console.log(JSON.stringify(tmp));
+      console.log('Submitting this frappe to the server:');
+      console.log(tmp);
+      console.log(JSON.stringify(tmp));
 
-      fetch('http://127.0.0.1:8000/frappapi/frappes/', {
+      fetch('http://127.0.0.1:8000/frappapi/cashier/', {
         method: 'POST',
         headers: {
           Authorization: `Token ${auth?.userInfo.key}`,
@@ -69,7 +72,6 @@ export default function Confirmation({
           } else {
             console.log('got response: ', data);
             toast.success('Your Order was placed!');
-            setCart([]);
             navigate('/order-status');
           }
         })
