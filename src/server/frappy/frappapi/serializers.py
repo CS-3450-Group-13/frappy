@@ -1,7 +1,7 @@
 from collections import OrderedDict
 from rest_framework import serializers
 from .models import Frappe, Menu, Extras, ExtraDetail, Milk, Base, Ingredient
-from users.models import User
+from users.models import User, Employee
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -114,17 +114,24 @@ class MenuSerializer(serializers.ModelSerializer):
         detail = 1
 
     def create(self, validated_data):
+        # Get manager to modify the frappe
+        manager_user = Employee.objects.get()
         frappe_data = validated_data.pop("frappe")
         frappe_data["final_price"] = 0
-        frappe_data["creator_id"] = validated_data.pop("creator").id
-        frappe_data["user_id"] = validated_data.pop("user").id
+        frappe_data["creator"] = validated_data.pop("creator")
+        frappe_data["user"] = validated_data.pop("user")
 
-        # Extras creating
-        frappe = FrappeSerializer(data=frappe_data)
-        if not frappe.is_valid():
-            raise ValueError(f"frappe is invalid {frappe.data}")
+        print(frappe_data, type(frappe_data))
 
-        frappe.save()
+        # Create Frappe Hack
+        try:
+            extras = frappe_data.pop("extradetail_set")
+        except KeyError:
+            print("no extras provided")
+            extras = []
+        frappe = Frappe.objects.create(**frappe_data)
+        for extra_data in extras:
+            ExtraDetail.objects.create(frappe=frappe, **extra_data)
 
         menu = Menu.objects.create(**validated_data, frappe=frappe)
         return menu
