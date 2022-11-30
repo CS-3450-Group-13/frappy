@@ -72,30 +72,7 @@ export default function Cart({ cart, setCart }: Props) {
 
     // Find the price of each frappe based on the ingredients
     cart.forEach(({ frappe }) => {
-      let frappePrice = 0.0;
-
-      // Calculate the cost of all the extras in the cart
-      frappe.extras.forEach((extra) => {
-        let frappeExtra = TestExtras.find((item) => item.id === extra.extras);
-
-        if (frappeExtra) {
-          frappePrice += extra.amount * parseFloat(frappeExtra.price_per_unit);
-        }
-      });
-
-      const milk = TestMilks.find((item) => item.id === frappe.milk);
-      const base = TestBases.find((item) => item.id === frappe.base);
-
-      // TODO find out what the price of each size is. Somehow need to factor in markup
-      if (milk) {
-        frappePrice += frappe.size * parseFloat(milk.price_per_unit);
-      }
-      if (base) {
-        frappePrice += frappe.size * parseFloat(base.price_per_unit);
-      }
-
-      frappe.final_price = frappePrice;
-      total += frappePrice;
+      total += frappe.final_price;
     });
 
     return total;
@@ -109,8 +86,10 @@ export default function Cart({ cart, setCart }: Props) {
   };
 
   const handleVerifyCustomer = () => {
-    console.log("attempting to get user information for ", customerEmail);
-    fetch(`http://127.0.0.1:8000/users/users/?email=${customerEmail}`, {
+    setCustomer(emptyUser);
+    if (customerEmail.length > 0) {
+      console.log("attempting to get user information for ", customerEmail);
+      fetch(`http://127.0.0.1:8000/users/users/?email=${customerEmail}`, {
         method: 'GET',
         headers: {
           Authorization: `Token ${user?.key}`,
@@ -120,23 +99,31 @@ export default function Cart({ cart, setCart }: Props) {
       })
       .then((response) => response.json())
       .then((data) => {
-        if (data.size < 1) {
+        if (data.length < 1) {
           toast.error("Cannot find customer " + customerEmail);
           return;
         }
+
+        // Pretty sure data.detail is only for errors (the promise doesn't catch these
+        // because they get returned as ok?). Hopefully this never happens but let them
+        // know that something bad happened
+        if (data.detail) {
+            toast.error(data.detail);
+            return;
+          }
         
         // Customer comes in as an array for some reason... probably because query 
-        // know that emails are unique
+        // doesn't know that emails are unique
         setCustomer(data[0]);
       })
       .catch((err) => console.log('got error: ', err));
+    }
   };
 
   /**
    * @brief Callback for handling when the user wants to place their order
    */
   const handlePlaceOrder = () => {
-    // TODO: Wait to submit again until the previous is accepted if there is more than one drink
     cart.forEach((frappe) => {
       let tmp = {
         user: 'Deez nuts',
@@ -152,9 +139,6 @@ export default function Cart({ cart, setCart }: Props) {
       tmp.extras.forEach((extra) => {
         delete extra.frappe;
       });
-
-      // console.log(tmp);
-      // console.log(JSON.stringify(tmp));
 
       fetch('http://127.0.0.1:8000/frappapi/frappes/', {
         method: 'POST',
@@ -251,6 +235,7 @@ export default function Cart({ cart, setCart }: Props) {
         setOpen={() => setCheckoutOpen(false)}
         userId={customer.id}
         userRole={user?.role}
+        total={total}
       />
     </div>
   );

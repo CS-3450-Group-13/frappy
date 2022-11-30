@@ -30,9 +30,11 @@
   padding-left: 10px;
   color: white;
   border-radius: 5px;
+  cursor: pointer;
 }
 
 .item-cart-edit-btn {
+  cursor: pointer;
   background-color: #07A45B;
   padding-left: 10px;
   border-radius: 5px;
