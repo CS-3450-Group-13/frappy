@@ -36,6 +36,7 @@ export default function Cart({ cart, setCart }: Props) {
   const [total, setTotal] = useState(0);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
   const [customerEmail, setCustomerEmail] = useState("");
+  const [verifiedEmail, setVerifiedEmail] = useState("");
   const [customer, setCustomer] = useState<User>(emptyUser);
 
   const navigate = useNavigate();
@@ -115,6 +116,7 @@ export default function Cart({ cart, setCart }: Props) {
         // Customer comes in as an array for some reason... probably because query 
         // doesn't know that emails are unique
         setCustomer(data[0]);
+        setVerifiedEmail(customerEmail);
       })
       .catch((err) => console.log('got error: ', err));
     }
@@ -207,7 +209,7 @@ export default function Cart({ cart, setCart }: Props) {
           <div className='cart-customer-balance-invalid'>Customer balance is too low</div>
         }
         { user?.role !== "customer" && customer.id > 0 &&
-          <div className='cart-customer-balance-valid'>User {customerEmail} was successfully verified</div>
+          <div className='cart-customer-balance-valid'>User {verifiedEmail} was successfully verified</div>
         }
         <div className="cart-decision-btns">
           <div

@@ -62,6 +62,8 @@ export default function Confirmation({
         console.log(JSON.stringify(tmp));
 
         let endpoint = "http://127.0.0.1:8000/frappapi/frappes/";
+        
+        // Person is trying to order on behalf of someone else if userId > 0
         if (userRole !== "customer" && userId > 0) {
           endpoint = "http://127.0.0.1:8000/frappapi/cashier/";
         }
