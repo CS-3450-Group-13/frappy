@@ -15,6 +15,7 @@ type Props2 = {
   defaultValue: string;
   className: string;
   setter: (input: string) => void;
+  obfuscate: boolean;
 };
 
 export default function UpdateFieldModal(props: Props) {
@@ -31,7 +32,7 @@ export default function UpdateFieldModal(props: Props) {
   }
 
   console.log(props.confirm);
-  
+
   return (
     <div className="update-container">
       <div className="update-title">Enter New {props.fieldName}</div>
@@ -40,12 +41,14 @@ export default function UpdateFieldModal(props: Props) {
         defaultValue={props.fieldValue}
         className="input-container"
         setter={setField1}
+        obfuscate={false}
       />
       <TextField
         displayName={'Confirm ' + props.fieldName}
         defaultValue={'Retype ' + props.fieldValue}
         className={props.confirm ? 'input-container' : 'hidden'}
         setter={setField2}
+        obfuscate={false}
       />
 
       <TextField
@@ -53,6 +56,7 @@ export default function UpdateFieldModal(props: Props) {
         defaultValue="Enter Password"
         className="input-container"
         setter={setPassword}
+        obfuscate={true}
       />
 
       <div className="field-error-div">
@@ -76,6 +80,7 @@ function TextField(props: Props2) {
       <div className="input-name">{props.displayName}:</div>
       <input
         className="input-field"
+        type={!props.obfuscate ? 'text' : 'password'}
         placeholder={props.defaultValue}
         onChange={(e) => props.setter(e.target.value)}
       ></input>

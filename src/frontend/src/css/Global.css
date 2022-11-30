@@ -29,19 +29,11 @@ body {
   user-select: none;
 }
 
-.loader {
-  border: 8px solid var(--frappy-white);
-  border-top: 8px solid var(--frappy-dgray);
-  border-radius: 50%;
-  width: 10%;
-  animation: spin 2s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 
 .circle {
   border-radius: 50%;
+}
+
+::-webkit-scrollbar {
+  display: none;
 }

@@ -32,9 +32,9 @@ export default function HoursModal(props: Props) {
   function handleConfirm() {
     if (stopTime > startTime) {
       const formData = new FormData();
-      formData.append('hours', String(user?.hours + stopTime - startTime));
-      fetch(`http://127.0.0.1:8000/users/users/${user?.id}`, {
-        method: 'PUT',
+      formData.append('hours', String((stopTime - startTime) / 60));
+      fetch(`http://127.0.0.1:8000/users/employees/${user?.id}/add_hours/`, {
+        method: 'POST',
         headers: { Authorization: `Token ${user?.key}` },
         credentials: 'same-origin',
         body: formData,
@@ -43,8 +43,25 @@ export default function HoursModal(props: Props) {
           console.log(response);
           console.log(response.status);
           if (response.status === 200) {
-            setErrorMessage('');
-            props.setModalIsOpen(false);
+            response.json().then((data) => {
+              if (data.success) {
+                auth?.loginAs(
+                  user?.id,
+                  user?.fullName,
+                  user?.userName,
+                  user?.email,
+                  user?.password,
+                  user?.balance,
+                  user?.role,
+                  user?.key,
+                  data.hours
+                );
+                setErrorMessage('');
+                props.setModalIsOpen(false);
+              } else {
+                setErrorMessage('Server Error: Please Try Again Later');
+              }
+            });
           } else {
             setErrorMessage('Server Error: Please Try Again Later');
           }

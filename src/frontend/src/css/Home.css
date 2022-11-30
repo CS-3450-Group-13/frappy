@@ -127,64 +127,6 @@
 
 
 
-.order-card {
-    background-color: var(--frappy-dgray);
-    border-radius: 0.5em;
-    font-size: 1.5em;
-    height: fit-content;
-
-}
-
-.content {
-    display: flex;
-    align-items: center;
-    padding-top: 8px;
-}
-
-.order-date {
-    margin-left: 1em;
-}
-
-.order-summary {
-    flex-grow: 1;
-    display: grid;
-    grid-template-columns: 75% 25%;
-    font-size: 0.9em;
-    margin-right: 1em;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    margin-top: 8px;
-}
-
-
-.drink-photo-container {
-    margin-left: 1em;
-}
-.home-drink-photo {
-    height: 50px;
-    width: 50px;
-    object-fit: cover;
-    border-radius: 50%;
-}
-
-.small-container {
-    margin-left: 1em;
-}
-
-.drink-list {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.expand-arrow {
-    margin-top: -8px;
-    color: var(--frappy-gray);
-    font-size: 0.8em;
-    text-decoration: underline;
-    user-select: none;
-}
-
 .pay-container {
     height: 100%;
     background-color: var(--frappy-background);
@@ -295,3 +237,4 @@
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
   }
+

@@ -72,7 +72,6 @@ const EMPTY_PARAMS: CreateParams = {
   addItem: (item: item) => '',
 };
 export default function ManagerEditInventory() {
-  console.log('enter');
   const [editOpen, setEditOpen] = useState(false);
   const [currentPerson, setCurrentPerson] = useState({
     name: '',
@@ -89,7 +88,6 @@ export default function ManagerEditInventory() {
 
   const auth = useAuth();
 
-  console.log('postinit');
   useEffect(() => {
     if (!basesCurrent) {
       getItems(BASE_ENDPOINT, setBases);
@@ -430,7 +428,7 @@ function EditableRow(props: EditableRowPrpos) {
 
     const newItem: item = {
       id: props.item.id,
-      name: name,
+      name: props.item.name,
       stock: -1,
       price: price,
       lastModified: props.item.lastModified,

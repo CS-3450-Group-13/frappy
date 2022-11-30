@@ -18,7 +18,8 @@ class UserFrappeViewSet(ModelViewSet):
     serializer_class = FrappeSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
-    
+    filterset_fields = ["status"]
+
     # Check if sufficient balance is in place
     def create(self, request, *args, **kwargs):
         serial: FrappeSerializer = self.get_serializer(data=request.data)
@@ -65,6 +66,8 @@ class UserFrappeViewSet(ModelViewSet):
             if user != manager:
                 manager.balance += cost
                 manager.save()
+            else:
+                manager.save()  # Overrides the drink purchase
 
             return Response(
                 {"user_balance": request.user.balance, "cost": cost},
@@ -136,13 +139,13 @@ class CashierFrappeViewSet(UserFrappeViewSet):
             if frappe.status == 1:
                 frappe.status = 2
             else:
-                frappe.status == 1
+                frappe.status = 1
             frappe.save()
 
         return Response({"status": frappe.status})
 
     def get_queryset(self):
-        return Frappe.objects.all().order_by("-create_date")[::-1]
+        return Frappe.objects.all().order_by("create_date")
 
     def create(self, request, *args, **kwargs):
         serial: FrappeSerializer = self.get_serializer(data=request.data)

@@ -67,7 +67,7 @@ export default function EditMenuItemModal({
       let body = {
         name: menuItem.name,
         frappe: {
-          menu_key: menuItem.frappe.menu_key,
+          // menu_key: menuItem.frappe.menu_key,
           base: Number(newBase),
           milk: Number(newMilk),
           extras: frappyExtras,
@@ -75,7 +75,7 @@ export default function EditMenuItemModal({
         },
         prices: menuItem.prices,
       };
-      console.log(newMenuItem);
+      console.log(JSON.stringify(body));
 
       fetch(
         `http://127.0.0.1:8000/frappapi/menu/${menuItem.frappe.menu_key}/activate/`,
@@ -110,6 +110,7 @@ export default function EditMenuItemModal({
           getMenu();
         });
     }
+    setOpen(false);
   };
 
   return (

@@ -117,6 +117,9 @@ export default function Queue() {
     // eslint-disable-next-line
   }, []);
 
+  /**
+   * @brief Creates a view for every item in the queue
+   */
   const createQueueItemView = () => {
     let queueItem: ReactNode[] = [];
 
@@ -168,6 +171,9 @@ export default function Queue() {
     return queueItem;
   };
 
+  /**
+   * @brief Sets the current frappe and opens the QueueItemModal
+   */
   const handleQueueDetailsBtn = (frappe: CashierFrappe) => {
     console.log('button clicked with frappe');
     console.log(frappe);

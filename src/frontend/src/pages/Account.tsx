@@ -319,32 +319,15 @@ export default function Account() {
               })
             }
           ></EditableText>
-          <div className="field-title">User Name </div>
-          <div className="colon">:</div>
-          <EditableText
-            text={user?.email}
-            onClick={() =>
-              openFieldModal({
-                name: 'User Name',
-                value: 'New User Name',
-                confirm: false,
-                updateFunction: postEmail,
-              })
-            }
-          ></EditableText>
+
           <div className="field-title">Email </div>
           <div className="colon">:</div>
           <EditableText
             data-testid="edit-email-btn"
             text={user?.email}
-            onClick={() =>
-              openFieldModal({
-                name: 'Email',
-                value: 'New Email',
-                confirm: true,
-                updateFunction: postEmail,
-              })
-            }
+            onClick={() => {
+              window.alert('Emails are Currently Unable to be Changed');
+            }}
           ></EditableText>
           <div className="field-title">Password </div>
           <div className="colon">:</div>
