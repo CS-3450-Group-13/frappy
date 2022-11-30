@@ -122,7 +122,7 @@ class MenuSerializer(serializers.ModelSerializer):
         # Extras creating
         frappe = FrappeSerializer(data=frappe_data)
         if not frappe.is_valid():
-            raise ValueError(f"frappe is invalid {frappe.data}, {frappe}")
+            raise ValueError(f"frappe is invalid {frappe.data}")
 
         frappe.save()
 
