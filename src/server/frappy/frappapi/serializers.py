@@ -118,7 +118,14 @@ class MenuSerializer(serializers.ModelSerializer):
         frappe_data["final_price"] = 0
         frappe_data["creator_id"] = validated_data.pop("creator").id
         frappe_data["user_id"] = validated_data.pop("user").id
-        frappe = Frappe.objects.create(**frappe_data)
+
+        # Extras creating
+        frappe = FrappeSerializer(data=frappe_data)
+        if not frappe.is_valid():
+            raise ValueError(f"frappe is invalid {frappe.data}, {frappe}")
+
+        frappe.save()
+
         menu = Menu.objects.create(**validated_data, frappe=frappe)
         return menu
 
@@ -143,6 +150,7 @@ class MenuSerializer(serializers.ModelSerializer):
         frappe.save()
 
         return instance
+
 
 class MenuImageSerializer(serializers.Serializer):
     image = serializers.ImageField()

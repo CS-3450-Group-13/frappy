@@ -13,6 +13,8 @@ from .models import *
 from users.permissions import IsManagerOrReadOnly, IsCashier, IsEmployee
 from users.models import User, Employee
 
+import abc
+
 
 class UserFrappeViewSet(ModelViewSet):
     serializer_class = FrappeSerializer
@@ -203,6 +205,8 @@ class MenuViewSet(
 
 # Abstract class only
 class IngredientViewSet(ModelViewSet):
+    model = None
+
     @action(detail=True, methods=["POST"])
     def buy(self, request: Request, pk=None):
         manager: User = Employee.objects.get(is_manager=True).user
@@ -210,7 +214,7 @@ class IngredientViewSet(ModelViewSet):
 
         # Return error if insufficient balance for manager
         if serial.is_valid():
-            item: Base = Base.objects.get(id=pk)
+            item: Base = self.model.objects.get(id=pk)
             cost = serial.validated_data["amount"] * item.price_per_unit
 
             if cost > manager.balance:
@@ -241,20 +245,24 @@ class IngredientViewSet(ModelViewSet):
 
 
 class ExtrasViewSet(IngredientViewSet):
+    model = Extras
     serializer_class = ExtraSerializer
     queryset = Extras.objects.all()
 
 
 class MilkViewSet(IngredientViewSet):
+    model = Milk
     serializer_class = MilkSerializer
     queryset = Milk.objects.all()
 
 
 class BaseViewSet(IngredientViewSet):
+    model = Base
     serializer_class = BaseSerializer
     queryset = Base.objects.all()
 
 
 class ExtraDetailViewSet(GenericViewSet, mixins.CreateModelMixin):
+    model = ExtraDetail
     serializer_class = ExtraDetailSerializer
     queryset = ExtraDetail.objects.all()

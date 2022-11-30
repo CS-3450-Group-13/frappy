@@ -45,7 +45,7 @@ class UserViewSet(
         if self.action in ["current_user", "add_balance"]:
             permission_classes = [IsAuthenticated]
         else:
-            permission_classes = [IsAdminUser, IsManager, IsCashier]
+            permission_classes = [IsAdminUser | IsManager | IsCashier]
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
@@ -130,7 +130,7 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
 
             manager.balance -= cost
             manager.save()
-            
+
             return Response(
                 {
                     "success": "Balance paid successfully",
