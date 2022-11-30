@@ -153,7 +153,7 @@ export default function ManagerEditAccounts() {
           edit
         </button>
       </td>
-      <td>{data.balance}</td>
+      <td>${data.balance}</td>
       <td>
         History{' '}
         <button onClick={() => handleOpenHistory(data.id)} className="btn">

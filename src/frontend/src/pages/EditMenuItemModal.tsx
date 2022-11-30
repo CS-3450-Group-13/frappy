@@ -121,7 +121,7 @@ export default function EditMenuItemModal({
         content: {
           marginLeft: '10%',
           marginRight: '10%',
-          height: '300px',
+          height: '80%',
           padding: '20px',
           borderRadius: '15px',
           backgroundColor: '#10603B',

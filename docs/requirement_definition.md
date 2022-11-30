@@ -341,7 +341,7 @@ Functions available to Managers Include:
       1. Manager must have access to a pay all button that pays money to employees for hours worked.
          1. Manager must be able to push button, where then the system must subtract money from manager account, distribute to employees, and all employee worked hours are reset.
       2. Manager must be able to add unlimited money to their account if needed.
-   2. Manager must have the ability to hire/fire employees and remove user accounts.
+   2. Manager must have the ability to hire/fire employees.
    3. Manager must be able to edit the menu by:
       1. make new drinks
       2. delete drinks

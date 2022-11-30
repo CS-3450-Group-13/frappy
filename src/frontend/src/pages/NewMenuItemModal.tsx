@@ -67,7 +67,7 @@ export default function NewMenuItemModal({
         name: newName,
         frappe: {
           id: newId,
-          menu_key: newId + 1,
+          // menu_key: newId + 1,
           base: Number(newBase),
           milk: Number(newMilk),
           extras: frappyExtras,
@@ -91,6 +91,7 @@ export default function NewMenuItemModal({
           console.log(data);
         });
     }
+    setOpen(false);
   };
 
   return (
@@ -106,6 +107,7 @@ export default function NewMenuItemModal({
           backgroundColor: '#10603B',
           color: 'white',
           overflow: 'scroll',
+          height: '80%',
         },
       }}
     >
