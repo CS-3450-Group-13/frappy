@@ -245,7 +245,6 @@ export default function Login({ setPages, user, setUser }: Props) {
           }
           switch (role) {
             case 'customer':
-              navigate('/home-page');
               auth?.loginAs(
                 USERID,
                 FIRSTNAME + ' ' + LASTNAME,
@@ -281,7 +280,6 @@ export default function Login({ setPages, user, setUser }: Props) {
               ]);
               break;
             case 'employee':
-              navigate('/home-page');
               auth?.loginAs(
                 USERID,
                 FIRSTNAME + LASTNAME,
@@ -321,7 +319,6 @@ export default function Login({ setPages, user, setUser }: Props) {
               ]);
               break;
             case 'manager':
-              navigate('/home-page');
               auth?.loginAs(
                 USERID,
                 FIRSTNAME + LASTNAME,
@@ -379,6 +376,7 @@ export default function Login({ setPages, user, setUser }: Props) {
           toast.success(
             `User ${auth?.userInfo.fullName} was already logged in`
           );
+          window.history.back();
         });
     } catch (err: any) {
       console.error(err);

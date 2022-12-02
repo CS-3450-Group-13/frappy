@@ -2,7 +2,6 @@ import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useAuth } from '../components/auth';
-import CustomerRoutes from '../components/CustomerRoutes';
 import '../css/ConfirmationModal.css';
 import { MenuItem } from '../types/Types';
 
@@ -38,57 +37,57 @@ export default function Confirmation({
 
   const auth = useAuth();
   const placeOrder = () => {
-      // TODO: Wait to submit again until the previous is accepted if there is more than one drink
-      cart.forEach((frappe) => {
-        let tmp = {
-          user: userId,
-          milk: frappe.frappe.milk,
-          base: frappe.frappe.base,
-          extras: frappe.frappe.extras,
-          menu_key: frappe.frappe.menu_key,
-          size: frappe.frappe.size,
-          comments: auth?.userInfo.fullName,
-        };
+    // TODO: Wait to submit again until the previous is accepted if there is more than one drink
+    cart.forEach((frappe) => {
+      let tmp = {
+        user: userId,
+        milk: frappe.frappe.milk,
+        base: frappe.frappe.base,
+        extras: frappe.frappe.extras,
+        menu_key: frappe.frappe.menu_key,
+        size: frappe.frappe.size,
+        comments: auth?.userInfo.fullName,
+      };
 
-        // Server doesn't want the frappe key for each extra
-        tmp.extras.forEach((extra) => {
-          delete extra.frappe;
-        });
-
-        console.log("Submitting this frappe to the server:");
-        console.log(tmp);
-        console.log(JSON.stringify(tmp));
-
-        let endpoint = "http://127.0.0.1:8000/frappapi/frappes/";
-        if (userRole !== "customer" && userId > 0) {
-          endpoint = "http://127.0.0.1:8000/frappapi/cashier/";
-        }
-
-        fetch(endpoint, {
-          method: 'POST',
-          headers: {
-            Authorization: `Token ${auth?.userInfo.key}`,
-            'Content-Type': 'application/json',
-          },
-          credentials: 'same-origin',
-          body: JSON.stringify(tmp),
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.error) {
-              toast.error(data.error);
-            } else {
-              console.log('got response: ', data);
-              toast.success('Your Order was placed!');
-              setCart([]);
-              navigate('/order-status');
-            }
-          })
-          .catch((err) => {
-            toast.error(err);
-            console.log('got error: ', err);
-          });
+      // Server doesn't want the frappe key for each extra
+      tmp.extras.forEach((extra) => {
+        delete extra.frappe;
       });
+
+      console.log('Submitting this frappe to the server:');
+      console.log(tmp);
+      console.log(JSON.stringify(tmp));
+
+      let endpoint = 'http://127.0.0.1:8000/frappapi/frappes/';
+      if (userRole !== 'customer' && userId > 0) {
+        endpoint = 'http://127.0.0.1:8000/frappapi/cashier/';
+      }
+
+      fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          Authorization: `Token ${auth?.userInfo.key}`,
+          'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify(tmp),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            toast.error(data.error);
+          } else {
+            console.log('got response: ', data);
+            toast.success('Your Order was placed!');
+            setCart([]);
+            navigate('/order-status');
+          }
+        })
+        .catch((err) => {
+          toast.error(err);
+          console.log('got error: ', err);
+        });
+    });
   };
 
   return (

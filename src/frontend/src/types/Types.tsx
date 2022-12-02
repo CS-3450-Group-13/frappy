@@ -7,7 +7,7 @@ export interface Frappe {
   user: number;
   milk: MilkOptions;
   base: BaseOptions;
-  extras: Array<FrappeExtra>
+  extras: Array<FrappeExtra>;
   price: number;
   final_price: number;
   menu_key: number;
@@ -21,12 +21,33 @@ export interface Frappe {
  * Interface for what a Frappe looks like on the server when requested from
  * http://127.0.0.1:8000/frappapi/cashier/
  */
- export interface CashierFrappe {
+export interface CashierFrappe {
   id: number;
   user: number;
   milk: MilkOptions;
   base: BaseOptions;
-  extras: Array<FrappeExtra>
+  extras: Array<FrappeExtra>;
+  price: number;
+  final_price: number;
+  menu_key: number;
+  creator: string;
+  size: SizeOptions;
+  comments: string;
+  create_date: string;
+  status: StatusOptions;
+  name?: string;
+}
+
+/**
+ * Interface for what a Frappe looks like on the server when requested from
+ * http://127.0.0.1:8000/frappapi/cashier/
+ */
+export interface CashierFrappe {
+  id: number;
+  user: number;
+  milk: MilkOptions;
+  base: BaseOptions;
+  extras: Array<FrappeExtra>;
   price: number;
   final_price: number;
   menu_key: number;
@@ -47,6 +68,7 @@ export interface Frappe {
  * photo - This is a string that is a http link to an image
  */
 export interface MenuItem {
+  active: boolean;
   name: string;
   frappe: Frappe;
   photo: string;
@@ -116,11 +138,7 @@ export enum SizeOptions {
   Large = 3,
 }
 
-export const SizeNames = [
-  'Small',
-  'Medium',
-  'Large'
-];
+export const SizeNames = ['Small', 'Medium', 'Large'];
 
 /**
  * Options for the different extras. Object for what an extra looks like when requested
@@ -161,7 +179,7 @@ export interface Extra {
 
 /**
  * Interface for what a Frappe stores in the "extras" field. Some things to note:
- * 
+ *
  * extras - This is the key to which extra inside the http://127.0.0.1:8000/frappapi/extras/ endpoint. Think of
  *          it like the ExtraOptions
  * frappe - This is the key to frappe that has this extra i.e. when adding an extra to frappe with id 123, this number
@@ -245,7 +263,7 @@ export interface Employee {
 /**
  * Interface for sending a POST request to the server for registering a
  * new user at /auth-endpoint/registration/
- * 
+ *
  * username - not required
  * email - required
  * password1 - required
@@ -285,7 +303,7 @@ export interface PasswordReset {
 /**
  * Interface for sending a POST request to the server for a reset
  * password confimration at /auth-endpoint/password/reset/confirm/
- * 
+ *
  * new_password1 - required
  * new_password2 - required
  * uid - required

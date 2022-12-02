@@ -1,12 +1,14 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import { TestBases, TestMilks, TestExtras } from '../tests/TestServerData';
 import {
-  TestMenu,
-  TestBases,
-  TestMilks,
-  TestExtras,
-} from '../tests/TestServerData';
-import { Base, CashierFrappe, Extra, FrappeExtra, MenuItem, Milk, SizeNames } from '../types/Types';
+  Base,
+  CashierFrappe,
+  Extra,
+  MenuItem,
+  Milk,
+  SizeNames,
+} from '../types/Types';
 
 import '../css/Queue.css';
 import QueueItemModal from './QueueItemModal';
@@ -90,6 +92,7 @@ export default function Queue() {
       .catch((err) => {
         console.log(err);
       });
+    // eslint-disable-next-line
   }, []);
 
   // Get the queue of drinks that need to be made
@@ -111,8 +114,8 @@ export default function Queue() {
       .catch((err) => {
         console.log(err);
       });
+    // eslint-disable-next-line
   }, []);
-
 
   /**
    * @brief Creates a view for every item in the queue
@@ -121,10 +124,10 @@ export default function Queue() {
     let queueItem: ReactNode[] = [];
 
     for (const frappe of queue) {
-      frappe.name = menuItems[(frappe.menu_key-1)].name ?? "undefined";
+      frappe.name = menuItems[frappe.menu_key - 1].name ?? 'undefined';
 
       const header =
-      frappe.creator +
+        frappe.creator +
         ' -- ' +
         SizeNames[frappe.size - 1] +
         ' ' +
@@ -186,7 +189,9 @@ export default function Queue() {
       </div>
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={() => {setModalIsOpen(false)}}
+        onRequestClose={() => {
+          setModalIsOpen(false);
+        }}
         style={{
           content: {
             marginTop: '100px',

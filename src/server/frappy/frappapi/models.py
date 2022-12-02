@@ -1,5 +1,6 @@
 from django.db import models
 from users.models import User
+from decimal import Decimal
 
 
 class Ingredient(models.Model):
@@ -94,11 +95,15 @@ class Menu(models.Model):
     name = models.CharField(max_length=250)
     frappe = models.ForeignKey(Frappe, on_delete=models.PROTECT)
     photo = models.ImageField(upload_to="uploads", blank=True)
-    markup = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    markup = models.DecimalField(
+        max_digits=5, decimal_places=2, default=Decimal(2.3), blank=True
+    )
     active = models.BooleanField(default=True)
 
     def prices(self) -> list[int]:
-        return [round(self.frappe.price(x) + self.markup, 2) for x in (1, 2, 3)]
+        return [round(
+            float(self.frappe.price(x)) + float(self.markup), 2
+            ) for x in (1, 2, 3)]
 
     def __str__(self) -> str:
         return self.name

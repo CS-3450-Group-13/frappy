@@ -116,6 +116,12 @@ export default function NewUser({ setPages }: Props) {
       });
   };
 
+  const handleEnter = (e: React.KeyboardEvent<HTMLElement>) => {
+    if (e.code === 'Enter') {
+      addToData();
+    }
+  };
+
   return (
     <div className="login-div">
       <h1>Create An Account</h1>
@@ -139,7 +145,11 @@ export default function NewUser({ setPages }: Props) {
           </div>
           <div className="form-input-item">
             <label>Re-Enter Pass: </label>
-            <input type="password" id="input-password-2"></input>
+            <input
+              type="password"
+              id="input-password-2"
+              onKeyDown={handleEnter}
+            ></input>
           </div>
           <div className="form-input-item-last">
             <button

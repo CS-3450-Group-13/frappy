@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAuth } from '../components/auth';
 import '../css/ManagerEditAccounts.css';
-import { Base, Extra, MenuItem, Milk } from '../types/Types';
+import { Base, Extra, FrappeExtra, MenuItem, Milk } from '../types/Types';
 import EditMenuItemModal from './EditMenuItemModal';
 import NewMenuItemModal from './NewMenuItemModal';
 
@@ -26,51 +26,13 @@ export default function ManagerEditMenu() {
   const [newId, setNewId] = useState(0);
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/frappapi/bases/')
-      .then((response) => response.json())
-      .then((data) => {
-        setBases([]);
-        data.forEach((item: Base) => {
-          setBases((oldState) => [...oldState, item]);
-        });
-        console.log('Got bases: ', data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    fetchExtras();
+    getMenu();
+    fetchBases();
+    fetchMilks();
   }, []);
 
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/frappapi/milks/')
-      .then((response) => response.json())
-      .then((data) => {
-        setMilks([]);
-        data.forEach((item: Milk) => {
-          setMilks((oldState) => [...oldState, item]);
-        });
-        console.log('Got milks: ', data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch('http://127.0.0.1:8000/frappapi/extras/')
-      .then((response) => response.json())
-      .then((data) => {
-        setExtras([]);
-        data.forEach((item: Extra) => {
-          setExtras((oldState) => [...oldState, item]);
-        });
-        console.log('data is ', data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
+  const getMenu = () => {
     fetch('http://127.0.0.1:8000/frappapi/menu/')
       .then((response) => response.json())
       .then((data) => {
@@ -78,13 +40,55 @@ export default function ManagerEditMenu() {
         data.forEach((item: MenuItem) => {
           setMenuItems((oldState) => [...oldState, item]);
         });
-        setNewId(menuItems[menuItems.length - 1].frappe.id + 1);
+        setNewId(menuItems.length);
         setCurrentFrappe(menuItems[0]);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  };
+
+  const fetchExtras = () => {
+    fetch('http://127.0.0.1:8000/frappapi/extras/')
+      .then((response) => response.json())
+      .then((data) => {
+        setExtras([]);
+        data.forEach((item: Extra) => {
+          setExtras((oldState) => [...oldState, item]);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchBases = () => {
+    fetch('http://127.0.0.1:8000/frappapi/bases/')
+      .then((response) => response.json())
+      .then((data) => {
+        setBases([]);
+        data.forEach((item: Base) => {
+          setBases((oldState) => [...oldState, item]);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const fetchMilks = () => {
+    fetch('http://127.0.0.1:8000/frappapi/milks/')
+      .then((response) => response.json())
+      .then((data) => {
+        setMilks([]);
+        data.forEach((item: Milk) => {
+          setMilks((oldState) => [...oldState, item]);
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   const auth = useAuth();
 
@@ -97,10 +101,53 @@ export default function ManagerEditMenu() {
     setNewItemOpen(true);
   };
 
+  const getExtras = (frappeExtras: FrappeExtra[]) => {
+    const ExtrasNameList = [''];
+    for (let i = 0; i < extras.length; i++) {
+      ExtrasNameList.push(extras[i].name);
+    }
+    return (
+      <td>
+        <ul className="extras-list">
+          {frappeExtras.map(
+            (extra) =>
+              extra.frappe !== undefined && (
+                <li>
+                  {ExtrasNameList[extra.extras]} -- {extra.amount}
+                </li>
+              )
+          )}
+        </ul>
+      </td>
+    );
+  };
+
+  const deActivate = (menuItem: MenuItem) => {
+    fetch(
+      `http://127.0.0.1:8000/frappapi/menu/${menuItem.frappe.menu_key}/activate/`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Token ${auth?.userInfo.key}`,
+          'Content-Type': 'application/json',
+        },
+        credentials: 'same-origin',
+        body: JSON.stringify(menuItem),
+      }
+    )
+      .then((resp) => resp.json())
+      .then((data) => {
+        console.log(data);
+        getMenu();
+      });
+  };
+
   const tableRows = menuItems.map((data) => (
     <tr>
       <td>
-        <button onClick={() => handleEditOpen(data)}>Edit</button>
+        <button className="btn" onClick={() => handleEditOpen(data)}>
+          Edit
+        </button>
       </td>
       <td>
         <div className="image-wrapper">
@@ -114,10 +161,17 @@ export default function ManagerEditMenu() {
       </td>
       <td>{bases.find((item) => item.id === data.frappe.base)?.name}</td>
       <td>{milks.find((item) => item.id === data.frappe.milk)?.name}</td>
-      <td>
-        <button>Extras</button>
-      </td>
+      <td>{getExtras(data.frappe.extras)}</td>
       <td>{data.frappe.create_date.slice(0, 10)}</td>
+      <td>
+        <div className="status-row">
+          {data.active && <div>Active</div>}
+          {data.active === false && <div>Not Active</div>}
+          <button className="btn active" onClick={() => deActivate(data)}>
+            Change
+          </button>
+        </div>
+      </td>
     </tr>
   ));
 
@@ -141,11 +195,13 @@ export default function ManagerEditMenu() {
             <th>Milk</th>
             <th>Extras</th>
             <th>Date Created</th>
+            <th>Status</th>
           </tr>
           {tableRows}
         </table>
       </div>
       <EditMenuItemModal
+        getMenu={getMenu}
         menuItem={currentMenuItem}
         open={editOpen}
         setOpen={setEditOpen}
@@ -154,6 +210,7 @@ export default function ManagerEditMenu() {
         extras={extras}
       ></EditMenuItemModal>
       <NewMenuItemModal
+        getMenu={getMenu}
         open={newItemOpen}
         setOpen={setNewItemOpen}
         bases={bases}
