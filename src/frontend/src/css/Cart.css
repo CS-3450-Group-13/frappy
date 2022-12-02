@@ -58,6 +58,7 @@
   background-color: var(--frappy-dgreen);
   padding: 5px;
   border-radius: 15px;
+  cursor: pointer;
 }
 
 .cart-place-order-btn {

@@ -12,6 +12,7 @@ interface PropsType {
   setCart: Function;
   userId: number;
   userRole: string | undefined;
+  total: number;
 }
 
 export default function Confirmation({
@@ -21,16 +22,9 @@ export default function Confirmation({
   setCart,
   userId,
   userRole,
+  total,
 }: PropsType) {
-  const getSubTotal = () => {
-    let total = 0.0;
-    for (let i = 0; i < cart.length; i++) {
-      total += cart[i].prices[0];
-    }
-    return total;
-  };
-
-  const subTotal = getSubTotal();
+  // const subTotal = getSubTotal();
   const navigate = useNavigate();
 
   console.log(`User id is ${userId}`);
@@ -58,9 +52,11 @@ export default function Confirmation({
       console.log(tmp);
       console.log(JSON.stringify(tmp));
 
-      let endpoint = 'http://127.0.0.1:8000/frappapi/frappes/';
-      if (userRole !== 'customer' && userId > 0) {
-        endpoint = 'http://127.0.0.1:8000/frappapi/cashier/';
+      let endpoint = "http://127.0.0.1:8000/frappapi/frappes/";
+
+      // Person is trying to order on behalf of someone else if userId > 0
+      if (userRole !== "customer" && userId > 0) {
+        endpoint = "http://127.0.0.1:8000/frappapi/cashier/";
       }
 
       fetch(endpoint, {
@@ -75,7 +71,15 @@ export default function Confirmation({
         .then((response) => response.json())
         .then((data) => {
           if (data.error) {
-            toast.error(data.error);
+            // This particular error looks ugly. Prettify it for the user
+            if (data.error.includes('insufficient stock')) {
+              // Grab the extra name
+              const extraName = data.error.substring(data.error.indexOf(':') + 2, data.error.indexOf('>'));
+              toast.error(`Drink extra '${extraName}' does not have enough stock`)
+            }
+            else {
+              toast.error(data.error);
+            }
           } else {
             console.log('got response: ', data);
             toast.success('Your Order was placed!');
@@ -113,15 +117,14 @@ export default function Confirmation({
       </div>
       <div className="order-content">
         <ul className="order-list">
-          {cart.map(({ name, prices }) => (
+          {cart.map(({ name, frappe }) => (
             <li className="order-list-item">
               <h4>{name}</h4>
-              <h4>${prices[0].toFixed(2)}</h4>
+              <h4>${frappe.final_price.toFixed(2)}</h4>
             </li>
           ))}
         </ul>
-        <h2 className="subtotal">Subtotal: ${subTotal.toFixed(2)}</h2>
-        <h2 className="total">Total: ${(subTotal * 1.07).toFixed(2)}</h2>
+        <h2 className="total">Total: ${total.toFixed(2)}</h2>
         <button
           className="close-btn"
           onClick={() => {

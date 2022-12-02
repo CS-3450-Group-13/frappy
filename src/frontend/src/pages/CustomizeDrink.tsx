@@ -121,6 +121,8 @@ export default function CustomizeDrink({ setCart }: Props) {
     console.log(newPrice);
     setCurrentCost(newPrice);
     setCostOutdated(false);
+    currentFrappe.frappe.final_price = currentCost;
+    setCurrentFrappe(currentFrappe);
   }, [costOutdated]);
 
   // Makes Sure Cost Keeps Up With Frappe Changes
@@ -409,6 +411,8 @@ export default function CustomizeDrink({ setCart }: Props) {
    * @brief Adds a new drink to the cart
    */
   function handleAddToCart() {
+    currentFrappe.frappe.final_price = currentCost;
+    setCurrentFrappe(currentFrappe);
     setCart((oldState) => [...oldState, currentFrappe]);
     // console.log(cart);
     navigate('/menu');
@@ -496,9 +500,12 @@ export default function CustomizeDrink({ setCart }: Props) {
         </div>
         {!isNewDrink && (
           <div className="customize-drink-center">
+            <div className="price-tracker">${currentCost.toFixed(2)}</div>
             <div
               className="customize-drink-nav-btn customize-drink-lgreen"
               onClick={() => {
+                currentFrappe.frappe.final_price = currentCost;
+                setCurrentFrappe(currentFrappe);
                 navigate('/cart');
               }}
             >
