@@ -5,6 +5,7 @@ import { useAuth } from '../components/auth';
 import '../css/ConfirmationModal.css';
 import { MenuItem } from '../types/Types';
 
+// simplify props passed in
 interface PropsType {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -14,6 +15,7 @@ interface PropsType {
   userRole: string | undefined;
 }
 
+// This component is the final confirmation page before placing an order
 export default function Confirmation({
   open,
   setOpen,
@@ -58,6 +60,7 @@ export default function Confirmation({
       console.log(tmp);
       console.log(JSON.stringify(tmp));
 
+      // endpoint depends on if user is customer or cashier
       let endpoint = 'http://127.0.0.1:8000/frappapi/frappes/';
       if (userRole !== 'customer' && userId > 0) {
         endpoint = 'http://127.0.0.1:8000/frappapi/cashier/';
@@ -90,6 +93,7 @@ export default function Confirmation({
     });
   };
 
+  // The modal is a popup over the main page, this will list all items and have an order or cancel button.
   return (
     <Modal
       isOpen={open}

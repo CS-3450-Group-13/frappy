@@ -130,6 +130,7 @@
 .image-wrapper img{
     width: 75px;
     height: 75px;
+    background-color: white;
 }
 
 .image-wrapper-customer img {

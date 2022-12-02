@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
+// simplify user data
 interface StateType {
   id: number;
   fullName: string;
@@ -12,6 +13,7 @@ interface StateType {
   hours: number;
 }
 
+//simplify context data
 interface AppContextInterface {
   userInfo: StateType;
   loginAs: Function;
@@ -20,6 +22,8 @@ interface AppContextInterface {
 
 const AuthContext = createContext<AppContextInterface | null>(null);
 
+//This function defines all the data and functions that can be called
+//throughout the entire app, without having to pass it to every component.
 export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   const [userInfo, setUserInfo] = useState({
     id: -1,
@@ -32,15 +36,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     key: '',
     hours: 0,
   });
-
-  // useEffect(() => {
-  //   const data = window.localStorage.getItem('role');
-  //   if (data !== null) setRole(JSON.parse(data));
-  // }, []);
-
-  // useEffect(() => {
-  //   window.localStorage.setItem('role', JSON.stringify(role));
-  // }, [role]);
 
   const loginAs = (
     id: number,
@@ -80,7 +75,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     });
   };
 
-  console.log(userInfo.role);
   return (
     <AuthContext.Provider value={{ userInfo, loginAs, logout }}>
       {children}
@@ -88,6 +82,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
   );
 };
 
+// provides useAuth for constructor of data
 export const useAuth = () => {
   return useContext(AuthContext);
 };

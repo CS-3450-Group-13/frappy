@@ -4,15 +4,7 @@ import '../css/ManagerEditAccounts.css';
 import { Base, Extra, FrappeExtra, MenuItem, Milk } from '../types/Types';
 import EditMenuItemModal from './EditMenuItemModal';
 import NewMenuItemModal from './NewMenuItemModal';
-
-// const blankMenuItem = {
-//   name: '',
-//   frappe: {
-
-//   },
-//   photo: '',
-//   prices: [1, 2, 3],
-// };
+import newDrink from '../images/large-new.png';
 
 export default function ManagerEditMenu() {
   const [editOpen, setEditOpen] = useState(false);
@@ -30,17 +22,20 @@ export default function ManagerEditMenu() {
     getMenu();
     fetchBases();
     fetchMilks();
+    console.log(menuItems);
   }, []);
 
   const getMenu = () => {
     fetch('http://127.0.0.1:8000/frappapi/menu/')
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         setMenuItems([]);
         data.forEach((item: MenuItem) => {
           setMenuItems((oldState) => [...oldState, item]);
         });
-        setNewId(menuItems.length);
+        setNewId(data.length);
+        console.log(newId);
         setCurrentFrappe(menuItems[0]);
       })
       .catch((err) => {
@@ -150,9 +145,16 @@ export default function ManagerEditMenu() {
         </button>
       </td>
       <td>
-        <div className="image-wrapper">
-          <img src={data.photo} alt={data.name}></img>
-        </div>
+        {data.photo === null && (
+          <div className="image-wrapper">
+            <img src={newDrink} alt={data.name}></img>
+          </div>
+        )}
+        {data.photo && (
+          <div className="image-wrapper">
+            <img src={data.photo} alt={data.name}></img>
+          </div>
+        )}
       </td>
       <td>{data.name}</td>
       <td>
@@ -208,6 +210,7 @@ export default function ManagerEditMenu() {
         bases={bases}
         milks={milks}
         extras={extras}
+        newId={newId}
       ></EditMenuItemModal>
       <NewMenuItemModal
         getMenu={getMenu}

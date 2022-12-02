@@ -4,7 +4,7 @@
 
 ## Introduction and Context
 
-Due to the recent explosion in popularity, Dan's Frappiccino shop, *Frappy's* has been experiencing a massive increase in customers and orders. In addition to this, they've also needed to hire a large number of new employees to manage these orders, which their payment system is having trouble managing, and are constantly running out of inventory for their favorite products. Overall, this has slowed down Frappy's growth, and led to a decreased overall customer experience, with customers experiencing unreasonable wait times or being unable to purchase their favorite drinks. The goal of this project is to create a web-based application to solve these systems by allowing customers to place orders online, while also allowing managers to oversee staff and inventory.
+Due to the recent explosion in popularity, Dan's Frappiccino shop, _Frappy's_ has been experiencing a massive increase in customers and orders. In addition to this, they've also needed to hire a large number of new employees to manage these orders, which their payment system is having trouble managing, and are constantly running out of inventory for their favorite products. Overall, this has slowed down Frappy's growth, and led to a decreased overall customer experience, with customers experiencing unreasonable wait times or being unable to purchase their favorite drinks. The goal of this project is to create a web-based application to solve these systems by allowing customers to place orders online, while also allowing managers to oversee staff and inventory.
 
 A customer will be able to create a custom order for their drink ahead of time, reducing the time needed for Frappy's to process their order as well as saving the Customer time by avoiding having them wait in line. Drinks will be choosable via a variety of customizable presets or be buildable from the ground up via a "create-your-own" option. The system will allow customers to pay via their registered account balance, reducing payment fees and encouraging customer spending via a pre-purchased "gift card" system. Additionally, the account system will allow customer's and Frappy's to track order history. This should allow customers more convenient access to their favorite drinks, and give Frappy's a better ability to estimate inventory trends.
 
@@ -25,32 +25,35 @@ The users of this system can be divided into two main categories: customers and 
 Functions available to all users of the web application include:
 
 1. Account Creation
-   * Default Option Presented to Users Who are Not Currently Signed In
-   * Requires Unique Email
-   * Requires Password
-   * Password Should Pass Some Level of Minimum Security
+
+   - Default Option Presented to Users Who are Not Currently Signed In
+   - Requires Unique Email
+   - Requires Password
+   - Password Should Pass Some Level of Minimum Security
 
 2. Sign In
-   * Default Option Presented to Users Who are Not Currently Signed In
-   * Requires Email
-   * Requires Matching Password
-  
+
+   - Default Option Presented to Users Who are Not Currently Signed In
+   - Requires Email
+   - Requires Matching Password
+
    ![User Login UML](images/useCase7.png)
+
    > **Participating Actors:** Customer
    >
    > **Entry Conditions:**
    >
-   > * Customer opens up login page and inputs username and password
+   > - Customer opens up login page and inputs username and password
    >
    > **Exit Conditions:**
    >
-   > * Customer Create a new account
+   > - Customer Create a new account
    >
-   > * Customer is redirected to error page to create an account
+   > - Customer is redirected to error page to create an account
    >
-   > * Customer successfully logs in
+   > - Customer successfully logs in
    >
-   >  **Event Flow:**
+   >   **Event Flow:**
    >
    > 1. Customer submits login information
    > 2. Customer is Authenticated by system
@@ -60,60 +63,63 @@ Functions available to all users of the web application include:
    > 6. User is sent to error page to create an account
    > 7. Database is updated with new account info and sent back to step 1
    > 8. User is granted access to site
-   >
+
 ### Customers
 
 Functions available to customers include:
 
 1. Customize and Order Drinks
-   * Several Modifiable Preset Options
-   * Full Customization Options
-   * Paid for Using Account Balance (Must Have Non-Negative Balance to Start Order)
-   * Drink Order Will Go Through if Drink Options are Valid
-   ![Order Drink UML](images/user_orders_drink.png)
+
+   - Several Modifiable Preset Options
+   - Full Customization Options
+   - Paid for Using Account Balance (Must Have Non-Negative Balance to Start Order)
+   - Drink Order Will Go Through if Drink Options are Valid
+     ![Order Drink UML](images/user_orders_drink.png)
 
 2. View Their Account Balance
-   * Account Balance Will be Viewable Via a User Profile Button
-   * An Add to Balance Button Will Allow Users to Top Off Their Balance
+
+   - Account Balance Will be Viewable Via a User Profile Button
+   - An Add to Balance Button Will Allow Users to Top Off Their Balance
 
 3. View Their Order History
-   * Order History Could be Viewable Via the Home Page
-   * Customers Could Have the Option to Create an Order Using a Past Order as a Preset
+   - Order History Could be Viewable Via the Home Page
+   - Customers Could Have the Option to Create an Order Using a Past Order as a Preset
 
 ### All Employees
 
 1. Log Hours Worked
-   * Available Via the Account Page
-   ![How to submit Hours](images/Diagram%205.1.png)
+   - Available Via the Account Page
+     ![How to submit Hours](images/Diagram%205.1.png)
 
 > **Participating actor: Employee**
 >
 > **Entry conditions:**
 >
-> * Employee logs in to add hours
+> - Employee logs in to add hours
 >
 > **Exit Conditions:**
 >
-> * Hours submitted successfully, employee paid
-> * Incorrectly formatted hours, denied
-> **Event Flow:**
+> - Hours submitted successfully, employee paid
+> - Incorrectly formatted hours, denied
+>   **Event Flow:**
 >
->    1. employee logs in
->    2. employee submits hours
->    3. data is validated, either rejected or accepted
->    4. hours are submitted to database
->    5. employee is paid when manaker clicks the "button"
+>   1.  employee logs in
+>   2.  employee submits hours
+>   3.  data is validated, either rejected or accepted
+>   4.  hours are submitted to database
+>   5.  employee is paid when manaker clicks the "button"
 
 ### Cashiers
 
 Functions Available to Cashiers Include:
 
 1. Customize and Order Drinks on Behalf of a User
-   * Option to Enter User Email Adress
-   * Several Modifiable Preset Options
-   * "Build-Your-Own" Option
-   * Paid for Using Customer Account Balance
-   * Drink Order Will Go Through if Drink Options are Valid and Selected User Account Contains Sufficient Balance
+
+   - Option to Enter User Email Adress
+   - Several Modifiable Preset Options
+   - "Build-Your-Own" Option
+   - Paid for Using Customer Account Balance
+   - Drink Order Will Go Through if Drink Options are Valid and Selected User Account Contains Sufficient Balance
 
    ![Customer orders from cashier](images/customer_orders_from_cashier.png)
 
@@ -121,32 +127,33 @@ Functions Available to Cashiers Include:
    >
    > **Entry conditions:**
    >
-   > * Customer wants to order a drink from cashier
+   > - Customer wants to order a drink from cashier
    >
    > **Exit Conditions:**
    >
-   > * Cashier leaves page without ordering for customer
-   > * Cashier orders drink on behalf of customer
+   > - Cashier leaves page without ordering for customer
+   > - Cashier orders drink on behalf of customer
    >
    > **Event Flow:**
    >
-   >    1. Cashier logs into website
-   >    2. Cashier selects from premade drink options or make your own
-   >    3. Cashier customizes drink (optional)
-   >    4. Cashier submits order
-   >    5. Customer balance and ingredient amounts verified
-   >    6. Drink added to queue and order history
-   >    7. Money deducted from customer and added to manager account
+   > 1. Cashier logs into website
+   > 2. Cashier selects from premade drink options or make your own
+   > 3. Cashier customizes drink (optional)
+   > 4. Cashier submits order
+   > 5. Customer balance and ingredient amounts verified
+   > 6. Drink added to queue and order history
+   > 7. Money deducted from customer and added to manager account
 
 ### Baristas
 
 Functions available to Baristas Include:
 
 1. View Order Queue
-   * Viewable Via a Unique Order Queue Button
+
+   - Viewable Via a Unique Order Queue Button
 
 2. Mark Orders as Completed
-   * Via a Button in the Order Queue Screen
+   - Via a Button in the Order Queue Screen
 
 ![Barista makes order](images/barista_makes_order.drawio.png)
 
@@ -154,50 +161,51 @@ Functions available to Baristas Include:
 >
 > **Entry conditions:**
 >
-> * Barista attempts to make a drink
+> - Barista attempts to make a drink
 >
 > **Exit Conditions:**
 >
-> * Barista finishes making drink
-> * No drinks in queue
+> - Barista finishes making drink
+> - No drinks in queue
 >
 > **Event Flow:**
 >
->    1. Barista logs in
->    2. Barista checks order queue
->    3. Barista selects order from queue
->    4. Barista makes order
->    5. Ingredient amounts deducted from db
->    6. Barista marks order complete
->    7. Order removed from pending order queue
+> 1.  Barista logs in
+> 2.  Barista checks order queue
+> 3.  Barista selects order from queue
+> 4.  Barista makes order
+> 5.  Ingredient amounts deducted from db
+> 6.  Barista marks order complete
+> 7.  Order removed from pending order queue
 
 ### Managers
 
 Functions available to Managers Include:
 
 1. View and Manage Other Accounts
-   * Available Via an Accounts Tab
-   * Can Mark Accounts as Different Roles (Except for Manager)
-   * Could Change Account Balances
+
+   - Available Via an Accounts Tab
+   - Can Mark Accounts as Different Roles (Except for Manager)
 
    ![Manager Edits Account Info](images/useCase8.png)
+
    > **Participating Actors:** Customer, Barista/Cashier (referred to as Employee)
    >
    > **Entry Conditions:**
    >
-   > * Manager has already talked to Employee about change
+   > - Manager has already talked to Employee about change
    >
-   > * Employee currently has an account with Frappy
+   > - Employee currently has an account with Frappy
    >
    > **Exit Conditions:**
    >
-   > * Employee information is added
+   > - Employee information is added
    >
-   > * Employee information is changed
+   > - Employee information is changed
    >
-   > * Employee pay is changed
+   > - Employee pay is changed
    >
-   >  **Event Flow:**
+   >   **Event Flow:**
    >
    > 1. Manager logs into system
    > 2. Manager access the Employee database
@@ -211,42 +219,45 @@ Functions available to Managers Include:
    > 10. If the Employee's pay is getting changed
    > 11. Pays Employee from account for hours currently worked
    > 12. Changes pay rate to adjusted amount and Database is updated
-   >
 
 2. View and Manage Inventory
-   * Available Via an Inventory Tab
-   * Can Add to Current Inventory Stock (Ordered With Balance)
-   * Can Add New Items to Inventory
+
+   - Available Via an Inventory Tab
+   - Can Add to Current Inventory Stock (Ordered With Balance)
+   - Can Add New Items to Inventory
 
 3. Create New Drink Presets
-   * Available Via a Drink Tab
-   * Could Upload a Custom Image
+
+   - Available Via a Drink Tab
+   - Could Upload a Custom Image
 
    ![Create New Drinks UML](images/Diagram%206.png)
+
    > **Participating actor: Barista**
    >
    > **Entry conditions:**
    >
-   > * manager attempts to add or edit a drink
+   > - manager attempts to add or edit a drink
    >
    > **Exit Conditions:**
    >
-   > * drink is submitted successfully
-   > * drink is invalid and error is returned
+   > - drink is submitted successfully
+   > - drink is invalid and error is returned
    >
    > **Event Flow:**
    >
-   >    1. Manager logs in
-   >    2. submits a drink
-   >    3. Drink is rejected if it already exists or is invalid.
-   >    4. Drink is submitted to database
-   >    5. success message is returned
+   > 1. Manager logs in
+   > 2. submits a drink
+   > 3. Drink is rejected if it already exists or is invalid.
+   > 4. Drink is submitted to database
+   > 5. success message is returned
 
 4. Pay Employees
-   * Available Via the Manager Home Page
-   * Automatically Transfers Balance from the Managers Account to Employees Accounts
-   * Pays Employees Based on Hours Logged
-   * Manager Can Take Out a Loan if They Have Insufficient Funds
+
+   - Available Via the Manager Home Page
+   - Automatically Transfers Balance from the Managers Account to Employees Accounts
+   - Pays Employees Based on Hours Logged
+   - Manager Can Take Out a Loan if They Have Insufficient Funds
 
    ![Pay Employees UML](images/manager_pays_employees.png)
 
@@ -254,21 +265,21 @@ Functions available to Managers Include:
    >
    > **Entry conditions:**
    >
-   > * Manager Clicks Pay Employees Button
+   > - Manager Clicks Pay Employees Button
    >
    > **Exit Conditions:**
    >
-   > * Payment Fails (Insufficient Funds)
-   > * Payment Goes Through
+   > - Payment Fails (Insufficient Funds)
+   > - Payment Goes Through
    >
    > **Event Flow:**
    >
-   >    1. Manager Logs In
-   >    2. Manager Goes to Admin Console
-   >    3. Manager Hits "Friday" Button
-   >    4. System Validates Funds
-   >    5. Funds are Transfered
-   
+   > 1. Manager Logs In
+   > 2. Manager Goes to Admin Console
+   > 3. Manager Hits "Friday" Button
+   > 4. System Validates Funds
+   > 5. Funds are Transfered
+
 ## Functional Requirements
 
 1. User Authentication and Access
@@ -297,6 +308,7 @@ Functions available to Managers Include:
       1. If empty, the manager must have the ability to order more inventory items.
       2. Each item must have a price used to calculate menu item prices
 3. Customer Features
+
    1. All Users must have access to customer features
    2. Customer must have an account with money they can use to spend
       1. Customer should have the ability to add as much money as needed to their account
@@ -309,6 +321,7 @@ Functions available to Managers Include:
       3. Orders could be available for pickup or in-person orders.
 
 4. Cashier Features
+
    1. Cashier must have an account to keep earnings for hours worked.
    2. Cashier must have access to customer accounts to make orders on behalf of customers.
       1. Cashier could have the ability to use Guest accounts for customers that do not want to set up and account.
@@ -321,6 +334,7 @@ Functions available to Managers Include:
    5. Cashier should have the ability to check the status of each ticket and places items for delivery once they are done.
 
 5. Barista Features
+
    1. Barista must have an account to keep earnings for hours worked.
    2. Barista must have the ability to submit the number of hours worked to get paid by the manager.
       1. Every time they submit hours, the system must add it to their current total hours worked.
@@ -356,11 +370,8 @@ Functions available to Managers Include:
 There exist several non-functional requirements for this project as well, namely:
 
 1. The system must use a database
-   1. The database should store account information for users, managers, cashiers, and baristas, including the following fields:
-      2. Password (*Encrypted*)
-      3. Email
-      4. Account Balance
-      5. Order History
+
+   1. The database should store account information for users, managers, cashiers, and baristas, including the following fields: 2. Password (_Encrypted_) 3. Email 4. Account Balance 5. Order History
 
    2. The database should store information on the store's current inventory, including the following fields:
       1. Type
@@ -368,12 +379,15 @@ There exist several non-functional requirements for this project as well, namely
       3. Cost
 
 2. The system should be deployable over the internet.
+
    1. Local hosting will also suffice.
 
 3. The system should use a version control system.
+
    1. Git has been selected for this purpose.
 
 4. Development will follow a hybrid mixture of the Agile method and Spiral process.
+
    1. Each 2-week phase will be composed of several smaller tasks
       1. Tasks will utilize a backlog and priority system
    2. Each phase will include risk analysis
@@ -381,6 +395,7 @@ There exist several non-functional requirements for this project as well, namely
    4. Each phase will end with a retrospective meeting
 
 5. Developers must meet frequently to discuss progress
+
    1. The SCRUM format will be used
    2. Stand Up's will be used
    3. SCRUM poker will be used

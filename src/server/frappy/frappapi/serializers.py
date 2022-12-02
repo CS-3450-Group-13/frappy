@@ -138,6 +138,11 @@ class MenuSerializer(serializers.ModelSerializer):
 
         print(validated_data)
         menu = Menu.objects.create(**validated_data)
+        
+        frappe.menu_key = menu
+        frappe.status = 2
+        frappe.save()
+        
         return menu
 
     def update(self, instance, validated_data):

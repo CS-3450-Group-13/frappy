@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../css/UpdateFieldModal.css';
 
+// simplify props passed in
 type Props = {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   fieldName: string;
@@ -10,6 +11,7 @@ type Props = {
   error: string;
 };
 
+// simplify props passed in
 type Props2 = {
   displayName: string;
   defaultValue: string;
@@ -18,11 +20,13 @@ type Props2 = {
   obfuscate: boolean;
 };
 
+// Popup modal for changing user information like name or email
 export default function UpdateFieldModal(props: Props) {
   const [field1, setField1] = useState('');
   const [field2, setField2] = useState('');
   const [password, setPassword] = useState('');
 
+  // when confirm button is pressed
   function handleConfirm() {
     props.updateFunction(field1, field2, password);
   }
@@ -31,8 +35,7 @@ export default function UpdateFieldModal(props: Props) {
     props.setModalIsOpen(false);
   }
 
-  console.log(props.confirm);
-
+  // The form for updating field
   return (
     <div className="update-container">
       <div className="update-title">Enter New {props.fieldName}</div>
@@ -74,6 +77,7 @@ export default function UpdateFieldModal(props: Props) {
   );
 }
 
+// customer textfield element with setter function
 function TextField(props: Props2) {
   return (
     <div className={props.className}>

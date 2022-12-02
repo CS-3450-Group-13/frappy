@@ -5,6 +5,7 @@ import '../css/OrderHistory.css';
 
 const MENU_ENDPOINT = 'http://127.0.0.1:8000/frappapi/menu/';
 
+//simplify props passed in
 interface Props {
   title: string;
   endpoint: string;
@@ -39,6 +40,9 @@ enum OrderState {
   empty,
   default,
 }
+
+// this component shows the order history of a specific user. It is used on the main page
+// account page, and edit accounts page
 export default function OrderHistory(props: Props) {
   const [orderState, setOrderState] = useState(OrderState.default);
   const [orders, setOrders] = useState<Order[]>([]);

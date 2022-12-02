@@ -1,15 +1,16 @@
 import Modal from 'react-modal';
-import React from 'react';
 import OrderHistory from '../components/OrderHistory';
 import '../css/OrderHistoryModal.css';
-import { AuthProvider } from '../components/auth';
 
+//simplify props passed in
 interface Props {
   open: boolean;
   endpoint: string;
   filter: number;
   setOpen: (value: boolean) => void;
 }
+
+// Container of the order history for when clicked on the manager edit accounts page
 export default function OrderHistoryModal(props: Props) {
   return (
     <Modal

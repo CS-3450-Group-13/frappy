@@ -1,5 +1,4 @@
-import { setegid } from 'process';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../components/auth';
 import '../css/ManagerEditAccounts.css';
 import EditAccountRoleModal from './EditAccountRoleModal';
@@ -8,38 +7,10 @@ import employee from '../images/test1.png';
 import OrderHistoryModal from './OrderHistoryModal';
 
 const ORDER_ENDPOINT = 'http://127.0.0.1:8000/frappapi/cashier/';
-const MockAccounts = [
-  {
-    photo: 'hehe',
-    name: 'John Smith',
-    role: 'customer',
-    balance: 450.9,
-    history: 'History',
-  },
-  {
-    photo: 'hehe',
-    name: 'Eli Smith',
-    role: 'employee',
-    balance: 450.9,
-    history: 'History',
-  },
-  {
-    photo: 'hehe',
-    name: 'John Smith',
-    role: 'customer',
-    balance: 450.9,
-    history: 'History',
-  },
-  {
-    photo: 'hehe',
-    name: 'John Smith',
-    role: 'customer',
-    balance: 450.9,
-    history: 'History',
-  },
-];
 
+// Component where the manager can hire and fire employees and view their information
 export default function ManagerEditAccounts() {
+  // state variables to keep track of users
   const [editOpen, setEditOpen] = useState(false);
   const [currentPerson, setCurrentPerson] = useState({
     id: 0,
@@ -62,6 +33,7 @@ export default function ManagerEditAccounts() {
 
   const auth = useAuth();
 
+  // api call to get all user accounts
   const getAccounts = () => {
     fetch('http://127.0.0.1:8000/users/users/', {
       headers: {
@@ -103,10 +75,12 @@ export default function ManagerEditAccounts() {
       });
   };
 
+  // on first render get all accounts
   useEffect(() => {
     getAccounts();
   }, []);
 
+  // Change role on frontend display
   function handleEditRole(
     id: number,
     employeeId: number,
@@ -128,6 +102,7 @@ export default function ManagerEditAccounts() {
     setHistoryOpen(true);
   }
 
+  // returns all the table rows based on the data received from the database
   const tableRows = accounts.map((data) => (
     <tr>
       <td>
@@ -164,6 +139,7 @@ export default function ManagerEditAccounts() {
     </tr>
   ));
 
+  // Header and buttons of the table and modals that open when buttons are clicked
   return (
     <div className="edit-accounts-container">
       <h1>Edit Account Permissions:</h1>

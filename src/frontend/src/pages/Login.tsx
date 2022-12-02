@@ -4,28 +4,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../components/auth';
 import { toast } from 'react-toastify';
 
-interface UserType {
-  fullName: string;
-  userName: string;
-  email: string;
-  password: string;
-  balance: string;
-  accountType: string;
-  hours: string;
-  authKey: string;
-}
-
+//simplify props passed in
 interface Props {
   setPages: Function;
-  user: UserType;
-  setUser: Function;
 }
 
-export default function Login({ setPages, user, setUser }: Props) {
+//Handles the login logic and assigning user data
+export default function Login({ setPages }: Props) {
+  // handles navigation to other pages
   const navigate = useNavigate();
-
+  // Imports global context
   const auth = useAuth();
 
+  // Submitting the login data and setting up the global user info
   const submitForm = () => {
     let HOURS = 0;
     let role = 'none';
@@ -37,6 +28,7 @@ export default function Login({ setPages, user, setUser }: Props) {
       email: email.value,
       password: password.value,
     };
+    // attempt login with email and password
     fetch('http://127.0.0.1:8000/auth-endpoint/login/', {
       method: 'POST',
       headers: {
@@ -46,10 +38,12 @@ export default function Login({ setPages, user, setUser }: Props) {
     })
       .then((response) => response.json())
       .then((LoginData) => {
+        // set default info to customer
         role = 'customer';
-        console.log(role);
         if (LoginData.key) {
+          // save data in storage for automatic login
           localStorage.setItem('LoginToken', LoginData.key);
+          // get all current user data
           fetch('http://127.0.0.1:8000/users/users/current_user/', {
             headers: {
               Authorization: `Token ${LoginData.key}`,
@@ -59,8 +53,7 @@ export default function Login({ setPages, user, setUser }: Props) {
           })
             .then((response) => response.json())
             .then((CurrentUserdata) => {
-              console.log(CurrentUserdata);
-              console.log('k');
+              // Assign current user data to user variable
               const USERID = CurrentUserdata.id;
               const FIRSTNAME = CurrentUserdata.first_name;
               const LASTNAME = ' ' + CurrentUserdata.last_name;
@@ -73,6 +66,7 @@ export default function Login({ setPages, user, setUser }: Props) {
                   role = 'employee';
                 }
               }
+              // setup navbar pages based on user role
               switch (role) {
                 case 'customer':
                   navigate('/home-page');
@@ -209,6 +203,7 @@ export default function Login({ setPages, user, setUser }: Props) {
               toast.success(`Logged in as ${FIRSTNAME + ' ' + LASTNAME}`);
             });
         } else {
+          // send error message
           toast.error('Email or Password is incorrect');
         }
       })
@@ -217,6 +212,8 @@ export default function Login({ setPages, user, setUser }: Props) {
       });
   };
 
+  // Function checks local storage to see if user is currently logged in, and skips the login process.
+  // If they are logged in, assigns values as does the submitForm() function.
   const checkLoggedIn = () => {
     try {
       fetch('http://127.0.0.1:8000/users/users/current_user/', {
@@ -383,15 +380,18 @@ export default function Login({ setPages, user, setUser }: Props) {
     }
   };
 
+  // On first render, check to see if logged in.
   useEffect(() => {
     checkLoggedIn();
   }, []);
 
+  // allows to press enter on password field to login
   const handleEnter = (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.code === 'Enter') {
       submitForm();
     }
   };
+
   return (
     <div className="login-div">
       <h1>Login Page</h1>

@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { useAuth } from '../components/auth';
 import '../css/ManagerEditAccounts.css';
 
+// simplify props passed in
 interface Person {
   id: number;
   employeeId: number;
@@ -11,6 +12,7 @@ interface Person {
   role: string;
 }
 
+// simplify props passed in
 interface PropsType {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -18,6 +20,7 @@ interface PropsType {
   getAccounts: Function;
 }
 
+//This is the popup when the manager is hiring or firing an employee
 export default function EditAccountRoleModal({
   open,
   setOpen,
@@ -26,6 +29,7 @@ export default function EditAccountRoleModal({
 }: PropsType) {
   const auth = useAuth();
 
+  // Call to database to update the user account
   const updateRole = () => {
     var body = {
       id: person.id,
@@ -68,7 +72,7 @@ export default function EditAccountRoleModal({
       default:
         break;
     }
-    console.log(body);
+    // hiring an employee
     if (person.role === 'Customer') {
       fetch('http://127.0.0.1:8000/users/employees/', {
         method: 'POST',
@@ -84,7 +88,9 @@ export default function EditAccountRoleModal({
           console.log(data);
           getAccounts();
         });
-    } else if (person.role === 'Barista' || person.role === 'Cashier') {
+    }
+    // Changing and employee
+    else if (person.role === 'Barista' || person.role === 'Cashier') {
       if (newRole.value !== 'Customer') {
         fetch(`http://127.0.0.1:8000/users/employees/${person.employeeId}/`, {
           method: 'PUT',
@@ -101,7 +107,9 @@ export default function EditAccountRoleModal({
             toast.success('Changed role');
             getAccounts();
           });
-      } else {
+      }
+      // Firing an employee
+      else {
         fetch(`http://127.0.0.1:8000/users/employees/${person.employeeId}/`, {
           method: 'DELETE',
           headers: {

@@ -2,12 +2,14 @@ import React, { ChangeEvent, useState } from 'react';
 import '../css/BalanceModal.css';
 import { useAuth } from '../components/auth';
 
+// simplify props passed in
 interface Props {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   setOutOfDate: (outOfDate: boolean) => void;
   currentBalance: number;
 }
 
+// This pops up when the user goes to add more money to their balance
 export default function BalanceModal(props: Props) {
   const [newBalance, setNewBalance] = useState(props.currentBalance);
   const [balanceValid, setBalanceValid] = useState(false);
@@ -16,6 +18,7 @@ export default function BalanceModal(props: Props) {
   const auth = useAuth();
   let user = auth?.userInfo;
 
+  // check for correct input
   function handleBalanceChange(event: ChangeEvent<HTMLInputElement>) {
     let value = event.target.value;
     if (/^[0-9]*(\.[0-9][0-9])?$/.test(value)) {
@@ -25,9 +28,10 @@ export default function BalanceModal(props: Props) {
       setBalanceValid(false);
     }
   }
+
+  // add balance to the backend
   function handleConfirm() {
     if (balanceValid) {
-      console.log('lmaoo');
       fetch(
         `http://127.0.0.1:8000/users/users/add_balance/?balance=${newBalance}`,
         {

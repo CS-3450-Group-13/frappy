@@ -1,28 +1,21 @@
 import React from 'react';
 import { Frappe } from '../types/Types';
 
+//simplify props passed in
 type Props = {
   drink: Frappe;
-}
+};
 
-export default function QueueItem({drink}: Props) {
-
+export default function QueueItem({ drink }: Props) {
   const getQueue = () => {
     // Query the server for the queue of drinks (probably every 5s?)
 
-    const queue: Frappe[] = [
-    ];
+    const queue: Frappe[] = [];
 
     return queue;
-  }
+  };
 
-  const createExtrasList = () => {
+  const createExtrasList = () => {};
 
-  }
-
-  return (
-    <div className='queue-item-container'>
-
-    </div>
-  );
+  return <div className="queue-item-container"></div>;
 }
