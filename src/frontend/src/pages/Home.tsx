@@ -11,9 +11,6 @@ import OrderHistory from '../components/OrderHistory';
 
 const PAYMENT_ENDPOINT = 'http://127.0.0.1:8000/users/employees/pay_all/';
 const ORDERS_ENDPOINT = 'http://127.0.0.1:8000/frappapi/frappes/';
-interface Props {
-  authKey: string;
-}
 
 interface StateType {
   id: number;
@@ -49,7 +46,7 @@ interface PayProps {
   toPay: number;
 }
 
-export default function Home(props: Props) {
+export default function Home() {
   const navigate = useNavigate();
   const [payModalOpen, setPayModalOpen] = useState(false);
   const [payModalState, setPayModalState] = useState(ModalStates.default);

@@ -36,3 +36,7 @@
 .customize-btn:hover {
   background-color: var(--frappy-l-lgreen);
 }
+
+.new-drink {
+  background-color: white;
+}

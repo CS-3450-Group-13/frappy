@@ -24,7 +24,10 @@ import ManagerEditInventory from './pages/ManagerEditInventory';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+// Main component rendered for the application. This function uses react routing for navigation
+// and assigning of url paths to different components and pages throughout the entire project.
 function App() {
+  // pages in the navbar
   const [pages, setPages] = useState([
     {
       title: 'Login',
@@ -35,21 +38,9 @@ function App() {
       path: '/new-user',
     },
   ]);
-  const [user, setUser] = useState({
-    fullName: '',
-    userName: '',
-    email: '',
-    password: '',
-    balance: '',
-    accountType: '',
-    hours: '',
-    authKey: '',
-  });
-
   const [cart, setCart] = useState<MenuItem[]>([]);
-  const [frappes, setFrappes] = useState(TestFrappes); // TODO query these from the server
-  const [menuItems, setMenuItems] = useState<Array<MenuItem>>([]);
-  const [authKey, setAuthKey] = useState('');
+
+  // Uses AuthProvider to get userinfo throughout entire app
   return (
     <div className="App">
       <AuthProvider>
@@ -57,16 +48,11 @@ function App() {
           <ToastContainer />
           <NavBar pages={pages} setPages={setPages} />
           <Routes>
-            <Route
-              path="/"
-              element={
-                <Login setPages={setPages} user={user} setUser={setUser} />
-              }
-            />
+            <Route path="/" element={<Login setPages={setPages} />} />
             <Route path="/new-user" element={<NewUser setPages={setPages} />} />
 
             <Route element={<CustomerRoutes />}>
-              <Route path="/home-page" element={<Home authKey={authKey} />} />
+              <Route path="/home-page" element={<Home />} />
               <Route path="/order-status" element={<OrderStatus />} />
               <Route
                 path="/menu"

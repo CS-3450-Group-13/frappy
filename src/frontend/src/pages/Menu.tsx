@@ -24,11 +24,7 @@ export default function Menu({ cart, setCart }: Props) {
             setMenuItems((oldState) => [...oldState, item]);
           }
         });
-        // console.log('data is ', data);
-        // console.log(menuItems);
         setCurrentFrappe(menuItems[0]);
-        // console.log('current frappe is ');
-        // console.log(currentFrappe);
       })
       .catch((err) => {
         console.log(err);

@@ -4,6 +4,7 @@ import { useAuth } from '../components/auth';
 import '../css/ManagerEditAccounts.css';
 import { Base, Extra, MenuItem, Milk } from '../types/Types';
 
+// simplify props passed in
 interface PropsType {
   getMenu: Function;
   open: boolean;
@@ -12,8 +13,10 @@ interface PropsType {
   bases: Base[] | undefined;
   milks: Milk[] | undefined;
   extras: Extra[] | undefined;
+  newId: number;
 }
 
+// Popup for when the manager is editing an existing menu item
 export default function EditMenuItemModal({
   getMenu,
   open,
@@ -22,9 +25,11 @@ export default function EditMenuItemModal({
   bases,
   milks,
   extras,
+  newId,
 }: PropsType) {
   const auth = useAuth();
 
+  // call to update database with new information
   const postData = () => {
     if (
       menuItem !== undefined &&
@@ -67,16 +72,15 @@ export default function EditMenuItemModal({
       let body = {
         name: menuItem.name,
         frappe: {
-          // menu_key: menuItem.frappe.menu_key,
+          // menu_key: newId,
           base: Number(newBase),
           milk: Number(newMilk),
           extras: frappyExtras,
           size: menuItem.frappe.size,
         },
-        prices: menuItem.prices,
+        // prices: menuItem.prices,
       };
-      console.log(JSON.stringify(body));
-
+      // make current item inactive
       fetch(
         `http://127.0.0.1:8000/frappapi/menu/${menuItem.frappe.menu_key}/activate/`,
         {
@@ -94,7 +98,7 @@ export default function EditMenuItemModal({
           console.log(data);
           getMenu();
         });
-
+      //  add new menu item
       fetch(`http://127.0.0.1:8000/frappapi/menu/`, {
         method: 'POST',
         headers: {

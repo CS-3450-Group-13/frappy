@@ -13,6 +13,7 @@ import {
 import '../css/Queue.css';
 import QueueItemModal from './QueueItemModal';
 import { useAuth } from '../components/auth';
+import { findAllByAltText } from '@testing-library/react';
 
 export default function Queue() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
@@ -124,7 +125,17 @@ export default function Queue() {
     let queueItem: ReactNode[] = [];
 
     for (const frappe of queue) {
-      frappe.name = menuItems[frappe.menu_key - 1].name ?? 'undefined';
+      if (menuItems[frappe.menu_key - 1] !== undefined) {
+        for (let i = 0; i < menuItems.length; i++) {
+          if (menuItems[i].frappe.menu_key === frappe.menu_key)
+            frappe.name = menuItems[i].name;
+        }
+      } else {
+        for (let i = 0; i < menuItems.length; i++) {
+          if (menuItems[i].frappe.id === frappe.id)
+            frappe.name = menuItems[i].name;
+        }
+      }
 
       const header =
         frappe.creator +

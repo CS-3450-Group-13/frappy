@@ -5,6 +5,7 @@ import OrderHistory from '../components/OrderHistory';
 
 const ORDERS_ENDPOINT = 'http://127.0.0.1:8000/frappapi/frappes/?status=1';
 
+// Page that displays the order status, will show in progress while being made
 export default function OrderStatus() {
   const [orderDone, updateOrderDone] = useState(false);
   const [outdated, setOutdated] = useState(false);
@@ -12,8 +13,8 @@ export default function OrderStatus() {
 
   const navigate = useNavigate();
 
+  // see if is done from the database
   function checkDone() {
-    console.log('ChEKC');
     if (!orderDone) {
       setOutdated(true);
     }
@@ -33,7 +34,6 @@ export default function OrderStatus() {
   }, [orderDone]);
 
   useEffect(() => {
-    console.log('LENGTH');
     console.log(length);
     if (length <= 0) {
       updateOrderDone(true);

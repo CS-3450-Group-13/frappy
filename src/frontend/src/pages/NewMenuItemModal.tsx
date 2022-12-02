@@ -66,7 +66,7 @@ export default function NewMenuItemModal({
       let body = {
         name: newName,
         frappe: {
-          id: newId,
+          id: newId + 1,
           // menu_key: newId + 1,
           base: Number(newBase),
           milk: Number(newMilk),
@@ -74,8 +74,10 @@ export default function NewMenuItemModal({
           size: 1,
         },
         active: true,
+        status: 2,
       };
       console.log(body);
+      console.log(newId);
 
       fetch(`http://127.0.0.1:8000/frappapi/menu/`, {
         method: 'POST',
@@ -89,6 +91,7 @@ export default function NewMenuItemModal({
         .then((resp) => resp.json())
         .then((data) => {
           console.log(data);
+          getMenu();
         });
     }
     setOpen(false);

@@ -5,6 +5,7 @@ import { useAuth } from '../components/auth';
 import '../css/ConfirmationModal.css';
 import { MenuItem } from '../types/Types';
 
+// simplify props passed in
 interface PropsType {
   open: boolean;
   setOpen: (open: boolean) => void;
@@ -15,6 +16,7 @@ interface PropsType {
   total: number;
 }
 
+// This component is the final confirmation page before placing an order
 export default function Confirmation({
   open,
   setOpen,
@@ -52,11 +54,11 @@ export default function Confirmation({
       console.log(tmp);
       console.log(JSON.stringify(tmp));
 
-      let endpoint = "http://127.0.0.1:8000/frappapi/frappes/";
+      let endpoint = 'http://127.0.0.1:8000/frappapi/frappes/';
 
       // Person is trying to order on behalf of someone else if userId > 0
-      if (userRole !== "customer" && userId > 0) {
-        endpoint = "http://127.0.0.1:8000/frappapi/cashier/";
+      if (userRole !== 'customer' && userId > 0) {
+        endpoint = 'http://127.0.0.1:8000/frappapi/cashier/';
       }
 
       fetch(endpoint, {
@@ -74,10 +76,14 @@ export default function Confirmation({
             // This particular error looks ugly. Prettify it for the user
             if (data.error.includes('insufficient stock')) {
               // Grab the extra name
-              const extraName = data.error.substring(data.error.indexOf(':') + 2, data.error.indexOf('>'));
-              toast.error(`Drink extra '${extraName}' does not have enough stock`)
-            }
-            else {
+              const extraName = data.error.substring(
+                data.error.indexOf(':') + 2,
+                data.error.indexOf('>')
+              );
+              toast.error(
+                `Drink extra '${extraName}' does not have enough stock`
+              );
+            } else {
               toast.error(data.error);
             }
           } else {
@@ -94,6 +100,7 @@ export default function Confirmation({
     });
   };
 
+  // The modal is a popup over the main page, this will list all items and have an order or cancel button.
   return (
     <Modal
       isOpen={open}

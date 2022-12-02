@@ -9,6 +9,8 @@ interface Props {
   path: string;
 }
 
+// Handles the navigation bar on the left side of the screen, updates on login and
+// depending on the user type.
 export default function NavBar({
   pages,
   setPages,
@@ -19,6 +21,7 @@ export default function NavBar({
   const navigate = useNavigate();
   let auth = useAuth();
 
+  // function called when logout button is clicked
   const handleLogOut = () => {
     fetch('http://127.0.0.1:8000/auth-endpoint/logout/', {
       method: 'POST',
@@ -31,7 +34,7 @@ export default function NavBar({
         console.log('response: ', data);
       });
     toast.success(`Logged out`);
-
+    // Important, remove token so will be logged out on refresh
     localStorage.removeItem('LoginToken');
     auth?.logout();
     setPages([
@@ -45,6 +48,7 @@ export default function NavBar({
       },
     ]);
   };
+
   return (
     <div className="nav-bar-container">
       <img alt="logo" src={Logo} />

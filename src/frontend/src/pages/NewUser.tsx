@@ -3,14 +3,17 @@ import '../css/Login.css';
 import { toast } from 'react-toastify';
 import { useAuth } from '../components/auth';
 
+//simplify props passed in
 interface Props {
   setPages: Function;
 }
 
+// Component for registering a new user
 export default function NewUser({ setPages }: Props) {
   const navigate = useNavigate();
   const auth = useAuth();
 
+  // add new user data inputted to the database. Registers a new customer
   const addToData = () => {
     let email = document.getElementById('input-email') as HTMLInputElement;
     let password = document.getElementById(
@@ -20,6 +23,7 @@ export default function NewUser({ setPages }: Props) {
       'input-password-2'
     ) as HTMLInputElement;
     let input;
+    // password check
     if (password.value !== password2.value) {
       alert('passwords to not match');
     } else {
@@ -81,6 +85,7 @@ export default function NewUser({ setPages }: Props) {
                   data.first_name + ' ' + data.last_name
                 }`
               );
+              // set pages of customer
               navigate('/home-page');
               setPages([
                 {
@@ -116,6 +121,7 @@ export default function NewUser({ setPages }: Props) {
       });
   };
 
+  // allows enter to be clicked
   const handleEnter = (e: React.KeyboardEvent<HTMLElement>) => {
     if (e.code === 'Enter') {
       addToData();

@@ -1,14 +1,7 @@
-import { setegid } from 'process';
-import { stringify } from 'querystring';
-import React, { ChangeEvent, useEffect, useState } from 'react';
-import { updatePartiallyEmittedExpression } from 'typescript';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../components/auth';
-import ItemCartDisplay from '../components/ItemCartDisplay';
 import '../css/ManagerEditInventory.css';
 import Modal from 'react-modal';
-import { stat } from 'fs';
-import { json } from 'stream/consumers';
-import userEvent from '@testing-library/user-event';
 
 const BASE_ENDPOINT = 'http://127.0.0.1:8000/frappapi/bases/';
 const MILK_ENDPOINT = 'http://127.0.0.1:8000/frappapi/milks/';
