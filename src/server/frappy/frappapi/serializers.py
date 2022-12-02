@@ -2,7 +2,6 @@ from collections import OrderedDict
 from rest_framework import serializers
 from .models import Frappe, Menu, Extras, ExtraDetail, Milk, Base, Ingredient
 from users.models import User, Employee
-from decimal import Decimal
 
 
 class IngredientSerializer(serializers.ModelSerializer):
@@ -119,7 +118,6 @@ class MenuSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Get manager to modify the frappe
-        manager_user = Employee.objects.get()
         frappe_data = validated_data.pop("frappe")
         frappe_data["final_price"] = 0
         frappe_data["creator"] = validated_data.pop("creator")
@@ -136,13 +134,14 @@ class MenuSerializer(serializers.ModelSerializer):
             ExtraDetail.objects.create(frappe=frappe, **extra_data)
         validated_data["frappe"] = frappe
 
-        print(validated_data)
+        # Build menu item
         menu = Menu.objects.create(**validated_data)
-        
+
+        # Build the frappe back
         frappe.menu_key = menu
         frappe.status = 2
         frappe.save()
-        
+
         return menu
 
     def update(self, instance, validated_data):
