@@ -22,15 +22,15 @@ type Props = {
 
 const emptyUser: User = {
   id: 0,
-  last_login: "",
-  first_name: "",
-  last_name: "",
+  last_login: '',
+  first_name: '',
+  last_name: '',
   is_active: true,
-  dat_joined: "",
-  email: "",
-  balance: "",
+  dat_joined: '',
+  email: '',
+  balance: '',
   user_permissions: [],
-}
+};
 
 export default function Cart({ cart, setCart }: Props) {
   const [total, setTotal] = useState(0);
@@ -162,7 +162,7 @@ export default function Cart({ cart, setCart }: Props) {
 
   const handleCustomerEmailChange = (text: string) => {
     setCustomerEmail(text);
-  }
+  };
 
   return (
     <div className="cart-container">
@@ -186,13 +186,13 @@ export default function Cart({ cart, setCart }: Props) {
           TOTAL:
           <div className="cart-total">${total.toFixed(2)}</div>
         </div>
-        {user?.role !== "customer" &&
+        {user?.role !== 'customer' && (
           <div className="cart-customer-order-container">
             <div className="cart-customer-order-text">
               Ordering on behalf of a customer? Verify their account here:
             </div>
             <input
-              className="cart-customer-name-tb" 
+              className="cart-customer-name-tb"
               type="text"
               placeholder="customer email"
               onChange={(e) => handleCustomerEmailChange(e.target.value)}
@@ -204,13 +204,19 @@ export default function Cart({ cart, setCart }: Props) {
               verify
             </div>
           </div>
-        }
-        { user?.role !== "customer" && customer.id > 0 && parseFloat(customer.balance) < total &&
-          <div className='cart-customer-balance-invalid'>Customer balance is too low</div>
-        }
-        { user?.role !== "customer" && customer.id > 0 &&
-          <div className='cart-customer-balance-valid'>User {verifiedEmail} was successfully verified</div>
-        }
+        )}
+        {user?.role !== "customer" &&
+          customer.id > 0 &&
+          parseFloat(customer.balance) < total && (
+            <div className='cart-customer-balance-invalid'>
+              Customer balance is too low
+            </div>
+        )}
+        {user?.role !== "customer" && customer.id > 0 && (
+          <div className='cart-customer-balance-valid'>
+            User {verifiedEmail} was successfully verified
+          </div>
+        )}
         <div className="cart-decision-btns">
           <div
             className="cart-back-btn"

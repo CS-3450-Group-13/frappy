@@ -12,18 +12,10 @@ interface StateType {
   hours: number;
 }
 
-interface Customer {
-  email: string;
-  name: string;
-  key: string;
-}
-
 interface AppContextInterface {
   userInfo: StateType;
   loginAs: Function;
   logout: Function;
-  customer: Customer;
-  setCustomer: Function;
 }
 
 const AuthContext = createContext<AppContextInterface | null>(null);
@@ -39,12 +31,6 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
     role: 'none',
     key: '',
     hours: 0,
-  });
-
-  const [customer, setCustomer] = useState({
-    email: 'self',
-    name: 'self',
-    key: 'none',
   });
 
   // useEffect(() => {
@@ -96,9 +82,7 @@ export const AuthProvider = ({ children }: { children: JSX.Element }) => {
 
   console.log(userInfo.role);
   return (
-    <AuthContext.Provider
-      value={{ userInfo, loginAs, logout, customer, setCustomer }}
-    >
+    <AuthContext.Provider value={{ userInfo, loginAs, logout }}>
       {children}
     </AuthContext.Provider>
   );

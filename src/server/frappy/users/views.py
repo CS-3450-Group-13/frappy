@@ -45,7 +45,7 @@ class UserViewSet(
         if self.action in ["current_user", "add_balance"]:
             permission_classes = [IsAuthenticated]
         else:
-            permission_classes = [IsAdminUser, IsManager, IsCashier]
+            permission_classes = [IsAdminUser | IsManager | IsCashier]
         return [permission() for permission in permission_classes]
 
     def get_queryset(self):
@@ -115,21 +115,21 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
             cost += e.hours * e.wage
 
         if request.method == "POST":
+
             # Pay employees
             for e in employees:
+                # Disallow manager to update
                 if e.user == manager:
                     e.hours = 0
                     e.save()
                     continue
-                pay = e.hours * e.wage
-                e.user.balance += pay
-                e.save()
-                manager.balance -= pay
-                manager.save()
+
+                e.user.balance += e.hours * e.wage
                 e.hours = 0
+                e.save()
 
-
-
+            manager.balance -= cost
+            manager.save()
 
             return Response(
                 {

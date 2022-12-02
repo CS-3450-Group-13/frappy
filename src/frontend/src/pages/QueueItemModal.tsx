@@ -1,4 +1,10 @@
-import React, { Dispatch, ReactNode, SetStateAction, useEffect, useState } from 'react'
+import React, {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useEffect,
+  useState,
+} from 'react';
 import { CashierFrappe, MenuItem } from '../types/Types';
 
 import '../css/QueueItemModal.css';
@@ -10,15 +16,22 @@ type Props = {
   frappe: CashierFrappe | undefined;
   queue: CashierFrappe[];
   setQueue: Dispatch<SetStateAction<CashierFrappe[]>>;
-}
+};
 
 type ButtonPressedTracker = {
   extraName: string;
   pressed: boolean;
-}
+};
 
-export default function QueueItemModal({setModalIsOpen, frappe, queue, setQueue}: Props) {
-  const [buttonPressedTracker, setButtonPressedTracker] = useState<ButtonPressedTracker[]>([]);
+export default function QueueItemModal({
+  setModalIsOpen,
+  frappe,
+  queue,
+  setQueue,
+}: Props) {
+  const [buttonPressedTracker, setButtonPressedTracker] = useState<
+    ButtonPressedTracker[]
+  >([]);
 
   const auth = useAuth();
   let user = auth?.userInfo;
@@ -26,46 +39,67 @@ export default function QueueItemModal({setModalIsOpen, frappe, queue, setQueue}
   useEffect(() => {
     let tmp: ButtonPressedTracker[] = [];
 
-    const base = TestBases.find((b) => { return b.id === frappe?.base });
+    const base = TestBases.find((b) => {
+      return b.id === frappe?.base;
+    });
     if (base) {
-      let buttonPressedTracker: ButtonPressedTracker = {extraName: base.name, pressed: false};
+      let buttonPressedTracker: ButtonPressedTracker = {
+        extraName: base.name,
+        pressed: false,
+      };
       tmp.push(buttonPressedTracker);
     }
-    
-    const milk = TestMilks.find((b) => { return b.id === frappe?.milk });
+
+    const milk = TestMilks.find((b) => {
+      return b.id === frappe?.milk;
+    });
     if (milk) {
-      let buttonPressedTracker: ButtonPressedTracker = {extraName: milk.name, pressed: false};
+      let buttonPressedTracker: ButtonPressedTracker = {
+        extraName: milk.name,
+        pressed: false,
+      };
       tmp.push(buttonPressedTracker);
     }
 
     frappe?.extras.forEach((ingredient) => {
-      const extra = TestExtras.find((item) => {return item.id === ingredient.extras});
+      const extra = TestExtras.find((item) => {
+        return item.id === ingredient.extras;
+      });
 
       if (extra) {
-        let buttonPressedTracker = {extraName: extra?.name, pressed: false};
+        let buttonPressedTracker = { extraName: extra?.name, pressed: false };
         tmp.push(buttonPressedTracker);
       }
-    })
+    });
 
     setButtonPressedTracker(tmp);
-    console.log("button pressed tracker is ");
+    console.log('button pressed tracker is ');
     console.log(buttonPressedTracker);
+    // eslint-disable-next-line
   }, []);
 
   const createIngredientView = () => {
     let ingredientViews: ReactNode[] = [];
 
-    const base = TestBases.find((b) => { return b.id === frappe?.base });
-    let btnPressedTracker = buttonPressedTracker.find((item) => {return item.extraName === base?.name});
-    
+    const base = TestBases.find((b) => {
+      return b.id === frappe?.base;
+    });
+    let btnPressedTracker = buttonPressedTracker.find((item) => {
+      return item.extraName === base?.name;
+    });
+
     if (base) {
       ingredientViews.push(
-        <div key={100000} className='queue-item-modal-ingredient'>
+        <div key={100000} className="queue-item-modal-ingredient">
           <div>{base.name}</div>
-          <div className='queue-item-modal-rhs'>
-            <div className='queue-item-modal-qty'>QTY 1</div>
+          <div className="queue-item-modal-rhs">
+            <div className="queue-item-modal-qty">QTY 1</div>
             <div
-              className={ btnPressedTracker?.pressed ? 'queue-item-modal-btn green' : 'queue-item-modal-btn'}
+              className={
+                btnPressedTracker?.pressed
+                  ? 'queue-item-modal-btn green'
+                  : 'queue-item-modal-btn'
+              }
               onClick={() => handleBtnPress(base.name)}
             >
               +
@@ -75,17 +109,25 @@ export default function QueueItemModal({setModalIsOpen, frappe, queue, setQueue}
       );
     }
 
-    const milk = TestMilks.find((m) => { return m.id === frappe?.milk });
-    btnPressedTracker = buttonPressedTracker.find((item) => {return item.extraName === milk?.name});
+    const milk = TestMilks.find((m) => {
+      return m.id === frappe?.milk;
+    });
+    btnPressedTracker = buttonPressedTracker.find((item) => {
+      return item.extraName === milk?.name;
+    });
 
     if (milk) {
       ingredientViews.push(
-        <div key={100001} className='queue-item-modal-ingredient'>
+        <div key={100001} className="queue-item-modal-ingredient">
           <div>{milk.name}</div>
-          <div className='queue-item-modal-rhs'>
-            <div className='queue-item-modal-qty'>QTY 1</div>
+          <div className="queue-item-modal-rhs">
+            <div className="queue-item-modal-qty">QTY 1</div>
             <div
-              className={ btnPressedTracker?.pressed ? 'queue-item-modal-btn green' : 'queue-item-modal-btn'}
+              className={
+                btnPressedTracker?.pressed
+                  ? 'queue-item-modal-btn green'
+                  : 'queue-item-modal-btn'
+              }
               onClick={() => handleBtnPress(milk.name)}
             >
               +
@@ -96,29 +138,39 @@ export default function QueueItemModal({setModalIsOpen, frappe, queue, setQueue}
     }
 
     frappe?.extras.forEach((ingredient, i) => {
-      const extra = TestExtras.find((item) => {return item.id === ingredient.extras});
-      btnPressedTracker = buttonPressedTracker.find((item) => {return item.extraName === extra?.name});
+      const extra = TestExtras.find((item) => {
+        return item.id === ingredient.extras;
+      });
+      btnPressedTracker = buttonPressedTracker.find((item) => {
+        return item.extraName === extra?.name;
+      });
 
       if (extra) {
         ingredientViews.push(
-          <div key={extra.id} className='queue-item-modal-ingredient'>
+          <div key={extra.id} className="queue-item-modal-ingredient">
             <div>{extra.name}</div>
-            <div className='queue-item-modal-rhs'>
-              <div className='queue-item-modal-qty'>QTY {ingredient.amount}</div>
+            <div className="queue-item-modal-rhs">
+              <div className="queue-item-modal-qty">
+                QTY {ingredient.amount}
+              </div>
               <div
-                className={ btnPressedTracker?.pressed ? 'queue-item-modal-btn green' : 'queue-item-modal-btn'}
+                className={
+                  btnPressedTracker?.pressed
+                    ? 'queue-item-modal-btn green'
+                    : 'queue-item-modal-btn'
+                }
                 onClick={() => handleBtnPress(extra.name)}
               >
                 +
               </div>
             </div>
           </div>
-        )
+        );
       }
     });
 
     return ingredientViews;
-  }
+  };
 
   const markDrinkComplete = () => {
     fetch(`http://127.0.0.1:8000/frappapi/cashier/${frappe?.id}/status/`, {
@@ -131,22 +183,24 @@ export default function QueueItemModal({setModalIsOpen, frappe, queue, setQueue}
         console.log('response for updating queue item: ', data);
       })
       .catch((err) => {
-        console.log(`got error when updating marking frappe ${frappe?.id} complete: ${err}`);
+        console.log(
+          `got error when updating marking frappe ${frappe?.id} complete: ${err}`
+        );
       });
-  }
+  };
 
   const handleBtnPress = (extraName: string) => {
     // console.log("button pressed with name: ", extraName);
-    const newState = buttonPressedTracker.map(obj => {
+    const newState = buttonPressedTracker.map((obj) => {
       if (obj.extraName === extraName) {
-        return {...obj, pressed: true};
+        return { ...obj, pressed: true };
       }
 
       return obj;
     });
 
     setButtonPressedTracker(newState);
-  }
+  };
 
   const handleCompleteOrder = () => {
     // Only allow the barista to close the modal if they have checked off every ingredient
@@ -157,32 +211,36 @@ export default function QueueItemModal({setModalIsOpen, frappe, queue, setQueue}
     }
 
     markDrinkComplete();
-    setQueue(queue.filter((item) => {
-        return item.id != frappe?.id;
+    setQueue(
+      queue.filter((item) => {
+        return item.id !== frappe?.id;
       })
     );
     setModalIsOpen(false);
-  }
+  };
 
   return (
-    <div className='queue-item-modal-container'>
+    <div className="queue-item-modal-container">
       {frappe?.name}
-      <div className='queue-item-modal-ingredient-container'>
+      <div className="queue-item-modal-ingredient-container">
         {createIngredientView()}
       </div>
-      <div className='queue-item-modal-nav-btns'>
-        <div className='queue-item-modal-back-btn'
-          onClick={() => {setModalIsOpen(false)}}
+      <div className="queue-item-modal-nav-btns">
+        <div
+          className="queue-item-modal-back-btn"
+          onClick={() => {
+            setModalIsOpen(false);
+          }}
         >
           BACK
         </div>
-        <div 
-          className='queue-item-modal-complete-order-btn'
+        <div
+          className="queue-item-modal-complete-order-btn"
           onClick={handleCompleteOrder}
         >
           COMPLETE ORDER
         </div>
       </div>
     </div>
-  )
+  );
 }
