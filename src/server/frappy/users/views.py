@@ -18,6 +18,8 @@ from .permissions import IsCashier, IsManager
 from .models import User, Employee
 from django.contrib.auth import login
 
+import decimal
+
 # Create your views here.
 class LoginViewSet(viewsets.ViewSet):
     # This view should be accessible also for unauthenticated users.
@@ -54,12 +56,16 @@ class UserViewSet(
         else:
             return User.objects.all()
 
+    # Needs to be refactored
     @action(detail=True, methods=["GET"])
     def add_user_balance(self, request: Request, pk=None):
         user = User.objects.get(id=pk)
         if "balance" in request.query_params.dict():
             try:
-                user.balance += int(request.query_params["balance"])
+                user.balance += decimal.Decimal.from_float(
+                    float(request.query_params["balance"])
+                )
+                user.save()
                 user.save()
                 return Response(
                     {
@@ -78,7 +84,9 @@ class UserViewSet(
         user = request.user
         if "balance" in request.query_params.dict():
             try:
-                user.balance += int(request.query_params["balance"])
+                user.balance += decimal.Decimal.from_float(
+                    float(request.query_params["balance"])
+                )
                 user.save()
                 return Response(
                     {
