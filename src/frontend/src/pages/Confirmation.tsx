@@ -125,7 +125,7 @@ export default function Confirmation({
       <div className="order-content">
         <ul className="order-list">
           {cart.map(({ name, frappe }) => (
-            <li className="order-list-item">
+            <li className="order-list-item" key={frappe.final_price}>
               <h4>{name}</h4>
               <h4>${frappe.final_price.toFixed(2)}</h4>
             </li>
