@@ -6,8 +6,9 @@ import Modal from 'react-modal';
 const BASE_ENDPOINT = 'http://127.0.0.1:8000/frappapi/bases/';
 const MILK_ENDPOINT = 'http://127.0.0.1:8000/frappapi/milks/';
 const EXTRA_ENDPOINT = 'http://127.0.0.1:8000/frappapi/extras/';
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms)); // Only God Knows
 
+// Generic Item Class Used for All Ingrediat Types
 type item = {
   id: number;
   name: string;
@@ -16,6 +17,7 @@ type item = {
   lastModified: string;
 };
 
+// Controls the Display Type of Each Row
 enum RowState {
   default,
   edit,
@@ -26,6 +28,7 @@ enum RowState {
   order,
 }
 
+// Controls the Display Type of the New Modal
 enum ModalState {
   default,
   updating,
@@ -33,6 +36,7 @@ enum ModalState {
   failed,
 }
 
+// Pass in Values for Editable Row Element
 interface EditableRowPrpos {
   item: item;
   endpoint: string;
@@ -40,17 +44,20 @@ interface EditableRowPrpos {
   updateItem: (item: item, oldItem: item) => void;
 }
 
+// Pass in Values for the Add a New Item Modal
 interface ItemModalProps {
   setModal: (state: boolean) => void;
   createParams: CreateParams;
 }
 
+// Types Specific Values Used When Creating a New Item of Differnt Types
 interface CreateParams {
   endpoint: string;
   stringify: (item: item) => string;
   addItem: (item: item) => void;
 }
 
+// Dummy Data
 const EMPTY_ITEM: item = {
   id: 0,
   name: '',
@@ -64,23 +71,26 @@ const EMPTY_PARAMS: CreateParams = {
   stringify: (item: item) => '',
   addItem: (item: item) => '',
 };
+
+// Main Page Element
 export default function ManagerEditInventory() {
   const [editOpen, setEditOpen] = useState(false);
   const [currentPerson, setCurrentPerson] = useState({
     name: '',
     role: '',
   });
-  const [bases, setBases] = useState([EMPTY_ITEM]);
-  const [milks, setMilks] = useState([EMPTY_ITEM]);
-  const [extras, setExtras] = useState([EMPTY_ITEM]);
-  const [basesCurrent, setBasesCurrent] = useState(false);
-  const [milksCurrent, setMilksCurrent] = useState(false);
-  const [extrasCurrent, setExtrasCurrent] = useState(false);
-  const [itemModalOpen, setItemModalOpen] = useState(false);
-  const [createParams, setCreateParams] = useState(EMPTY_PARAMS);
+  const [bases, setBases] = useState([EMPTY_ITEM]); // List of Bases
+  const [milks, setMilks] = useState([EMPTY_ITEM]); // List of Milks
+  const [extras, setExtras] = useState([EMPTY_ITEM]); // List of Extras
+  const [basesCurrent, setBasesCurrent] = useState(false); // Update Flag for Bases
+  const [milksCurrent, setMilksCurrent] = useState(false); // Update Flag for Milks
+  const [extrasCurrent, setExtrasCurrent] = useState(false); // UPdate Flag for Extras
+  const [itemModalOpen, setItemModalOpen] = useState(false); // Opens New Item Modal
+  const [createParams, setCreateParams] = useState(EMPTY_PARAMS); // Keeps Track of Current Item Type
 
   const auth = useAuth();
 
+  // Fetches Ingredients from Server
   useEffect(() => {
     if (!basesCurrent) {
       getItems(BASE_ENDPOINT, setBases);
@@ -96,6 +106,7 @@ export default function ManagerEditInventory() {
     }
   }, []);
 
+  // Opens Modal and sets Current Item Type
   function openModal(
     endpoint: string,
     stringify: (item: item) => string,
@@ -109,6 +120,7 @@ export default function ManagerEditInventory() {
     });
   }
 
+  // Fetches a Single Item Type from the Server
   function getItems(endpoint: string, setFunction: (items: item[]) => void) {
     fetch(endpoint, {
       headers: {
@@ -136,6 +148,7 @@ export default function ManagerEditInventory() {
       });
   }
 
+  // Turns a Base into a Postable Form
   function stringifyBase(base: item) {
     const formBase = {
       name: base.name,
@@ -147,6 +160,7 @@ export default function ManagerEditInventory() {
     return JSON.stringify(formBase);
   }
 
+  // Turns a Milk Into a Postable Form
   function stringifyMilk(milk: item) {
     console.log(milk);
     const formMilk = {
@@ -159,6 +173,7 @@ export default function ManagerEditInventory() {
     return JSON.stringify(formMilk);
   }
 
+  // Turns an Extra into a Postable Form
   function stringifyExtra(extra: item) {
     const formExtra = {
       name: extra.name,
@@ -170,6 +185,7 @@ export default function ManagerEditInventory() {
     return JSON.stringify(formExtra);
   }
 
+  // Repalces an Outdated Item with a New One to Avoid the Need for Multiple Server Calls
   function updateItem(
     newItem: item,
     collection: item[],
@@ -195,6 +211,7 @@ export default function ManagerEditInventory() {
     setter(copyCollection);
   }
 
+  // Function to Generate Unique Tables for Each Item Type
   function createTable(
     list: item[],
     setter: (items: item[]) => void,
@@ -251,7 +268,7 @@ export default function ManagerEditInventory() {
       <h1>Edit Inventory:</h1>
       <h2>Bases:</h2>
       {createTable(bases, setBases, BASE_ENDPOINT, stringifyBase)}
-      <h2>Milk:</h2>
+      <h2>Milks:</h2>
       {createTable(milks, setMilks, MILK_ENDPOINT, stringifyMilk)}
       <h2>Extras:</h2>
       {createTable(extras, setExtras, EXTRA_ENDPOINT, stringifyExtra)}
@@ -278,20 +295,23 @@ export default function ManagerEditInventory() {
   );
 }
 
+// Driving Force Behind the Edit Inventory Page, Allows for Full User Interaction Via Differnt States and BUttons
 function EditableRow(props: EditableRowPrpos) {
-  const [state, setState] = useState<RowState>(RowState.default);
-  const [name, setName] = useState(props.item.name);
+  const [state, setState] = useState<RowState>(RowState.default); // Current Mode of Row
+  const [name, setName] = useState(props.item.name); // Current Item Details
   const [stock, setStock] = useState(props.item.stock);
   const [price, setPrice] = useState(props.item.price);
-  const [order, setOrder] = useState(0);
+  const [order, setOrder] = useState(0); // Current Order Quanitty
 
   const auth = useAuth();
   const user = auth?.userInfo;
 
+  // Transfers Over to Order Mode
   function handleOrder() {
     setState(RowState.order);
   }
 
+  // Makes Sure the Order Value is Always Numeric
   function updateOrder(value: any) {
     if (value) {
       setOrder(value);
@@ -300,6 +320,7 @@ function EditableRow(props: EditableRowPrpos) {
     }
   }
 
+  // Posts an Order Request to the Server
   function orderInventory() {
     const orderDetails = { amount: order };
     updateOrder(0);
@@ -351,6 +372,7 @@ function EditableRow(props: EditableRowPrpos) {
       .catch(() => setState(RowState.failed));
   }
 
+  // Sets the Row to Edit Mode
   function handelEdit() {
     setState(RowState.edit);
     setName(props.item.name);
@@ -358,6 +380,7 @@ function EditableRow(props: EditableRowPrpos) {
     setPrice(props.item.price);
   }
 
+  // Verifies Input When Editing the Row
   function verifyInput(name: string, stock: number, price: number) {
     if (!/^[0-9]*(\.([0-9])?([0-9])?)?$/.test(String(price))) {
       return false;
@@ -371,6 +394,7 @@ function EditableRow(props: EditableRowPrpos) {
     return true;
   }
 
+  // Attempts to Put Item Changes to Server
   function updateRow() {
     if (!verifyInput(name, stock, price)) {
       setState(RowState.failed);
@@ -416,6 +440,9 @@ function EditableRow(props: EditableRowPrpos) {
       .catch(() => setState(RowState.failed));
   }
 
+  // Lazily Deletes the Row on the Server, Keeps Information in State.
+  // Deleted items are Not Dispalyed but Still Exist
+  // Complete Restoration is Possible, but If the Page is Refreshed, Invetory Quantity Will be Lost
   function deleteRow() {
     setState(RowState.updating);
 
@@ -446,6 +473,7 @@ function EditableRow(props: EditableRowPrpos) {
       .catch(() => setState(RowState.failed));
   }
 
+  // Lazy Restores Item on the Server Side
   function restoreRow() {
     setState(RowState.updating);
     const postItem: item = props.item;
@@ -490,6 +518,7 @@ function EditableRow(props: EditableRowPrpos) {
       .catch(() => setState(RowState.deleted));
   }
 
+  // Main Element, and It's Differnt Modes
   if (state === RowState.deleted) {
     return (
       <tr className="inventory-red">
@@ -696,14 +725,16 @@ function EditableRow(props: EditableRowPrpos) {
   }
 }
 
+// Modal Used to Add a New Item to the Inventory
 function ItemModal(props: ItemModalProps) {
-  const [state, setState] = useState(ModalState.default);
-  const [name, setName] = useState('');
-  const [stock, setStock] = useState(0);
-  const [price, setPrice] = useState(0);
+  const [state, setState] = useState(ModalState.default); // Current Modal Mode
+  const [name, setName] = useState(''); // New Item Name
+  const [stock, setStock] = useState(0); // New Item Stock
+  const [price, setPrice] = useState(0); // New Item Price
 
   const auth = useAuth();
 
+  // Validates New Data
   function verifyInput(name: string, stock: number, price: number) {
     if (!/^[0-9]*(\.([0-9])?([0-9])?)?$/.test(String(price)) || price <= 0) {
       return false;
@@ -717,6 +748,7 @@ function ItemModal(props: ItemModalProps) {
     return true;
   }
 
+  // Tries to Post new Item to Server
   function createItem() {
     if (!verifyInput(name, stock, price)) {
       setState(ModalState.failed);
@@ -767,6 +799,7 @@ function ItemModal(props: ItemModalProps) {
       .catch(() => setState(ModalState.failed));
   }
 
+  // Main Element
   return (
     <div className="item-modal-container">
       <h1>Create New Item:</h1>

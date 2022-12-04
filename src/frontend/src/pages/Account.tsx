@@ -11,6 +11,7 @@ import { json } from 'stream/consumers';
 import { useAuth } from '../components/auth';
 import userEvent from '@testing-library/user-event';
 
+// Basic User Deatils
 interface User {
   id: number;
   firstName: string;
@@ -22,6 +23,7 @@ interface User {
   hours: number;
 }
 
+// Details of a Currently Selected Field
 interface Field {
   name: string;
   value: string;
@@ -29,11 +31,13 @@ interface Field {
   updateFunction: any;
 }
 
+// Basic Details for an Editable Text Field
 type Props = {
   text: string | undefined;
   onClick: () => void;
 };
 
+// Used to get Typescript to STFU About Undefined Possibilities
 const FAKE_USER: User = {
   id: -1,
   firstName: '',
@@ -46,21 +50,22 @@ const FAKE_USER: User = {
 };
 
 export default function Account() {
-  const [outOfDate, setOutOfDate] = useState(false);
-  const [balanceModalOpen, setBalanceModal] = useState(false);
-  const [fieldModalOpen, setFieldModal] = useState(false);
-  const [hoursModalOpen, setHoursModal] = useState(false);
-  const [fieldError, setFieldError] = useState('');
+  const [outOfDate, setOutOfDate] = useState(false); // Update Flag for User Info
+  const [balanceModalOpen, setBalanceModal] = useState(false); // Opens Balance Modal
+  const [fieldModalOpen, setFieldModal] = useState(false); // Opens Field Modal
+  const [hoursModalOpen, setHoursModal] = useState(false); // Opens Hour Logging Modal
+  const [fieldError, setFieldError] = useState(''); // Used to Display Error Messages
   const [currentField, setCurrentField] = useState<Field>({
     name: '',
     value: '',
     confirm: false,
     updateFunction: '',
-  });
+  }); // Used to Determine What Field the Field Modal Should Display
 
   const auth = useAuth();
   let user = auth?.userInfo;
 
+  // Snags User Info and Updates Globals When it's Out of Date
   useEffect(() => {
     if (outOfDate) {
       fetch('http://127.0.0.1:8000/users/users/current_user/', {
@@ -86,41 +91,24 @@ export default function Account() {
     }
   }, [outOfDate]);
 
+  // Opens the Field Modal and Sets the Correct Field
   function openFieldModal(field: Field) {
     setFieldError('');
     setCurrentField(field);
     setFieldModal(true);
   }
 
+  // Ye
   function openBalanceModal() {
     setBalanceModal(true);
   }
 
+  // Ye
   function openHoursModal() {
     setHoursModal(true);
   }
 
-  function reAuth(password: string) {
-    const formData = new FormData();
-    formData.append('email', user?.email ? user.email : '');
-    formData.append('password', password);
-    fetch('http://127.0.0.1:8000/auth-endpoint/login/', {
-      headers: { Authorization: `Token ${user?.key}` },
-      credentials: 'same-origin',
-      method: 'POST',
-      body: formData,
-    })
-      .then((response) => {
-        if (response.status == 200) {
-          return true;
-        }
-        return false;
-      })
-      .catch((response) => {
-        return false;
-      });
-  }
-
+  // Grabs Only Necessary User Data from Server Response
   function parseUser(json: any) {
     console.log(json);
     let user: User = {
@@ -137,6 +125,7 @@ export default function Account() {
     return user;
   }
 
+  // Updates Users Name
   async function postName(field1: string, field2: string, password: string) {
     if (field1.split(' ').length !== 2) {
       setFieldError('Name Must Consist of Two Parts, Seperated by a Space');
@@ -191,6 +180,7 @@ export default function Account() {
       });
   }
 
+  // Updates Users Email, Currently Not Supported by Backend
   function postEmail(field1: string, field2: string, password: string) {
     console.log(fieldError);
     if (field1.split('@').length !== 2) {
@@ -243,6 +233,7 @@ export default function Account() {
       });
   }
 
+  // Updates Users Password
   function postPassword(field1: string, field2: string, password: string) {
     console.log(fieldError);
     if (field1.length < 8) {
@@ -296,6 +287,7 @@ export default function Account() {
       });
   }
 
+  // Page Element
   return (
     <div className="user-container">
       <div className="account-heading">Account Information For:</div>
@@ -442,6 +434,7 @@ export default function Account() {
   );
 }
 
+// Text Field With an Edit Button
 function EditableText(props: Props) {
   return (
     <div className="editable-text-field">

@@ -119,7 +119,6 @@ class MenuSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         # Get manager to modify the frappe
-        manager_user = Employee.objects.get()
         frappe_data = validated_data.pop("frappe")
         frappe_data["final_price"] = 0
         frappe_data["creator"] = validated_data.pop("creator")

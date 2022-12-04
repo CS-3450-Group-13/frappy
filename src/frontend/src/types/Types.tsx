@@ -70,6 +70,7 @@ export interface CashierFrappe {
 export interface MenuItem {
   active: boolean;
   name: string;
+  markup?: string;
   frappe: Frappe;
   photo: string;
   prices: Array<number>;

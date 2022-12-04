@@ -35,8 +35,8 @@ const emptyUser: User = {
 export default function Cart({ cart, setCart }: Props) {
   const [total, setTotal] = useState(0);
   const [checkoutOpen, setCheckoutOpen] = useState(false);
-  const [customerEmail, setCustomerEmail] = useState("");
-  const [verifiedEmail, setVerifiedEmail] = useState("");
+  const [customerEmail, setCustomerEmail] = useState('');
+  const [verifiedEmail, setVerifiedEmail] = useState('');
   const [customer, setCustomer] = useState<User>(emptyUser);
 
   const navigate = useNavigate();
@@ -89,7 +89,7 @@ export default function Cart({ cart, setCart }: Props) {
   const handleVerifyCustomer = () => {
     setCustomer(emptyUser);
     if (customerEmail.length > 0) {
-      console.log("attempting to get user information for ", customerEmail);
+      console.log('attempting to get user information for ', customerEmail);
       fetch(`http://127.0.0.1:8000/users/users/?email=${customerEmail}`, {
         method: 'GET',
         headers: {
@@ -98,27 +98,27 @@ export default function Cart({ cart, setCart }: Props) {
         },
         credentials: 'same-origin',
       })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.length < 1) {
-          toast.error("Cannot find customer " + customerEmail);
-          return;
-        }
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.length < 1) {
+            toast.error('Cannot find customer ' + customerEmail);
+            return;
+          }
 
-        // Pretty sure data.detail is only for errors (the promise doesn't catch these
-        // because they get returned as ok?). Hopefully this never happens but let them
-        // know that something bad happened
-        if (data.detail) {
+          // Pretty sure data.detail is only for errors (the promise doesn't catch these
+          // because they get returned as ok?). Hopefully this never happens but let them
+          // know that something bad happened
+          if (data.detail) {
             toast.error(data.detail);
             return;
           }
-        
-        // Customer comes in as an array for some reason... probably because query 
-        // doesn't know that emails are unique
-        setCustomer(data[0]);
-        setVerifiedEmail(customerEmail);
-      })
-      .catch((err) => console.log('got error: ', err));
+
+          // Customer comes in as an array for some reason... probably because query
+          // doesn't know that emails are unique
+          setCustomer(data[0]);
+          setVerifiedEmail(customerEmail);
+        })
+        .catch((err) => console.log('got error: ', err));
     }
   };
 
@@ -205,15 +205,15 @@ export default function Cart({ cart, setCart }: Props) {
             </div>
           </div>
         )}
-        {user?.role !== "customer" &&
+        {user?.role !== 'customer' &&
           customer.id > 0 &&
           parseFloat(customer.balance) < total && (
-            <div className='cart-customer-balance-invalid'>
+            <div className="cart-customer-balance-invalid">
               Customer balance is too low
             </div>
-        )}
-        {user?.role !== "customer" && customer.id > 0 && (
-          <div className='cart-customer-balance-valid'>
+          )}
+        {user?.role !== 'customer' && customer.id > 0 && (
+          <div className="cart-customer-balance-valid">
             User {verifiedEmail} was successfully verified
           </div>
         )}

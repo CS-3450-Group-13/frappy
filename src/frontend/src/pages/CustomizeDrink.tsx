@@ -96,7 +96,7 @@ export default function CustomizeDrink({ setCart }: Props) {
     }
 
     for (const base of bases) {
-      if (base.id === currentFrappe.frappe.milk) {
+      if (base.id === currentFrappe.frappe.base) {
         newPrice += base.price * currentFrappe.frappe.size;
         console.log(newPrice);
         break;
@@ -115,6 +115,9 @@ export default function CustomizeDrink({ setCart }: Props) {
       }
     }
 
+    newPrice += currentFrappe.markup
+      ? Number.parseFloat(currentFrappe.markup)
+      : 0;
     console.log(newPrice);
     setCurrentCost(newPrice);
     setCostOutdated(false);
