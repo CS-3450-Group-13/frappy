@@ -13,12 +13,39 @@ describe('Customer OrderStatus Page Tests', () => {
     );
   });
 
-  // test('Test OrderStatus Page', () => {
-  //   render(
-  //     <BrowserRouter>
-  //       <OrderStatus />
-  //     </BrowserRouter>
-  //   );
-  // });
-  // expect(screen.getByTitle(/Wait/i)).toBeInTheDocument();
+  test('Test OrderStatus Intro', () => {
+    render(
+      <BrowserRouter>
+        <OrderStatus />
+      </BrowserRouter>
+    );
+    expect(screen.getByText(/Thank You/i)).toBeInTheDocument();
+  });
+
+  test('Test OrderStatus Page', () => {
+    render(
+      <BrowserRouter>
+        <OrderStatus />
+      </BrowserRouter>
+    );
+    expect(screen.getByText(/Your Order is Currently/i)).toBeInTheDocument();
+  });
+
+  test('Test OrderStatus Page Home button', () => {
+    render(
+      <BrowserRouter>
+        <OrderStatus />
+      </BrowserRouter>
+    );
+    expect(screen.getByText(/Home/i)).toBeInTheDocument();
+  });
+
+  test('Test OrderStatus Page New Order button', () => {
+    render(
+      <BrowserRouter>
+        <OrderStatus />
+      </BrowserRouter>
+    );
+    expect(screen.getByText(/New Order/i)).toBeInTheDocument();
+  });
 });
