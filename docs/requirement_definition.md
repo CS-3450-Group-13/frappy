@@ -338,15 +338,11 @@ Functions available to Managers Include:
    2. Barista must have the ability to submit the number of hours worked to get paid by the manager.
       1. Every time they submit hours, the system must add it to their current total hours worked.
       2. The system must reset their hours upon payment.
-   3. Barista must be able to accept a ticket that has been submitted to the queue.
-   4. Barista should be able to update the status of the orders in the queue
-      1. The barista should be able to place the stage of the order in the waiting stage.
-         1. The system should display the waiting stage to the customer
-      2. The barista should be able to place the stage of the order in the processing stage.
-         1. While drink is being made, the barista must update progress bar for online customers and cashier
-      3. The barista should be able to place the stage of the order in the done stage.
-         1. The Barista must then send the order to get sent back to cashier for distribution.
-         2. The Barista must then send the order to pickup.
+   3. Barista must be able to handle an order that has been submitted to the queue.
+      1. Barista must be able to view all orders in the queue and select an order
+         1. Barista must be able to see all ingredients needed to complete the order
+         2. Barista must check off all ingredients as they complete the order, and only then can they complete the order
+         3. Barista Marks an order is completed which removes the drink from the pending queue
 
 6. Manager Features
    1. Manager must have the store account to give money to Baristas and Cashiers.
