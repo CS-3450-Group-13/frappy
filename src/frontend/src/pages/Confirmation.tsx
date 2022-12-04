@@ -90,6 +90,18 @@ export default function Confirmation({
             console.log('got response: ', data);
             toast.success('Your Order was placed!');
             setCart([]);
+            const user = auth?.userInfo;
+            auth?.loginAs(
+              user?.id,
+              user?.fullName,
+              user?.userName,
+              user?.email,
+              user?.password,
+              data.user_balance,
+              user?.role,
+              user?.key,
+              user?.hours
+            );
             navigate('/order-status');
           }
         })
