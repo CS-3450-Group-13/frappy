@@ -34,7 +34,10 @@ import { BrowserRouter } from 'react-router-dom';
 //   mockPages = arr;
 // }
 
-// describe('NavBar Tests', () =>{
+describe('NavBar Tests', () =>{
+  test('Placeholder', () => {
+    expect(true);
+  });
 //   test('renders NavBar Component', () => {
 //       render(
 //       <BrowserRouter>
@@ -120,4 +123,4 @@ import { BrowserRouter } from 'react-router-dom';
 //       const response = await screen.getByText(/New User/i)
 //       expect(response).toBeInTheDocument();
 //     });
-// })
+});

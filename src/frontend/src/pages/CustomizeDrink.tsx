@@ -30,7 +30,7 @@ const EMPTY_ITEM: item = {
 };
 
 type Props = {
-  setCart: React.Dispatch<React.SetStateAction<MenuItem[]>>;
+  setCart: Function;
 };
 
 type item = {
@@ -44,9 +44,7 @@ type item = {
 export default function CustomizeDrink({ setCart }: Props) {
   const navigate = useNavigate(); //!< Allows navigation to other pages through the Router
   const { state } = useLocation(); //!< State passed to us through the Router
-  const cart: MenuItem[] = state.cart; //!< Current list of all items in the cart
   const isNewDrink = state.isNewDrink; //!< Flag to determine if the current drink is new (needs to be added to the cart), or is just being updated from the cart
-  const customer = state.user;
 
   const [bases, setBases] = useState<item[]>([]); //!< Keeps track of the current bases retrieved from the server
   const [milks, setMilks] = useState<item[]>([]); //!< Keeps track of the current milks retrieved from the server
@@ -62,7 +60,6 @@ export default function CustomizeDrink({ setCart }: Props) {
   console.log('current frappe is ', currentFrappe);
 
   const auth = useAuth();
-  const user = auth?.userInfo;
 
   // Gets Ingredient Prices
   useEffect(() => {
@@ -413,7 +410,7 @@ export default function CustomizeDrink({ setCart }: Props) {
   function handleAddToCart() {
     currentFrappe.frappe.final_price = currentCost;
     setCurrentFrappe(currentFrappe);
-    setCart((oldState) => [...oldState, currentFrappe]);
+    setCart((oldState: any) => [...oldState, currentFrappe]);
     // console.log(cart);
     navigate('/menu');
   }

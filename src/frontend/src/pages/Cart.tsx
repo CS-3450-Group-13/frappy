@@ -171,7 +171,7 @@ export default function Cart({ cart, setCart }: Props) {
         <div>
           {cart.map((frappe, idx) => {
             return (
-              <div className="cart-items">
+              <div className="cart-items" key={idx}>
                 <ItemCartDisplay
                   item={frappe}
                   cart={cart}
