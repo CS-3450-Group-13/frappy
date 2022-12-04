@@ -94,8 +94,8 @@ export default function OrderHistory(props: Props) {
     console.log('UPDATE MENU');
     var len = 0;
     for (const item of data) {
-      if (item.frappe.id > len) {
-        len = item.frappe.id;
+      if (item.frappe.menu_key > len) {
+        len = item.frappe.menu_key;
       }
     }
     const newMenu: any[] = [];
@@ -104,8 +104,8 @@ export default function OrderHistory(props: Props) {
     }
 
     for (const item of data) {
-      console.log(item.frappe.id);
-      const id: number = item.frappe.id;
+      console.log(item.frappe.menu_key);
+      const id: number = item.frappe.menu_key;
       newMenu[id] = item;
     }
     console.log(newMenu);

@@ -2,16 +2,17 @@ import React, { ChangeEvent, useState } from 'react';
 import '../css/HoursModal.css';
 import { useAuth } from '../components/auth';
 
+// Basic Page Props, Used to Close the Modal
 interface Props {
   setModalIsOpen: (modalIsOpen: boolean) => void;
   currentHours: number | undefined;
 }
 
 export default function HoursModal(props: Props) {
-  const [startTime, setStartTime] = useState(0);
-  const [stopTime, setStopTime] = useState(0);
+  const [startTime, setStartTime] = useState(0); // Parsed Value from Start Time Field
+  const [stopTime, setStopTime] = useState(0); // Parsed Value from Stop Time Field
   const [hoursWorked, setHoursWorked] = useState(0);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // Used to Display Error Messages in Modal
 
   const auth = useAuth();
 
@@ -29,6 +30,7 @@ export default function HoursModal(props: Props) {
         hours: 0,
       };
 
+  // Tests User Input and Submits it to Server
   function handleConfirm() {
     if (stopTime > startTime) {
       const formData = new FormData();
@@ -70,11 +72,13 @@ export default function HoursModal(props: Props) {
     }
   }
 
+  // Closes Modal
   function handleCancel() {
     setErrorMessage('');
     props.setModalIsOpen(false);
   }
 
+  // Main Page Element
   return (
     <div className="hours-container">
       <div className="hours-home-title">Enter Hours Worked</div>

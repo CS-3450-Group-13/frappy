@@ -12,6 +12,7 @@ import OrderHistory from '../components/OrderHistory';
 const PAYMENT_ENDPOINT = 'http://127.0.0.1:8000/users/employees/pay_all/';
 const ORDERS_ENDPOINT = 'http://127.0.0.1:8000/frappapi/frappes/';
 
+// Basic User Details
 interface StateType {
   id: number;
   fullName: string;
@@ -24,6 +25,7 @@ interface StateType {
   hours: number;
 }
 
+// Name Value Pair Used to Display Interesting User Information
 interface PropsDetail {
   title: string;
   value: string;
@@ -38,6 +40,7 @@ enum ModalStates {
   loading,
 }
 
+// Props for the Pay All Employees Modal
 interface PayProps {
   setModalOpen: (open: boolean) => void;
   modalState: ModalStates;
@@ -48,31 +51,11 @@ interface PayProps {
 
 export default function Home() {
   const navigate = useNavigate();
-  const [payModalOpen, setPayModalOpen] = useState(false);
-  const [payModalState, setPayModalState] = useState(ModalStates.default);
+  const [payModalOpen, setPayModalOpen] = useState(false); // Opens the Pay All Users Modal
+  const [payModalState, setPayModalState] = useState(ModalStates.default); // Controls the State of the Pay All Users Modal
   const [toPay, setToPay] = useState(0);
 
   const auth = useAuth();
-
-  var USER: StateType;
-
-  if (auth !== null) {
-    var USER = auth.userInfo;
-  } else {
-    USER = {
-      id: -1,
-      fullName: '',
-      userName: '',
-      email: '',
-      password: '',
-      balance: 0.0,
-      role: 'none',
-      key: '',
-      hours: 0,
-    };
-  }
-
-  updateUser();
 
   function updateUser() {
     if (auth !== null) {
@@ -92,6 +75,25 @@ export default function Home() {
     }
   }
 
+  var USER: StateType;
+
+  if (auth !== null) {
+    var USER = auth.userInfo;
+  } else {
+    USER = {
+      id: -1,
+      fullName: '',
+      userName: '',
+      email: '',
+      password: '',
+      balance: 0.0,
+      role: 'none',
+      key: '',
+      hours: 0,
+    };
+  }
+
+  // Posts Payment Request to Server
   function payAll() {
     if (payModalState === ModalStates.broke) {
       const response = window.confirm(
@@ -138,6 +140,7 @@ export default function Home() {
       });
   }
 
+  // Opens the Payment Modal, and Fetches Payment Info
   function openPayModal() {
     setPayModalOpen(true);
     setPayModalState(ModalStates.loading);
@@ -169,6 +172,7 @@ export default function Home() {
       });
   }
 
+  // Main Page Element
   return (
     <div className="home-container">
       <div className="header">
@@ -177,7 +181,11 @@ export default function Home() {
           <img src={test} alt="test" width="110em" height="110em" />
         </div>
       </div>
-      <div className="fast-nav-buttons">
+      <div
+        className={
+          USER.role === 'manager' ? 'fast-nav-buttons' : 'fast-nav-buttons-2'
+        }
+      >
         {USER.role === 'user' ||
           (USER.role === 'employee' && (
             <div
@@ -217,13 +225,13 @@ export default function Home() {
         </div>
       </div>
       <div className="list-container">
-        <ScrollableList title="Account" width="100%">
+        <ScrollableList title="Account" width="95%">
           <DetailCard
             title="Balance"
             // eslint-disable-next-line
             value={USER.balance > 0 ? `\$${USER.balance.toFixed(2)}` : '$0.00'}
           />
-          <DetailCard title="Favorite Drink" value={'None'} />
+          <DetailCard title="Favorite Drink" value={'Pumpkin Spice'} />
           <DetailCard
             title="Tab"
             value={
@@ -234,7 +242,7 @@ export default function Home() {
         <OrderHistory
           endpoint={ORDERS_ENDPOINT}
           title="Order History"
-          width={65}
+          width={70}
           outdated={true}
           condense={true}
           setOutdated={(argument) => {
