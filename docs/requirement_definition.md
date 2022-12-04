@@ -72,7 +72,7 @@ Functions available to customers include:
 
    - Several Modifiable Preset Options
    - Full Customization Options
-   - Paid for Using Account Balance (Must Have Non-Negative Balance to Start Order)
+   - Paid for Using Account Balance (Must Have Non-Negative Balance to Order)
    - Drink Order Will Go Through if Drink Options are Valid
      ![Order Drink UML](images/user_orders_drink.png)
 
@@ -117,7 +117,6 @@ Functions Available to Cashiers Include:
 
    - Option to Enter User Email Adress
    - Several Modifiable Preset Options
-   - "Build-Your-Own" Option
    - Paid for Using Customer Account Balance
    - Drink Order Will Go Through if Drink Options are Valid and Selected User Account Contains Sufficient Balance
 
@@ -131,18 +130,20 @@ Functions Available to Cashiers Include:
    >
    > **Exit Conditions:**
    >
-   > - Cashier leaves page without ordering for customer
+   > - Cashier empties cart and leaves page without ordering for customer
    > - Cashier orders drink on behalf of customer
    >
    > **Event Flow:**
    >
    > 1. Cashier logs into website
-   > 2. Cashier selects from premade drink options or make your own
+   > 2. Cashier selects from premade drink options
    > 3. Cashier customizes drink (optional)
-   > 4. Cashier submits order
-   > 5. Customer balance and ingredient amounts verified
-   > 6. Drink added to queue and order history
-   > 7. Money deducted from customer and added to manager account
+   > 4. Cashier adds drink to cart
+   > 5. Cashier verifies customer email
+   > 6. Cashier submits order
+   > 7. Customer balance and ingredient amounts verified
+   > 8. Drink added to queue and order history
+   > 9. Money deducted from customer and added to manager account
 
 ### Baristas
 
@@ -174,9 +175,8 @@ Functions available to Baristas Include:
 > 2.  Barista checks order queue
 > 3.  Barista selects order from queue
 > 4.  Barista makes order
-> 5.  Ingredient amounts deducted from db
-> 6.  Barista marks order complete
-> 7.  Order removed from pending order queue
+> 5.  Barista marks order complete
+> 6.  Order removed from pending order queue
 
 ### Managers
 
@@ -312,9 +312,8 @@ Functions available to Managers Include:
    1. All Users must have access to customer features
    2. Customer must have an account with money they can use to spend
       1. Customer should have the ability to add as much money as needed to their account
-   3. The Customer should have a favorite drink option based on past orders
-   4. Customer must be updated on order status while order is pending
-   5. Customer could have the option to order online
+   3. Customer must be updated on order status while order is pending
+   4. Customer could have the option to order online
       1. The system must put their order in the queue for the Baristas
       2. Before order page is accessible, the system must check customer account balance to make sure they do not have a negative tab.
          1. If they have a negative tab, the system must not display the order page.
@@ -326,11 +325,11 @@ Functions available to Managers Include:
    2. Cashier must have access to customer accounts to make orders on behalf of customers.
       1. Cashier could have the ability to use Guest accounts for customers that do not want to set up and account.
       2. Cashier must have the ability to access the account balance and transfers money from their account directly to manager.
-      3. Cashier can issue a refund if needed to user account.
+      3. Cashier could issue a refund if needed to user account.
    3. Once order is placed the cashier must be able to submit tickets to barista.
    4. Cashier must have the ability to submit the number of hours worked to get paid by manager.
       1. Every time they submit hours, the system must add it to their current total hours worked.
-      2. The system must reset their hours are reset upon payment.
+      2. The system must reset their hours upon payment.
    5. Cashier should have the ability to check the status of each ticket and places items for delivery once they are done.
 
 5. Barista Features
@@ -338,14 +337,13 @@ Functions available to Managers Include:
    1. Barista must have an account to keep earnings for hours worked.
    2. Barista must have the ability to submit the number of hours worked to get paid by the manager.
       1. Every time they submit hours, the system must add it to their current total hours worked.
-      2. The system must reset their hours are reset upon payment.
+      2. The system must reset their hours upon payment.
    3. Barista must be able to accept a ticket that has been submitted to the queue.
    4. Barista should be able to update the status of the orders in the queue
       1. The barista should be able to place the stage of the order in the waiting stage.
          1. The system should display the waiting stage to the customer
       2. The barista should be able to place the stage of the order in the processing stage.
-         1. Barista must update the inventory for what is being used
-         2. While drink is being made, the barista must update progress bar for online customers and cashier
+         1. While drink is being made, the barista must update progress bar for online customers and cashier
       3. The barista should be able to place the stage of the order in the done stage.
          1. The Barista must then send the order to get sent back to cashier for distribution.
          2. The Barista must then send the order to pickup.
