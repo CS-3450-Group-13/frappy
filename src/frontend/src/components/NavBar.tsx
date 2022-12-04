@@ -53,8 +53,8 @@ export default function NavBar({
     <div className="nav-bar-container">
       <img alt="logo" src={Logo} />
       <div>
-        {pages.map(({ title, path }) => (
-          <button id={title} aria-label={title} onClick={() => navigate(path)}>
+        {pages.map(({ title, path }, idx) => (
+          <button key={idx} id={title} aria-label={title} onClick={() => navigate(path)}>
             {title}
           </button>
         ))}

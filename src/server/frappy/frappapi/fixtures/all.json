@@ -695,7 +695,7 @@
       "is_staff": false,
       "is_active": true,
       "date_joined": "2022-12-02T19:10:22.037Z",
-      "email": "test@cahsier.com",
+      "email": "test@cashier.com",
       "balance": "500.00",
       "groups": [],
       "user_permissions": []
