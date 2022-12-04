@@ -90,6 +90,7 @@ export default function Confirmation({
             console.log('got response: ', data);
             toast.success('Your Order was placed!');
             setCart([]);
+            const user = auth?.userInfo;
             navigate('/order-status');
           }
         })
