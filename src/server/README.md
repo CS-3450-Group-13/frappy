@@ -26,14 +26,14 @@ You may want to configure a `.venv` (in fact its required).  To build a python i
 python -m venv .venv
 ```
 
- After youve sucessfully created a virtual environment, activate the environment and install the required packages using the commands below.
+ After you've sucessfully created a virtual environment, activate the environment and install the required packages using the commands below.
 
 ```bash
 ~ /src/server
 .venv\Scripts\activate
 
 ~ /src/server
-pip install -r src/server/requirements.txt
+pip install -r requirements.txt
 ```
 
 This should install django, django rest, pillow, and any other packages used for the framework.
