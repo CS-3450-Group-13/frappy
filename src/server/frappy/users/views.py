@@ -17,6 +17,8 @@ from .serializers import (
 from .permissions import IsCashier, IsManager
 from .models import User, Employee
 from django.contrib.auth import login
+import decimal
+
 
 # Create your views here.
 class LoginViewSet(viewsets.ViewSet):
@@ -78,7 +80,9 @@ class UserViewSet(
         user = request.user
         if "balance" in request.query_params.dict():
             try:
-                user.balance += int(request.query_params["balance"])
+                user.balance += decimal.Decimal.from_float(
+                    float(request.query_params["balance"])
+                )
                 user.save()
                 return Response(
                     {
