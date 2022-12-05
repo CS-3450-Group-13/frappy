@@ -40,6 +40,8 @@ This should install django, django rest, pillow, and any other packages used for
 
 ## Step 2: Build and run the docker image provided
 
+To run the database, `Docker Desktop` is required to run our Postgres container.   You can dowload that here[https://www.docker.com/products/docker-desktop/](https://www.docker.com/products/docker-desktop/)
+
 ## 2.1
 
 To build a local copy of the database you can run, navigate to the `./server` folder and run.
@@ -49,5 +51,14 @@ To build a local copy of the database you can run, navigate to the `./server` fo
 ```
 
 This script will load all the required docker containers and testing data into our server.
-
 This script currently only supports running commands on windows, however running the commands inside by hand will also work, ignoring those PS specific commands.
+
+# 3 Final Step
+
+Now that you've made it this far, `./init.ps1` will place you in the `../frappe` folder.  From here on just run
+
+```python
+python manage.py runserver
+```
+
+And you're done! Head over to the web GUI and have fun 😎
