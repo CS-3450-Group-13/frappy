@@ -1,5 +1,4 @@
 from rest_framework.decorators import action
-from django_filters import Filter
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,14 +8,15 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .serializers import (
-    BalanceSerializer,
     EmployeeSerializer,
     LoginSerializer,
     UserSerializer,
 )
-from .permissions import IsCashier, IsManager
+from .permissions import IsCashier, IsManager, IsEmployee
 from .models import User, Employee
 from django.contrib.auth import login
+import decimal
+
 
 # Create your views here.
 class LoginViewSet(viewsets.ViewSet):
@@ -59,7 +59,9 @@ class UserViewSet(
         user = User.objects.get(id=pk)
         if "balance" in request.query_params.dict():
             try:
-                user.balance += int(request.query_params["balance"])
+                user.balance += decimal.Decimal.from_float(
+                    float(request.query_params["balance"])
+                )
                 user.save()
                 return Response(
                     {
@@ -78,7 +80,9 @@ class UserViewSet(
         user = request.user
         if "balance" in request.query_params.dict():
             try:
-                user.balance += int(request.query_params["balance"])
+                user.balance += decimal.Decimal.from_float(
+                    float(request.query_params["balance"])
+                )
                 user.save()
                 return Response(
                     {
@@ -102,7 +106,6 @@ class UserViewSet(
 class EmployeeUserViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializer
     queryset = Employee.objects.all()
-    permission_classes = [IsAdminUser | IsManager]
 
     @action(detail=False, methods=["GET", "POST"])
     def pay_all(self, request: Request):
@@ -123,10 +126,13 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
                     e.hours = 0
                     e.save()
                     continue
-
+                print("DEBUGGING:")
+                print(e.user.balance)
                 e.user.balance += e.hours * e.wage
+                print(e.user.balance)
                 e.hours = 0
                 e.save()
+                e.user.save()
 
             manager.balance -= cost
             manager.save()
@@ -168,5 +174,5 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
         if self.action == "pay_all":
             permission_classes = [IsManager]
         else:
-            permission_classes = [IsAdminUser, IsManager]
+            permission_classes = [IsAdminUser | IsManager | IsEmployee]
         return [permission() for permission in permission_classes]

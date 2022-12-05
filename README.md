@@ -29,6 +29,10 @@ Frappy is a monolithic web app for managing a generic coffee shop catered toward
 * The powerpoint can be found [here](docs/final/presentation)
 * The videos can be found [here](docs/final/videos) (and in the powerpoint)
 * The final burndown chart can be found [here](#full-project-burndown-chart)
+* The powerpoint can be found [here](docs/final/presentation)
+* The powerpoint can also be found in google slides [here](https://docs.google.com/presentation/d/1w83QvGygz_2AjRGx_9o8IB-GTGtXUuaGXM6iYk-Igvw/edit?usp=sharing) (The videos in both powerpoints are google drive links)
+* The videos can be found [here](docs/final/videos)
+* The final burndown chart can be found [here](#full-project-burndown-chart)
 
 
 # Milestone 1
