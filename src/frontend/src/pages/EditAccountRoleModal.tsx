@@ -104,9 +104,9 @@ export default function EditAccountRoleModal({
           .then((resp) => resp.json())
           .then((data) => {
             console.log(data);
-            toast.success('Changed role');
-            getAccounts();
           });
+        toast.success('Changed role');
+        getAccounts();
       }
       // Firing an employee
       else {
@@ -122,9 +122,9 @@ export default function EditAccountRoleModal({
           .then((resp) => resp.json())
           .then((data) => {
             console.log(data);
-            getAccounts();
-            toast.success('Fired employee, refresh page to see update');
           });
+        getAccounts();
+        toast.success('Fired employee, refresh page to see update');
       }
     } else {
       toast.error('Can not edit manager');
