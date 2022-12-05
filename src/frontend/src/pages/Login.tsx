@@ -374,6 +374,7 @@ export default function Login({ setPages }: Props) {
             `User ${auth?.userInfo.fullName} was already logged in`
           );
           // window.history.back();
+          navigate('/home-page');
         });
     } catch (err: any) {
       console.error(err);

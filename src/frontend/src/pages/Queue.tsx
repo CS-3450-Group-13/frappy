@@ -1,6 +1,5 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { TestBases, TestMilks, TestExtras } from '../tests/TestServerData';
 import {
   Base,
   CashierFrappe,
@@ -53,8 +52,8 @@ export default function Queue() {
         data.forEach((item: Milk) => {
           setMilks((oldState) => [...oldState, item]);
         });
-        // console.log('Got milks: ', data);
-        // console.log(milks);
+        console.log('Got milks: ', data);
+        console.log(milks);
       })
       .catch((err) => {
         console.log(err);
@@ -70,8 +69,8 @@ export default function Queue() {
         data.forEach((item: Extra) => {
           setExtras((oldState) => [...oldState, item]);
         });
-        // console.log('data is ', data);
-        // console.log(extras);
+        console.log('data is ', data);
+        console.log(extras);
       })
       .catch((err) => {
         console.log(err);
@@ -143,10 +142,10 @@ export default function Queue() {
         SizeNames[frappe.size - 1] +
         ' ' +
         frappe.name;
-      const base = TestBases.find((b) => {
+      const base = bases.find((b) => {
         return b.id === frappe.base;
       });
-      const milk = TestMilks.find((m) => {
+      const milk = milks.find((m) => {
         return m.id === frappe.milk;
       });
 
@@ -158,7 +157,7 @@ export default function Queue() {
               <li>{base?.name}</li>
               <li>{milk?.name}</li>
               {frappe.extras.map((extra) => {
-                const extraDetails = TestExtras.find(
+                const extraDetails = extras.find(
                   (item) => item.id === extra.extras
                 );
                 return (
@@ -220,6 +219,9 @@ export default function Queue() {
           frappe={currentFrappe}
           queue={queue}
           setQueue={setQueue}
+          bases={bases}
+          milks={milks}
+          extras={extras}
         />
       </Modal>
     </div>
