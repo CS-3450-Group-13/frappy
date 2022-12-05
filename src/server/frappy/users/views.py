@@ -152,7 +152,7 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
         if hours:
             try:
                 hours = float(hours)
-                emp.hours = float(emp.hours) + hours
+                emp.hours = decimal.Decimal.from_float(float(emp.hours) + hours)
                 emp.save()
                 return Response(
                     {"success": "Hours updated sucessfully", "hours": emp.hours}
