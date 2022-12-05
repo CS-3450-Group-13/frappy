@@ -322,7 +322,10 @@ function PayEmployeesModal(props: PayProps) {
       <div className="pay-field last-field">
         <div className="pay-dollar">$</div>
         <div className="pay-number">
-          {(user?.balance ? user.balance : 0 - props.toPay).toFixed(2)}
+          {(user?.balance
+            ? user.balance - props.toPay
+            : 0 - props.toPay
+          ).toFixed(2)}
         </div>
       </div>
       {(props.modalState === ModalStates.failure ||

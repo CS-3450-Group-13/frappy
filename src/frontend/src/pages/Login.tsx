@@ -373,7 +373,7 @@ export default function Login({ setPages }: Props) {
           toast.success(
             `User ${auth?.userInfo.fullName} was already logged in`
           );
-          window.history.back();
+          // window.history.back();
         });
     } catch (err: any) {
       console.error(err);

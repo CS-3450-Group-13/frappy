@@ -10,6 +10,7 @@ import HoursModal from './HoursModal';
 import { json } from 'stream/consumers';
 import { useAuth } from '../components/auth';
 import userEvent from '@testing-library/user-event';
+import { toast } from 'react-toastify';
 
 // Basic User Deatils
 interface User {
@@ -119,7 +120,7 @@ export default function Account() {
       eMail: json.email,
       balance: Number.parseFloat(json.balance),
       accountType: json.user_permissions.length === 0 ? 'employee' : 'employee',
-      hours: 4,
+      hours: json.employee.hours ? Number(json.employee.hours) : 0,
     };
 
     return user;
@@ -163,6 +164,7 @@ export default function Account() {
                 setFieldError('');
                 setFieldModal(false);
                 setOutOfDate(true);
+                toast.success('Changed name successfully');
               } else {
                 setFieldError('Server Error: Please Try Again Later');
               }
@@ -272,6 +274,7 @@ export default function Account() {
                 setFieldError('');
                 setFieldModal(false);
                 setOutOfDate(true);
+                toast.success('Changed Password Successfully');
               } else {
                 setFieldError('Server Error: Please Try Again Later');
               }
