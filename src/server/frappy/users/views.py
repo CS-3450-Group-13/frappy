@@ -108,7 +108,6 @@ class UserViewSet(
 class EmployeeUserViewSet(viewsets.ModelViewSet):
     serializer_class = EmployeeSerializer
     queryset = Employee.objects.all()
-    permission_classes = [IsAdminUser | IsManager]
 
     @action(detail=False, methods=["GET", "POST"])
     def pay_all(self, request: Request):
