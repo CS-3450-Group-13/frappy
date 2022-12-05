@@ -1,5 +1,4 @@
 from rest_framework.decorators import action
-from django_filters import Filter
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from rest_framework import status
@@ -9,12 +8,11 @@ from rest_framework.mixins import ListModelMixin, RetrieveModelMixin, UpdateMode
 from django_filters.rest_framework import DjangoFilterBackend
 
 from .serializers import (
-    BalanceSerializer,
     EmployeeSerializer,
     LoginSerializer,
     UserSerializer,
 )
-from .permissions import IsCashier, IsManager
+from .permissions import IsCashier, IsManager, IsEmployee
 from .models import User, Employee
 from django.contrib.auth import login
 import decimal
@@ -174,5 +172,5 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
         if self.action == "pay_all":
             permission_classes = [IsManager]
         else:
-            permission_classes = [IsAdminUser | IsManager | IsCashier]
+            permission_classes = [IsAdminUser | IsManager | IsEmployee]
         return [permission() for permission in permission_classes]
