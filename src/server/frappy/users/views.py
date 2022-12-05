@@ -170,6 +170,7 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
         """
         Instantiates and returns the list of permissions that this view requires.
         """
+        print(self.action)
         if self.action == "pay_all":
             permission_classes = [IsManager]
         else:
