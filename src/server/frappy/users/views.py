@@ -174,5 +174,5 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
         if self.action == "pay_all":
             permission_classes = [IsManager]
         else:
-            permission_classes = [IsAdminUser, IsManager]
+            permission_classes = [IsAdminUser | IsManager | IsCashier]
         return [permission() for permission in permission_classes]
