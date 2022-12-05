@@ -26,9 +26,9 @@ Frappy is a monolithic web app for managing a generic coffee shop catered toward
 * The updated requirments doc can be found [here](docs/requirement_definition.md)
 * Updated build instructions can be found [here](#final-build-instructions)
 * Updated testing instructions can be found [here](#final-testing-instructions)
-* The powerpoint can be found [here](docs/final/presentation.pptx)
+* The powerpoint can be found [here](docs/final/presentation)
 * The videos can be found [here](docs/final/videos) (and in the powerpoint)
-* The final burndown chart can be found [here](full-project-burndown-chart)
+* The final burndown chart can be found [here](#full-project-burndown-chart)
 
 
 # Milestone 1
