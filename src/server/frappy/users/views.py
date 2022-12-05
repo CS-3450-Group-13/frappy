@@ -132,6 +132,7 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
                 print(e.user.balance)
                 e.hours = 0
                 e.save()
+                e.user.save()
 
             manager.balance -= cost
             manager.save()
