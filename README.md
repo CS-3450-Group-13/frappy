@@ -153,6 +153,15 @@ This will create a temp database and prefill it with test data.
 
 ![Final Burndown Chart](docs/images/burndown-charts//burndown_final.png)
 
+#### Velocities
+Sprint 0: 30 pts
+Sprint 1: 28 pts
+Sprint 2: 26 pts
+Sprint 3: 32 pts
+Sprint 4:  36 pts
+Spring 5: 7 pts
+Whole: 159 pts
+
 ### Final Build Instructions
 
 #### Requirements
