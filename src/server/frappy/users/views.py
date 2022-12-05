@@ -126,8 +126,10 @@ class EmployeeUserViewSet(viewsets.ModelViewSet):
                     e.hours = 0
                     e.save()
                     continue
-
+                print("DEBUGGING:")
+                print(e.user.balance)
                 e.user.balance += e.hours * e.wage
+                print(e.user.balance)
                 e.hours = 0
                 e.save()
 
