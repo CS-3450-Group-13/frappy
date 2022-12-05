@@ -61,7 +61,9 @@ class UserViewSet(
         user = User.objects.get(id=pk)
         if "balance" in request.query_params.dict():
             try:
-                user.balance += int(request.query_params["balance"])
+                user.balance += decimal.Decimal.from_float(
+                    float(request.query_params["balance"])
+                )
                 user.save()
                 return Response(
                     {
