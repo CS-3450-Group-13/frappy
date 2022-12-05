@@ -186,17 +186,6 @@ export default function Home() {
           USER.role === 'manager' ? 'fast-nav-buttons' : 'fast-nav-buttons-2'
         }
       >
-        {USER.role === 'user' ||
-          (USER.role === 'employee' && (
-            <div
-              className="button favorite-button"
-              onClick={() => {
-                navigate('/menu');
-              }}
-            >
-              Order Favorite Drink
-            </div>
-          ))}
         {USER.role === 'manager' && (
           <div
             className="button favorite-button"
@@ -315,6 +304,7 @@ function PayEmployeesModal(props: PayProps) {
       </div>
     );
   }
+
   return (
     <div className="pay-container">
       <h1 className="pay-title">Payment Information</h1>

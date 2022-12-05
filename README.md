@@ -18,16 +18,18 @@ Frappy is a monolithic web app for managing a generic coffee shop catered toward
 | Milestone 1 | [Milestone 1](#milestone-1)
 | Milestone 2 | [Milestone 2](#milestone-2) |
 | Milestone 3 | [Milestone 3](#milestone-3) |
+| Milestone 4 | [Milestone 4](#milestone-4) | 
 
 # Notes for Grader
 
-* We kept in the outdated build artifacts from earlier milestones. In order to run/test the project follow the directions in milestone 3. 
-* Sprint Planning Docs can be found [here](docs/planning)
-* Standup Reports can be found [here](docs/planning/standups)
-* Sprint Restrspective Reports can be found [here](docs/planning)
-* Instructions for running can be found [here](#milestone-3)
-* Unit tests can be found [here](#milestone-3/testing) (Not Yet Fully Implemented)
-* Updated System Docs can be found [here](docs/)
+* We kept in the outdated build artifacts from earlier milestones. In order to run/test the project follow the directions in milestone 4. 
+* The updated requirments doc can be found [here](docs/requirement_definition.md)
+* Updated build instructions can be found [here](#final-build-instructions)
+* Updated testing instructions can be found [here](#final-testing-instructions)
+* The powerpoint can be found [here](docs/final/presentation.pptx)
+* The videos can be found [here](docs/final/videos) (and in the powerpoint)
+* The final burndown chart can be found [here](full-project-burndown-chart)
+
 
 # Milestone 1
 
@@ -143,3 +145,73 @@ This will create a temp database and prefill it with test data.
 ### Milesonte 3.3
 
 ![Milestone 3.3 Burndown Chart](docs/images/burndown-charts//burndown_milestone_3.3.png)
+
+## Milestone 4
+
+### Full Project Burndown Chart
+![Final Burndown Chart](docs/images/burndown-charts//burndown_final.png)
+
+### Final Build Instructions
+
+#### Requirements
+
+- NodeJS >16
+- Python >3.9
+- Docker Destkop
+
+#### Frontend
+To build and run the frontend, navigate to `/src/frontend` and run
+
+```node
+npm install
+npm start
+```
+
+To access the website, navigate to [http://localhost:3000/](http://localhost:3000/).
+
+Login using the credentials [below](#user-accounts).
+
+(Make sure the backend is currently running).
+
+
+#### Backend
+
+To build and run the backend web server, follow the instructions inside `/src/server`'s [README.md](/src/server/README.md).  This will guide you through creating a virtual environment that our init script can use to build and link the server and database.
+
+After both frontend and backend servers are running, head over to the link specified in your NPM terminal to open and view the website.
+
+### Final Testing Instructions
+
+#### Frontend
+
+To run the frontend side testing, navigate to `src/frontend/`.
+
+Run:
+```
+npm test
+```
+
+#### Backend 
+
+To run server side testing, navagate to `/src/server/frappy` with your virtual environment activated. 
+
+Run:
+```
+python manage.py test
+```
+
+### User Accounts
+
+```
+Manager Account:
+- email: admin@admin.com
+- password: admin
+
+Customer Account
+- email: test@customer.com
+- password: test@test
+
+Cashier Account: 
+- email: test@cashier.com
+- password: test@test.com
+```
